@@ -1,0 +1,28 @@
+Postal III Ultrapatch Created By: Pseudonym_Tim
+Special thanks to Kizoky for his contributions!
+~ Whackjob Interactive
+
+-----------------------------------------------------------------------------------------------------------------------------------
+NOTE: Some changes or fixes might have missed, only the more mentionable stuff is listed to keep things relatively short and sweet!
+-----------------------------------------------------------------------------------------------------------------------------------
+
+FIXES:
+======
+
+IMPROVEMENTS/ADDITIONS/CHANGES: 
+===============================
+
+BALANCING:
+==========
+
+MISSIONS:
+=========
+
+MAPPING:
+========
+
+OTHER/MISC:
+===========
+
+POSTAL3SCRIPT IMPROVEMENTS/ADDITIONS/CHANGES:
+=============================================
