@@ -5,8 +5,8 @@ CREDITS:
 Made with love by core members of the Whackjob Interactive devteam!
 -------------------------------------------------------------------
 
-* Pseudonym_Tim: Lead Developer and Programmer
-* Kizoky: Programming
-* Kenny_MCII: Programming, balancing and mission improvements
-* Elwood: English writing improvements, balancing and mission improvements
-* Lena: Mapping and Audio
+- Pseudonym_Tim: Lead Developer and Programmer
+- Kizoky: Programming
+- Kenny_MCII: Programming, balancing and mission improvements
+- Elwood: English writing improvements, balancing and mission improvements
+- Lena: Mapping and Audio
