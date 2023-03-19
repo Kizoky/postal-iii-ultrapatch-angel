@@ -2,9 +2,9 @@ ABOUT:
 ======
 This patch addresses a significant number of bugs and crashes that were present in Postal III, and also includes additional improvements, changes, and restored cut content. 
 The modifications are faithful to the original design of the game and were born out of the efforts of the Catharsis Reborn total conversion modding team. 
-We were granted access to the game's source code after seven years of abandonment and have created this patch as a result.
+Whackjob Interactive was granted access to the game's source code and have created this patch as a result after several years of abandonment.
 While some of the changes were initially intended for Catharsis Reborn, we decided to adapt them to the vanilla version of Postal III and further enhance the experience. 
-We understand that the community deserved more support and updates for the game, and we hope that our patch makes it significantly more enjoyable to play.
+We understand that the community deserved a better game, and we hope that our patch makes it significantly more enjoyable to play.
 
 If you encounter any issues or have suggestions, please visit the Whackjob Interactive discord server (https://discord.com/invite/Q8K8TMA) or send an email to pseudotim256@gmail.com.
 
@@ -15,8 +15,8 @@ It is recommended to use a fresh install of Postal III that hasn't been launched
 
 If you wish to remove the intros that play when you launch the game, you can run the included "RemoveIntros" batch file after copying it to the root directory of the game.
 
-If you don't want to play with some of the more controversial features of the patch or the vanilla game, you can
-disable each of them individually by using their respective developer console commands. 
+If you don't want to play with some of the more controversial features of the patch or vanilla game, you can
+disable each of them individually using their respective developer console commands. 
 Alternatively, you can uncomment the lines to disable them in the ultrapatch cfg file located in 'p3/cfg', 
 so you don't have to disable them every time you start the game. Please see the list of console commands at the bottom of this README.
 
