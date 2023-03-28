@@ -1,0 +1,477 @@
+// _____________________________DUDE________________________________
+
+// During Arcade shootout:
+DUDE_ARCADE	characters\Dude\dude_arcade_didnttrain.wav
+DUDE_ARCADE	characters\Dude\dude_arcade_gamesdontkillV1.wav
+DUDE_ARCADE	characters\Dude\dude_arcade_gamesdontkillV2.wav
+DUDE_ARCADE	characters\Dude\dude_arcade_jackthompson.wav
+DUDE_ARCADE	characters\Dude\dude_arcade_supermario.wav
+DUDE_ARCADE	characters\Dude\dude_arcade_traintodie.wav
+// Using the Badger Saw
+DUDE_USEBADGER	characters\Dude\dude_badger_badgersx4V1.wav
+DUDE_USEBADGER	characters\Dude\dude_badger_badgersx4V2.wav
+DUDE_USEBADGER	characters\Dude\dude_badger_gtadoesnthave.wav
+DUDE_USEBADGER	characters\Dude\dude_badger_helikesyou.wav
+DUDE_USEBADGER	characters\Dude\dude_badger_hesnotrabidV1.wav
+DUDE_USEBADGER	characters\Dude\dude_badger_hesnotrabidV2.wav
+DUDE_USEBADGER	characters\Dude\dude_badger_hewontbiteV1.wav
+DUDE_USEBADGER	characters\Dude\dude_badger_hewontbiteV2.wav
+DUDE_USEBADGER	characters\Dude\dude_badger_mrbadgersawV1.wav
+DUDE_USEBADGER	characters\Dude\dude_badger_mrbadgersawV2.wav
+DUDE_USEBADGER	characters\Dude\dude_badger_neversawV1.wav
+DUDE_USEBADGER	characters\Dude\dude_badger_neversawV2.wav
+DUDE_USEBADGER	characters\Dude\dude_badger_rabidfriend.wav
+DUDE_USEBADGER	characters\Dude\dude_badger_urinecannonV1.wav
+DUDE_USEBADGER	characters\Dude\dude_badger_urinecannonV2.wav
+// Catching a cat
+DUDE_CATCHCAT	characters\Dude\dude_catchcat_anotheroneV1.wav
+DUDE_CATCHCAT	characters\Dude\dude_catchcat_anotheroneV2.wav
+DUDE_CATCHCAT	characters\Dude\dude_catchcat_anotheroneV3.wav
+DUDE_CATCHCAT	characters\Dude\dude_catchcat_betterplaceV1.wav
+DUDE_CATCHCAT	characters\Dude\dude_catchcat_betterplaceV2.wav
+DUDE_CATCHCAT	characters\Dude\dude_catchcat_catjacketV1.wav
+DUDE_CATCHCAT	characters\Dude\dude_catchcat_catjacketV2.wav
+DUDE_CATCHCAT	characters\Dude\dude_catchcat_goodkittyV1.wav
+DUDE_CATCHCAT	characters\Dude\dude_catchcat_goodkittyV2.wav
+DUDE_CATCHCAT	characters\Dude\dude_catchcat_gotchaV1.wav
+DUDE_CATCHCAT	characters\Dude\dude_catchcat_gotchaV2.wav
+DUDE_CATCHCAT	characters\Dude\dude_catchcat_gotchaV3.wav
+DUDE_CATCHCAT	characters\Dude\dude_catchcat_nicekittyV1.wav
+DUDE_CATCHCAT	characters\Dude\dude_catchcat_nicekittyV2.wav
+// Using catnip
+DUDE_USECATNIP	characters\Dude\dude_catnip_1stonesfree.wav
+DUDE_USECATNIP	characters\Dude\dude_catnip_glaucoma.wav
+DUDE_USECATNIP	characters\Dude\dude_catnip_hascheeseburger.wav
+DUDE_USECATNIP	characters\Dude\dude_catnip_highgradeshizz.wav
+DUDE_USECATNIP	characters\Dude\dude_catnip_medicalgradeV1.wav
+DUDE_USECATNIP	characters\Dude\dude_catnip_medicalgradeV2.wav
+DUDE_USECATNIP	characters\Dude\dude_catnip_herekitty.wav
+// AfterDoing something cool/completing errand/blowing up something real big/etc.:
+DUDE_ACHIVEMENTCOMMENT	characters\Dude\dude_coolevent_almostfeltbad.wav
+DUDE_ACHIVEMENTCOMMENT	characters\Dude\dude_coolevent_dididothatV1.wav
+DUDE_ACHIVEMENTCOMMENT	characters\Dude\dude_coolevent_dididothatV2.wav
+DUDE_ACHIVEMENTCOMMENT	characters\Dude\dude_coolevent_dididothatV3.wav
+DUDE_ACHIVEMENTCOMMENT	characters\Dude\dude_coolevent_dididothatV4.wav
+DUDE_ACHIVEMENTCOMMENT	characters\Dude\dude_coolevent_dididothatV5.wav
+DUDE_ACHIVEMENTCOMMENT	characters\Dude\dude_coolevent_expensive.wav
+DUDE_ACHIVEMENTCOMMENT	characters\Dude\dude_coolevent_fuckingawesome.wav
+DUDE_ACHIVEMENTCOMMENT	characters\Dude\dude_coolevent_hopenobodysaw.wav
+DUDE_ACHIVEMENTCOMMENT	characters\Dude\dude_coolevent_permanent.wav
+DUDE_ACHIVEMENTCOMMENT	characters\Dude\dude_coolevent_whodathought.wav
+// Arrest Mode
+DUDE_ARRESTMODE	characters\Dude\dude_cop_arrest1V1.wav
+DUDE_ARRESTMODE	characters\Dude\dude_cop_arrest1V2.wav
+DUDE_ARRESTMODE	characters\Dude\dude_cop_arrest2V1.wav
+DUDE_ARRESTMODE	characters\Dude\dude_cop_arrest2V2.wav
+DUDE_ARRESTMODE	characters\Dude\dude_cop_arrest2V3.wav
+//DUDE_ARRESTMODE	characters\Dude\dude_cop_arrest3V1.wav
+//DUDE_ARRESTMODE	characters\Dude\dude_cop_arrest3V2.wav
+DUDE_ARRESTMODE	characters\Dude\dude_cop_arrest4V1.wav
+DUDE_ARRESTMODE	characters\Dude\dude_cop_arrest4V2.wav
+DUDE_ARRESTMODE	characters\Dude\dude_cop_arrest5V1.wav
+DUDE_ARRESTMODE	characters\Dude\dude_cop_arrest5V2.wav
+DUDE_ARRESTMODE	characters\Dude\dude_cop_arrest6V1.wav
+DUDE_ARRESTMODE	characters\Dude\dude_cop_arrest6V2.wav
+DUDE_ARRESTMODE	characters\Dude\dude_cop_arrest7V1.wav
+DUDE_ARRESTMODE	characters\Dude\dude_cop_arrest7V2.wav
+// Reading your Miranda rights (if these are too long, maybe they can be cut into individual sentences and he will just say oneDuring each arrest, in order, until each is said once?)
+// originaly DUDE_MIRANDARIGHTS
+DUDE_ARRESTMODE	characters\Dude\dude_cop_miranda_1V1.wav
+DUDE_ARRESTMODE	characters\Dude\dude_cop_miranda_1V2.wav
+DUDE_ARRESTMODE	characters\Dude\dude_cop_miranda_2.wav
+DUDE_ARRESTMODE	characters\Dude\dude_cop_miranda_3.wav
+DUDE_ARRESTMODE	characters\Dude\dude_cop_miranda_4.wav
+DUDE_ARRESTMODE	characters\Dude\dude_cop_miranda_5.wav
+// Becoming the cop:
+//DUDE_COPBECOME	characters\Dude\dude_cop_become_authoritaaV1.wav
+//DUDE_COPBECOME	characters\Dude\dude_cop_become_authoritaaV2.wav
+//DUDE_COPBECOME	characters\Dude\dude_cop_become_iamthelawV1.wav
+//DUDE_COPBECOME	characters\Dude\dude_cop_become_iamthelawV2.wav
+//DUDE_COPBECOME	characters\Dude\dude_cop_become_pictureV1.wav
+//DUDE_COPBECOME	characters\Dude\dude_cop_become_pictureV2.wav
+//DUDE_COPBECOME	characters\Dude\dude_cop_become_pictureV3.wav
+//DUDE_COPBECOME	characters\Dude\dude_cop_become_sweetV1.wav
+//DUDE_COPBECOME	characters\Dude\dude_cop_become_sweetV2.wav
+// Injures Bystander
+DUDE_INJUREBYSTANDER	characters\Dude\dude_cop_hurtbystander1V1.wav
+DUDE_INJUREBYSTANDER	characters\Dude\dude_cop_hurtbystander1V2.wav
+DUDE_INJUREBYSTANDER	characters\Dude\dude_cop_hurtbystander1V3.wav
+DUDE_INJUREBYSTANDER	characters\Dude\dude_cop_hurtbystander2.wav
+DUDE_INJUREBYSTANDER	characters\Dude\dude_cop_hurtbystander3.wav
+DUDE_INJUREBYSTANDER	characters\Dude\dude_cop_hurtbystander4V1.wav
+DUDE_INJUREBYSTANDER	characters\Dude\dude_cop_hurtbystander4V2.wav
+DUDE_INJUREBYSTANDER	characters\Dude\dude_cop_hurtbystander5V1.wav
+DUDE_INJUREBYSTANDER	characters\Dude\dude_cop_hurtbystander5V2.wav
+DUDE_INJUREBYSTANDER	characters\Dude\dude_cop_hurtbystander6V1.wav
+DUDE_INJUREBYSTANDER	characters\Dude\dude_cop_hurtbystander6V2.wav
+DUDE_INJUREBYSTANDER	characters\Dude\dude_cop_hurtbystander7V1.wav
+DUDE_INJUREBYSTANDER	characters\Dude\dude_cop_hurtbystander7V2.wav
+// Kills Bystander
+DUDE_KILLBYSTANDER	characters\Dude\dude_cop_killbystander1V1.wav
+DUDE_KILLBYSTANDER	characters\Dude\dude_cop_killbystander1V2.wav
+DUDE_KILLBYSTANDER	characters\Dude\dude_cop_killbystander2V1.wav
+DUDE_KILLBYSTANDER	characters\Dude\dude_cop_killbystander2V2.wav
+DUDE_KILLBYSTANDER	characters\Dude\dude_cop_killbystander3V1.wav
+DUDE_KILLBYSTANDER	characters\Dude\dude_cop_killbystander3V2.wav
+DUDE_KILLBYSTANDER	characters\Dude\dude_cop_killbystander4V1.wav
+DUDE_KILLBYSTANDER	characters\Dude\dude_cop_killbystander4V2.wav
+DUDE_KILLBYSTANDER	characters\Dude\dude_cop_killbystander5V1.wav
+DUDE_KILLBYSTANDER	characters\Dude\dude_cop_killbystander5V2.wav
+DUDE_KILLBYSTANDER	characters\Dude\dude_cop_killbystander6V1.wav
+DUDE_KILLBYSTANDER	characters\Dude\dude_cop_killbystander6V2.wav
+DUDE_KILLBYSTANDER	characters\Dude\dude_cop_killbystander7V1.wav
+DUDE_KILLBYSTANDER	characters\Dude\dude_cop_killbystander7V2.wav
+DUDE_KILLBYSTANDER	characters\Dude\dude_cop_killbystander8V1.wav
+DUDE_KILLBYSTANDER	characters\Dude\dude_cop_killbystander8V2.wav
+DUDE_KILLBYSTANDER	characters\Dude\dude_cop_killbystander9V1.wav
+DUDE_KILLBYSTANDER	characters\Dude\dude_cop_killbystander9V2.wav
+// If a cop has been killed:
+DUDE_COPKILLED	characters\Dude\dude_cop_seesdeadcop1V1.wav
+DUDE_COPKILLED	characters\Dude\dude_cop_seesdeadcop1V2.wav
+DUDE_COPKILLED	characters\Dude\dude_cop_seesdeadcop2V1.wav
+DUDE_COPKILLED	characters\Dude\dude_cop_seesdeadcop2V2.wav
+DUDE_COPKILLED	characters\Dude\dude_cop_seesdeadcop3V1.wav
+DUDE_COPKILLED	characters\Dude\dude_cop_seesdeadcop3V2.wav
+// When receivingDamage:
+//DUDE_HIT	characters\Dude\dude_damage_ak.wav
+//DUDE_HIT	characters\Dude\dude_damage_arghV1.wav
+//DUDE_HIT	characters\Dude\dude_damage_arghV2.wav
+//DUDE_HIT	characters\Dude\dude_damage_augh.wav
+//DUDE_HIT	characters\Dude\dude_damage_cantwegetalongV1.wav
+//DUDE_HIT	characters\Dude\dude_damage_cantwegetalongV2.wav
+//DUDE_HIT	characters\Dude\dude_damage_clavichordV1.wav
+//DUDE_HIT	characters\Dude\dude_damage_clavichordV2.wav
+//DUDE_HIT	characters\Dude\dude_damage_favoriteskull.wav
+//DUDE_HIT	characters\Dude\dude_damage_gonnabesore.wav
+//DUDE_HIT	characters\Dude\dude_damage_goodone.wav
+//DUDE_HIT	characters\Dude\dude_damage_goodshots.wav
+//DUDE_HIT	characters\Dude\dude_damage_jesuswoulddo.wav
+//DUDE_HIT	characters\Dude\dude_damage_mommyV1.wav
+//DUDE_HIT	characters\Dude\dude_damage_mommyV2.wav
+//DUDE_HIT	characters\Dude\dude_damage_myspleen.wav
+//DUDE_HIT	characters\Dude\dude_damage_niceshot.wav
+//DUDE_HIT	characters\Dude\dude_damage_nowicantfeelV1.wav
+//DUDE_HIT	characters\Dude\dude_damage_nowicantfeelV2.wav
+//DUDE_HIT	characters\Dude\dude_damage_nowiseeerrorV1.wav
+//DUDE_HIT	characters\Dude\dude_damage_nowiseeerrorV2.wav
+//DUDE_HIT	characters\Dude\dude_damage_ohmynadsV1.wav
+//DUDE_HIT	characters\Dude\dude_damage_ohmynadsV2.wav
+//DUDE_HIT	characters\Dude\dude_damage_ohrightinthestuff.wav
+//DUDE_HIT	characters\Dude\dude_damage_oof.wav
+//DUDE_HIT	characters\Dude\dude_damage_ow.wav
+//DUDE_HIT	characters\Dude\dude_damage_thatstings.wav
+//DUDE_HIT	characters\Dude\dude_damage_thatwasntgood.wav
+//DUDE_HIT	characters\Dude\dude_damage_tryharderV1.wav
+//DUDE_HIT	characters\Dude\dude_damage_tryharderV2.wav
+//DUDE_HIT	characters\Dude\dude_damage_whatthatfeels.wav
+//DUDE_HIT	characters\Dude\dude_damage_whuff.wav
+//DUDE_HIT	characters\Dude\dude_damage_youdontlikeme.wav
+//Death rattle:
+DUDE_DEATH	characters\Dude\dude_death_blamespongebob.wav
+DUDE_DEATH	characters\Dude\dude_death_cheatcodes.wav
+DUDE_DEATH	characters\Dude\dude_death_chronic.wav
+DUDE_DEATH	characters\Dude\dude_death_iregretnothing.wav
+DUDE_DEATH	characters\Dude\dude_death_justgetalong.wav
+DUDE_DEATH	characters\Dude\dude_death_playbetter.wav
+DUDE_DEATH	characters\Dude\dude_death_respawn.wav
+DUDE_DEATH	characters\Dude\dude_death_seeelvis.wav
+DUDE_DEATH	characters\Dude\dude_death_wantmorelife.wav
+// Finishing a task:
+DUDE_TASKFINISH	characters\Dude\dude_finish_anddoneV1.wav
+DUDE_TASKFINISH	characters\Dude\dude_finish_anddoneV2.wav
+DUDE_TASKFINISH	characters\Dude\dude_finish_burstingwithwin.wav
+DUDE_TASKFINISH	characters\Dude\dude_finish_closeenough.wav
+DUDE_TASKFINISH	characters\Dude\dude_finish_sucksessV1.wav
+DUDE_TASKFINISH	characters\Dude\dude_finish_sucksessV2.wav
+// People are on fire:
+DUDE_PEOPLEONFIRE	characters\Dude\dude_fire_baconx3.wav
+DUDE_PEOPLEONFIRE	characters\Dude\dude_fire_crematedchicken.wav
+DUDE_PEOPLEONFIRE	characters\Dude\dude_fire_extracrispy.wav
+DUDE_PEOPLEONFIRE	characters\Dude\dude_fire_slowroastedgood.wav
+DUDE_PEOPLEONFIRE	characters\Dude\dude_fire_smellskindagood.wav
+DUDE_PEOPLEONFIRE	characters\Dude\dude_fire_whatthatsmellslike.wav
+// Using a fire weapon:
+DUDE_USEFIREWEAPON	characters\Dude\dude_fire_partaymrnapalmV1.wav
+DUDE_USEFIREWEAPON	characters\Dude\dude_fire_partaymrnapalmV2.wav
+DUDE_USEFIREWEAPON	characters\Dude\dude_fire_dontplaywithV1.wav
+DUDE_USEFIREWEAPON	characters\Dude\dude_fire_dontplaywithV2.wav
+DUDE_USEFIREWEAPON	characters\Dude\dude_fire_priceofgasoline.wav
+DUDE_USEFIREWEAPON	characters\Dude\dude_fire_isdamnfun.wav
+// Using the Grenade cat
+DUDE_USEGRENADECAT	characters\Dude\dude_gcat_awesomeV1.wav
+DUDE_USEGRENADECAT	characters\Dude\dude_gcat_awesomeV2.wav
+DUDE_USEGRENADECAT	characters\Dude\dude_gcat_betterplace.wav
+DUDE_USEGRENADECAT	characters\Dude\dude_gcat_chocolateandpb.wav
+DUDE_USEGRENADECAT	characters\Dude\dude_gcat_gatoexplodo.wav
+// Acknowledging actions that could cause him to fall from the Good path:
+DUDE_FALLFROMGOODATTENTION	characters\Dude\dude_getthrownoffforce1.wav
+DUDE_FALLFROMGOODATTENTION	characters\Dude\dude_getthrownoffforce2.wav
+DUDE_FALLFROMGOODATTENTION	characters\Dude\dude_getthrownoffforce3.wav
+DUDE_FALLFROMGOODATTENTION	characters\Dude\dude_getthrownoffforce4.wav
+// General Greeting/Greeting Response
+//DUDE_GREET	characters\Dude\dude_greet_hello.wav
+//DUDE_GREET	characters\Dude\dude_greet_hi.wav
+//DUDE_GREET	characters\Dude\dude_greet_hithere.wav
+//DUDE_GREET	characters\Dude\dude_greet_wassup.wav
+//DUDE_GREET	characters\Dude\dude_greet_yo.wav
+// Withdrawal symptoms:
+DUDE_HEALTHUP	characters\Dude\dude_health_coldturkey.wav
+DUDE_HEALTHUP	characters\Dude\dude_health_gottafindsomemore.wav
+DUDE_HEALTHUP	characters\Dude\dude_health_needmoremedicine.wav
+DUDE_HEALTHUP	characters\Dude\dude_health_needrehab.wav
+DUDE_HEALTHUP	characters\Dude\dude_health_shitwasaddictiveV1.wav
+DUDE_HEALTHUP	characters\Dude\dude_health_shitwasaddictiveV2.wav
+// Low health/withdrawal symptoms:
+DUDE_HEALTHLOW	characters\Dude\dude_health_igottafindmore.wav
+DUDE_HEALTHLOW	characters\Dude\dude_health_idontfeelsogood.wav
+DUDE_HEALTHLOW	characters\Dude\dude_health_ifeellikeshit.wav
+// Escaping the jail:
+DUDE_JAILESCAPE	characters\Dude\dude_jail_awfullylonglevel.wav
+DUDE_JAILESCAPE	characters\Dude\dude_jail_boredalready.wav
+DUDE_JAILESCAPE	characters\Dude\dude_jail_trytoescape.wav
+// If he kills Al Gore or any other escort mission NPC:
+DUDE_ALKILL	characters\Dude\dude_killimportant_botched.wav
+// Using the Badger Saw (As Krotchy)
+DUDE_KUSEBADGER	characters\Dude\dude_k_badger_cartoonbadger.wav
+DUDE_KUSEBADGER	characters\Dude\dude_k_badger_larryisbadgersaw.wav
+// Being Attacked by Police (As Krotchy)
+DUDE_KCOPATTAC	characters\Dude\dude_k_policeattack_beloved.wav
+DUDE_KCOPATTAC	characters\Dude\dude_k_policeattack_idol.wav
+// Pulling out a weapon and bystanders freak out (As Krotchy):
+//DUDE_KWEAPONOUT	characters\Dude\dude_k_weaponout_cartoon.wav
+//DUDE_KWEAPONOUT	characters\Dude\dude_k_weaponout_prematurely.wav
+//DUDE_KWEAPONOUT	characters\Dude\dude_k_weaponout_testicle.wav
+// End of game challenge event (insane path):
+DUDE_ENDEVENTINSANE	characters\Dude\dude_lastmission_getouttahereV1.wav
+//DUDE_ENDEVENTINSANE	characters\Dude\dude_lastmission_getouttahereV2.wav
+//DUDE_ENDEVENTINSANE	characters\Dude\dude_lastmission_getouttatownV1.wav
+DUDE_ENDEVENTINSANE	characters\Dude\dude_lastmission_getouttatownV2.wav
+// End of game challenge event (Good path):
+DUDE_ENDEVENTGOOD	characters\Dude\dude_lastmission_takeoutthetrash.wav
+// Monkey is killed
+DUDE_MONKEYKILLED	characters\Dude\dude_monkey_buyanother.wav
+DUDE_MONKEYKILLED	characters\Dude\dude_monkey_costs.wav
+DUDE_MONKEYKILLED	characters\Dude\dude_monkey_favorite.wav
+DUDE_MONKEYKILLED	characters\Dude\dude_monkey_killedpay.wav
+DUDE_MONKEYKILLED	characters\Dude\dude_monkey_noV1.wav
+DUDE_MONKEYKILLED	characters\Dude\dude_monkey_noV2.wav
+DUDE_MONKEYKILLED	characters\Dude\dude_monkey_whollgroom.wav
+// With the Monkey
+DUDE_MONKEYMOUNTED	characters\Dude\dude_monkey_onmyback.wav
+DUDE_MONKEYMOUNTED	characters\Dude\dude_monkey_smells.wav
+DUDE_USEMONKEY	characters\Dude\dude_monkey_sucks.wav
+DUDE_USEMONKEY	characters\Dude\dude_monkey_diapers.wav
+DUDE_USEMONKEY	characters\Dude\dude_monkey_touchmyV1.wav
+DUDE_USEMONKEY	characters\Dude\dude_monkey_touchmyV2.wav
+DUDE_USEMONKEY	characters\Dude\dude_monkey_jealous.wav
+// After falling off the Good path:
+DUDE_FALLFROMGOOD	characters\Dude\dude_offpath_epicfailV1.wav
+DUDE_FALLFROMGOOD	characters\Dude\dude_offpath_epicfailV2.wav
+DUDE_FALLFROMGOOD	characters\Dude\dude_offpath_forgiveme.wav
+DUDE_FALLFROMGOOD	characters\Dude\dude_offpath_ihavefaith.wav
+DUDE_FALLFROMGOOD	characters\Dude\dude_offpath_impetuousnature.wav
+DUDE_FALLFROMGOOD	characters\Dude\dude_offpath_takemeback.wav
+// Pissing:
+DUDE_PISSING	characters\Dude\dude_pissing_flowers.wav
+DUDE_PISSING	characters\Dude\dude_pissing_onselfV2.wav
+DUDE_PISSING	characters\Dude\dude_pissing_onselfV3.wav
+DUDE_PISSING	characters\Dude\dude_pissing_oohyeahV1.wav
+DUDE_PISSING	characters\Dude\dude_pissing_oohyeahV2.wav
+DUDE_PISSING	characters\Dude\dude_pissing_sigh.wav
+DUDE_PISSING	characters\Dude\dude_pissing_thatstheticket.wav
+// Pissing on self:
+//DUDE_PISSELF	characters\Dude\dude_pissing_onselfV1.wav
+// Being Attacked by Police
+//DUDE_COPATTACK	characters\Dude\dude_policeattack_attica.wav
+//DUDE_COPATTACK	characters\Dude\dude_policeattack_dontblame.wav
+//DUDE_COPATTACK	characters\Dude\dude_policeattack_donttazeme.wav
+//DUDE_COPATTACK	characters\Dude\dude_policeattack_donuts.wav
+//DUDE_COPATTACK	characters\Dude\dude_policeattack_profile.wav
+//DUDE_COPATTACK	characters\Dude\dude_policeattack_youtube.wav
+// Random: (these will often come up when the player is in non-violent mode and walking through town)
+DUDE_COMMENT	characters\Dude\dude_random_gamesucksV1.wav
+DUDE_COMMENT	characters\Dude\dude_random_gamesucksV2.wav
+DUDE_COMMENT	characters\Dude\dude_random_libertycity.wav
+DUDE_COMMENT	characters\Dude\dude_random_minigames.wav
+DUDE_COMMENT	characters\Dude\dude_random_nicelevelV1.wav
+DUDE_COMMENT	characters\Dude\dude_random_nicelevelV2.wav
+DUDE_COMMENT	characters\Dude\dude_random_realamericaV1.wav
+DUDE_COMMENT	characters\Dude\dude_random_realamericaV2.wav
+DUDE_COMMENT	characters\Dude\dude_random_snortjeezusV1.wav
+DUDE_COMMENT	characters\Dude\dude_random_snortjeezusV2.wav
+DUDE_COMMENT	characters\Dude\dude_random_whoeverdesigned.wav
+// Replies to recruiting attempts:
+//DUDE_ANSWER	characters\Dude\dude_recruitno_dontplaywell.wav
+//DUDE_ANSWER	characters\Dude\dude_recruitno_notajoiner.wav
+//DUDE_ANSWER	characters\Dude\dude_recruitno_practisepeopleskills.wav
+//DUDE_ANSWER	characters\Dude\dude_recruityes_signmeup.wav
+// Respawn Acknowlegement
+//DUDE_RESPAWN	characters\Dude\dude_respawn_beenherebefore.wav
+//DUDE_RESPAWN	characters\Dude\dude_respawn_dejavu.wav
+//DUDE_RESPAWN	characters\Dude\dude_respawn_herewegoV1.wav
+//DUDE_RESPAWN	characters\Dude\dude_respawn_herewegoV2.wav
+//DUDE_RESPAWN	characters\Dude\dude_respawn_imback.wav
+//DUDE_RESPAWN	characters\Dude\dude_respawn_thisagain.wav
+//DUDE_RESPAWN	characters\Dude\dude_respawn_tryharder.wav
+//DUDE_RESPAWN	characters\Dude\dude_respawn_yousuck.wav
+// Game Save Acknowlegement
+//DUDE_SAVEGAME	characters\Dude\dude_saving_againV1.wav
+//DUDE_SAVEGAME	characters\Dude\dude_saving_againV2.wav
+//DUDE_SAVEGAME	characters\Dude\dude_saving_kidstoday.wav
+//DUDE_SAVEGAME	characters\Dude\dude_saving_mygrammaw.wav
+//DUDE_SAVEGAME	characters\Dude\dude_saving_skillV1.wav
+//DUDE_SAVEGAME	characters\Dude\dude_saving_skillV2.wav
+//DUDE_SAVEGAME	characters\Dude\dude_saving_weakV1.wav
+//DUDE_SAVEGAME	characters\Dude\dude_saving_weakV2.wav
+// Riding a Segway:
+DUDE_SEGWAY	characters\Dude\dude_segway_chickmagnet.wav
+DUDE_SEGWAY	characters\Dude\dude_segway_gayerthanitlooksV1.wav
+DUDE_SEGWAY	characters\Dude\dude_segway_gayerthanitlooksV2.wav
+DUDE_SEGWAY	characters\Dude\dude_segway_hopenobodysees.wav
+DUDE_SEGWAY	characters\Dude\dude_segway_humiliating.wav
+DUDE_SEGWAY	characters\Dude\dude_segway_postalvehicles.wav
+DUDE_SEGWAY	characters\Dude\dude_segway_wheresturboV1.wav
+DUDE_SEGWAY	characters\Dude\dude_segway_wheresturboV2.wav
+// Snorting the Catnip
+DUDE_SNORTCATNIP	characters\Dude\dude_snortcatnip_icanstopV1.wav
+DUDE_SNORTCATNIP	characters\Dude\dude_snortcatnip_icanstopV2.wav
+DUDE_SNORTCATNIP	characters\Dude\dude_snortcatnip_imfineV1.wav
+DUDE_SNORTCATNIP	characters\Dude\dude_snortcatnip_imfineV2.wav
+DUDE_SNORTCATNIP	characters\Dude\dude_snortcatnip_imfineV3.wav
+DUDE_SNORTCATNIP	characters\Dude\dude_snortcatnip_kick.wav
+DUDE_SNORTCATNIP	characters\Dude\dude_snortcatnip_lizardking.wav
+DUDE_SNORTCATNIP	characters\Dude\dude_snortcatnip_snortV1.wav
+DUDE_SNORTCATNIP	characters\Dude\dude_snortcatnip_snortV2.wav
+DUDE_SNORTCATNIP	characters\Dude\dude_snortcatnip_whoa.wav
+DUDE_SNORTCATNIP	characters\Dude\dude_snortcatnip_yeah.wav
+// Throwing a cat at someone
+DUDE_THROWCAT	characters\Dude\dude_throwcat_allergicV1.wav
+DUDE_THROWCAT	characters\Dude\dude_throwcat_allergicV2.wav
+DUDE_THROWCAT	characters\Dude\dude_throwcat_catch.wav
+DUDE_THROWCAT	characters\Dude\dude_throwcat_hereV1.wav
+DUDE_THROWCAT	characters\Dude\dude_throwcat_hereV2.wav
+DUDE_THROWCAT	characters\Dude\dude_throwcat_holdthisV1.wav
+DUDE_THROWCAT	characters\Dude\dude_throwcat_holdthisV2.wav
+DUDE_THROWCAT	characters\Dude\dude_throwcat_thenugeV1.wav
+DUDE_THROWCAT	characters\Dude\dude_throwcat_thenugeV2.wav
+// Random comments while being violent:
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_blameglennbeckV1.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_blameglennbeckV2.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_blameinternets.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_blamemedia.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_blamemetal.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_blamemtv.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_blamepacman.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_buttsauceV1.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_buttsauceV2.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_buttsauceV3.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_buttsauceV4.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_buttsauceV5.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_chlorine.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_chronic.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_deathpanelV1.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_deathpanelV2.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_dontcrowd.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_dontlikegames.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_fingerslipped.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_fingerslipped2.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_gladimnotyou.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_GTAphysics.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_gunsdontkill.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_gunsdontkillido.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_hateamericaV1.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_hateamericaV2.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_hateamericaV3.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_haveaniceday.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_hehehehV1.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_hehehehV2.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_hithere.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_huntingaccident.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_leaveamark.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_likesleeping.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_lookedpainful.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_mybadV1.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_mybadV2.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_nicecatch.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_niceperson.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_notincontrol.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_onlymyweapon.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_permanentrecord.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_politicallycorrect.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_prettygood.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_punkd.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_safetyon.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_surprise.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_whattheyallsay.wav
+DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_yougogirl.wav
+// Pulling out a weapon and bystanders freak out:
+//DUDE_WEAPONOUT	characters\Dude\dude_weaponout_abadshot.wav
+//DUDE_WEAPONOUT	characters\Dude\dude_weaponout_airingitout.wav
+//DUDE_WEAPONOUT	characters\Dude\dude_weaponout_innocent.wav
+//DUDE_WEAPONOUT	characters\Dude\dude_weaponout_pocketfull.wav
+//DUDE_WEAPONOUT	characters\Dude\dude_weaponout_psychotic.wav
+//DUDE_WEAPONOUT	characters\Dude\dude_weaponout_realityshow.wav
+//DUDE_WEAPONOUT	characters\Dude\dude_weaponout_terroristswin.wav
+// While shooting snot wads:
+DUDE_PWSHOOTING	characters\Dude\dude_porn_shootingwads10V1.wav
+DUDE_PWSHOOTING	characters\Dude\dude_porn_shootingwads10V2.wav
+DUDE_PWSHOOTING	characters\Dude\dude_porn_shootingwads11V1.wav
+DUDE_PWSHOOTING	characters\Dude\dude_porn_shootingwads11V2.wav
+DUDE_PWSHOOTING	characters\Dude\dude_porn_shootingwads12V1.wav
+DUDE_PWSHOOTING	characters\Dude\dude_porn_shootingwads12V2.wav
+DUDE_PWSHOOTING	characters\Dude\dude_porn_shootingwads13V1.wav
+DUDE_PWSHOOTING	characters\Dude\dude_porn_shootingwads13V2.wav
+DUDE_PWSHOOTING	characters\Dude\dude_porn_shootingwads1V1.wav
+DUDE_PWSHOOTING	characters\Dude\dude_porn_shootingwads1V2.wav
+DUDE_PWSHOOTING	characters\Dude\dude_porn_shootingwads2V1.wav
+DUDE_PWSHOOTING	characters\Dude\dude_porn_shootingwads2V2.wav
+DUDE_PWSHOOTING	characters\Dude\dude_porn_shootingwads3V1.wav
+DUDE_PWSHOOTING	characters\Dude\dude_porn_shootingwads3V2.wav
+DUDE_PWSHOOTING	characters\Dude\dude_porn_shootingwads4V1.wav
+DUDE_PWSHOOTING	characters\Dude\dude_porn_shootingwads4V2.wav
+DUDE_PWSHOOTING	characters\Dude\dude_porn_shootingwads5V1.wav
+DUDE_PWSHOOTING	characters\Dude\dude_porn_shootingwads5V2.wav
+DUDE_PWSHOOTING	characters\Dude\dude_porn_shootingwads6V1.wav
+DUDE_PWSHOOTING	characters\Dude\dude_porn_shootingwads6V2.wav
+DUDE_PWSHOOTING	characters\Dude\dude_porn_shootingwads7V1.wav
+DUDE_PWSHOOTING	characters\Dude\dude_porn_shootingwads7V2.wav
+DUDE_PWSHOOTING	characters\Dude\dude_porn_shootingwads8V1.wav
+DUDE_PWSHOOTING	characters\Dude\dude_porn_shootingwads8V2.wav
+DUDE_PWSHOOTING	characters\Dude\dude_porn_shootingwads8V3.wav
+DUDE_PWSHOOTING	characters\Dude\dude_porn_shootingwads9V1.wav
+DUDE_PWSHOOTING	characters\Dude\dude_porn_shootingwads9V2.wav
+// Freeing the animals (in-gameDialog):
+DUDE_MLIFREE	characters\Dude\dude_monkeylab_free1V1.wav
+DUDE_MLIFREE	characters\Dude\dude_monkeylab_free1V2.wav
+DUDE_MLIFREE	characters\Dude\dude_monkeylab_free2V1.wav
+//DUDE_MLIFREE	characters\Dude\dude_monkeylab_free2V2.wav
+DUDE_MLIFREE	characters\Dude\dude_monkeylab_free3V1.wav
+//DUDE_MLIFREE	characters\Dude\dude_monkeylab_free3V2.wav
+DUDE_MLIFREE	characters\Dude\dude_monkeylab_free4V1.wav
+//DUDE_MLIFREE	characters\Dude\dude_monkeylab_free4V2.wav
+DUDE_MLIFREE	characters\Dude\dude_monkeylab_free5V1.wav
+//DUDE_MLIFREE	characters\Dude\dude_monkeylab_free5V2.wav
+DUDE_MLIFREE	characters\Dude\dude_monkeylab_free6V1.wav
+//DUDE_MLIFREE	characters\Dude\dude_monkeylab_free6V2.wav
+//Discovering shredded scientists (in-gameDialog):
+//DUDE_MLISCIENTIST	characters\Dude\dude_monkeylab_deadguy1.wav
+//DUDE_MLISCIENTIST	characters\Dude\dude_monkeylab_deadguy2.wav
+//DUDE_MLISCIENTIST	characters\Dude\dude_monkeylab_deadguy3.wav
+//DUDE_MLISCIENTIST	characters\Dude\dude_monkeylab_deadguy4.wav
+
+// If the playerDoesn't press the red button:
+//DUDE_PBPRESSBUTTON	characters/Dude/dude_bridge_button1V1.wav
+//DUDE_PBPRESSBUTTON	characters/Dude/dude_bridge_button1V2.wav
+DUDE_PBPRESSBUTTON	characters/Dude/dude_bridge_button1V3.wav
+DUDE_PBPRESSBUTTON	characters/Dude/dude_bridge_button2V1.wav
+//DUDE_PBPRESSBUTTON	characters/Dude/dude_bridge_button2V2.wav
+DUDE_PBPRESSBUTTON	characters/Dude/dude_bridge_button3V1.wav
+//DUDE_PBPRESSBUTTON	characters/Dude/dude_bridge_button3V2.wav
+DUDE_PBPRESSBUTTON	characters/Dude/dude_bridge_button4V1.wav
+//DUDE_PBPRESSBUTTON	characters/Dude/dude_bridge_button4V2.wav
+DUDE_PBPRESSBUTTON	characters/Dude/dude_bridge_button5.wav
+// When the player finally presses the button:
+DUDE_PBBUTTONPRESSED	characters/Dude/dude_bridge_button6V1.wav
+//DUDE_PBBUTTONPRESSED	characters/Dude/dude_bridge_button6V2.wav
+
+
