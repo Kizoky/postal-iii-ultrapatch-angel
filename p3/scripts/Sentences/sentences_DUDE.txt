@@ -21,8 +21,8 @@ DUDE_USEBADGER	characters\Dude\dude_badger_mrbadgersawV2.wav
 DUDE_USEBADGER	characters\Dude\dude_badger_neversawV1.wav
 DUDE_USEBADGER	characters\Dude\dude_badger_neversawV2.wav
 DUDE_USEBADGER	characters\Dude\dude_badger_rabidfriend.wav
-DUDE_USEBADGER	characters\Dude\dude_badger_urinecannonV1.wav
-DUDE_USEBADGER	characters\Dude\dude_badger_urinecannonV2.wav
+//DUDE_USEBADGERPISS	characters\Dude\dude_badger_urinecannonV1.wav
+//DUDE_USEBADGERPISS	characters\Dude\dude_badger_urinecannonV2.wav
 // Catching a cat
 DUDE_CATCHCAT	characters\Dude\dude_catchcat_anotheroneV1.wav
 DUDE_CATCHCAT	characters\Dude\dude_catchcat_anotheroneV2.wav
