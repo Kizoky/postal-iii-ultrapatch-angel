@@ -5,8 +5,89 @@ NOTE: Some changes or fixes might have missed, only the more mentionable stuff i
 FIXES:
 ======
 
+* Fixed gas refusing to pour sometimes after a level transition
+
+* Fixed RPG fuel gauge getting stuck after secondary firing while charging a shot
+
+* Fixed player random idle sequence not being reset properly
+
+* Fixed being able to take a hostage with any weapon by having it selected already,
+you now automatically switch to the first compatible weapon upon taking a hostage
+
+* Fixed Steam_01.vmt particle material being depthblended, causing visual artifacts, most 
+noticably on the main menu when it's used for dude's cigarette smoke
+
+* Fixed a lot of mission unique loading screen backgrounds not loading properly
+
+* Fixed headblob getting stuck to the player upon picking up a tamed cat in some situations
+
+* Fixed police academy cutscenes playing in the wrong order (English version specifically)
+
+* Fixed crash that can happen when you release a hostage who already died from burning to death
+
+* Fixed camera shake anim sequences carrying over and playing infinitely while the player is ragdolled
+
+* Fixed NPC's continuing to speak when they're killed
+
+* Fixed an issue where some sounds wouldn't change their pitch, but the volume instead
+
+* Fixed player spray animation being cancelled if both primary and secondary fire are held when using catnip or pepperspray
+
+* Fixed props below a certain mass not interrupting melee attacks, causing multiple duplicate impacts and lag
+
+* Fixed player sometimes saying cut "on-self pissing" lines
+
+* Fixed player move input being accepted during the snatch quicktime event, if snatched while in the badgersaw mauling sequence
+
+* Fixed nailbat becoming unobtainable after getting stuck in an NPC that died
+
+* Fixed player being able to sprint on-foot while riding a segway in certain circumstances
+
+* Fixed "Fail Zombie" achievement not working as it should
+
+* Fixed player cover input mode persisting after teleport
+
+* Fixed player stamina slowly draining while the game is paused
+
+* Fixed an awkward nailbat/baton animation issue
+
+* Fixed an issue where the molotov would frequently do multiple duplicate explosions upon hitting the ground
+
+* Fixed animation persistence issue for hidden ragdoll NPC's
+(This basically prevents a ghost version of the ragdolled NPC from doing animation events and attack traces)
+
+* Fixed player sometimes saying cut "badger pissing" lines when attacking with the badgersaw
+
+* Fixed throwable weapon in-hand model becoming invisible and placement restarting after the animation is interrupted by a kick
+
+* Fixed police helicopter being able to get tased, causing... issues (Very funny, we almost regret patching this)
+
+* Fixed cats getting "stuck" when hitting the ground after being thrown in some occasions
+
+* Fixed "Mega-Sadist" achievement being unobtainable
+
+* Fixed particles playing indefinitely after switching weapons while alt-fire pissing
+
+* Fixed headblobs not being immediately removed on hidden NPC's upon being ragdolled
+
+* Fixed incorrect player throwing arm angles after switching to grenade or molotov while the current weapon is lowered
+
+* Fixed being unable to dismember corpses of NPC's that were killed by the nailbat
+
+* Fixed player stand up animations being almost unnoticeable after being ragdolled
+
+* Fixed particle effects playing on reselection after holstering while pouring gasoline
+
+* Fixed "Real American" achievement counting towards Rhinos instead of terrorists
+
+* Fixed a bug where cat weapon shooting sounds would still play on previously cat-silenced weapons after player respawn
+
 IMPROVEMENTS/ADDITIONS/CHANGES: 
 ===============================
+
+* Make "Neurosurgeon" achievement count non-decap headshots
+
+* Make NPC's unable to get arrested or taken as a hostage while they're on fire
 
 BALANCING:
 ==========
