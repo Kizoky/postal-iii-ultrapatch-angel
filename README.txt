@@ -2,9 +2,9 @@ ABOUT:
 ======
 This patch addresses a significant number of bugs and crashes that were present in Postal III, and also includes additional improvements, changes, and restored cut content. 
 The modifications are faithful to the original design of the game and were born out of the efforts of the Catharsis Reborn total conversion modding team. 
-Whackjob Interactive was granted access to the game's source code and have created this patch as a result after several years of abandonment.
+Whackjob Interactive was granted access to the game's source code after several years of abandonment, and have created this patch as a result.
 While some of the changes were initially intended for Catharsis Reborn, we decided to adapt them to the vanilla version of Postal III and further enhance the experience. 
-We understand that the community deserved a better game, and we hope that our patch makes it significantly more enjoyable to play.
+We understand that the community deserved a better game, and we hope that our patch makes it significantly more enjoyable to play. That's all we ever wanted.
 
 If you encounter any issues or have suggestions, please visit the Whackjob Interactive discord server (https://discord.com/invite/Q8K8TMA) or send an email to pseudotim256@gmail.com.
 
