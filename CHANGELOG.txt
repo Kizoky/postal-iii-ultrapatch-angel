@@ -1,6 +1,6 @@
------------------------------------------------------------------------------------------------------------------------------------
-NOTE: Some changes or fixes might have missed, only the more mentionable stuff is listed to keep things relatively short and sweet!
------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------
+NOTE: Some changes or fixes might have missed, only the more mentionable things are listed!
+--------------------------------------------------------------------------------------------
 
 FIXES:
 ======
@@ -15,9 +15,7 @@ FIXES:
 you now automatically switch to the first compatible weapon upon taking a hostage
 
 * Fixed Steam_01.vmt particle material being depthblended, causing visual artifacts, most 
-noticably on the main menu when it's used for dude's cigarette smoke
-
-* Fixed a lot of mission unique loading screen backgrounds not loading properly
+noticably on the main menu when it's used for dude's cigarette smoke!
 
 * Fixed headblob getting stuck to the player upon picking up a tamed cat in some situations
 
@@ -25,7 +23,7 @@ noticably on the main menu when it's used for dude's cigarette smoke
 
 * Fixed crash that can happen when you release a hostage who already died from burning to death
 
-* Fixed camera shake anim sequences carrying over and playing infinitely while the player is ragdolled
+* Fixed camera shake animation sequences carrying over and playing infinitely while the player is ragdolled
 
 * Fixed NPC's continuing to speak when they're killed
 
@@ -60,7 +58,7 @@ noticably on the main menu when it's used for dude's cigarette smoke
 
 * Fixed throwable weapon in-hand model becoming invisible and placement restarting after the animation is interrupted by a kick
 
-* Fixed police helicopter being able to get tased, causing... issues (Very funny, we almost regret patching this)
+* Fixed police helicopter being able to get tased, causing it to spin uncontrollably (Very funny, almost regret patching this)
 
 * Fixed cats getting "stuck" when hitting the ground after being thrown in some occasions
 
@@ -68,7 +66,7 @@ noticably on the main menu when it's used for dude's cigarette smoke
 
 * Fixed particles playing indefinitely after switching weapons while alt-fire pissing
 
-* Fixed headblobs not being immediately removed on hidden NPC's upon being ragdolled
+* Fixed headblobs not being immediately removed on hidden NPC's upon ragdoll
 
 * Fixed incorrect player throwing arm angles after switching to grenade or molotov while the current weapon is lowered
 
@@ -85,9 +83,11 @@ noticably on the main menu when it's used for dude's cigarette smoke
 IMPROVEMENTS/ADDITIONS/CHANGES: 
 ===============================
 
-* Make "Neurosurgeon" achievement count non-decap headshots
+* "Neurosurgeon" achievement count non-decap headshots
 
-* Make NPC's unable to get arrested or taken as a hostage while they're on fire
++ Added back a lot of previously unused mission unique loading screen backgrounds
+
+* NPC's are now unable to be arrested or taken as a hostage if they're on fire
 
 BALANCING:
 ==========
