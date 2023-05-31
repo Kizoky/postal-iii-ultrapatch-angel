@@ -1,0 +1,80 @@
+// Rocket launcher
+
+WeaponData
+{
+	// Weapon data is loaded by both the Game and Client DLLs.
+	"ID"				"m136"
+	"printname"				""
+	"viewmodel"				"models/weapons/M136/m136.mdl"
+	"playermodel"			"models/weapons/M136/m136.mdl"
+	"anim_prefix"			"m136"
+	"bucket"				"3"
+	"bucket_position"		"4"
+	"bucket_360"			"3"
+	"bucket_position_360"	"4"
+	"recoil"				"2"
+
+	"clip_size"				"-1"
+	"primary_ammo"			"M136"
+	"secondary_ammo"		"None"
+    "default_clip"			"1"
+
+	"weight"				"5"
+	"rumble"				"1"
+	"item_flags"			"0"
+
+	"fire_effect"			"M136_Launch_Fx"
+	"fire_rate1"			"0.1"
+
+	"weapon_type"			"ranged"
+
+	// Sounds for the weapon. There is a max of 16 sounds per category (i.e. max 16 "single_shot" sounds)
+	SoundData
+	{
+		"single_shot"		"Weapon_M136.Fire"
+		"reload"			"Weapon_M136.Reload"
+		"special"			"Weapon_M136.Special"
+		"deploy"			"Weapon_M136.Deploy"
+		"holster"			"Weapon_M136.Holster"
+	}
+	
+	JointlyUseabilityData
+	{		
+		"jointly_weapon"		"p3_weapon_cat"
+	}
+
+	// Weapon Sprite data is loaded by the Client DLL.
+	TextureData
+	{
+		"weapon"
+		{
+				"file"		"sprites/rocket_launcher"
+				"width"		"128"
+				"height"	"128"
+		}
+		"weapon_small"
+		{
+				"file"		"sprites/weapon_small_icons/rocket_launcher"
+				"width"		"128"
+				"height"	"128"
+		}
+		"weapon_jointly"
+		{
+				"file"		"sprites/assign_cats_icon"
+				"width"		"128"
+				"height"	"128"
+		}
+		"weapon_jointly_s"
+		{
+				"file"		"sprites/cats_s"
+				"width"		"128"
+				"height"	"128"
+		}
+		"ammo"
+		{
+				"file"		"sprites/weapon_small_icons/ammo_rockets"
+				"width"		"128"
+				"height"	"128"
+		}
+	}
+}
