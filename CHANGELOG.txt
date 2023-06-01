@@ -83,11 +83,21 @@ noticably on the main menu when it's used for dude's cigarette smoke!
 IMPROVEMENTS/ADDITIONS/CHANGES: 
 ===============================
 
-* "Neurosurgeon" achievement count non-decap headshots
+* "Neurosurgeon" achievement now counts non-decap headshots
 
 + Added back a lot of previously unused mission unique loading screen backgrounds
 
 * NPC's are now unable to be arrested or taken as a hostage if they're on fire
+
+* There is now a player weapon input delay for a short time after the snatch quicktime event
+
+* Idiot-proofed the RPG/M136 so the player can't instantly kill themselves with it
+
++ Added back unused upgrade indicators on the weapon selector
+
++ Added blink/flashing effect to ammo and weapon pickups
+
+* Crosshair is now hidden when utilizing certain weapons that don't require precise aim
 
 BALANCING:
 ==========
@@ -100,6 +110,12 @@ MAPPING:
 
 OTHER/MISC:
 ===========
+
+* Improved player camera offsets and FOV
+
+* Massively improved performance
+
+- Removed DRM
 
 POSTAL3SCRIPT IMPROVEMENTS/ADDITIONS/CHANGES:
 =============================================
