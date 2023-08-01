@@ -11,8 +11,8 @@ FIXES:
 
 * Fixed player random idle sequence not being reset properly
 
-* Fixed being able to take a hostage with any weapon by having it selected already,
-you now automatically switch to the first compatible weapon upon taking a hostage
+* Fixed being able to take a hostage with any weapon by having it selected beforehand
+(You now automatically switch to the first compatible weapon upon taking a hostage if you don't already have one selected)
 
 * Fixed Steam_01.vmt particle material being depthblended, causing visual artifacts, most 
 noticably on the main menu when it's used for dude's cigarette smoke!
@@ -80,6 +80,14 @@ noticably on the main menu when it's used for dude's cigarette smoke!
 
 * Fixed a bug where cat weapon shooting sounds would still play on previously cat-silenced weapons after player respawn
 
+* Fixed being able to switch weapons during NPC arrest sequence and holstered the current weapon
+
+* Fixed electricity effect being stuck on NPC's forever when hit by a taser fireball then ragdolled
+
+* Fixed NPC stunning sequence not ending upon ragdoll
+
+* Fixed player attempting to shove with weapons that don't have the ability
+
 IMPROVEMENTS/ADDITIONS/CHANGES: 
 ===============================
 
@@ -98,6 +106,10 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 + Added blink/flashing effect to ammo and weapon pickups
 
 * Crosshair is now hidden when utilizing certain weapons that don't require precise aim
+
+* Prevented physx simulation while the game is paused
+
++ "Champ Whisperer" achievement is now actually implemented and obtainable
 
 BALANCING:
 ==========

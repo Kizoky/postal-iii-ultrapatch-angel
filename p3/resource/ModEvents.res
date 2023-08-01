@@ -367,4 +367,16 @@
 	"neckbreaker"
 	{
 	}
+
+	"champ_kill"
+	{
+		"attacker_id"	"long"
+
+		"npc_id"		"long"
+		"gender"		"long"
+		"faction_id"	"long"
+		"manner_id"		"long"
+
+		"userid"		"long"
+	}
 }
