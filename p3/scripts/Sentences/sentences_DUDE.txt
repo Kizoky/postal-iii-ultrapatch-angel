@@ -1,5 +1,8 @@
 // _____________________________DUDE________________________________
 
+// New Ultrapatch sounds...
+DUDE_WHISTLE characters\Dude\dude_whistle.wav
+
 // During Arcade shootout:
 DUDE_ARCADE	characters\Dude\dude_arcade_didnttrain.wav
 DUDE_ARCADE	characters\Dude\dude_arcade_gamesdontkillV1.wav

@@ -2,7 +2,7 @@ ABOUT:
 ======
 This patch addresses a significant number of bugs and crashes that were present in Postal III, and also includes additional improvements, changes, and restored cut content. 
 Whackjob Interactive was granted access to the game's source code after several years of abandonment, and have created this patch as a result.
-The modifications are faithful to the original design of the game and were born out of the efforts of the Catharsis Reborn total conversion modding team. 
+The modifications are faithful to the current design of the game and were born out of the efforts of the Catharsis Reborn total conversion modding team. 
 While some of the changes were initially intended for Catharsis Reborn, we decided to adapt them to the vanilla version of Postal III and further enhance the experience. 
 We understand that the community deserved a better game, and we hope that our patch makes it significantly more enjoyable to play. That's all we ever wanted.
 
@@ -10,7 +10,7 @@ If you encounter any issues or have suggestions, please visit the Whackjob Inter
 
 INSTALLATION AND NOTES:
 =======================
-To install the patch, copy and paste all the files into the root directory of Postal III, and overwrite any files when prompted. 
+To install the patch, copy and paste all the files into the root directory of Postal III, and overwrite when prompted. 
 It is recommended to use a fresh install of Postal III that hasn't been launched yet.
 
 If you wish to remove the intros that play when you launch the game, you can run the included "RemoveIntros" batch file after copying it to the root directory of the game.
@@ -25,3 +25,5 @@ Usage of this patch alongside these mods will result in numerous conflicts and i
 
 NEW CONSOLE COMMANDS FOR FEATURES/CHANGES:
 ==========================================
+p3_ultrapatch_weapon_blocked_check_radius
+p3_ultrapatch_segway_leaning

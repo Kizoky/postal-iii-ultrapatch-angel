@@ -19,7 +19,7 @@ noticably on the main menu when it's used for dude's cigarette smoke!
 
 * Fixed headblob getting stuck to the player upon picking up a tamed cat in some situations
 
-* Fixed police academy cutscenes playing in the wrong order (English version specifically)
+* Fixed police academy cutscenes playing in the wrong order (English language specific issue)
 
 * Fixed crash that can happen when you release a hostage who already died from burning to death
 
@@ -82,18 +82,22 @@ noticably on the main menu when it's used for dude's cigarette smoke!
 
 * Fixed being able to switch weapons during NPC arrest sequence and holstered the current weapon
 
-* Fixed electricity effect being stuck on NPC's forever when hit by a taser fireball then ragdolled
+* Fixed electricity effect being stuck on NPC's forever if hit by a taser energyball and then ragdolled
 
 * Fixed NPC stunning sequence not ending upon ragdoll
 
 * Fixed player attempting to shove with weapons that don't have the ability
 
+* Fixed being able to tase NPC's that are ragdolled
+
+* Fixed various NPC weapons dealing only 1 damage
+
 IMPROVEMENTS/ADDITIONS/CHANGES: 
 ===============================
 
-* "Neurosurgeon" achievement now counts non-decap headshots
+* "Neurosurgeon" achievement now counts non-decapitation headshots
 
-+ Added back a lot of previously unused mission unique loading screen backgrounds
++ Added back a lot of previously unused mission specific loading screen backgrounds
 
 * NPC's are now unable to be arrested or taken as a hostage if they're on fire
 
@@ -111,6 +115,37 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 
 + "Champ Whisperer" achievement is now actually implemented and obtainable
 
+* Free-roaming is now unlocked by default
+
++ Added stars headblob to NPC's upon taser energyball stun
+
+* Player ragdolls immediately upon death instead of playing an animation beforehand, death voice lines removed
+
+* Significantly reduced ignite time for props and NPC's
+
+* Improved player weapon shoving
+(NPC detection improved, animation speed increased by 50%, player is now capped to walking speed)
+
++ Added back cut player segway leaning
+
+* Improved player camera offsets and FOV
+
+* Massively improved performance
+
+* The badgersaw now works as it did in the alpha version of the game, removed mauling sequence
+
++ Added back unused player taser charging gesture for alternative fire
+
+* Player ignite duration now depends on the ignition source
+
++ Added light throw trail to baton weapon
+
++ Added back cut dude whistling sound for the laserpen alternative fire...
+
++ Added molotov detonation screenshake, scorch decal now appears where the molotov landed
+
+- Removed DRM
+
 BALANCING:
 ==========
 
@@ -119,15 +154,6 @@ MISSIONS:
 
 MAPPING:
 ========
-
-OTHER/MISC:
-===========
-
-* Improved player camera offsets and FOV
-
-* Massively improved performance
-
-- Removed DRM
 
 POSTAL3SCRIPT IMPROVEMENTS/ADDITIONS/CHANGES:
 =============================================
