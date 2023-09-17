@@ -1,0 +1,82 @@
+"Dude.Cloak"
+{
+	"channel"		"CHAN_AUTO"
+	"volume"		"VOL_NORM"
+	"pitch"		"90,110"
+	"soundlevel"	"SNDLVL_40"
+
+	"rndwave"
+	{
+		"wave"		"cloak/cloak_01.wav"
+		"wave"		"cloak/cloak_02.wav"
+		"wave"		"cloak/cloak_03.wav"
+		"wave"		"cloak/cloak_04.wav"
+		"wave"		"cloak/cloak_05.wav"
+		"wave"		"cloak/cloak_06.wav"
+		"wave"		"cloak/cloak_07.wav"
+		"wave"		"cloak/cloak_08.wav"
+	}
+}
+
+"Weapon_Kick.Guy"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_GUNFIRE"
+	"pitch"			"90,110"
+
+	"rndwave"
+	{
+		"wave"		"kick/kick_guy.wav"
+	}
+}
+
+"Weapon_Kick.Air"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"1"
+	"soundlevel"		"SNDLVL_NORM"
+	"pitch"			"90,110"
+
+	"rndwave"
+	{
+		"wave"		"kick/kick_air.wav"
+		"wave"		"kick/kick_air2.wav"
+	}
+}
+
+"Weapon_Kick.Wall"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_GUNFIRE"
+	"pitch"			"90,110"
+
+	"rndwave"
+	{
+		"wave"		"kick/kick_wall.wav"
+	}
+}
+
+"Weapon_Kick.Door"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_GUNFIRE"
+	"pitch"			"90,110"
+
+	"rndwave"
+	{
+		"wave"		"kick/kick_door.wav"
+	}
+}
+
+"Dude.M60_Rush"
+{
+	"channel"		"CHAN_AUTO"
+	"volume"		"1"
+	"pitch"			"PITCH_NORM"
+	"soundlevel"	"SNDLVL_90dB"
+
+	"wave"			"hero/m60_rush.wav"
+}

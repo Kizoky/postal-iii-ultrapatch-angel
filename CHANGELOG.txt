@@ -95,6 +95,8 @@ noticably on the main menu when it's used for dude's cigarette smoke!
 IMPROVEMENTS/ADDITIONS/CHANGES: 
 ===============================
 
+* Significantly improved and enhanced player kicking
+
 * "Neurosurgeon" achievement now counts non-decapitation headshots
 
 + Added back a lot of previously unused mission specific loading screen backgrounds

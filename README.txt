@@ -27,3 +27,6 @@ NEW CONSOLE COMMANDS FOR FEATURES/CHANGES:
 ==========================================
 p3_ultrapatch_weapon_blocked_check_radius
 p3_ultrapatch_segway_leaning
+p3_ultrapatch_kick_shove_dmg_min
+p3_ultrapatch_kick_shove_dmg_max
+p3_ultrapatch_kick_force_multiplier
