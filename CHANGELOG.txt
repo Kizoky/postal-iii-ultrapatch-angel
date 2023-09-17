@@ -150,6 +150,8 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 
 + Added back and modified Half-Life 2 damage indicator
 
++ Added the ability to spare hostages by kicking them away
+
 BALANCING:
 ==========
 
