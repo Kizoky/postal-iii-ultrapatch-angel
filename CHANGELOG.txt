@@ -92,10 +92,14 @@ noticably on the main menu when it's used for dude's cigarette smoke!
 
 * Fixed various NPC weapons dealing only 1 damage
 
+* Fixed issues with the in-game font
+
 IMPROVEMENTS/ADDITIONS/CHANGES: 
 ===============================
 
 * Significantly improved and enhanced player kicking
+
++ Added the ability to spare hostages by kicking them away
 
 * "Neurosurgeon" achievement now counts non-decapitation headshots
 
@@ -142,15 +146,21 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 
 + Added light throw trail to baton weapon
 
-+ Added back cut dude whistling sound for the laserpen alternative fire...
++ Added back cut dude whistling for the laserpen alternative fire
 
-+ Added molotov detonation screenshake, scorch decal now appears where the molotov landed
++ Added and improved unused player hurt comment feature!
+
++ Added unused player respawn acknowledgement feature!
+
+* More familiar default controls based on Postal 2 and Postal 4
+
++ Added molotov detonation screenshake, a scorch decal now appears where the molotov landed
 
 - Removed DRM
 
-+ Added back and modified Half-Life 2 damage indicator
+* Updated and improved pause menu UI
 
-+ Added the ability to spare hostages by kicking them away
++ Added back and modified Half-Life 2 damage indicator
 
 BALANCING:
 ==========
