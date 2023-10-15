@@ -1,0 +1,103 @@
+p3_registry
+{
+	//-------------------------------------------------------------------------
+	// Ultrapatch
+	//-------------------------------------------------------------------------
+	"player_hurt_comment_short_chance"	"75"
+	"player_hurt_comment_long_chance"	"20"
+	"player_hurt_comment_rare_chance"	"8"
+
+	//-------------------------------------------------------------------------
+	// Sound
+	//-------------------------------------------------------------------------
+
+	"step_volume_run"			0.8		// звук шагов при беге
+	"step_volume_walk"			0.2		// звук шагов при ходьбе
+	"step_volume_crouch"		0.15	// звук шагов при движении на корточках
+
+	"monkey_idle_sound_min"		8.0
+	"monkey_idle_sound_max"		16.0
+   
+	//-------------------------------------------------------------------------
+	// Effects
+	//-------------------------------------------------------------------------
+
+	"wee_initial"				200.0
+	"wee_spreadspeed"			400.0
+	"wee_maxradius"				300.0
+
+	"puke_initial"				50.0
+	"puke_spreadspeed"			50.0
+	"puke_maxradius"			50.0
+
+	"gasoline_initial"			600.0
+	"gasoline_spreadspeed"		500.0
+	"gasoline_maxradius"		400.0
+	
+	"fluid_stream_min_step" 	10
+	"fluid_step_scale" 				0.6
+	"fluidity_threshold" 			500
+	"fluid_new_threshold" 		5000
+	"fluid_mass_scale" 				0.005
+	"fluidity_max_speed" 			12000
+	"fluid_vel_scale" 				0.0025
+	"fluidity_curvature"			1
+	"fluidity_min_force"			5
+	"fluid_absorption"				100
+
+	"gasoline_flame_offset_z"	0.0		// сдвиг эффекта вверх
+	"gasoline_flame_cell_size"	24.0	// размер клетки с эффектом
+	"gasoline_flame_cell_rnd"	0.4		// смещение эффекта от центра клетки
+
+	"gasoline_burn_time"		2.0		// время горения
+
+	//-------------------------------------------------------------------------
+	// Горение предметов и NPC [см. p3_fire_resistance.txt]
+	//-------------------------------------------------------------------------
+
+	"fire_resist_max"			5.0		// может находиться в огне столько сек.
+	"fire_ignite_max"			5.0		// столько горит
+	"fire_cooldown_time"		2.0		//
+	"fire_npc_resist_max"		20		// проценты от fire_resist_max
+	"fire_npc_ignite_max"		3.0		// время горения трупика npc
+	"fire_npc_effect"			"burning_character"
+
+	//-------------------------------------------------------------------------
+	// Misc
+	//-------------------------------------------------------------------------
+
+//	"player_items"				"p3_weapon_weemote p3_weapon_wolverine p3_weapon_deserteagle p3_weapon_m60 p3_weapon_shopvac p3_weapon_nailbat p3_weapon_m16 p3_weapon_laserpen p3_weapon_gasoline p3_weapon_match p3_weapon_taser" // все оружие
+//	"player_items"				"p3_weapon_deserteagle p3_weapon_wolverine p3_weapon_m60 p3_weapon_nailbat p3_weapon_m16 p3_weapon_gasoline p3_weapon_taser p3_weapon_machete p3_weapon_molotov p3_weapon_catnip p3_weapon_shovel p3_weapon_shotgun p3_weapon_cat p3_weapon_grenade"  // набор для Игромира
+
+	// ветер для динамического плаща
+	"player_wind_yaw"			"0"
+	"player_wind_yawvar"		"270"
+	"player_wind_yawamp"		"0.3"
+	"player_wind_vel"			"20"
+	"player_wind_velvar"		"10"
+	"player_wind_velamp"		"0.5"
+
+	"litmatch_lifetime"			5.0		// время жизни спички
+	"litmatch_radius"			5.0		// радиус действия спички
+	"litmatch_ignitetime"		10.0	// сколько секунд горит объект
+	"litmatch_throwspeed"		10.0	// скорость запуска спички
+
+	"car_explosion_radius"		200
+	"car_explosion_damage"		100
+	"car_explosionforcemin"		10
+	"car_explosionforcemax"		20
+
+
+	"monkey_special_idle_min"	0		// в циклах айдловых анимаций, но
+	"monkey_special_idle_max"	2		// текущий цикл доиграется до конца
+	
+	"attack_delay"					0.4	//Задержка атаки игрока после смены оружия
+
+	"catnip_throwspeed"		5	// скорость запуска кошачей мяты
+	
+	"taser_beam_lifetime"		10.0	// время жизни временной ентити, создаваемой тазером
+
+	"catnip_decals_count"		"8"
+	"catnip_decals_radius"		"10"
+	
+}
