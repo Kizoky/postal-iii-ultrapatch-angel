@@ -101,6 +101,8 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 
 + Added the ability to spare hostages by kicking them away
 
+* Significantly improved taser secondary fire
+
 * "Neurosurgeon" achievement now counts non-decapitation headshots
 
 + Added back a lot of previously unused mission specific loading screen backgrounds

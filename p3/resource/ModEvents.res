@@ -356,6 +356,12 @@
 	{
 	}
 
+	"taser_fireball_update"
+	{
+		"entindex"		"long"
+		"pos"		"string"
+	}
+
 	"p3_player_respawn"
 	{
 	}

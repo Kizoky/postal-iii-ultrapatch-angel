@@ -1,0 +1,2100 @@
+//-----------------------------------------------------------------------------
+// General
+//-----------------------------------------------------------------------------
+
+"Weapon.AmmoPickup"
+{
+	"channel"		"CHAN_ITEM"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"weapons/take_ammo.wav"
+}
+
+"Ammo.Pistol"
+{
+	"channel"		"CHAN_ITEM"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/pistol/pistol_pickup_01.wav"
+		"wave"		"weapons/pistol/pistol_pickup_02.wav"
+		"wave"		"weapons/pistol/pistol_pickup_03.wav"
+		"wave"		"weapons/pistol/pistol_pickup_04.wav"
+		"wave"		"weapons/pistol/pistol_pickup_05.wav"
+	}
+}
+
+"Ammo.M16"
+{
+	"channel"		"CHAN_ITEM"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/m16/m-16_pickup_01.wav"
+		"wave"		"weapons/m16/m-16_pickup_02.wav"
+		"wave"		"weapons/m16/m-16_pickup_03.wav"
+		"wave"		"weapons/m16/m-16_pickup_04.wav"
+		"wave"		"weapons/m16/m-16_pickup_05.wav"
+	}
+}
+
+"Ammo.M60"
+{
+	"channel"		"CHAN_ITEM"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/m60/m-60_pickup_01.wav"
+		"wave"		"weapons/m60/m-60_pickup_01a.wav"
+		"wave"		"weapons/m60/m-60_pickup_02.wav"
+		"wave"		"weapons/m60/m-60_pickup_02a.wav"
+		"wave"		"weapons/m60/m-60_pickup_03.wav"
+		"wave"		"weapons/m60/m-60_pickup_03a.wav"
+		"wave"		"weapons/m60/m-60_pickup_04.wav"
+		"wave"		"weapons/m60/m-60_pickup_04a.wav"
+		"wave"		"weapons/m60/m-60_pickup_05a.wav"
+	}
+}
+
+"Ammo.Shotgun"
+{
+	"channel"		"CHAN_ITEM"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/shotgun/shotgun_pickup_01.wav"
+		"wave"		"weapons/shotgun/shotgun_pickup_02.wav"
+		"wave"		"weapons/shotgun/shotgun_pickup_03.wav"
+		"wave"		"weapons/shotgun/shotgun_pickup_04.wav"
+		"wave"		"weapons/shotgun/shotgun_pickup_05.wav"
+	}
+}
+
+"Ammo.Shotgun"
+{
+	"channel"		"CHAN_ITEM"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/shotgun/shotgun_pickup_01.wav"
+		"wave"		"weapons/shotgun/shotgun_pickup_02.wav"
+		"wave"		"weapons/shotgun/shotgun_pickup_03.wav"
+		"wave"		"weapons/shotgun/shotgun_pickup_04.wav"
+		"wave"		"weapons/shotgun/shotgun_pickup_05.wav"
+	}
+}
+
+
+"BaseGrenade.Explode"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_GUNFIRE"
+
+	"rndwave"
+	{
+		"wave"		"weapons/grenade/grenade_expl_01.wav"
+		"wave"		"weapons/grenade/grenade_expl_02.wav"
+		"wave"		"weapons/grenade/grenade_expl_03.wav"
+		"wave"		"weapons/grenade/grenade_expl_04.wav"
+		"wave"		"weapons/grenade/grenade_expl_05.wav"
+	}
+}
+
+//-----------------------------------------------------------------------------
+// Empty Hands
+//-----------------------------------------------------------------------------
+
+"Weapon_EmptyHands.Single"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_GUNFIRE"
+
+	"rndwave"
+	{
+		"wave"		"weapons/hands/bare_hands_woosh_01.wav"
+		"wave"		"weapons/hands/bare_hands_woosh_02.wav"
+		"wave"		"weapons/hands/bare_hands_woosh_03.wav"
+		"wave"		"weapons/hands/bare_hands_woosh_04.wav"
+		"wave"		"weapons/hands/bare_hands_woosh_05.wav"
+	}
+}
+
+//-----------------------------------------------------------------------------
+// Desert Eagle
+//-----------------------------------------------------------------------------
+
+"Weapon_DesertEagle.Empty"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"weapons/pistol/pistol_empty.wav"
+}
+
+"Weapon_DesertEagle.Single"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_GUNFIRE"
+
+	"rndwave"
+	{
+		"wave"		"weapons/pistol/pistol_shot_01.wav"
+		"wave"		"weapons/pistol/pistol_shot_01a.wav"
+		"wave"		"weapons/pistol/pistol_shot_02.wav"
+		"wave"		"weapons/pistol/pistol_shot_02a.wav"
+		"wave"		"weapons/pistol/pistol_shot_03.wav"
+		"wave"		"weapons/pistol/pistol_shot_03a.wav"
+		"wave"		"weapons/pistol/pistol_shot_04.wav"
+		"wave"		"weapons/pistol/pistol_shot_04a.wav"
+		"wave"		"weapons/pistol/pistol_shot_05.wav"
+		"wave"		"weapons/pistol/pistol_shot_05a.wav"
+		"wave"		"weapons/pistol/pistol_shot_06.wav"
+		"wave"		"weapons/pistol/pistol_shot_06a.wav"
+		"wave"		"weapons/pistol/pistol_shot_07.wav"
+		"wave"		"weapons/pistol/pistol_shot_07a.wav"
+		"wave"		"weapons/pistol/pistol_shot_08.wav"
+		"wave"		"weapons/pistol/pistol_shot_08a.wav"
+		"wave"		"weapons/pistol/pistol_shot_09.wav"
+		"wave"		"weapons/pistol/pistol_shot_09a.wav"
+		"wave"		"weapons/pistol/pistol_shot_10.wav"
+		"wave"		"weapons/pistol/pistol_shot_10a.wav"
+	}
+}
+
+"Weapon_DesertEagle.Reload"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/pistol/pistol_reload_01.wav"
+		"wave"		"weapons/pistol/pistol_reload_02.wav"
+		"wave"		"weapons/pistol/pistol_reload_03.wav"
+		"wave"		"weapons/pistol/pistol_reload_04.wav"
+		"wave"		"weapons/pistol/pistol_reload_05.wav"
+	}
+}
+
+"Weapon_DesertEagle.Holster"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"weapons/pistol/pistol_holster.wav"
+}
+
+"Weapon_DesertEagle.Deploy"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/pistol/pistol_unholster_01.wav"
+		"wave"		"weapons/pistol/pistol_unholster_02.wav"
+		"wave"		"weapons/pistol/pistol_unholster_03.wav"
+		"wave"		"weapons/pistol/pistol_unholster_04.wav"
+		"wave"		"weapons/pistol/pistol_unholster_05.wav"
+	}
+}
+
+"Weapon_DesertEagle.IdleWalk"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/pistol/pistol_walk_1.wav"
+		"wave"		"weapons/pistol/pistol_walk_2.wav"
+	}
+}
+
+"Weapon_DesertEagle.IdleRun"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/pistol/pistol_run_1.wav"
+		"wave"		"weapons/pistol/pistol_run_2.wav"
+	}
+}
+
+
+//-----------------------------------------------------------------------------
+// M16
+//-----------------------------------------------------------------------------
+
+"Weapon_M16.Empty"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"weapons/m16/m16_empty.wav"
+}
+
+"Weapon_M16.Single"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_GUNFIRE"
+	"rndwave"
+	{
+		"wave"		"weapons/m16/m-16_shot_05.wav"
+		"wave"		"weapons/m16/m-16_shot_06.wav"
+		"wave"		"weapons/m16/m-16_shot_07.wav"
+		"wave"		"weapons/m16/m-16_shot_08.wav"
+		"wave"		"weapons/m16/m-16_shot_09.wav"
+		"wave"		"weapons/m16/m-16_shot_10.wav"
+		"wave"		"weapons/m16/m-16_shot_11.wav"
+		"wave"		"weapons/m16/m-16_shot_12.wav"
+		"wave"		"weapons/m16/m-16_shot_13.wav"
+		"wave"		"weapons/m16/m-16_shot_14.wav"
+		"wave"		"weapons/m16/m-16_shot_15.wav"
+	}
+}
+
+"Weapon_M16.Reload"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/m16/m-16_reload_01.wav"
+		"wave"		"weapons/m16/m-16_reload_02.wav"
+		"wave"		"weapons/m16/m-16_reload_03.wav"
+		"wave"		"weapons/m16/m-16_reload_04.wav"
+		"wave"		"weapons/m16/m-16_reload_05.wav"
+	}
+}
+
+"Weapon_M16.CatSilencerOn"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/m16/m-16_cat_on_01.wav"
+		"wave"		"weapons/m16/m-16_cat_on_02.wav"
+		"wave"		"weapons/m16/m-16_cat_on_03.wav"
+		"wave"		"weapons/m16/m-16_cat_on_04.wav"
+	}
+}
+
+"Weapon_M16.CatFire"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_GUNFIRE"
+
+	"rndwave"
+	{
+		"wave"		"weapons/m16/m-16_cat_silencer_01.wav"
+		"wave"		"weapons/m16/m-16_cat_silencer_02.wav"
+		"wave"		"weapons/m16/m-16_cat_silencer_03.wav"
+		"wave"		"weapons/m16/m-16_cat_silencer_04.wav"
+		"wave"		"weapons/m16/m-16_cat_silencer_05.wav"
+		"wave"		"weapons/m16/m-16_cat_silencer_06.wav"
+	}
+}
+
+
+"Weapon_M16.Deploy"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/m16/m-16_draw_01.wav"
+		"wave"		"weapons/m16/m-16_draw_02.wav"
+		"wave"		"weapons/m16/m-16_draw_03.wav"
+		"wave"		"weapons/m16/m-16_draw_04.wav"
+		"wave"		"weapons/m16/m-16_draw_05.wav"
+	}
+}
+
+"Weapon_M16.Holster"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"weapons/m10/m16_back.wav"
+}
+
+//"Weapon_M16.IdleWalk"
+"Weapon_M16.IdleRun"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/m16/m-16_movement_01.wav"
+		"wave"		"weapons/m16/m-16_movement_02.wav"
+		"wave"		"weapons/m16/m-16_movement_03.wav"
+		"wave"		"weapons/m16/m-16_movement_04.wav"
+		"wave"		"weapons/m16/m-16_movement_05.wav"
+	}
+}
+
+
+//-----------------------------------------------------------------------------
+// M60
+//-----------------------------------------------------------------------------
+
+"Weapon_M60.Empty"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"weapons/m60/m60_empty.wav"
+}
+
+"Weapon_M60.Single"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_GUNFIRE"
+
+	"rndwave"
+	{
+		"wave"		"weapons/m60/m60_shot_01.wav"
+		"wave"		"weapons/m60/m60_shot_02.wav"
+		"wave"		"weapons/m60/m60_shot_03.wav"
+		"wave"		"weapons/m60/m60_shot_04.wav"
+		"wave"		"weapons/m60/m60_shot_05.wav"
+		"wave"		"weapons/m60/m60_shot_06.wav"
+		"wave"		"weapons/m60/m60_shot_07.wav"
+		"wave"		"weapons/m60/m60_shot_08.wav"
+		"wave"		"weapons/m60/m60_shot_09.wav"
+		"wave"		"weapons/m60/m60_shot_10.wav"
+		"wave"		"weapons/m60/m60_shot_11.wav"
+		"wave"		"weapons/m60/m60_shot_12.wav"
+		"wave"		"weapons/m60/m60_shot_13.wav"
+		"wave"		"weapons/m60/m60_shot_14.wav"
+		"wave"		"weapons/m60/m60_shot_15.wav"
+	}
+}
+
+"Weapon_M60.Reload"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/m60/m-60_reload_01.wav"
+		"wave"		"weapons/m60/m-60_reload_02.wav"
+	}
+}
+
+"Weapon_M60.Burst"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"weapons/m60/m60_fireburst1.wav"
+}
+
+"Weapon_M60.Deploy"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/m60/m-60_draw_01.wav"
+		"wave"		"weapons/m60/m-60_draw_01a.wav"
+		"wave"		"weapons/m60/m-60_draw_02.wav"
+		"wave"		"weapons/m60/m-60_draw_02a.wav"
+		"wave"		"weapons/m60/m-60_draw_03a.wav"
+		"wave"		"weapons/m60/m-60_draw_04a.wav"
+		"wave"		"weapons/m60/m-60_draw_05a.wav"
+	}
+}
+
+"Weapon_M60.Holster"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"weapons/m60/m60_back.wav"
+}
+
+//"Weapon_M60.IdleWalk"
+"Weapon_M60.IdleRun"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/m60/m-60_movement_01.wav"
+		"wave"		"weapons/m60/m-60_movement_02.wav"
+		"wave"		"weapons/m60/m-60_movement_03.wav"
+		"wave"		"weapons/m60/m-60_movement_04.wav"
+		"wave"		"weapons/m60/m-60_movement_05.wav"
+	}
+}
+
+
+//-----------------------------------------------------------------------------
+// Shotgun
+//-----------------------------------------------------------------------------
+
+"Weapon_Shotgun.Empty"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"weapons/shotgun/shotgun_empty.wav"
+}
+
+"Weapon_Shotgun.Single"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_GUNFIRE"
+
+	"rndwave"
+	{
+		"wave"		"weapons/shotgun/shotgun_shot_01.wav"
+		"wave"		"weapons/shotgun/shotgun_shot_02.wav"
+		"wave"		"weapons/shotgun/shotgun_shot_03.wav"
+		"wave"		"weapons/shotgun/shotgun_shot_04.wav"
+		"wave"		"weapons/shotgun/shotgun_shot_05.wav"
+		"wave"		"weapons/shotgun/shotgun_shot_06.wav"
+		"wave"		"weapons/shotgun/shotgun_shot_07.wav"
+		"wave"		"weapons/shotgun/shotgun_shot_08.wav"
+		"wave"		"weapons/shotgun/shotgun_shot_09.wav"
+		"wave"		"weapons/shotgun/shotgun_shot_10.wav"
+		"wave"		"weapons/shotgun/shotgun_shot_11.wav"
+		"wave"		"weapons/shotgun/shotgun_shot_12.wav"
+		"wave"		"weapons/shotgun/shotgun_shot_13.wav"
+		"wave"		"weapons/shotgun/shotgun_shot_14.wav"
+		"wave"		"weapons/shotgun/shotgun_shot_15.wav"
+	}
+}
+
+"Weapon_Shotgun.Reload"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/shotgun/shotgun_load_01.wav"
+		"wave"		"weapons/shotgun/shotgun_load_02.wav"
+		"wave"		"weapons/shotgun/shotgun_load_03.wav"
+		"wave"		"weapons/shotgun/shotgun_load_04.wav"
+		"wave"		"weapons/shotgun/shotgun_load_05.wav"
+		"wave"		"weapons/shotgun/shotgun_load_06.wav"
+		"wave"		"weapons/shotgun/shotgun_load_07.wav"
+		"wave"		"weapons/shotgun/shotgun_load_08.wav"
+	}
+}
+
+"Weapon_Shotgun.Burst"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_GUNFIRE"
+
+	"wave"			"weapons/shotgun/shotgun_fireburst1.wav"
+}
+
+"Weapon_Shotgun.Deploy"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/shotgun/shotgun_draw_01.wav"
+		"wave"		"weapons/shotgun/shotgun_draw_02.wav"
+		"wave"		"weapons/shotgun/shotgun_draw_03.wav"
+		"wave"		"weapons/shotgun/shotgun_draw_04.wav"
+		"wave"		"weapons/shotgun/shotgun_draw_05.wav"
+	}
+}
+
+"Weapon_Shotgun.Holster"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"weapons/shotgun/shotgun_back.wav"
+}
+
+//"Weapon_Shotgun.IdleWalk"
+"Weapon_Shotgun.IdleRun"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/shotgun/shotgun_move_01.wav"
+		"wave"		"weapons/shotgun/shotgun_move_02.wav"
+		"wave"		"weapons/shotgun/shotgun_move_03.wav"
+		"wave"		"weapons/shotgun/shotgun_move_04.wav"
+		"wave"		"weapons/shotgun/shotgun_move_05.wav"
+	}
+}
+
+
+//-----------------------------------------------------------------------------
+// Taser
+//-----------------------------------------------------------------------------
+
+"Weapon_Taser.Empty"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"weapons/tazer/tazer_empty.wav"
+}
+
+"Weapon_Taser.Single"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"weapons/tazer/tazer_hit.wav"
+}
+
+"Weapon_Taser.ChargingShot"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"		"weapons/tazer/tazer_charging_01.wav"
+}
+
+"Weapon_Taser.ChargedShot"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/tazer/tazer_shot_01.wav"
+		"wave"		"weapons/tazer/tazer_shot_02.wav"
+		"wave"		"weapons/tazer/tazer_shot_03.wav"
+		"wave"		"weapons/tazer/tazer_shot_04.wav"
+		"wave"		"weapons/tazer/tazer_shot_05.wav"
+	}
+}
+
+
+"Weapon_Taser.HoldFire"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"weapons/tazer/tazer_hold.wav"
+}
+
+"Weapon_Taser.Reload"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/tazer/tazer_reload_01.wav"
+		"wave"		"weapons/tazer/tazer_reload_02.wav"
+		"wave"		"weapons/tazer/tazer_reload_03.wav"
+	}
+}
+
+"Weapon_Taser.Burst"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"weapons/taser/taser_fireburst1.wav"
+}
+
+"Weapon_Taser.Deploy"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/tazer/tazer_draw_01.wav"
+		"wave"		"weapons/tazer/tazer_draw_02.wav"
+		"wave"		"weapons/tazer/tazer_draw_03.wav"
+		"wave"		"weapons/tazer/tazer_draw_04.wav"
+		"wave"		"weapons/tazer/tazer_draw_05.wav"
+	}
+}
+
+"Weapon_Taser.Holster"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"weapons/taser/taser_back.wav"
+}
+
+"Weapon_Taser.IdleWalk"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/taser/taser_walk_1.wav"
+		"wave"		"weapons/taser/taser_walk_2.wav"
+		"wave"		"weapons/taser/taser_walk_3.wav"
+		"wave"		"weapons/taser/taser_walk_4.wav"
+		"wave"		"weapons/taser/taser_walk_5.wav"
+	}
+}
+
+"Weapon_Taser.IdleRun"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/taser/taser_run_1.wav"
+		"wave"		"weapons/taser/taser_run_2.wav"
+		"wave"		"weapons/taser/taser_run_3.wav"
+		"wave"		"weapons/taser/taser_run_4.wav"
+		"wave"		"weapons/taser/taser_run_5.wav"
+		"wave"		"weapons/taser/taser_run_6.wav"
+		"wave"		"weapons/taser/taser_run_7.wav"
+		"wave"		"weapons/taser/taser_run_8.wav"
+	}
+}
+
+
+//-----------------------------------------------------------------------------
+// Shovel
+//-----------------------------------------------------------------------------
+
+"Weapon_Shovel.Swing"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/fungo/fungo_01.wav"
+		"wave"		"weapons/fungo/fungo_02.wav"
+		"wave"		"weapons/fungo/fungo_03.wav"
+	}
+}
+
+"Weapon_Shovel.Miss"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"weapons/shovel/shovel_miss.wav"
+}
+
+"Weapon_Shovel.Hit"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"weapons/shovel/shovel_hit.wav"
+}
+
+"Weapon_Shovel.HitWorld"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"weapons/shovel/shovel_hit_world.wav"
+}
+
+"Weapon_Shovel.Deploy"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"weapons/shovel/shovel_take.wav"
+}
+
+"Weapon_Shovel.Holster"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"weapons/shovel/shovel_holster.wav"
+}
+
+"Weapon_Shovel.IdleWalk"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/shovel/shovel_walk_1.wav"
+		"wave"		"weapons/shovel/shovel_walk_2.wav"
+	}
+}
+
+"Weapon_Shovel.IdleRun"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/shovel/shovel_run_1.wav"
+		"wave"		"weapons/shovel/shovel_run_2.wav"
+	}
+}
+
+
+//-----------------------------------------------------------------------------
+// NailBat
+//-----------------------------------------------------------------------------
+
+"Weapon_NailBat.Swing"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/nailbat/nailbat_whoosh_01.wav"
+		"wave"		"weapons/nailbat/nailbat_whoosh_02.wav"
+		"wave"		"weapons/nailbat/nailbat_whoosh_03.wav"
+		"wave"		"weapons/nailbat/nailbat_whoosh_04.wav"
+	}
+}
+
+//"Weapon_NailBat.Miss"
+//{
+//	"channel"		"CHAN_WEAPON"
+//	"volume"		"VOL_NORM"
+//	"soundlevel"	"SNDLVL_NORM"
+
+//	"wave"			"weapons/bat/Bat_miss_01.wav"
+//}
+
+"Weapon_NailBat.Hit"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/nailbat/nailbat_hit_01.wav"
+		"wave"		"weapons/nailbat/nailbat_hit_02.wav"
+		"wave"		"weapons/nailbat/nailbat_hit_03.wav"
+		"wave"		"weapons/nailbat/nailbat_hit_04.wav"
+	}
+}
+
+"Weapon_NailBat.HitWorld"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/nailbat/nailbat_hit_01.wav"
+		"wave"		"weapons/nailbat/nailbat_hit_02.wav"
+		"wave"		"weapons/nailbat/nailbat_hit_03.wav"
+		"wave"		"weapons/nailbat/nailbat_hit_04.wav"
+	}
+}
+
+"Weapon_NailBat.Deploy"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/nailbat/nailbat_draw_01.wav"
+		"wave"		"weapons/nailbat/nailbat_draw_02.wav"
+		"wave"		"weapons/nailbat/nailbat_draw_03.wav"
+		"wave"		"weapons/nailbat/nailbat_draw_04.wav"
+	}
+}
+
+"Weapon_NailBat.IdleWalk"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/shovel/shovel_walk_1.wav"
+		"wave"		"weapons/shovel/shovel_walk_2.wav"
+	}
+}
+
+"Weapon_NailBat.IdleRun"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/shovel/shovel_run_1.wav"
+		"wave"		"weapons/shovel/shovel_run_2.wav"
+	}
+}
+
+
+//-----------------------------------------------------------------------------
+// CopBaton
+//-----------------------------------------------------------------------------
+
+"Weapon_CopBaton.Swing"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/nightstick/nightstick_whoosh_01.wav"
+		"wave"		"weapons/nightstick/nightstick_whoosh_02.wav"
+		"wave"		"weapons/nightstick/nightstick_whoosh_03.wav"
+		"wave"		"weapons/nightstick/nightstick_whoosh_04.wav"
+	}
+}
+
+//"Weapon_CopBaton.Miss"
+//{
+//	"channel"		"CHAN_WEAPON"
+//	"volume"		"VOL_NORM"
+//	"soundlevel"	"SNDLVL_NORM"
+
+//	"wave"			"weapons/copbaton/copbaton_miss.wav"
+//}
+
+"Weapon_CopBaton.Hit"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/nightstick/nightstick_hit_01.wav"
+		"wave"		"weapons/nightstick/nightstick_hit_02.wav"
+		"wave"		"weapons/nightstick/nightstick_hit_03.wav"
+		"wave"		"weapons/nightstick/nightstick_hit_04.wav"
+	}
+}
+
+"Weapon_CopBaton.HitWorld"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/nightstick/nightstick_hit_01.wav"
+		"wave"		"weapons/nightstick/nightstick_hit_02.wav"
+		"wave"		"weapons/nightstick/nightstick_hit_03.wav"
+		"wave"		"weapons/nightstick/nightstick_hit_04.wav"
+	}
+}
+
+"Weapon_CopBaton.Deploy"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/nightstick/nightstick_draw_01.wav"
+		"wave"		"weapons/nightstick/nightstick_draw_02.wav"
+		"wave"		"weapons/nightstick/nightstick_draw_03.wav"
+		"wave"		"weapons/nightstick/nightstick_draw_04.wav"
+	}
+}
+
+"Weapon_CopBaton.IdleWalk"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/shovel/shovel_walk_1.wav"
+		"wave"		"weapons/shovel/shovel_walk_2.wav"
+	}
+}
+
+"Weapon_CopBaton.IdleRun"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/shovel/shovel_run_1.wav"
+		"wave"		"weapons/shovel/shovel_run_2.wav"
+	}
+}
+
+
+//-----------------------------------------------------------------------------
+// Hammer
+//-----------------------------------------------------------------------------
+
+"Weapon_Hammer.Swing"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/fungo/fungo_01.wav"
+		"wave"		"weapons/fungo/fungo_02.wav"
+		"wave"		"weapons/fungo/fungo_03.wav"
+	}
+}
+
+"Weapon_Hammer.Miss"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"weapons/hammer/hammer_miss.wav"
+}
+
+"Weapon_Hammer.Hit"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"weapons/hammer/hammer_hit.wav"
+}
+
+"Weapon_Hammer.HitWorld"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"weapons/hammer/hammer_hit_world.wav"
+}
+
+"Weapon_Hammer.Deploy"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"weapons/fungo/fungo_take.wav"
+}
+
+"Weapon_Hammer.IdleWalk"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/shovel/shovel_walk_1.wav"
+		"wave"		"weapons/shovel/shovel_walk_2.wav"
+	}
+}
+
+"Weapon_Hammer.IdleRun"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/shovel/shovel_run_1.wav"
+		"wave"		"weapons/shovel/shovel_run_2.wav"
+	}
+}
+
+
+//-----------------------------------------------------------------------------
+// Machete
+//-----------------------------------------------------------------------------
+
+"Weapon_Machete.Swing"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/Machete/machete_whoosh_01.wav"
+		"wave"		"weapons/Machete/machete_whoosh_02.wav"
+		"wave"		"weapons/Machete/machete_whoosh_03.wav"
+		"wave"		"weapons/Machete/machete_whoosh_04.wav"
+	}
+}
+
+"Weapon_Machete.Miss"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"weapons/machete/machete_miss.wav"
+}
+
+"Weapon_Machete.Hit"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/Machete/machete_hit_body_01.wav"
+		"wave"		"weapons/Machete/machete_hit_body_02.wav"
+		"wave"		"weapons/Machete/machete_hit_body_03.wav"
+		"wave"		"weapons/Machete/machete_hit_body_04.wav"
+	}
+}
+
+"Weapon_Machete.HitWorld"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"weapons/machete/machete_hit_world.wav"
+}
+
+"Weapon_Machete.Deploy"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"weapons/machete/machete_draw_01.wav"
+	"wave"			"weapons/machete/machete_draw_02.wav"
+	"wave"			"weapons/machete/machete_draw_03.wav"
+	"wave"			"weapons/machete/machete_draw_04.wav"
+}
+
+"Weapon_Machete.Holster"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"weapons/machete/machete_holster_01.wav"
+	"wave"			"weapons/machete/machete_holster_02.wav"
+	"wave"			"weapons/machete/machete_holster_03.wav"
+	"wave"			"weapons/machete/machete_holster_04.wav"
+}
+
+"Weapon_Machete.IdleWalk"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/shovel/shovel_walk_1.wav"
+		"wave"		"weapons/shovel/shovel_walk_2.wav"
+	}
+}
+
+"Weapon_Machete.IdleRun"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/shovel/shovel_run_1.wav"
+		"wave"		"weapons/shovel/shovel_run_2.wav"
+	}
+}
+
+//-----------------------------------------------------------------------------
+// M136 - rocket launcher
+//-----------------------------------------------------------------------------
+
+"Weapon_M136.Charge"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"weapons/m136/m136_energy_accumulation.wav"
+}
+
+"Weapon_M136.Fire"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_GUNFIRE"
+
+	"rndwave"
+	{
+		"wave"		"weapons/m136/m136_shot_01.wav"
+		"wave"		"weapons/m136/m136_shot_02.wav"
+		"wave"		"weapons/m136/m136_shot_03.wav"
+		"wave"		"weapons/m136/m136_shot_04.wav"
+		"wave"		"weapons/m136/m136_shot_05.wav"
+	}
+}
+
+"Weapon_M136.Reload"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/m136/m136_reload_01.wav"
+		"wave"		"weapons/m136/m136_reload_02.wav"
+		"wave"		"weapons/m136/m136_reload_03.wav"
+		"wave"		"weapons/m136/m136_reload_04.wav"
+		"wave"		"weapons/m136/m136_reload_05.wav"
+	}
+}
+
+"Weapon_M136.Beep"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"weapons/m136/rocket_engage_mode_beep.wav"
+}
+
+"Weapon_M136.FlyLoop"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/m136/rocket_fly_loop_01.wav"
+		"wave"		"weapons/m136/rocket_fly_loop_02.wav"
+		"wave"		"weapons/m136/rocket_fly_loop_03.wav"
+		"wave"		"weapons/m136/rocket_fly_loop_04.wav"
+		"wave"		"weapons/m136/rocket_fly_loop_05.wav"
+	}
+}
+
+"Weapon_M136.Explode"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_GUNFIRE"
+
+	"rndwave"
+	{
+		"wave"		"weapons/m136/rocket_expl_01.wav"
+		"wave"		"weapons/m136/rocket_expl_02.wav"
+		"wave"		"weapons/m136/rocket_expl_03.wav"
+		"wave"		"weapons/m136/rocket_expl_04.wav"
+		"wave"		"weapons/m136/rocket_expl_05.wav"
+	}
+}
+
+
+"VehicleTank.FireSound"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_GUNFIRE"
+	"pitch"			"150"
+
+	"rndwave"
+	{
+		"wave"		"^weapons/explode3.wav"
+		"wave"		"^weapons/explode4.wav"
+		"wave"		"^weapons/explode5.wav"
+	}
+}
+
+//-----------------------------------------------------------------------------
+// Badger
+//-----------------------------------------------------------------------------
+
+"Weapon_Badger.Attack"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"		"weapons/badger/badger_attack_1.wav"
+//	"rndwave"
+//	{
+//		"wave"		"weapons/badger/Beaver_attack_01.wav"
+//		"wave"		"weapons/badger/Beaver_attack_02.wav"
+//		"wave"		"weapons/badger/Beaver_attack_03.wav"
+//		"wave"		"weapons/badger/Beaver_attack_04.wav"
+//		"wave"		"weapons/badger/Beaver_attack_05.wav"
+//		"wave"		"weapons/badger/Beaver_attack_06.wav"
+//		"wave"		"weapons/badger/Beaver_attack_07.wav"
+//		"wave"		"weapons/badger/Beaver_attack_08.wav"
+//		"wave"		"weapons/badger/Beaver_attack_09.wav"
+//		"wave"		"weapons/badger/Beaver_attack_10.wav"
+//	}
+}
+
+"Weapon_Badger.Claw1"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/badger/Beaver_claw_01.wav"
+		"wave"		"weapons/badger/Beaver_claw_03.wav"
+		"wave"		"weapons/badger/Beaver_claw_05.wav"
+		"wave"		"weapons/badger/Beaver_claw_07.wav"
+		"wave"		"weapons/badger/Beaver_claw_09.wav"
+		"wave"		"weapons/badger/Beaver_claw_11.wav"
+		"wave"		"weapons/badger/Beaver_claw_13.wav"
+		"wave"		"weapons/badger/Beaver_claw_15.wav"
+		"wave"		"weapons/badger/Beaver_claw_17.wav"
+		"wave"		"weapons/badger/Beaver_claw_19.wav"
+	}
+}
+
+"Weapon_Badger.ClawA"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/badger/Beaver_claw_02.wav"
+		"wave"		"weapons/badger/Beaver_claw_04.wav"
+		"wave"		"weapons/badger/Beaver_claw_06.wav"
+		"wave"		"weapons/badger/Beaver_claw_08.wav"
+		"wave"		"weapons/badger/Beaver_claw_10.wav"
+		"wave"		"weapons/badger/Beaver_claw_12.wav"
+		"wave"		"weapons/badger/Beaver_claw_14.wav"
+		"wave"		"weapons/badger/Beaver_claw_16.wav"
+		"wave"		"weapons/badger/Beaver_claw_18.wav"
+		"wave"		"weapons/badger/Beaver_claw_20.wav"
+	}
+}
+
+"Weapon_Badger.Deploy"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/badger/Beaver_draw_01.wav"
+		"wave"		"weapons/badger/Beaver_draw_02.wav"
+		"wave"		"weapons/badger/Beaver_draw_03.wav"
+		"wave"		"weapons/badger/Beaver_draw_04.wav"
+		"wave"		"weapons/badger/Beaver_draw_05.wav"
+	}
+}
+
+"Weapon_Badger.Idle"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+	"pitch"			"100"
+
+	"rndwave"
+	{
+		"wave"		"weapons/badger/badger_idle_1.wav"
+		"wave"		"weapons/badger/badger_idle_2.wav"
+		"wave"		"weapons/badger/badger_idle_3.wav"
+	}
+}
+
+"Weapon_Badger.IdleRun"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/badger/badger_movement_01.wav"
+		"wave"		"weapons/badger/badger_movement_02.wav"
+		"wave"		"weapons/badger/badger_movement_03.wav"
+		"wave"		"weapons/badger/badger_movement_04.wav"
+		"wave"		"weapons/badger/badger_movement_05.wav"
+	}
+}
+
+
+//-----------------------------------------------------------------------------
+// ShopVac
+//-----------------------------------------------------------------------------
+
+"Weapon_ShopVac.Deploy"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+	"wave"			"weapons/vacuum/vacuum_take.wav"
+}
+
+"Weapon_ShopVac.Suck"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/vacuum/vacuum_suck_1.wav"
+		"wave"		"weapons/vacuum/vacuum_suck_2.wav"
+		"wave"		"weapons/vacuum/vacuum_suck_3.wav"
+		"wave"		"weapons/vacuum/vacuum_suck_3.wav"
+	}
+}
+
+"Weapon_ShopVac.Spit"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/vacuum/vacuum_shot_1.wav"
+		"wave"		"weapons/vacuum/vacuum_shot_2.wav"
+		"wave"		"weapons/vacuum/vacuum_shot_3.wav"
+	}
+}
+
+"Weapon_ShopVac.Idle"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+	"wave"			"weapons/vacuum/vacuum_idle.wav"
+}
+
+"Weapon_ShopVac.WorkStart"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+	"wave"			"weapons/vacuum/VCleaner_on.wav"
+}
+
+"Weapon_ShopVac.Work"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+	"rndwave"
+	{
+		"wave"		"weapons/vacuum/VCleaner_loop_01.wav"
+		"wave"		"weapons/vacuum/VCleaner_loop_02.wav"
+		"wave"		"weapons/vacuum/VCleaner_loop_03.wav"
+	}
+}
+
+"Weapon_ShopVac.WorkStop"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+	"wave"			"weapons/vacuum/VCleaner_off.wav"
+}
+
+
+"Weapon_ShopVac.Charge1"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+	"wave"			"@weapons/vacuum/vacuum_power_start_and_loop.wav"
+}
+
+"Weapon_ShopVac.Charge2"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+	"wave"			"@weapons/vacuum/vacuum_power_end.wav"
+}
+
+"Weapon_ShopVac.IdleWalk"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/vacuum/vacuum_walk_1.wav"
+		"wave"		"weapons/vacuum/vacuum_walk_2.wav"
+		"wave"		"weapons/vacuum/vacuum_walk_3.wav"
+		"wave"		"weapons/vacuum/vacuum_walk_4.wav"
+	}
+}
+
+"Weapon_ShopVac.IdleRun"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/vacuum/vacuum_run_1.wav"
+		"wave"		"weapons/vacuum/vacuum_run_2.wav"
+		"wave"		"weapons/vacuum/vacuum_run_3.wav"
+	}
+}
+
+//-----------------------------------------------------------------------------
+// Laser Pen
+//-----------------------------------------------------------------------------
+
+"Weapon_LaserPen.StartGuiding"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"weapons/laser_pointer/laser_pointer_start.wav"
+}
+
+"Weapon_LaserPen.StopGuiding"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"weapons/laser_pointer/laser_pointer_stop.wav"
+}
+
+"Weapon_LaserPen.Deploy"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"weapons/laser_pointer/laser_pointer_take.wav"
+}
+
+//-----------------------------------------------------------------------------
+// Gasoline Can
+//-----------------------------------------------------------------------------
+
+"Weapon_Gasoline.Deploy"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/gasoline/gasoline_take_01.wav"
+		"wave"		"weapons/gasoline/gasoline_take_02.wav"
+	}
+}
+
+"Weapon_Gasoline.PourStart"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/gasoline/gasoline_start_01.wav"
+		"wave"		"weapons/gasoline/gasoline_start_02.wav"
+		"wave"		"weapons/gasoline/gasoline_start_03.wav"
+		"wave"		"weapons/gasoline/gasoline_start_04.wav"
+	}
+}
+
+"Weapon_Gasoline.Pour"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/gasoline/Gas_Can_pour_01.wav"
+		"wave"		"weapons/gasoline/Gas_Can_pour_02.wav"
+		"wave"		"weapons/gasoline/Gas_Can_pour_03.wav"
+		"wave"		"weapons/gasoline/Gas_Can_pour_04.wav"
+		"wave"		"weapons/gasoline/Gas_Can_pour_05.wav"
+	}
+}
+
+"Weapon_Gasoline.MatchThrow"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/gasoline/gasoline_match_01.wav"
+		"wave"		"weapons/gasoline/gasoline_match_02.wav"
+		"wave"		"weapons/gasoline/gasoline_match_03.wav"
+		"wave"		"weapons/gasoline/gasoline_match_04.wav"
+		"wave"		"weapons/gasoline/gasoline_match_05.wav"
+	}
+}
+
+"Weapon_Gasoline.MatchBurn"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/gasoline/matches_burn_01.wav"
+		"wave"		"weapons/gasoline/matches_burn_02.wav"
+		"wave"		"weapons/gasoline/matches_burn_03.wav"
+		"wave"		"weapons/gasoline/matches_burn_04.wav"
+		"wave"		"weapons/gasoline/matches_burn_05.wav"
+		"wave"		"weapons/gasoline/matches_burn_06.wav"
+		"wave"		"weapons/gasoline/matches_burn_07.wav"
+		"wave"		"weapons/gasoline/matches_burn_08.wav"
+		"wave"		"weapons/gasoline/matches_burn_09.wav"
+	}
+}
+
+"Weapon_Gasoline.Run"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"pitch"			"80,130"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/gasoline/gasoline_run_01.wav"
+		"wave"		"weapons/gasoline/gasoline_run_02.wav"
+		"wave"		"weapons/gasoline/gasoline_run_03.wav"
+		"wave"		"weapons/gasoline/gasoline_run_04.wav"
+	}
+}
+
+"Weapon_Gasoline.Walk"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"pitch"			"80,130"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/gasoline/gasoline_run_01.wav"
+		"wave"		"weapons/gasoline/gasoline_run_02.wav"
+		"wave"		"weapons/gasoline/gasoline_run_03.wav"
+		"wave"		"weapons/gasoline/gasoline_run_04.wav"
+	}
+}
+
+//-----------------------------------------------------------------------------
+// Catnip
+//-----------------------------------------------------------------------------
+"Weapon_Catnip.Deploy"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/catnip/Cat_spray_draw_01.wav"
+		"wave"		"weapons/catnip/Cat_spray_draw_02.wav"
+		"wave"		"weapons/catnip/Cat_spray_draw_03.wav"
+		"wave"		"weapons/catnip/Cat_spray_draw_04.wav"
+		"wave"		"weapons/catnip/Cat_spray_draw_05.wav"
+	}
+}
+
+"Weapon_Catnip.Pour"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/catnip/Cat_spray_01.wav"
+		"wave"		"weapons/catnip/Cat_spray_02.wav"
+		"wave"		"weapons/catnip/Cat_spray_03.wav"
+	}
+}
+
+"Weapon_Catnip.Sniff"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/catnip/catnip_spray_sniff_01.wav"
+		"wave"		"weapons/catnip/catnip_spray_sniff_02.wav"
+		"wave"		"weapons/catnip/catnip_spray_sniff_03.wav"
+		"wave"		"weapons/catnip/catnip_spray_sniff_04.wav"
+		"wave"		"weapons/catnip/catnip_spray_sniff_05.wav"
+	}
+}
+
+
+//-----------------------------------------------------------------------------
+// Molotov
+//-----------------------------------------------------------------------------
+
+"Weapon_Molotov.Throw"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"pitch"			"80,130"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/molotov/Molotov_throw_01.wav"
+		"wave"		"weapons/molotov/Molotov_throw_02.wav"
+		"wave"		"weapons/molotov/Molotov_throw_03.wav"
+		"wave"		"weapons/molotov/Molotov_throw_04.wav"
+		"wave"		"weapons/molotov/Molotov_throw_05.wav"
+	}
+}
+
+"Weapon_Molotov.Explode"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"pitch"			"80,130"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/molotov/Molotov_explode_01.wav"
+		"wave"		"weapons/molotov/Molotov_explode_02.wav"
+		"wave"		"weapons/molotov/Molotov_explode_03.wav"
+		"wave"		"weapons/molotov/Molotov_explode_04.wav"
+		"wave"		"weapons/molotov/Molotov_explode_05.wav"
+	}
+}
+
+"Weapon_Molotov.Deploy"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"pitch"			"80,130"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/molotov/Molotov_draw_01.wav"
+		"wave"		"weapons/molotov/Molotov_draw_02.wav"
+		"wave"		"weapons/molotov/Molotov_draw_03.wav"
+		"wave"		"weapons/molotov/Molotov_draw_04.wav"
+		"wave"		"weapons/molotov/Molotov_draw_05.wav"
+	}
+}
+
+//-----------------------------------------------------------------------------
+// Krotchy
+//-----------------------------------------------------------------------------
+
+"Weapon_Krotchy.Throw"
+{
+	"channel"		"CHAN_WEAPON"
+	"voluem"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/krotchy/krotchy_throw_01.wav"
+		"wave"		"weapons/krotchy/krotchy_throw_02.wav"
+		"wave"		"weapons/krotchy/krotchy_throw_03.wav"
+		"wave"		"weapons/krotchy/krotchy_throw_04.wav"
+	}
+}
+
+"Weapon_Krotchy.Holster"
+{
+	"channel"		"CHAN_WEAPON"
+	"voluem"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/krotchy/krotchy_holster_01.wav"
+		"wave"		"weapons/krotchy/krotchy_holster_02.wav"
+	}
+}
+
+"Weapon_Krotchy.Explode"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_GUNFIRE"
+
+	"wave"			"weapons/krotchy/krotchy_explosion.wav"
+}
+
+"Weapon_Krotchy.Deploy"
+{
+	"channel"		"CHAN_WEAPON"
+	"voluem"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/krotchy/krotchy_draw_01.wav"
+		"wave"		"weapons/krotchy/krotchy_draw_02.wav"
+	}
+}
+
+
+//-----------------------------------------------------------------------------
+// Weemote
+//-----------------------------------------------------------------------------
+
+"Weapon_Weemote.Deploy"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/peewee/zipper_zip_01.wav"
+		"wave"		"weapons/peewee/zipper_zip_02.wav"
+		"wave"		"weapons/peewee/zipper_zip_03.wav"
+	}
+}
+
+"Weapon_Weemote.Holster"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/peewee/zipper_unzip_01.wav"
+		"wave"		"weapons/peewee/zipper_unzip_02.wav"
+		"wave"		"weapons/peewee/zipper_unzip_03.wav"
+	}
+}
+
+"Weapon_Weemote.Idle"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"piss/piss_loop.wav"
+}
+
+"Weapon_Weemote.IdleMetal"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"piss/piss_metal_loop.wav"
+}
+
+"Weapon_Weemote.Stop"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"piss/piss_end.wav"
+}
+
+"Weapon_Weemote.StopMetal"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"piss/piss_metal_loop.wav"
+}
+
+//-----------------------------------------------------------------------------
+// Cat
+//-----------------------------------------------------------------------------
+
+"Weapon_Cat.Throw"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/cat/Cat_thrown_01.wav"
+		"wave"		"weapons/cat/Cat_thrown_02.wav"
+		"wave"		"weapons/cat/Cat_thrown_03.wav"
+		"wave"		"weapons/cat/Cat_thrown_04.wav"
+		"wave"		"weapons/cat/Cat_thrown_05.wav"
+	}
+}
+
+"Weapon_Cat.Deploy"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/cat/Cat_draw_01.wav"
+		"wave"		"weapons/cat/Cat_draw_02.wav"
+		"wave"		"weapons/cat/Cat_draw_03.wav"
+		"wave"		"weapons/cat/Cat_draw_04.wav"
+		"wave"		"weapons/cat/Cat_draw_05.wav"
+	}
+}
+
+"Weapon_Weemote.Holster"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"piss/zip_close.wav"
+}
+
+"Weapon_Weemote.Idle"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"piss/piss_loop.wav"
+}
+
+"Weapon_Weemote.IdleMetal"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"piss/piss_metal_loop.wav"
+}
+
+"Weapon_Weemote.Stop"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"piss/piss_end.wav"
+}
+
+"Weapon_Weemote.StopMetal"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"piss/piss_metal_loop.wav"
+}
+
+//-----------------------------------------------------------------------------
+// KillerBees
+//-----------------------------------------------------------------------------
+
+"Weapon_KillerBees.Deploy"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/bees/killer_bees_draw_01.wav"
+		"wave"		"weapons/bees/killer_bees_draw_02.wav"
+		"wave"		"weapons/bees/killer_bees_draw_03.wav"
+		"wave"		"weapons/bees/killer_bees_draw_04.wav"
+		"wave"		"weapons/bees/killer_bees_draw_05.wav"
+	}
+}
+
+"Weapon_KillerBees.Fly"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/bees/killer_bees_attack_loop_01.wav"
+		"wave"		"weapons/bees/killer_bees_attack_loop_02.wav"
+		"wave"		"weapons/bees/killer_bees_attack_loop_03.wav"
+		"wave"		"weapons/bees/killer_bees_attack_loop_04.wav"
+		"wave"		"weapons/bees/killer_bees_attack_loop_05.wav"
+	}
+}
+
+"Weapon_KillerBees.Smashed"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/bees/killer_bees_hive_smashed_01.wav"
+		"wave"		"weapons/bees/killer_bees_hive_smashed_02.wav"
+		"wave"		"weapons/bees/killer_bees_hive_smashed_03.wav"
+		"wave"		"weapons/bees/killer_bees_hive_smashed_04.wav"
+		"wave"		"weapons/bees/killer_bees_hive_smashed_05.wav"
+	}
+}
+
+"Weapon_KillerBees.Idle"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/bees/killer_bees_idle_loop_01.wav"
+		"wave"		"weapons/bees/killer_bees_idle_loop_02.wav"
+		"wave"		"weapons/bees/killer_bees_idle_loop_03.wav"
+		"wave"		"weapons/bees/killer_bees_idle_loop_04.wav"
+		"wave"		"weapons/bees/killer_bees_idle_loop_05.wav"
+	}
+}
+
+"Weapon_Gamamet.Fart"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"weapons/vacuum/fart_loop.wav"
+}
+
+"Weapon_Gamamet.FartStop"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"weapons/vacuum/fart_stop_01.wav"
+}
+
+"Weapon_Gamamet.Reload"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/vacuum/fartgun_reload_01.wav"
+		"wave"		"weapons/vacuum/fartgun_reload_02.wav"
+		"wave"		"weapons/vacuum/fartgun_reload_03.wav"
+		"wave"		"weapons/vacuum/fartgun_reload_04.wav"
+	}
+}
