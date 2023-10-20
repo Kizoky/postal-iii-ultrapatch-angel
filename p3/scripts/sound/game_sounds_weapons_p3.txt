@@ -1200,6 +1200,15 @@
 	}
 }
 
+"Weapon_Machete.FlyWoosh"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+	
+	"wave"			"weapons/Machete/machete_fly_loop.wav"
+}
+
 //-----------------------------------------------------------------------------
 // M136 - rocket launcher
 //-----------------------------------------------------------------------------

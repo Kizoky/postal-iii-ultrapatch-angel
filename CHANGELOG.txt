@@ -99,6 +99,10 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 
 * Significantly improved and enhanced player kicking
 
+* Significantly improved melee hit detection
+
+* Improved boomerang machete a ton
+
 + Added the ability to spare hostages by kicking them away
 
 * Significantly improved taser secondary fire
