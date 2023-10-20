@@ -1,0 +1,891 @@
+behavior
+{
+	name bh_mission_dlg
+	inherited bh_mission_logic_base
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "PlayerPath PATH_GOOD"
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						PlayerKarma show
+						ShowMessage #P3_DLG_MSG1
+						MissionLog "add_primary,find,#P3_DLG_PRI1"
+						MissionLog "add_secondary,gays,#P3_DLG_SEC1"
+					}
+				}
+			}
+		}
+		
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_maze
+				{
+					actions
+					{
+						EntFireInput talib_spawner_02,enable
+						EntFireInput gay_spawner_02,enable
+						EntFireInput mom_spawner_02,enable
+					}
+				}
+				
+				xpt_entrance
+				{
+					actions
+					{
+						State st_bossfight
+					}
+				}
+				
+				xpt_OnGayKilled
+				{
+					actions
+					{
+						SetAttr "DudeIsBad 1"
+						MissionLog fail,gays
+					}
+				}
+			}
+		}
+		
+		st_bossfight
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "TalibanAttacksPlayer 1"
+						PlayVideo dlg_2,1,1
+						Wait 0.9
+						EntFireInput boss_ron_spawner,enable
+						EntFireInput boss_dave_spawner,enable
+						EntFireInput boss_osama_spawner,enable
+						EntFireInput talib_spawner_03,enable
+						SetAttr "BossCount 3,0,3"
+						Wait 0.1
+						EntFireInput boss_teleport,Teleport
+						MissionLog done,find
+						MissionLog "add_primary,dave,#P3_DLG_PRI2"
+						MissionLog "add_primary,ron,#P3_DLG_PRI3"
+						MissionLog "add_primary,osama,#P3_DLG_PRI4"
+					}
+				}
+			}
+		}
+		
+		st_end
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						//MissionLog done,nab
+						EntFireInput fade_in,fade
+						Wait 1
+						EntFireInput "pcc,Command:video_exitcmd dlg_3 p3_end_mission"
+					}
+				}
+			}
+		}
+		
+	}
+	events
+	{
+		OnActivated_Maze			"ExecutePattern st_util.xpt_maze"
+		OnActivated_Entrance	"ExecutePattern st_util.xpt_entrance"
+		OnFire_BossDead				"ChangeAttr BossCount -1"
+		OnAttrMin_BossCount		"State st_end"
+		OnDudeEscaped					"ShowMessage #P3_DLG_MSG2"
+		
+		OnFire_DaveKilled					"MissionLog done,dave"
+		OnFire_RonKilled					"MissionLog done,ron"
+		OnFire_OsamaKilled				"MissionLog done,osama"
+		
+		OnFire_DudeKillsGay		"ExecutePattern st_util.xpt_OnGayKilled"
+		
+		OnNewGame		"ExecutePattern weaponGive.DLG"
+	}
+	
+}
+
+
+
+behavior
+{
+	name bh_mission_dli
+	inherited bh_mission_logic_base
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "PlayerPath PATH_INSANE"
+						SetAttr "DudeIsBad 1"
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						PlayerKarma show
+						ShowMessage #P3_DLI_MSG1
+						MissionLog "add_primary,escape,#P3_DLI_PRI1"
+					}
+				}
+			}
+		}
+		
+		st_end
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						EntFireInput lpp,Say:ENDEVENTINSANE
+						Wait 1
+						EntFireInput muzak.mission,FadeOut:1
+						MissionLog done,escape
+						//EntFireInput Fade_in,fade
+						//Wait 1
+						//EntFireInput "pcc,Command:video_exitcmd dli_2 p3_end_mission"
+						EndMission 1
+					}
+				}
+			}
+		}
+		
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_maze
+				{
+					actions
+					{
+						EntFireInput talib_spawner_02,enable
+						EntFireInput gay_spawner_02,enable
+						EntFireInput mom_spawner_02,enable
+					}
+				}
+				
+				xpt_entrance
+				{
+					actions
+					{
+						EntFireInput talib_spawner_03,enable
+						EntFireInput gay_spawner_03,enable
+						EntFireInput mom_spawner_03,enable
+					}
+				}
+			}
+		}
+		
+	}
+	events
+	{
+		OnActivated_Maze		"ExecutePattern st_util.xpt_maze"
+		OnActivated_Entrance	"ExecutePattern st_util.xpt_entrance"
+		OnDudeEscaped			"State st_end"
+		
+		OnNewGame				"ExecutePattern weaponGive.DLI"
+	}
+}
+
+
+
+behavior
+{
+	name bh_dl_civil
+	inherited bh_civil
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						SetAttr "flag_bystander 1"
+					}
+				}
+			}
+		}
+		
+	}
+}
+
+
+behavior
+{
+	name bh_dl_military
+	inherited bh_civil
+	
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						SetAttr "flag_IgnorePlayerAttack 1"
+						SetAttr "flag_IgnorePlayerFear 1"
+						SetAttr "flag_IgnoreWeapon 1"
+						SetAttr "flag_IgnoreCombat 1"
+						SetAttr "flag_Protected 1"
+						SetAttr "ReactionThreshold RE_DANGER"
+					}
+				}
+			}
+		}
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_decide
+				{
+					actions
+					{
+						Pattern pt_idle
+					}
+				}
+				
+				xpt_SelectWeapon
+				{
+					actions
+					{
+						//пусто
+					}
+				}
+				
+				xpt_OnHearCombat
+				{
+					actions
+					{
+						IfAttr "RelationTo:caller == Relation:enemy Block begin"
+							TargetCaller 1
+							State st_start
+						Block end
+					}
+				}
+				
+				xpt_OnVisible
+				{
+					actions
+					{
+						TargetCaller 1
+						IfAttr "target.ea_status == sCORPSE and Object:target != Object:Player Block begin"
+							IgnoreTarget 100
+							ResetTarget 1
+							Return 1
+						Block end
+						
+						IfAttr "RelationTo:target == Relation:enemy State st_start"
+						IgnoreTarget 5
+						ResetTarget 1
+					}
+				}
+			}
+			events
+			{
+				OnHearCombat "ExecutePattern .xpt_OnHearCombat"
+			}
+		}
+	}
+}
+
+behavior
+{
+	name bh_dl_talib
+	inherited bh_dl_military
+	
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						SetSquad Taliban_Squad
+						SetSquadRelation Player_Squad:enemy:3,Mom_Squad:enemy:1,Gay_Squad:enemy:1
+						
+						SetAttr "flag_VitalEnemy 1"
+					}
+				}
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_decide
+				{
+					actions
+					{
+						CheckAttr "slot#msGP.TalibanAttacksPlayer Pattern pt_runtoplayer"
+						ExecutePattern bh_base:st_idle.pt_decide
+					}
+				}
+				
+				pt_runtoplayer
+				{
+					actions
+					{
+						TargetPlayer 1
+						MoveToTarget run,0
+						Repeat 5
+					}
+				}
+				
+				xpt_OnNewEnemy
+				{
+					actions
+					{
+						MoveToTarget false
+						ExecutePattern bh_base:st_idle.xpt_OnNewEnemy
+					}
+				}
+				
+				xpt_WeaponSelect
+				{
+					actions
+					{
+						Weapon select,ranged
+					}
+				}
+			}
+		}
+		
+		st_combat_logic
+		{
+			Group Combat
+			Patterns
+			{
+				xpt_SayShoot
+				{
+					actions
+					{
+						IfAttr "Timer:tCanSay > 0 Return 1"
+						Say REBEL
+						Timer tCanSay,5:3
+					}
+				}
+			}
+		}
+	}
+	
+}
+
+behavior
+{
+	name bh_dl_mom
+	inherited bh_dl_military
+	
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						SetSquad Mom_Squad
+						SetSquadRelation Player_Squad:enemy:3,Taliban_Squad:enemy:2,Gay_Squad:enemy:1
+						
+						SetAttr "flag_VitalEnemy 1"
+					}
+				}
+			}
+		}
+		
+		st_combat_logic
+		{
+			Group Combat
+			Patterns
+			{
+				xpt_SayAttack
+				{
+					actions
+					{
+						//милишная атака
+						IfAttr "Timer:tCanSay > 0 Return 1"
+						Say REBEL,POSTAL
+						Timer tCanSay,5:3
+					}
+				}
+			}
+		}
+	}
+	
+}
+
+behavior
+{
+	name bh_dl_gay
+	inherited bh_dl_military
+	
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						SetSquad Gay_Squad
+						SetSquadRelation Taliban_Squad:enemy:2,Mom_Squad:enemy:1
+						
+						IfAttr "slot#msGP.PlayerPath == PATH_INSANE SetAttr flag_VitalEnemy 1"
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_FirstRun
+				{
+					actions
+					{
+						CheckAttr "slot#msGP.DudeIsBad SetSquadRelation Player_Squad:enemy:6"
+						ExecutePattern bh_base:st_start.xpt_FirstRun
+					}
+				}
+			}
+		}
+		
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_AddPlayerToEnemy
+				{
+					actions
+					{
+						SetSquadRelation Player_Squad:enemy:6
+						ExecutePattern bh_base:st_util.xpt_AddPlayerToEnemy
+					}
+				}
+			}
+		}
+		
+		st_deactivate
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "Object:caller == Object:player Block begin"
+							TargetFromMem msGP
+							FireEvent DudeKillsGay
+							//SetAttr "slot#msGP.DudeIsBad 1"
+							AreaEvent DudeIsBad,8
+						Block end
+						
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnAE_DudeIsBad "ExecutePattern st_util.xpt_AddPlayerToEnemy"
+	}
+	
+}
+
+
+behavior
+{
+	name bh_dl_boss
+	inherited bh_civil
+	
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						SetAttr "ea_dmg_absorb RESIST_HIGH"
+						SetAttr "ea_crit_disabled 1"
+						SetAttr "TaserDamage 10"
+						SetAttr "SprayDamage 10"
+						
+						SetAttr "flag_IgnorePlayerFear 1"
+						SetAttr "flag_IngoreCombat 1"
+						SetAttr "flag_IgnoreWeapon 1"
+						SetAttr "ea_takeable 0"
+						SetAttr "flag_zombie 1"
+						SetAttr "flag_boss 1"
+						
+						SetSquad boss_squad
+						SetSquadRelation Player_squad:enemy:8
+						
+						SetAreaGroup AG_BOSS
+					}
+				}
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetPlayer 1
+						State st_start
+					}
+				}
+			}
+		}
+		
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetFromMem msGP
+						FireEvent BossDead
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+		
+		ChangeKarma
+		{
+			Group Neutral
+			Patterns
+			{
+				Lethal
+				{
+					actions
+					{
+						//пусто
+					}
+				}
+				NonLethal
+				{
+					actions
+					{
+						//пусто
+					}
+				}
+			}
+		}
+		
+	}
+	
+}
+
+
+behavior
+{
+	name bh_boss_dave
+	inherited bh_dl_boss
+	
+	States
+	{
+	
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						AttributeProgressBar "DaveHealthPanel,show,ea_health"
+						ExecutePattern bh_base:st_start.pt_default
+					}
+				}
+			}
+		}
+		
+		st_combat_logic
+		{
+			Group Combat
+			Patterns
+			{
+				xpt_SetTaskDefault
+				{
+					actions
+					{
+						SetAttr "TaskCombat TC_POSITION"
+						Timer tTaskCombat,5:5
+						State st_start
+					}
+				}
+			}
+		}
+		
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetFromMem msGP
+						FireEvent DaveKilled
+						AttributeProgressBar "DaveHealthPanel,hide"
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+		
+	}
+	
+}
+
+
+behavior
+{
+	name bh_boss_osama
+	inherited bh_dl_boss
+	
+	States
+	{
+	
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						AttributeProgressBar "OsamaHealthPanel,show,ea_health"
+						ExecutePattern bh_base:st_start.pt_default
+					}
+				}
+			}
+		}
+		
+		st_combat_logic
+		{
+			Group Combat
+			Patterns
+			{
+				xpt_SetTaskDefault
+				{
+					actions
+					{
+						SetAttr "TaskCombat TC_PRESSURE"
+						Timer tTaskCombat,5:5
+						State st_start
+					}
+				}
+				
+				xpt_SayShoot
+				{
+					actions
+					{
+						IfAttr "Timer:tCanSay > 0 Return 1"
+						Say TOUGH
+						Timer tCanSay,5:3
+					}
+				}
+			}
+		}
+		
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetFromMem msGP
+						FireEvent OsamaKilled
+						AttributeProgressBar "OsamaHealthPanel,hide"
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+	}
+	
+}
+
+
+
+behavior
+{
+	name bh_boss_ron
+	inherited bh_dl_boss
+	
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						SetAttr "ICantCrouch 1"
+					}
+				}
+			}
+		}
+	
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						AttributeProgressBar "RonBossHealthPanel,show,ea_health"
+						ExecutePattern bh_base:st_start.pt_default
+					}
+				}
+			}
+		}
+		
+		st_combat_logic
+		{
+			Group Combat
+			Patterns
+			{
+				xpt_SetTaskDefault
+				{
+					actions
+					{
+						SetAttr "TaskCombat TC_MOVEOUT"
+						Timer tTaskCombat,3:3
+						State st_start
+					}
+				}
+			}
+		}
+		
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetFromMem msGP
+						FireEvent RonKilled
+						AttributeProgressBar "RonBossHealthPanel,hide"
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+	}
+	
+}

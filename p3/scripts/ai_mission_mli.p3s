@@ -1,0 +1,696 @@
+Constants
+{
+	Const MLI_CAGES_NUM,30
+}
+
+behavior
+{
+	name bh_testlab_insane_logic
+	inherited bh_mission_logic_base
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "Zealotskilled 0"
+						SetAttr "Cages 0"
+						SetAttr "Cagesleft MLI_CAGES_NUM"
+						SetAttr "PlayerInsane 0"
+						
+						SetAttr "PlayerPath PATH_INSANE"
+					}
+				}
+			}
+		}
+		st_start
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						PlayerKarma show
+						MissionLog add_primary,main,#P3_MLI_MISSION1_OBJ
+						MissionLog add_secondary,zealots,#P3_MLI_SEC_OBJ
+					}
+				}
+				pt_beginattack
+				{
+					actions
+					{
+					}
+				}
+				xpt_cagecounter
+				{
+					actions
+					{
+						ChangeAttr "Cages +1"
+						ChangeAttr "Cagesleft -1"
+						SetAttr "rnd 0"
+						ChangeAttr "rnd 0:10"
+						IfAttr "rnd > 5 EntFireInput proxy,Say:MLIFREE"
+						MissionLog add_primary,main,#P3_MLI_MISSION1_OBJ
+						IfAttr "Cages == MLI_CAGES_NUM Pattern pt_corridor"
+					}
+				}
+				pt_corridor
+				{
+					actions
+					{
+						
+						AreaEvent cagesdone,5000
+						Playvideo mli_2,1,1
+						EntFireInput phys_gate_branch,ToggleTest
+						EntFireInput spawner_scientists2,Enable
+						Wait 2
+						ShowMessage #P3_MLI_MISSION3
+						MissionLog done,main
+						MissionLog add_primary,main3,#P3_MLI_MISSION3_OBJ
+					}
+					events
+					{
+						OnBossReached "Pattern pt_scientist"
+					}
+				}
+				pt_scientist
+				{
+					actions
+					{
+						MissionLog done,main3
+						EntFireInput muzak.mission,FadeOut:1
+						PlayVideo mli_3,1,1
+						Wait 0.9
+						EntFireInput spawner_chief,enable
+						EntFireInput spawner_monkey,enable
+						EntFireInput scientist_teleport,Teleport
+						Wait 0.1
+						EntFireInput muzak.boss,PlaySound
+						Wait 1
+						ShowMessage #P3_MLI_MISSION2
+						MissionLog add_primary,main2,#P3_MLI_MISSION2_OBJ
+					}
+					events
+					{
+						OnUser4 "Pattern pt_scientistdead"
+					}
+				}
+				pt_scientistdead
+				{
+					actions
+					{
+						MissionLog done,main2
+						EntFireInput testmonkey,kill
+						Pattern pt_end
+					}
+				}
+				pt_end
+				{
+					actions
+					{
+						MissionLog done,main
+						IfAttr "PlayerInsane == 0 MissionLog done,zealots"
+						EntFireInput proxy,Say:TASKFINISH
+						Wait 1
+						EntFireInput fade_out,Fade
+						Wait 2
+						EntFireUser "lpp,GiveWeapon:p3_weapon_laserpen"
+						EntFireUser "lpp,GiveWeapon:p3_weapon_motorhead"
+						EntFireInput "pcc,Command:video_exitcmd mli_4 p3_end_mission"
+					}
+				}
+			}
+		}
+		
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_OnPlayerKillsZealot
+				{
+					actions
+					{
+						MissionLog fail,zealots
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnCageOpen "ExecutePattern st_start.xpt_cagecounter"
+		OnNewGame	"ExecutePattern weaponGive.MLI"
+		OnFire_PlayerKillsZealot	"ExecutePattern st_util.xpt_OnPlayerKillsZealot"
+	}
+}
+behavior
+{
+	name bh_testlab_medic_insane
+	inherited bh_civil
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						SetSquadRelation sq_zealots:enemy:3,player_squad:enemy:8
+						
+						SetAttr "flag_IgnorePlayerFear 1"
+						SetAttr "flag_IgnoreWeapon 1"
+						SetAttr "flag_IgnoreCombat 1"
+						SetAttr "ReactionThreshold RE_DANGER"
+					}
+				}
+			}
+		}
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_OnCageOpened
+				{
+					actions
+					{
+						SetAttr "rnd 0"
+						ChangeAttr "rnd 0:10"
+						IfAttr "rnd >= 3 Block begin"
+							Say SEEFREEINGANIMALS
+						Block end
+						RemoveAttr rnd
+					}
+				}
+			}
+		}
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "Object:caller == Object:player ChangeAttr slot#msGP.NumFrags +1"
+						//насколько я понимаю, эти фраги - какой-то реликт, но на всякий случай оставлю
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnAE_CageOpened "ExecutePattern st_util.xpt_OnCageOpened"
+	}
+}
+
+behavior
+{
+	name bh_testlab_zealot_i
+	inherited bh_civil
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						SetSquadRelation sq_medics:enemy:3,sq_police:enemy:3
+						IfAttr "slot#msGP.PlayerInsane == 0 SetAttr flag_PlayerFriendly 1"
+						IfAttr "slot#msGP.PlayerInsane == 1 SetSquadRelation player_squad:enemy:8"
+						
+						SetAttr "flag_IgnorePlayerFear 1"
+						SetAttr "flag_IgnoreWeapon 1"
+						SetAttr "flag_IgnoreCombat 1"
+						SetAttr "ReactionThreshold RE_DANGER"
+					}
+				}
+			}
+		}
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "Object:caller == Object:player Block begin"
+							AreaEvent PlayerInsane,5000
+							SetAttr "slot#msGP.PlayerInsane 1"
+							TargetFromMem msGP
+							FireEvent PlayerKillsZealot
+						Block end
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		//OnAE_PlayerInsane "ExecutePattern st_start.pt_aggplayer"
+	}
+}
+
+behavior
+{
+	name bh_testlab_zealot_melee
+	inherited bh_testlab_zealot_i
+	states
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						Timer tRun,0
+						SetHintGroup hg_cages
+					}
+				}
+			}
+		}
+		st_start
+		{
+			group Neutral
+			patterns
+			{
+				xpt_CheckCombat
+				{
+					actions
+					{
+						IfAttr "RelationTo:target == Relation:enemy and DistTo:target <= ED_FURTHER ExecutePattern bh_base:st_start.xpt_CheckCombat"
+						SetAttr "rnd 0"
+						ChangeAttr "rnd 0:2"
+						IfAttr "rnd > 0 and Timer:tRun <= 0 Block begin"
+							IfAttr "slot#msGP.Cages < 18 State st_run"
+						Block end
+						RemoveAttr rnd
+						
+						ExecutePattern bh_base:st_start.xpt_CheckCombat
+					}
+				}
+				xpt_idle
+				{
+					actions
+					{
+						IfAttr "slot#msGP.Cages < 18 State st_run"
+						ExecutePattern bh_base:st_start.xpt_idle
+					}
+				}
+			}
+		}
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_decide
+				{
+					actions
+					{
+						Pattern pt_idle
+					}
+				}
+			}
+		}
+		st_run
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "slot#msGP.Cages >= 18 State st_start"
+						FreeMovementParams hint_all,0,ED_FAR,hint_group,hint_face,use_node
+						FreeMovement run,reset
+						Wait 20
+						Pattern pt_end
+					}
+					events
+					{
+						OnInvalidRoute	"Pattern pt_end"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						FreeMovement false
+						
+						IfAttr "reaction < RE_KICKED Block begin"
+							SetAttr "reaction RE_NONE"
+							SetAttr "NewReaction RE_NONE"
+						Block end
+						
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction >= RE_KICKED Pattern pt_end"
+					}
+				}
+			}
+		}
+		ev_cage
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						FreeMovement false
+						SetAttr "rnd 0"
+						ChangeAttr "rnd 0:10"
+						AreaEvent CageOpened,ED_FAR
+						IfAttr "rnd <= 7 Say FREEANIMALS"
+						RemoveAttr rnd
+						Sequence melee_attack
+						WaitForEnd 1
+						Pattern pt_end
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						Timer tRun,15:5
+						
+						IfAttr "reaction < RE_KICKED Block begin"
+							SetAttr "reaction RE_NONE"
+							SetAttr "NewReaction RE_NONE"
+						Block end
+						
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction >= RE_KICKED Pattern pt_end"
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		//OnAE_PlayerInsane "ExecutePattern st_start.pt_aggplayer"
+		OnAE_cagesdone "State st_start"
+	}
+}
+
+behavior
+{
+	name bh_testlab_police
+	inherited bh_civil
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						TargetEntByName mission_logic
+						TargetToMem msGP
+						SetSquadRelation sq_zealots:enemy:3,player_squad:enemy:5
+						SetAreaGroup AG_bigroom,AG_DEFAULT:walkable
+						
+						SetAttr "flag_IgnorePlayerFear 1"
+						SetAttr "flag_IgnoreWeapon 1"
+						SetAttr "flag_IgnoreCombat 1"
+						SetAttr "ReactionThreshold RE_DANGER"
+						
+						SetAttr "MovingToArea 1"
+					}
+				}
+			}
+		}
+		st_start
+		{
+			group Neutral
+			patterns
+			{
+				xpt_CheckCombat
+				{
+					actions
+					{
+						CheckAttr "MovingToArea State st_movetoarea"
+						ExecutePattern bh_base:st_start.xpt_CheckCombat
+					}
+				}
+			}
+		}
+		st_movetoarea
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						RemoveAttr MovingToArea
+						FreeMovementParams area_all,0,-1,area_group
+						FreeMovement run
+						Wait 10
+						Pattern pt_end
+					}
+					events
+					{
+						OnHit "State st_start"
+						OnTargetReach "State st_start"
+						OnNewEnemy "State st_start"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						IfAttr "reaction < RE_KICKED Block begin"
+							SetAttr "reaction RE_NONE"
+							SetAttr "NewReaction RE_NONE"
+						Block end
+						
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction >= RE_KICKED Pattern pt_end"
+					}
+				}
+			}
+		}
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "Object:caller == Object:player ChangeAttr slot#msGP.NumFrags +1"
+						//насколько я понимаю, эти фраги - какой-то реликт, но на всякий случай оставлю
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+	}
+}
+behavior
+{
+	name bh_monkey_medic
+	inherited bh_testlab_medic_insane
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						TargetEntByName mission_logic
+						TargetToMem msGP
+						ResetTarget 1
+						SetAttr "ea_takeable 0"
+						SetAttr "ea_crit_disabled 1"
+						SetAttr "ea_dmg_absorb 90"
+						SetAttr "SprayDamage 15"
+						SetAttr "TaserDamage 15"
+						SetAttr "Conscious 1"
+						SetAttr "Said 0"
+						Timer tSay,2,Repeated
+						SetAttr "flag_zombie 1"
+						SetAttr "flag_boss 1"
+						AttributeProgressBar "ScientistHealthPanel,show,ea_health"
+					}
+				}
+			}
+		}
+		st_start
+		{
+			group Alert
+			patterns
+			{
+				xpt_say
+				{
+					actions
+					{
+						IfAttr "Said == 0 Block begin"
+							TargetPlayer 1
+							IfAttr "DistTo:target < ED_MIDDLE Block begin"
+								Say SM_MLIBOSS
+								SetAttr "Said 1"
+							Block end
+						Block end
+					}
+				}
+			}
+		}
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						EntFireUser mission_logic,4
+						AttributeProgressBar ScientistHealthPanel,hide
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+		ChangeKarma
+		{
+			Group Neutral
+			Patterns
+			{
+				Lethal
+				{
+					actions
+					{
+					}
+				}
+				NonLethal
+				{
+					actions
+					{
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnTimer_tSay "ExecutePattern st_start.xpt_say"
+	}
+}
+behavior
+{
+	name bh_testlab_monkey_i
+	inherited bh_testlab_monkey
+	states
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				ExecutePattern bh_base:st_init.pt_default
+				SetAttr "ea_dmg_absorb 100"
+				SetAttr "TaserDamage 20"
+				SetAttr "ea_crit_disabled 1"
+			}
+		}
+		st_start
+		{
+			group Alert
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetPlayer 1
+						MoveToTarget run
+						Repeat 2
+					}
+				}
+				pt_attack
+				{
+					actions
+					{
+						Snatch true,fucking_monkey
+						Wait 5:2
+						Snatch false
+						State st_start
+					}
+				}
+			}
+			events
+			{
+				OnTargetClose "State st_snatch"
+				OnTargetReach "State st_snatch"
+				OnInvalidRoute "State st_start"
+				OnVisible "Wait 0"
+			}
+		}
+	}
+}

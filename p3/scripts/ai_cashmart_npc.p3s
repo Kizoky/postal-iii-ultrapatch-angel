@@ -1,0 +1,1001 @@
+behavior
+{
+	name bh_cashmart_police
+	inherited bh_citizen
+	states
+	{
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "ea_takeable 0"
+						SetAttr "ea_tased 0"
+						TargetEnemy 1
+						IfAttr "target.Conscious == 0 Block begin"
+							Relationship target,Neutral,2
+							ResetTarget 1
+							State st_start
+						Block end
+						IfAttr "ea_NumEnemy == 0 Block begin"
+							ResetTarget 1
+							SetAttr "TaskCombat TC_SEARCH"
+						Block end
+						Pattern bh_military:st_start.xpt_combat
+					}
+				}
+			}
+		}
+		st_prestart
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Senses false
+						TargetEntByName gameplay
+						TargetToMem msGP
+						SetAttr "Conscious 1"
+						SetAttr "Swat 0"
+						ResetTarget 1
+						SetAttr "started 0"
+						ExecutePattern bh_base:st_init.pt_default
+						TargetEntByName target_1floor_zealots
+						TargetToMem 3
+						AvoidProhibitedArea false
+						SetAreaGroup AG_DEFAULT:walkable,AG_1floor_entrance
+						FreeMovementParams area_all,-1,-1,area_group,once
+						FreeMovement run,reset
+						Repeat 5
+					}
+					events
+					{
+//						OnInvalidRoute "Pattern st_prestart.pt_default"
+						OnTargetReach "Pattern st_stage1.xpt_startcombat"
+					}
+				}
+			}
+		}
+		st_alert
+		{
+			Group Alert
+			Patterns
+			{
+				pt_npcdead
+				{
+					actions
+					{
+						//всё глючит из-за этой хуйни
+						Return 1
+					}
+				}
+				pt_onfire
+				{
+					actions
+					{
+						//а почему у копов это есть, а у зилотов нету?
+						IfAttr "Object:caller == Object:Player Block begin"
+							IfAttr "slot#msGP.PlayerSide == SIDE_GOOD Block begin"
+								Say FRIENDLYFIRE
+								SetAttr "slot#msGP.PlayerSide SIDE_INANE" //а еще тут должна была быть эта строчка имхо
+							Block end
+							IfAttr "slot#msGP.PlayerSide == SIDE_NONE Block begin"		//if the player hits police first
+								SetAttr "slot#msGP.PlayerSide SIDE_BAD"					//change his alignment to "bad"
+								Say FRIENDLYFIREFINAL
+							Block end
+							ResetTarget 1
+							TargetEnemy 1
+						Block end
+						Say HIT
+						
+						Pattern bh_base:st_alert.pt_onfire
+					}
+				}
+			}
+		}
+		st_stage1
+		{
+			Group Combat
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetEntByName gameplay
+						TargetToMem msGP
+						SetAttr "Conscious 1"
+						ResetTarget 1
+						SetAttr "started 0"
+						SetAttr "Swat 0"
+						Timer tComment,5:10
+						AvoidProhibitedArea false
+						SetAreaGroup AG_DEFAULT:walkable,AG_1floor_entrance
+						ExecutePattern bh_base:st_init.pt_default
+						TargetEntByName target_1floor_zealots
+						SetSquadRelation sq_zea_hall:enemy		
+						IfAttr "slot#msGP.PlayerSide == SIDE_BAD SetSquadRelation player_squad:enemy:7"
+						IfAttr "slot#msGP.PlayerSide == SIDE_INSANE SetSquadRelation player_squad:enemy:7"
+						TargetToMem 3
+						Pattern .xpt_startcombat
+					}
+				}
+				pt_comment
+				{
+					actions
+					{
+						IfAttr "slot#msGP.PlayerSide == SIDE_NONE Say RECRUIT"
+						IfAttr "slot#msGP.PlayerSide != SIDE_NONE Block begin"
+							IfAttr "RelationTo:target == Relation:enemy Block begin"
+								IfAttr "target.ea_Faction == Faction:Zealots Say SHOOTECO"
+								IfAttr "target.ea_Manner == Manner:Player Say ATTACKING"
+							Block end
+						Block end
+						Timer tComment,5:10
+					}
+				}
+				xpt_tazed:ignore_ext_events
+				{
+					actions
+					{
+						SetAttr "ea_takeable 1"
+						SetAttr "ea_tased 1"
+						IfAttr "slot#msGP.PlayerSide == SIDE_GOOD Say FRIENDLYFIRE"
+						IfAttr "slot#msGP.PlayerSide == SIDE_NONE Block begin"
+							SetAttr "slot#msGP.PlayerSide SIDE_BAD"
+						Block end
+						Wait 7
+						SetAttr "ea_takeable 0"
+						SetAttr "ea_tased 0"
+						State st_start
+					}
+					events
+					{
+						OnUnstunned "State st_start"
+						OnTimer_tComment "ExecutePattern st_stage1.pt_comment"
+						OnAE_playertookside "ExecutePattern st_stage1.xpt_hateplayer"
+					}
+				}
+				xpt_GotHit
+				{
+					actions
+					{
+						IfAttr "Object:caller == Object:Player Block begin"
+							IfAttr "slot#msGP.PlayerSide == SIDE_GOOD Say FRIENDLYFIRE"
+							IfAttr "slot#msGP.PlayerSide == SIDE_NONE Block begin"		//if the player hits police first
+								SetAttr "slot#msGP.PlayerSide SIDE_BAD"									//change his alignment to "bad"
+								Say FRIENDLYFIREFINAL
+							Block end
+							ResetTarget 1
+							TargetEnemy 1
+						Block end
+						Say HIT
+					}
+				}
+				xpt_hateplayer
+				{
+					actions
+					{
+						SetAttr "ea_bulletdmg_absorb 0"
+						SetAttr "rnd 0"
+						ChangeAttr "rnd 0:20"
+						IfAttr "slot#msGP.PlayerSide != SIDE_GOOD and rnd >= 19 Say FRIENDLYFIREFINAL"
+						IfAttr "slot#msGP.PlayerSide == SIDE_BAD SetSquadRelation player_squad:enemy:7"
+						IfAttr "slot#msGP.PlayerSide == SIDE_INSANE SetSquadRelation player_squad:enemy:7"
+						ResetTarget 1
+						TargetEnemy 1
+					}
+				}
+				xpt_sprayed
+				{
+					actions
+					{
+						IfAttr "slot#msGP.PlayerSide == SIDE_GOOD Say FRIENDLYFIRE"
+						IfAttr "slot#msGP.PlayerSide == SIDE_NONE Block begin"		//if the player hits police first
+							SetAttr "slot#msGP.PlayerSide SIDE_BAD"									//change his alignment to "bad"
+							Say FRIENDLYFIREFINAL
+						Block end
+						State st_OnSprayStunned
+					}
+				}
+				xpt_startcombat
+				{
+					actions
+					{
+						IfAttr "started == 0 Block begin"											//ran out the doors, can start the combat now
+							IfAttr "slot#msGP.PlayerSide == SIDE_NONE Block begin"		//setting the absorb if the player
+								SetAttr "ea_bulletdmg_absorb 90"												//hasn't started combat
+							Block end
+							Senses true
+							SetSquadRelation sq_zea_hall:enemy:3		
+							IfAttr "slot#msGP.PlayerSide == SIDE_BAD SetSquadRelation player_squad:enemy:7"
+							IfAttr "slot#msGP.PlayerSide == SIDE_INSANE SetSquadRelation player_squad:enemy:7"
+							AvoidProhibitedArea true
+	//						SetAreaGroup AG_DEFAULT:walkable,AG_1floor_entrance
+							ResetTarget 1
+							SetAttr "TaskCombat TC_SEARCH"											
+							SetAttr "UnderFire 1"
+							TargetEnemy 1
+							SetAttr "started 1"
+							State bh_military:st_combat_search
+						Block end
+					}
+				}
+			}
+			events
+			{
+				OnTargetClose "Pattern st_stage1.xpt_startcombat"
+			}
+		}
+		st_stage2
+		{
+			Group Combat
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetEntByName gameplay
+						TargetToMem msGP
+						IfAttr "ea_NumEnemy == 0 Block begin"
+							ResetTarget 1
+							SetAttr "TaskCombat TC_SEARCH"
+						Block end
+						IfAttr "slot#msGP.PlayerSide == SIDE_BAD SetSquadRelation player_squad:enemy"
+						IfAttr "slot#msGP.PlayerSide == SIDE_INSANE SetSquadRelation player_squad:enemy"
+						IfAttr "slot#msGP.GoodProgress == 1 Pattern .xpt_cash_lower"
+						IfAttr "slot#msGP.GoodProgress == 2 Pattern .xpt_cash_lower"
+						IfAttr "slot#msGP.GoodProgress == 3 Pattern .xpt_cash_upper"
+						IfAttr "slot#msGP.GoodProgress >= 4 Pattern .xpt_secondfloor"
+						IfAttr "slot#msGP.BadProgress == 1 Pattern .xpt_cash_lower"
+						IfAttr "slot#msGP.BadProgress == 2 Pattern .xpt_cash_lower"
+						IfAttr "slot#msGP.BadProgress == 3 Pattern .xpt_cash_upper"
+						IfAttr "slot#msGP.BadProgress >= 4 Pattern .xpt_secondfloor"
+					}
+				}
+				xpt_cash_lower
+				{
+					actions
+					{
+						
+						IfAttr "Swat == 1 Block begin"
+							SetAttr "rnd 0"
+							ChangeAttr "rnd 0:20"
+							IfAttr "rnd > 13 Say SW_GOGOGO"
+						Block end
+						SetAreaGroup AG_DEFAULT:walkable,AG_1floor_entrance:walkable,AG_1floor_middle:walkable,AG_1floor_cash
+						SetHintgroup ter_readypoint_hall
+						ExecutePattern bh_base:st_init.pt_default // ???
+						SetAttr "TaskCombat TC_NONE"
+						FreeMovement run
+						Face false
+						Crouch false
+						WaitForEnd 1
+						Aim false
+						WaitForEnd 1
+						TargetEntByName target_1floor_police
+						TargetToMem 3
+						MoveToTarget run,10:10
+						WaitForEnd 1
+						TargetEntByName target_cash_low_zealots
+						TargetToMem 3
+						MoveToTarget run,10:10
+						WaitForEnd 1
+						TargetEntByName target_cash_low_zealots2
+						TargetToMem 3
+						MoveToTarget run,10:10
+						WaitForEnd 1
+						Pattern .xpt_startcombat
+					}
+				}
+				xpt_startcombat
+				{
+					actions
+					{
+							ResetTarget 1
+							SetSquadRelation sq_zea_hall:enemy:7
+							IfAttr "slot#msGP.PlayerSide == SIDE_INSANE SetSquadRelation player_squad:enemy:7"
+							IfAttr "slot#msGP.PlayerSide == SIDE_BAD SetSquadRelation player_squad:enemy:7"
+							SetAttr "TaskCombat TC_SEARCH"
+							TargetEnemy 1
+							SetAttr "UnderFire 1"
+							State bh_military:st_combat_search
+//						Block end
+					}
+				}
+				xpt_cash_upper
+				{
+					actions
+					{
+						IfAttr "Swat == 1 Block begin"
+							SetAttr "rnd 0"
+							ChangeAttr "rnd 0:20"
+							IfAttr "rnd > 13 Say SW_DIRRECTION"
+						Block end
+						SetAreaGroup AG_DEFAULT:walkable,AG_1floor_cash:walkable,AG_2floor_cash
+						ExecutePattern bh_base:st_init.pt_default
+						SetHintgroup ter_readypoint_hall
+						TargetEntByName target_cash_hi_zealots
+						TargetToMem 3
+						SetAttr "TaskCombat TC_NONE"
+						Face false
+						Crouch false
+						WaitForEnd 1
+						Aim false
+						WaitForEnd 1
+						MoveToTarget run,20:20
+						WaitForEnd 1
+						TargetEntByName target_cash_hi_police
+						MoveToTarget run,20:20
+						WaitForEnd 1
+						Pattern .xpt_startcombat
+					}
+				}
+				xpt_secondfloor
+				{
+					actions
+					{
+						IfAttr "Swat == 1 Block begin"
+							SetAttr "rnd 0"
+							ChangeAttr "rnd 0:20"
+							IfAttr "rnd > 13 Say SW_GOGOGO"
+						Block end
+						SetAreaGroup AG_DEFAULT:walkable,AG_2floor_cash:walkable,AG_1floor_cash:walkable,AG_2floor
+						ExecutePattern bh_base:st_init.pt_default
+						TargetEntByName target_2floor
+						TargetToMem 3
+						SetAttr "TaskCombat TC_NONE"
+						Face false
+						Crouch false
+						WaitForEnd 1
+						Aim false
+						WaitForEnd 1
+						MoveToTarget run,20:20
+						WaitForEnd 1
+						Pattern .xpt_startcombat
+					}
+				}
+				xpt_invalidroute
+				{
+					actions
+					{
+						Face false
+						Crouch false
+						Aim false
+						FreeMovementParams area_all,-1,-1,area_group,once
+						FreeMovement run,reset
+					}
+				}
+			}
+		}
+		st_swatspawn
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "Swat 1"
+						SetAttr "Conscious 1"
+						State st_stage2
+					}
+				}
+			}
+			events
+			{
+				OnRappelEnd "State st_stage2"
+			}
+		}
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						//player side change
+						IfAttr "Object:caller == Object:player Block begin"
+							IfAttr "slot#msGP.PlayerSide == SIDE_NONE SetAttr slot#msGP.PlayerSide SIDE_BAD"
+							IfAttr "slot#msGP.PlayerSide == SIDE_GOOD SetAttr slot#msGP.PlayerSide SIDE_INSANE"
+						Block end
+						
+						//counters
+						ChangeAttr "slot#msGP.Copskilled +1"
+						IfAttr "Object:caller == Object:player ChangeAttr slot#msGP.Totaldead +1" //это надо вообще?
+						
+						//spawners progress
+						IfAttr "Swat == 0 EntFireInput spawner_police1,Spawn"
+						IfAttr "Swat == 1 EntFireInput spawner_swat_rappel,Spawn"
+						
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+		st_OnUnconscious
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default:ignore_ext_events
+				{
+					actions
+					{
+						SetAttr "Conscious 0"
+						SetSquad null
+						ExecutePattern bh_base:st_OnUnconscious.pt_default
+					}
+				}
+			}
+		}
+		st_OnDeath
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ChangeAttr "slot#msGP.Copsdead +1" //а это тоже надо?
+						ExecutePattern bh_base:st_OnDeath.pt_default
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnSprayStunned "Pattern st_stage1.xpt_sprayed"
+//		OnTargetUnconscious "ExecutePattern st_stage1.pt_targetunconscious"
+//		OnInvalidRoute "ExecutePattern st_stage2.xpt_invalidroute"
+//		OnAllEnemiesDead "ExecutePattern st_stage2.pt_default"
+		OnHit "ExecutePattern st_stage1.xpt_GotHit"
+//		OnIgnite "ExecutePattern st_stage1.pt_ignite" //хуита
+		OnTimer_tComment "ExecutePattern st_stage1.pt_comment"
+		OnTasingStart "Pattern st_stage1.xpt_tazed"
+		OnAE_playertookside "ExecutePattern st_stage1.xpt_hateplayer"
+		OnAE_cashlowspawned "Pattern st_stage2.xpt_cash_lower"
+		OnAE_cashupperspawned "Pattern st_stage2.xpt_cash_upper"
+		OnAE_secondfloorspawned "Pattern st_stage2.xpt_secondfloor"
+	}
+}
+behavior
+{
+	name bh_cashmart_citizen
+	inherited bh_citizen
+	states
+	{
+		st_init_unique
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Senses false
+						SetAttr "unique 1"
+						ExecutePattern bh_base:st_init.pt_default
+						TargetEntByName gameplay
+						TargetToMem msGP
+						SetAttr "flag_bystander 1"
+					}
+				}
+				
+			}
+		}
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						TargetEntByName gameplay
+						TargetToMem msGP
+						AvoidProhibitedArea true
+						SetAttr "flag_bystander 1"
+					}
+				}
+			}
+		}
+		st_idle
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Sequence seq.reaction_shocked_2
+						WaitForEnd 1
+						Sequence seq.Cut_Affraid_start
+						WaitForEnd 1
+						IfAttr "unique == 1 Say GAY_DONTKILLME"
+						Sequence seq.Cut_Affraid_loop,20
+						Wait 2:10
+						ResetSequence 1
+						Pattern bh_citizen:st_alert.pt_fear
+					}
+				}
+				pt_hit
+				{
+					actions
+					{
+						IfAttr "Object:caller == Object:Player Block begin"
+							IfAttr "slot#msGP.PlayerSide == SIDE_NONE Block begin"		//if the player hits citizen first
+								SetAttr "slot#msGP.PlayerSide SIDE_BAD"									//change his alignment to "bad"
+							Block end
+						Block end
+						Say HIT,DONTKILLME
+					}
+				}
+			}
+		}
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "Object:caller == Object:Player Block begin"
+							ChangeAttr "slot#msGP.Totaldead +1"
+							IfAttr "slot#msGP.PlayerSide == SIDE_NONE Block begin"	
+								SetAttr "slot#msGP.PlayerSide SIDE_BAD"									
+							Block end
+							IfAttr "slot#msGP.PlayerSide == SIDE_GOOD Block begin"
+								SetAttr "slot#msGP.PlayerSide SIDE_INSANE"
+							Block end
+						Block end
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnHit "ExecutePattern st_idle.pt_hit"
+	}
+}
+behavior
+{
+	name bh_helicopter
+	states
+	{
+		st_p3_helicopter
+		{
+			group Neutral
+			patterns
+			{
+				pt_default:ignore_ext_events
+				{
+					actions
+					{
+						SetAttr "flag_zombie 1"
+						SetAttr "flag_boss 1"
+						TargetEntByName gameplay
+						TargetToMem msGP
+						SetAttr "ea_dmg_absorb 95"
+						TargetPlayer 1
+						FireInput self,StartHunt
+						AttributeProgressBar "HeliHealthPanel,show,ea_health"
+						Timer tShout,5:2
+					}
+					events
+					{
+						OnTimer_tShout	"ExecutePattern .xpt_shout"
+						OnDeath			"ExecutePattern st_OnDeath.pt_default"
+					}
+				}
+	      
+				xpt_shout
+				{
+					actions
+					{
+						Say HELI
+						Timer tShout,5:10
+					}
+				}
+			}
+		}
+		
+		st_OnDeath
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Say PLD_HELICRASH
+					}
+				}
+			}
+		}
+	}
+}
+
+behavior
+{
+	name bh_cashmart_zealot
+	inherited bh_citizen
+	states
+	{
+		st_stage1
+		{
+			Group Combat
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetEntByName gameplay
+						TargetToMem msGP
+						ResetTarget 1
+						SetAttr "Conscious 1"
+						IfAttr "slot#msGP.GoodProgress == 1 Pattern st_stage2.xpt_cash_lower"
+						IfAttr "slot#msGP.GoodProgress == 2 Pattern st_stage2.xpt_cash_lower"
+						IfAttr "slot#msGP.GoodProgress == 3 Pattern st_stage2.xpt_cash_upper"		
+						IfAttr "slot#msGP.GoodProgress == 4 Pattern st_stage2.xpt_secondfloor"
+						AvoidProhibitedArea true
+						Timer tSay,5:10
+						SetAreaGroup AG_DEFAULT:walkable,AG_1floor_middle
+						ExecutePattern bh_base:st_init.pt_default
+						SetAttr "TaskCombat TC_SEARCH"
+						IfAttr "slot#msGP.PlayerSide == SIDE_NONE Block begin"		//setting the absorb if the player
+							SetAttr "ea_bulletdmg_absorb 90"												//hasn't started combat
+						Block end
+						SetSquadRelation sq_police:enemy
+						IfAttr "slot#msGP.PlayerSide == SIDE_GOOD SetSquadRelation player_squad:enemy"
+						IfAttr "slot#msGP.PlayerSide == SIDE_INSANE SetSquadRelation player_squad:enemy"
+						SetAttr "UnderFire 1"
+						TargetEnemy 1				
+						State bh_military:st_combat_search
+					}
+				}
+				xpt_GotHit
+				{
+					actions
+					{
+						
+						IfAttr "Object:caller == Object:Player Block begin"
+	//						ShowMessage "[Zealot hit],$P3Mission"
+							IfAttr "slot#msGP.PlayerSide == SIDE_BAD Say FRIENDLYFIRE"
+							IfAttr "slot#msGP.PlayerSide == SIDE_NONE Block begin"
+								SetAttr "slot#msGP.PlayerSide SIDE_GOOD"
+							Block end
+						Block end
+						Say HIT
+					}
+				}
+				pt_say
+				{
+					actions
+					{
+						IfAttr "slot#msGP.PlayerSide == SIDE_NONE Say RECRUIT"
+						IfAttr "slot#msGP.PlayerSide != SIDE_NONE Say TOUGH"
+						Timer tSay,5:20
+					}
+				}
+				xpt_hateplayer
+				{
+					actions
+					{
+						SetAttr "ea_bulletdmg_absorb 0"
+						IfAttr "slot#msGP.PlayerSide != SIDE_BAD Say FRIENDLYFIREFINAL"
+						IfAttr "slot#msGP.PlayerSide == SIDE_GOOD SetSquadRelation player_squad:enemy"
+						IfAttr "slot#msGP.PlayerSide == SIDE_INSANE SetSquadRelation player_squad:enemy"
+					}
+				}
+				xpt_tazed:ignore_ext_events
+				{
+					actions
+					{
+						SetAttr "ea_takeable 1"
+						SetAttr "ea_tased 1"
+						IfAttr "slot#msGP.PlayerSide == SIDE_BAD Say FRIENDLYFIRE"
+						IfAttr "slot#msGP.PlayerSide == SIDE_NONE Block begin"
+							SetAttr "slot#msGP.PlayerSide SIDE_GOOD"
+						Block end
+						Wait 7
+						State st_start
+					}
+					events
+					{
+						OnAE_playertookside "ExecutePattern st_stage1.xpt_hateplayer"
+						OnTimer_tSay "ExecutePattern st_stage1.pt_say"
+						OnUnstunned "State st_start"
+					}
+				}
+				xpt_sprayed
+				{
+					actions
+					{
+						IfAttr "slot#msGP.PlayerSide == SIDE_BAD Say FRIENDLYFIRE"
+						IfAttr "slot#msGP.PlayerSide == SIDE_NONE Block begin"		
+							SetAttr "slot#msGP.PlayerSide SIDE_GOOD"									
+							Say FRIENDLYFIREFINAL
+						Block end
+						State st_OnSprayStunned
+					}
+				}
+			}
+		}
+		st_stage2
+		{
+			Group Combat
+			patterns
+			{
+				xpt_cash_lower
+				{
+					actions
+					{
+						TargetEntByName gameplay
+						TargetToMem msGP
+						SetAttr "Conscious 1"
+						ResetTarget 1
+						AvoidProhibitedArea true
+						//Set area group and start combat
+						SetAreaGroup AG_DEFAULT:walkable,AG_1floor_cash
+						ExecutePattern bh_base:st_init.pt_default
+						SetSquadRelation sq_police:enemy
+						IfAttr "slot#msGP.PlayerSide == SIDE_INSANE SetSquadRelation player_squad:enemy"
+						IfAttr "slot#msGP.PlayerSide == SIDE_GOOD SetSquadRelation player_squad:enemy"
+						SetAttr "TaskCombat TC_SEARCH"
+						SetAttr "UnderFire 1"
+						TargetEnemy 1	
+						State bh_military:st_combat_search
+					}
+				}
+				xpt_cash_upper
+				{
+					actions
+					{
+						TargetEntByName gameplay
+						TargetToMem msGP
+						ResetTarget 1
+						//Set area group and start combat
+						SetAreaGroup AG_DEFAULT:walkable,AG_2floor_cash
+						ExecutePattern bh_base:st_init.pt_default
+						SetSquadRelation sq_police:enemy
+						IfAttr "slot#msGP.PlayerSide == SIDE_INSANE SetSquadRelation player_squad:enemy"
+						IfAttr "slot#msGP.PlayerSide == SIDE_GOOD SetSquadRelation player_squad:enemy"
+						SetAttr "TaskCombat TC_SEARCH"
+						SetAttr "UnderFire 1"
+						TargetEnemy 1	
+						State bh_military:st_combat_search
+					}
+				}
+				xpt_secondfloor
+				{
+					actions
+					{
+						TargetEntByName gameplay
+						TargetToMem msGP
+						ResetTarget 1
+						//Set area group and start combat
+						SetAreaGroup AG_DEFAULT:walkable,AG_2floor
+						ExecutePattern bh_base:st_init.pt_default
+						SetSquadRelation sq_police:enemy
+						IfAttr "slot#msGP.PlayerSide == SIDE_INSANE SetSquadRelation player_squad:enemy"
+						IfAttr "slot#msGP.PlayerSide == SIDE_GOOD SetSquadRelation player_squad:enemy"
+						SetAttr "TaskCombat TC_SEARCH"
+						SetAttr "UnderFire 1"
+						TargetEnemy 1	
+						Timer tGrenade,5:10
+						State bh_military:st_combat_search
+					}
+				}
+				xpt_throwgrenade
+				{
+					actions
+					{
+						SetAttr "param 0,0,2"
+						ChangeAttr "param 0:2"
+						TargetEnemy 1
+						IfAttr "param == 1 ThrowGrenade 1,frag"
+						IfAttr "param == 2 ThrowGrenade 1,molotov"
+						Timer tGrenade,5:10
+					}
+				}
+			}
+		}
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						//player side change
+						IfAttr "Object:caller == Object:player Block begin"
+							IfAttr "slot#msGP.PlayerSide == SIDE_NONE SetAttr slot#msGP.PlayerSide SIDE_GOOD"
+							IfAttr "slot#msGP.PlayerSide == SIDE_BAD SetAttr slot#msGP.PlayerSide SIDE_INSANE"
+						Block end
+						
+						//counters
+						ChangeAttr "slot#msGP.ZealotsKilled +1"
+						IfAttr "Object:caller == Object:player ChangeAttr slot#msGP.Totaldead +1" //это надо вообще?
+						
+						//spawners progress
+						//зилоты не доспавниваются
+						
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+		st_OnUnconscious
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default:ignore_ext_events
+				{
+					actions
+					{
+						SetAttr "Conscious 0"
+						SetSquad null
+						ExecutePattern bh_base:st_OnUnconscious.pt_default
+					}
+				}
+			}
+		}
+		st_OnDeath
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ChangeAttr "slot#msGP.Zealotsdead +1"
+						ExecutePattern bh_base:st_OnDeath.pt_default
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnSprayStunned "Pattern st_stage1.xpt_sprayed"
+//		OnTargetUnconscious "ExecutePattern st_stage2.pt_targetunconscious"
+		OnTimer_tGrenade "ExecutePattern st_stage2.xpt_throwgrenade"
+		OnEnemiesDead "ExecutePattern st_stage1.pt_default"
+//		OnInvalidRoute "ExecutePattern st_stage1.pt_default"
+		OnHit "ExecutePattern st_stage1.xpt_GotHit"
+		OnTasingStart "Pattern st_stage1.xpt_tazed"
+		OnAE_playertookside "ExecutePattern st_stage1.xpt_hateplayer"
+		OnSpawnCL "ExecutePattern st_stage2.xpt_cash_lower"
+		OnSpawnCH "ExecutePattern st_stage2.xpt_cash_upper"
+		OnSpawn2F "ExecutePattern st_stage2.xpt_secondfloor"
+		OnTimer_tSay "ExecutePattern st_stage1.pt_say"
+	}
+}
+behavior
+{
+	name bh_cashmart_badger
+	inherited bh_human
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetEntByName gameplay
+						TargetToMem msGP
+						SetAttr "TaserDamage 0"
+						SetAttr "ea_crit_disabled 1"
+						SetAttr "flag_zombie 1"
+						SetAttr "flag_boss 1"
+						ResetTarget 1
+						SetAreaGroup AG_DEFAULT,AG_2floor,AG_1floor_entrance,AG_1floor_cash,AG_1floor_middle,AG_2floor_cash
+						ExecutePattern bh_base:st_init.pt_default
+						SetSquadRelation sq_police:enemy
+						IfAttr "slot#msGP.PlayerSide == SIDE_INSANE SetSquadRelation player_squad:enemy"
+						IfAttr "slot#msGP.PlayerSide == SIDE_GOOD SetSquadRelation player_squad:enemy"
+						SetAttr "ea_dmg_absorb 100"
+						SetAttr "Conscious 1"
+						TargetEnemy 1
+					}
+				}
+			}
+		}
+		st_start
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "slot#msGP.PlayerSide == SIDE_INSANE SetSquadRelation player_squad:enemy"
+						IfAttr "slot#msGP.PlayerSide == SIDE_GOOD SetSquadRelation player_squad:enemy"
+						TargetEnemy 1
+						IfAttr "target.ea_Manner == Manner:Player State bh_human:st_attack_melee"
+						IfAttr "target.Conscious == 0 Block begin"
+							Relationship target,Neutral,2
+							ResetTarget 1
+							State st_start
+						Block end
+						State bh_human:st_attack_melee
+					}
+				}
+				pt_onhit
+				{
+					actions
+					{
+						Say HIT
+						IfAttr "Object:caller == Object:player SetAttr ea_dmg_absorb 80"
+					}
+				}
+				pt_targetunconscious
+				{
+					actions
+					{
+						Relationship target,Neutral,2
+						ResetTarget 1
+						State st_start
+					}
+				}
+			}
+		}
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "slot#msGP.PlayerSide == SIDE_BAD SetAttr slot#msGP.PlayerSide SIDE_INSANE"
+						EntFireInput gameplay,FireFSMScriptEvent:OnBadgerDeath
+						SetSquad null
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnHit "ExecutePattern st_start.pt_onhit"
+		OnTargetReset "State st_start"
+		OnTargetUnconscious "ExecutePattern st_start.pt_targetunconscious"
+		OnInvalidRoute "State st_start"
+	}
+}

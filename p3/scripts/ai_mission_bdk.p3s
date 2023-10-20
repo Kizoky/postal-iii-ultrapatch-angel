@@ -1,0 +1,1907 @@
+Constants
+{
+	Const TC_SHOOT,21
+	Const TC_MOVETO,22
+	Const TC_THROW,23
+	Const TC_LOOKFOR,24
+	Const TC_PUNCH,25
+	Const TC_FREEMOVEMENT,26
+
+	Const BDK_GRENADE_DAMAGE,35
+	Const BDK_SUIT_DAMAGE_LOW,-1
+	Const BDK_SUIT_DAMAGE_MEDIUM,-2
+	Const BDK_SUIT_DAMAGE_HIGH,-5
+	
+	Const MAX_LIVE_GRENADE,3
+	Const TIME_LIVE_GRENADE,15
+	Const INTERVAL_NO_GRENADE,5
+	
+	Const RADIUS_THROW_GRENADE_TO_CLOSE,100
+	Const RADIUS_THROW_GRENADE_TOO_FAR,1200
+	
+	Const BDK_BEFORE_GO_TO_PLAYER,5
+	Const BDK_BEFORE_FREEMOVMENT,8
+	Const BDK_BEFORE_ATTACK_PLAYER,10
+						
+	Const BDK_SUIT_HEALTH_MAX,10
+						
+	Const BDK_LOOK_BEFORE_GO_TO_PLAYER,5
+	Const BDK_LOOK_BEFORE_ATTACK_PLAYER,10
+	Const RADIUS_ACTIVITY,800
+	Const RADIUS_DEFENCE,200
+	Const RADIUS_VISIBILITY,400
+	
+	Const BDK_DEFAULT_NERD_IGNORE,500
+	Const BDK_DEFAULT_NERD_MILITARY_IGNORE,500
+	Const BDK_DEFAULT_NERD_MELEE_IGNORE,300
+	
+}
+
+
+behavior
+{
+	name bh_mission_krotchy
+	inherited bh_mission_logic_base
+	
+	States
+	{
+	
+		st_empty
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+				}
+			}
+		}
+		
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "M 1"
+						SetAttr "PlayerFloor 1,1,2" 
+						
+						SetAttr "PlayerPath PATH_INSANE"
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						//EntFireInput "pcc,Command:p3_player_skin prisoner"
+						//EntFireInput "pcc,Command:give p3_weapon_shopvac"
+						//Wait 1
+						//MissionBriefing "[#P3_BDK_BRIEF]"
+						PlayerKarma show
+						MissionLog "add_primary,obtain,#P3_BDK_PRI1"
+						//MissionLog "add_primary,nodamage,#P3_BDK_PRI2"
+						
+						EntFireInput "lpp,GiveWeapon:p3_weapon_motorhead"
+						EntFireInput "lpp,GiveWeapon:p3_weapon_laserpen"
+						EntFireInput "lpp,GiveWeapon:p3_weapon_shovel"
+						EntFireInput "lpp,GiveWeapon:p3_weapon_taser"
+						EntFireInput "lpp,GiveWeapon:p3_weapon_cat"
+						TargetPlayer 1
+						CheckAttr "target.wpn_HaveBadger EntFireInput lpp,GiveWeapon:p3_weapon_wolverine"
+						CheckAttr "target.wpn_HaveBees Block begin"
+							EntFireInput "lpp,GiveWeapon:p3_weapon_beenest"
+							EntFireInput "pcc,Command:giveammo Beehive 5"
+						Block end
+						CheckAttr "target.wpn_HaveGamamet EntFireInput lpp,GiveWeapon:p3_weapon_gamamet"
+						
+						Wait 0.5
+						ShowMessage #P3_BDK_MSG
+						Wait 1
+						//ShowMessage #P3_BDK_HELPER02
+						//Pattern pt_loop
+					}
+				}
+				
+			}
+			events
+			{
+				OnPlayerChangeFloor1	"SetAttr PlayerFloor 1"
+				OnPlayerChangeFloor2	"SetAttr PlayerFloor 2"
+				OnFire_SuitDone			"State st_fail"
+				OnFire_KrotchyDone		"State st_complete"
+			}
+		}
+		
+		st_fail
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ShowMessage #P3_BDK_MSG01
+						MissionLog fail,obtain
+						MissionLog fail,nodamage
+						Wait 1
+						EntFireInput "fade_in,Fade"
+						Wait 1
+						EntFireInput "pcc,Command:reload"
+					}
+				}
+			}
+		}
+		
+		st_complete
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						EntFireInput "fade_in,Fade"
+						Wait 1
+						EntFireInput "pcc,Command:video_exitcmd bdk_2 p3_end_mission"
+						//EntFireInput "player_proxy,Command:changelevel gri"
+					}
+				}
+			}
+		}
+		st_message{
+		Group Neutral
+			Patterns
+			{
+				
+				pt_next
+				{
+					actions
+					{
+					ChangeAttr "M +1"
+					Pattern pt_show
+					}
+				}
+				pt_prev
+				{
+					actions
+					{
+					ChangeAttr "M -1"
+					Pattern pt_show
+					}
+				}
+				pt_show_helper
+				{
+					actions
+					{
+					IfAttr "M == 1 ShowMessage #P3_PDB_HELPER01"
+		IfAttr "M == 2 ShowMessage #P3_PDB_HELPER02"
+		IfAttr "M == 3 ShowMessage #P3_PDB_HELPER03"
+		IfAttr "M == 4 ShowMessage #P3_PDB_HELPER04"
+		
+		IfAttr "M == 5 ShowMessage #P3_PA_HELPER01"
+		IfAttr "M == 6 ShowMessage #P3_PA_HELPER02"
+		IfAttr "M == 7 ShowMessage #P3_PA_HELPER03"
+		IfAttr "M == 8 ShowMessage #P3_PA_HELPER04"
+		
+		IfAttr "M == 9 ShowMessage #P3_CW_HELPER01"
+		IfAttr "M == 10 ShowMessage #P3_CW_HELPER02"	
+		IfAttr "M == 11 ShowMessage #P3_CW_HELPER03"
+					}
+				}
+				pt_show
+				{
+					actions
+					{
+						IfAttr "M == 1 ShowMessage #P3_PDB_T01_MSG01"	
+						IfAttr "M == 2 ShowMessage #P3_PDB_T02_MSG01"	
+						IfAttr "M == 3 ShowMessage #P3_PDB_T03_MSG01"
+						IfAttr "M == 4 ShowMessage #P3_PDB_T03_MSG02"	
+						IfAttr "M == 5 ShowMessage #P3_PDB_T03_MSG03"
+						IfAttr "M == 6 ShowMessage #P3_PDB_T04_MSG01"
+						IfAttr "M == 7 ShowMessage #P3_PDB_T05_MSG01"
+						IfAttr "M == 8 ShowMessage #P3_PDB_T06_MSG01"
+						IfAttr "M == 9 ShowMessage #P3_PDB_T06_MSG02"
+						IfAttr "M == 10 ShowMessage #P3_PDB_T06_MSG03"
+						IfAttr "M == 11 ShowMessage #P3_PDB_BTN_MSG01"
+						IfAttr "M == 12 ShowMessage #P3_PDB_BTN_MSG02"
+						IfAttr "M == 13 ShowMessage #P3_PDB_BTN_MSG03"
+						IfAttr "M == 14 ShowMessage #P3_PDB_BTN_MSG04"
+						IfAttr "M == 15 ShowMessage #P3_PDB_BTN_MSG05"
+						IfAttr "M == 16 ShowMessage #P3_PDB_BTN_MSG06"
+						IfAttr "M == 17 ShowMessage #P3_PDB_BTN_MSG07"
+						IfAttr "M == 18 ShowMessage #P3_PDB_BTN_MSG08"
+
+
+///////////////////////////////// MISSION PW
+
+
+
+		IfAttr "M == 19 ShowMessage #P3_MPW_WARNING1"
+		IfAttr "M == 20 ShowMessage #P3_MPW_WARNING2"
+		IfAttr "M == 21 ShowMessage #P3_MPW_WARNING3"
+		IfAttr "M == 22 ShowMessage #P3_MPW_MOMS_OBJ"
+		IfAttr "M == 23 ShowMessage #P3_MPW_COMPLETE"
+		IfAttr "M == 24 ShowMessage #P3_MPW_FAILED"
+
+///////////////////////////////// MISSION DCR
+		IfAttr "M == 25 ShowMessage #P3_DCR_START"	
+		IfAttr "M == 26 ShowMessage #P3_DCR_SUSHI_ASSAULT"
+		
+///////////////////////////////// MISSION JWB
+		IfAttr "M == 27 ShowMessage #P3_JWB_DESC"
+		IfAttr "M == 28 ShowMessage #P3_JWB_SECONDARY_LETHAL_FAILED"
+		
+///////////////////////////////// MISSION MEET ZEALOTS (MZ)
+		IfAttr "M == 29 ShowMessage #P3_MTZ_GETAPPLES"
+		IfAttr "M == 30 ShowMessage #P3_MTZ_KILLTALIBS"
+		IfAttr "M == 31 ShowMessage #P3_MTZ_KILLZEA"
+		
+//////////////////////////////////MISSION CASHMART
+		IfAttr "M == 32 ShowMessage #P3_CM_GOOD1"
+		IfAttr "M == 33 ShowMessage #P3_CM_BAD1"
+		IfAttr "M == 34 ShowMessage #P3_CM_INSANE1"
+		IfAttr "M == 35 ShowMessage #P3_CM_GOOD2"
+		IfAttr "M == 36 ShowMessage #P3_CM_BAD2"	
+		IfAttr "M == 37 ShowMessage #P3_CM_BAD3" 
+		IfAttr "M == 38 ShowMessage #P3_CM_GOOD3"
+		IfAttr "M == 39 ShowMessage #P3_CM_INSANE2"
+		IfAttr "M == 40 ShowMessage #P3_CM_INSANE3"
+		
+////////////////////////////MISSION MEXICO
+		IfAttr "M == 41 ShowMessage #P3_MEX_MISSION1"
+		IfAttr "M == 42 ShowMessage #P3_MEX_MISSION2"
+		
+////////////////////////////MISSION VIAGRA COURIER
+		IfAttr "M == 43 ShowMessage #P3_MVC_MISSION2"
+		IfAttr "M == 44 ShowMessage #P3_MVC_MISSION3"
+		
+////////////////////////////MISSION TESTLAB INSANE
+		IfAttr "M == 45 ShowMessage #P3_MLI_MISSION2"
+		IfAttr "M == 46 ShowMessage #P3_MLI_MISSION3"
+		
+		
+///////////////////////////////MISSION CHAMP RESCUE
+		IfAttr "M == 47 ShowMessage #P3_CRM_MISSION2"
+		IfAttr "M == 48 ShowMessage #P3_CRM_EXTRA"
+		
+////////////////////////////////MISSION GAY RODEO
+		IfAttr "M == 49 ShowMessage #P3_RODEO_MISSION2"
+		
+
+		////////////////////////////////MISSION MOTORCADE
+		IfAttr "M == 50 ShowMessage #P3_MC_WARNING"
+		
+////////////////////////////////MISSION SUB
+		IfAttr "M == 51 ShowMessage #P3_SUB_MSG01"
+		IfAttr "M == 52 ShowMessage #P3_SUB_SEC_COMBACK_UWE_DIE"
+		IfAttr "M == 53 ShowMessage #P3_SUB_SEC_RUNAWAY_UWE_LIVES"
+		IfAttr "M == 54 ShowMessage #P3_SUB_SEC_RUNAWAY_UWE_DIE"
+		IfAttr "M == 55 ShowMessage #P3_SUB_SEC_UWE_DIE"
+		
+
+		////////////////////////////////MISSION PA
+		IfAttr "M == 56 ShowMessage #P3_PA_MSG2"
+		IfAttr "M == 57 ShowMessage #P3_PA_SEC2_MSG1"
+		IfAttr "M == 58 ShowMessage #P3_PA_SEC2_MSG2"	
+		IfAttr "M == 59 ShowMessage #P3_PA_SEC2_MSG3"
+		IfAttr "M == 60 ShowMessage #P3_PA_SEC2_MSG4"
+		IfAttr "M == 61 ShowMessage #P3_PA_FAIL1"
+		
+
+////////////////////////////////MISSION CW
+		IfAttr "M == 62 ShowMessage #P3_CW_MSG01"	
+		IfAttr "M == 63 ShowMessage #P3_CW_MSG02"
+		IfAttr "M == 64 ShowMessage #P3_CW_MSG03"
+		IfAttr "M == 65 ShowMessage #P3_CW_MSG04"
+		IfAttr "M == 66 ShowMessage #P3_CW_FAILMSG"
+		
+////////////////////////////////MISSION PWAC
+		IfAttr "M == 67 ShowMessage #P3_PWAC_MSG1"
+		IfAttr "M == 68 ShowMessage #P3_PWAC_MSG2"
+		IfAttr "M == 69 ShowMessage #P3_PWAC_FAIL"	
+		
+////////////////////////////////MISSION BDK
+		IfAttr "M == 70 ShowMessage #P3_BDK_MSG"
+		
+		
+/////////////////////////////////MISSION PM2
+		IfAttr "M == 71 ShowMessage #P3_PM2_CRIME01_MSG"
+		IfAttr "M == 72 ShowMessage #P3_PM2_CRIME02_MSG"
+		IfAttr "M == 73 ShowMessage #P3_PM2_CRIME03_MSG"
+		IfAttr "M == 74 ShowMessage #P3_PM2_CRIME04_MSG"
+		IfAttr "M == 75 ShowMessage #P3_PM2_CRIME05_MSG"
+		IfAttr "M == 76 ShowMessage #P3_PM2_CRIME06_MSG"
+
+		
+					}
+				}
+				
+			
+			}
+		}		
+		
+	}
+	events
+	{
+		NEXTMESSAGE "ExecutePattern st_message.pt_next"
+		SHOW "ExecutePattern st_message.pt_show"
+		PREVMESSAGE "ExecutePattern st_message.pt_prev"
+		
+		OnNewGame	"ExecutePattern weaponGive.BDK"
+	}
+}
+
+
+
+
+behavior
+{
+	name bh_krotchy_boss
+	inherited bh_military
+	
+	States
+	{
+	
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						SetAttr "ea_crit_disabled 1"
+						SetAttr "TaskCombat 0,0,100,on_change_event"
+						SetAttr "SuitHealth BDK_SUIT_HEALTH_MAX,0,BDK_SUIT_HEALTH_MAX"
+						SetAttr "ea_dmg_absorb 90"
+						SetAttr "ea_bulletdmg_absorb 80"
+						SetAttr "ea_clubdmg_absorb 80"
+						SetAttr "ea_blastdmg_absorb 85"
+						SetAttr "ea_krotchydmg_absorb  100"
+						SetAttr "ea_flamedmg_absorb 100"
+						SetAttr "ea_physdmg_absorb  90"
+						SetAttr "ea_blast_immune 1"
+						SetAttr "TaserDamage 0"
+						SetAttr "SprayDamage 0"
+						SetAttr "flag_zombie 1"
+						SetAttr "flag_boss 1"
+						
+						AvoidProhibitedArea true
+						TargetPlayer 1
+						TargetToMem msENEMY
+						
+						TargetEntByName mission_logic
+						TargetToMem msGP
+						
+						SetAttr "ThrownGrenade MAX_LIVE_GRENADE"
+						Timer grenade_cntr,TIME_LIVE_GRENADE,repeated
+						Timer defence,1,repeated
+						Timer tStopThrow,INTERVAL_NO_GRENADE,repeated
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Senses true
+						
+						AttributeProgressBar "KrotchyHealthPanel,show,ea_health"
+						//AttributeProgressBar "KrotchyCostumeHealthPanel,show,SuitHealth"
+						
+						
+						TargetPlayer 1
+						Relationship target,enemy
+						ResetTarget 1
+						
+						ExecutePattern st_combat_logic.xpt_setTaskDefault
+					}
+				}
+				
+			}
+		}
+		
+		st_combat_logic
+		{
+			Group Combat
+			Patterns
+			{
+				xpt_setTaskDefault
+				{
+					actions
+					{
+						SetAttr "TaskCombat TC_LOOKFOR"
+						IfAttr "TaskCombat == TC_LOOKFOR SetAttr TaskCombat TC_THROW" 
+						
+						//Timer tTaskCombat,10:20
+					}
+				}
+				
+				
+				xpt_listenerTaskCombat{
+					actions
+					{
+						TargetPlayer 1
+						Relationship target,enemy
+						
+						IfAttr "TaskCombat == TC_NONE ExecutePattern st_combat_logic.xpt_setTaskDefault"
+						IfAttr "TaskCombat == TC_MOVETO State st_moving"
+						IfAttr "TaskCombat == TC_LOOKFOR State st_moving"
+						IfAttr "TaskCombat == TC_FREEMOVEMENT State st_moving"
+						IfAttr "TaskCombat == TC_SHOOT State st_shoot"
+						IfAttr "TaskCombat == TC_THROW State st_throw"
+						
+					}
+				
+				}
+				xpt_OnTaskTimer
+				{
+					actions
+					{
+						IfAttr "TaskCombat == TC_MOVETO Block begin"
+							SetAttr "TaskCombat TC_LOOKFOR"
+						Block end
+						
+						IfAttr "TaskCombat == TC_SHOOT Block begin"
+							Timer tTaskCombat,5:3
+							IfAttr "DistTo:Target > 20 Block begin"
+								IfAttr "ThrownGrenade < MAX_LIVE_GRENADE SetAttr Combat TC_THROW" 
+								IfAttr "ThrownGrenade >= MAX_LIVE_GRENADE SetAttr Combat TC_MOVETO" 
+							Block end
+							IfAttr "DistTo:Target <= 20 SetAttr TaskCombat TC_MOVETO"
+						Block end
+						
+						IfAttr "TaskCombat == TC_THROW Block begin"
+							Timer tTaskCombat,5:5
+							SetAttr "TaskCombat TC_SHOOT"
+						Block end
+					}
+				}
+				
+				xpt_OnTaskFail
+				{
+					actions
+					{
+						IfAttr "TaskCombat == TC_SHOOT Block begin"
+							SetAttr "TaskCombat TC_MOVETO"
+							Timer tTaskCombat,3:2
+						Block end
+						
+						IfAttr "TaskCombat == TC_THROW Block begin"
+							SetAttr "TaskCombat TC_MOVETO"
+							Timer tTaskCombat,4:3
+						Block end
+						
+						IfAttr "TaskCombat == TC_MOVETO Block begin"
+							SetAttr "TaskCombat TC_LOOKFOR"
+							Timer tTaskCombat,4:3
+						Block end
+					}
+				}
+				
+				xpt_OnTaskComplete
+				{
+					actions
+					{
+						Say PISSEDON,POSTAL,TOUGH
+						SetAttr "TaskLogicPath 0"
+						ChangeAttr "TaskLogicPath 1:10"
+							
+						IfAttr "TaskCombat == TC_LOOKFOR Block begin"
+							SetAttr "TaskCombat TC_THROW"
+							///IfAttr "TaskLogicPath < 4 Block begin"
+							//	//Say PISSEDON
+							//	Timer tTaskCombat,5:5
+							//	SetAttr "TaskCombat TC_SHOOT"
+							//Block end
+							//IfAttr "TaskLogicPath >= 4 Block begin"
+							//	//Say TOUGH
+							//	Timer tTaskCombat,3:2
+							//	SetAttr "TaskCombat TC_THROW"
+							//Block end
+						Block end
+						IfAttr "TaskCombat == TC_MOVETO Block begin"
+						
+							IfAttr "TaskLogicPath < 6 Block begin"
+								//Say POSTAL	
+								Timer tTaskCombat,5:5
+								SetAttr "TaskCombat TC_SHOOT"
+							Block end
+							IfAttr "TaskLogicPath >= 6 Block begin"
+							
+							Say TOUGH
+							Timer tTaskCombat,3:2
+							SetAttr "TaskCombat TC_THROW"
+							
+							Block end
+						Block end
+						IfAttr "TaskCombat == TC_THROW Block begin"
+							IfAttr "TaskLogicPath < 6 Block begin"
+								Timer tTaskCombat,5:5
+								SetAttr "TaskCombat TC_SHOOT"
+							Block end
+							IfAttr "TaskLogicPath >= 6 Block begin"
+								Timer tTaskCombat,3:2
+								SetAttr "TaskCombat TC_MOVETO"
+							Block end
+						Block end
+						IfAttr "TaskCombat == TC_SHOOT Block begin"
+							IfAttr "TaskLogicPath < 7 Block begin"
+								Timer tTaskCombat,5:5
+								IfAttr "ThrownGrenade < MAX_LIVE_GRENADE SetAttr TaskCombat TC_THROW"
+								IfAttr "ThrownGrenade >= MAX_LIVE_GRENADE SetAttr TaskCombat TC_MOVETO"
+							Block end
+							IfAttr "TaskLogicPath >= 7 Block begin"
+								Timer tTaskCombat,3:2
+								SetAttr "TaskCombat TC_MOVETO"
+							Block end
+						Block end
+					}
+				}
+				
+			}
+		}
+		
+		
+		st_moving
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Timer checkToAction,1,repeated
+						//Timer tBeginAttack,BDK_BEFORE_FREEMOVMENT
+						
+						IfAttr "TaskCombat == TC_MOVETO Pattern pt_moveto"
+						IfAttr "TaskCombat == TC_LOOKFOR Pattern pt_lookfor"
+						IfAttr "TaskCombat == TC_FREEMOVEMENT Pattern pt_freemovement"
+						
+					}
+				}
+				pt_lookfor
+				{
+					actions
+					{
+						Face false
+						LookAt false
+						Aim false
+						
+						FreeMovementParams area_all,256,-1,area_group
+						FreeMovement walk,reset
+						Wait BDK_BEFORE_GO_TO_PLAYER
+						
+						ExecutePattern st_combat_logic.xpt_OnTaskComplete
+						
+						//Timer tBeginMoveTo,BDK_BEFORE_GO_TO_PLAYER
+						//Timer tFreeMovementAttack,BDK_BEFORE_ATTACK_PLAYER
+						
+						}
+				}
+				pt_moveto
+				{
+					actions
+					{
+						FreeMovement false
+						TargetPlayer 1
+						MoveToTarget true
+						Face true
+						LookAt true
+						IfAttr "DistTo:Player < RADIUS_ACTIVITY ExecutePattern st_combat_logic.xpt_OnTaskComplete"
+						
+						
+						repeat 2
+					}
+				}
+				pt_freemovement
+				{
+					actions
+					{
+						Timer tBeginMoveTo,BDK_BEFORE_GO_TO_PLAYER
+						FreeMovementParams area_all,100,-1,from_target
+						FreeMovement run,reset
+					}
+				}
+				
+				pt_checkToAction{
+					actions
+					{
+						
+						IfAttr "DistTo:Player < RADIUS_ACTIVITY Block begin"
+							IfAttr "ThrownGrenade < MAX_LIVE_GRENADE and DistTo:Player < RADIUS_THROW_GRENADE_TOO_FAR SetAttr TaskCombat TC_THROW"
+							SetAttr "TaskCombat TC_SHOOT"
+						Block end
+					}
+				}
+				
+				pt_alert
+				{
+					actions
+					{
+						ExecutePattern st_util.xpt_OnHit
+						FreeMovement false
+						
+						TargetPlayer 1
+						Face true
+						LookAt true
+						Wait 1:1
+						LookAt false
+						Face false
+						SetAttr "TaskCombat TC_SHOOT"
+					}
+				}
+				
+			}
+			events
+			{				
+						
+				OnTimer_checkToAction "ExecutePattern pt_checkToAction"
+				//OnLost "SetAttr TaskCombat TC_LOOKFOR"
+				OnVisible "ExecutePattern pt_checkToAction"
+				OnHit "Pattern pt_alert"
+				
+				OnTimer_tBeginMoveTo "SetAttr TaskCombat TC_MOVETO"
+				OnTimer_tBeginAttack "SetAttr TaskCombat TC_SHOOT"
+				OnTimer_tFreeMovementAttack "SetAttr TaskCombat TC_FREEMOVEMET"
+			
+				OnTimer_defence "IfAttr DistTo:Player < BDR_RADIUS_DEFENCE SetAttr TaskCombat TC_SHOOT"
+		
+			
+			}
+				
+		}
+		
+		
+		st_shoot
+		{
+			Group Combat
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetPlayer 1
+						
+						//IfAttr "AngleTo:target > 30 Wait 1"
+						
+						FreeMovement true
+						Wait 1
+						FreeMovement false
+						Face true
+						LookAt true
+						
+						Timer shootComback,1,repeated
+						Timer shootOut,1:3
+						
+						IfAttr "DistTo:Target > RADIUS_THROW_GRENADE_TO_CLOSE  and DistTo:Player < RADIUS_THROW_GRENADE_TOO_FAR and ThrownGrenade < MAX_LIVE_GRENADE SetAttr TaskCombat TC_THROW"
+						
+						Pattern pt_shoot
+						
+						//CheckAttr "target.active CheckTarget 1"
+						
+						//SetAttr "TaskCombat TC_FREEMOVEMNT"
+					}
+					
+					events
+					{
+						OnVisible "Pattern pt_shoot"
+						OnLost "Pattern pt_lost"
+					}
+				}
+				pt_shootOut{
+					actions
+					{
+						FreeMovement false
+						MoveToTarget false
+						
+						Reload 1
+						WaitForEnd 1
+						SetAttr "TaskCombat TC_FREEMOVEMNT"
+					}
+				}
+				
+				pt_shootComback{
+					actions
+					{
+					
+						//Reload 1
+						//WaitForEnd 1
+						Pattern st_shoot.pt_default
+					}
+				}
+				
+				
+				
+				pt_shoot
+				{
+					actions
+					{
+						
+						
+						Aim true,false
+						Wait 0.2
+						Hit SPREAD_NORMAL
+						//Wait 0.1:0.4
+						repeat 0.1
+					}
+					events{
+						OnTimer_shootComback "Pattern st_shoot.pt_shootComback"
+						OnTimer_shootOut "Pattern st_shoot.pt_shootOut"
+						//OnKrotchyDamage "State st_stunned"
+					}
+				}
+				pt_lost
+				{
+					actions
+					{
+						
+						MoveToTarget run
+						Wait 1
+						CheckTarget 1
+						
+					}
+					events{
+						OnLost "ExecutePattern st_combat_logic.xpt_OnTaskFail"
+						OnVisible "CallPattern pt_shoot"
+					}
+				}
+				
+			}
+			events
+			{
+				OnKicked "State st_start"
+				//OnKrotchyDamage "State st_stunned"
+				OnTimer_tTaskCombat "ExecutePattern st_combat_logic.xpt_OnTaskTimer"
+				OnTimer_defence "IfAttr DistTo:Player < BDR_RADIUS_DEFENCE SetAttr TaskCombat TC_SHOOT"
+		
+			}
+		}
+		
+		
+		
+		
+		
+		
+		st_throw
+		{
+			Group Combat
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						
+						IfAttr "ThrownGrenade >= MAX_LIVE_GRENADE SetAttr TaskCombat TC_SHOOT"
+						IfAttr "DistTo:Target <= RADIUS_THROW_GRENADE_TO_CLOSE SetAttr TaskCombat TC_SHOOT"
+						CheckAttr "stopThrow SetAttr TaskCombat TC_SHOOT"
+						Aim false
+						Face true
+						LookAt true
+						Freemovement false
+						Pattern pt_loop
+					}
+				}
+				
+				pt_loop
+				{
+					actions
+					{
+						FreeMovement false
+						IfAttr "ThrownGrenade < MAX_LIVE_GRENADE Block begin"
+							ChangeAttr "ThrownGrenade +1"
+							ThrowGrenade 1,krotchy_toy
+							Wait 1
+							
+							IfAttr "ThrownGrenade > 2 SetAttr stopThrow 1"
+						Block end
+						CheckTarget 1
+						Pattern pt_default
+					}
+					events
+					{
+						OnLost "ExecutePattern st_combat_logic.xpt_OnTaskFail"
+					}
+				}
+			}
+			events
+			{
+				
+				OnTargetClose "ExecutePattern st_combat_logic.xpt_OnTaskComplete"
+				//пусть будет комплит, д абы не плодить сущности, хотя на самом деле это фейл
+				OnTimer_tTaskCombat "ExecutePattern st_combat_logic.xpt_OnTaskTimer"
+				
+			}
+		}
+		
+		st_punch
+		{
+			Group Combat
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						//Aim false
+						//Face true
+						//LookAt true
+						
+						//FreeMovementParams area_all,64,512,from_target
+						//FreeMovement run,reset
+						
+						Say POSTAL
+						//Timer tTaskCombat,3:2
+						
+					}
+				}
+				
+				
+			}
+			events
+			{
+				OnTimer_tTaskCombat "ExecutePattern st_combat_logic.xpt_OnTaskTimer"
+			}
+		}
+		st_stunned
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Say SCREAM
+						//ShowMessage #P3_BDK_HELPER01
+						Senses false
+						Sequence seq.reaction_stun
+						Wait 8
+						State st_start
+					}
+					events
+					{
+						OnKicked "Pattern pt_kicked"
+					}
+				}
+				
+				pt_kicked
+				{
+					actions
+					{
+						//ResetSequence 1
+						Say HIT
+						ChangeAttr "ea_health -20"
+						ExecutePattern st_combat_logic.xpt_OnTaskTimer
+					}
+					events
+					{
+						OnStandUpEnd "SetAttr TaskCombat TC_LOOKFOR "
+						
+					}
+				}
+			}
+			events
+			{
+				OnIgnite "Wait 0"
+			}
+		}
+		
+		st_OnDeath
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetFromMem msGP
+						IfAttr "SuitHealth <= 0 FireEvent SuitDone"
+						IfAttr "SuitHealth > 0 FireEvent KrotchyDone"
+						ExecutePattern bh_base:st_OnDeath.pt_default
+					}
+				}
+			}
+		}
+		
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				
+				
+				
+				
+				xpt_OnHit
+				{
+					actions
+					{
+					
+						//WPN_NONE
+						//WPN_LASER
+						//WPN_TASER
+						//WPN_SPRAY
+						//WPN_CATNIP
+						//WPN_GAS
+						//WPN_MONKEY
+						//WPN_SHOPVAC
+						//WPN_KDOLL
+						//WPN_BEES
+						
+						Say HIT
+						Return 1
+						IfAttr "Object:Caller == Object:Player Block begin"
+							IfAttr "caller.ea_armed == WPN_SHOVEL ChangeAttr SuitHealth BDK_SUIT_DAMAGE_LOW"
+							IfAttr "caller.ea_armed == WPN_M16 ChangeAttr SuitHealth BDK_SUIT_DAMAGE_LOW"
+							IfAttr "caller.ea_armed == WPN_MACHETA ChangeAttr SuitHealth BDK_SUIT_DAMAGE_LOW"
+							IfAttr "caller.ea_armed == WPN_DEGL ChangeAttr SuitHealth BDK_SUIT_DAMAGE_LOW"
+							IfAttr "caller.ea_armed == WPN_SHTG ChangeAttr SuitHealth BDK_SUIT_DAMAGE_LOW"
+							IfAttr "caller.ea_armed == WPN_GRENADE ChangeAttr SuitHealth BDK_SUIT_DAMAGE_LOW"
+							IfAttr "caller.ea_armed == WPN_GRENADE ChangeAttr ea_health BDK_GRENADE_DAMAGE"
+							IfAttr "caller.ea_armed == WPN_M60 ChangeAttr SuitHealth BDK_SUIT_DAMAGE_LOW"
+							IfAttr "caller.ea_armed == BDK_VOLVERINE ChangeAttr SuitHealth BDK_SUIT_DAMAGE_LOW"
+							IfAttr "caller.ea_armed == WPN_NAILBAT ChangeAttr SuitHealth BDK_SUIT_DAMAGE_LOW"
+							IfAttr "caller.ea_armed == WPN_CATS ChangeAttr SuitHealth BDK_SUIT_DAMAGE_LOW"
+							//IfAttr "caller.ea_armed == WPN_MOLOTOV ChangeAttr SuitHealth -BDK_SUIT_DAMAGE_LOW"
+							IfAttr "caller.ea_armed == WPN_LAUNCHER ChangeAttr SuitHealth BDK_SUIT_DAMAGE_HIGH"
+							IfAttr "caller.ea_armed == WPN_AXE ChangeAttr SuitHealth BDK_SUIT_DAMAGE_LOW"
+							IfAttr "caller.ea_armed == WPN_HAMMER ChangeAttr SuitHealth BDK_SUIT_DAMAGE_LOW"
+							IfAttr "caller.ea_armed == WPN_BADGER ChangeAttr SuitHealth BDK_SUIT_DAMAGE_MEDIUM"
+						Block end
+						
+						IfAttr "caller.ea_manner == Manner:PussyCat ChangeAttr SuitHealth BDK_SUIT_DAMAGE_LOW"
+					}
+				}
+				
+				xpt_OnSuitDone
+				{
+					actions
+					{
+						//TargetFromMem msGP
+						//FireEvent SuitDone
+					}
+				}
+				
+				xpt_OnIgnite
+				{
+					actions
+					{
+						Say ONFIRE,2
+					}
+				}
+			}
+		}
+		
+		ChangeKarma
+		{
+			Group Neutral
+			Patterns
+			{
+				Lethal
+				{
+					actions
+					{
+					}
+				}
+				NonLethal
+				{
+					actions
+					{
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnTimer_tStopThrow "RemoveAttr stopThrow"
+		//OnDamaged "ExecutePattern st_util.xpt_OnHit"
+		OnHit "ExecutePattern st_util.xpt_OnHit"
+		OnAttrChange_TaskCombat "ExecutePattern  st_combat_logic.xpt_listenerTaskCombat"
+		//OnAttrMin_SuitHealth "ExecutePattern st_util.xpt_OnSuitDone"
+		//OnKrotchyDamage "State st_stunned"
+		OnIgnite "ExecutePattern st_util.xpt_OnIgnite"
+		OnTimer_grenade_cntr "SetAttr ThrownGrenade 0"
+		//OnLost "MoveToTargetLKP run" // возращается назад даже за хрен занет где и оттуда начинает все по новому
+	}
+	
+}
+
+behavior
+{
+	name bh_krotchy_customer
+	inherited bh_civil
+	
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						SetAttr "flag_bystander 1"
+					
+						AvoidProhibitedArea true
+					}
+				}
+			}
+		}
+		
+		ev_table_right
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default:ignore_ext_events
+				{
+					actions
+					{
+						CallPattern pt_in
+						Sequence seq.ev_table_bored
+						Wait 5:5
+						Pattern pt_out
+					}
+				}
+			}
+		}
+		
+		ev_table_left 
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default:ignore_ext_events
+				{
+					actions
+					{
+						CallPattern pt_in
+						Sequence seq.ev_table_bored
+						Wait 5:5
+						Pattern pt_out
+					}
+				}
+			}
+		}
+	}
+}
+behavior
+{
+	name bh_krotchy_nerd_base
+	inherited bh_civil
+	
+	States
+	{
+	
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						SetSquad nerd_squad
+						TargetEntByName mission_logic
+						TargetToMem msGP
+						
+						TargetEntByName "npc_krotchy"
+						TargetToMem msLEADER
+						
+						TargetPlayer 1
+						Relationship target,enemy,3
+						SetSquadRelation player_squad:enemy:5
+						//,cops_squad:enemy:3
+						
+						Timer tCheckTarget,5,repeat
+						SetAttr "NerdIgonreDistance BDK_DEFAULT_NERD_IGNORE,0,BDK_DEFAULT_NERD_IGNORE"
+						
+					}
+				}
+			}
+		}
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default1
+				{
+					actions
+					{
+						IfAttr "DistTo:Player > NerdIgonreDistance Block begin"
+							FreeMovementParams area_all,256,-1,area_group
+							FreeMovement walk,reset
+						Block end
+						IfAttr "DistTo:Player <= NerdIgonreDistance Block begin"
+							TargetPlayer 1
+							ExecutePattern bh_base:st_start.pt_default
+						Block end
+						repeat 1
+					}
+				}
+			}
+		}
+		st_picktoy
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						FreeMovement false
+						TargetCaller 1
+						Pattern pt_moveto
+					}
+				}
+				
+				pt_moveto
+				{
+					actions
+					{
+						MoveToTarget run,1,0
+						Wait 5:3
+						Pattern pt_end
+					}
+					events
+					{
+						OnTargetReach "Pattern pt_pick"
+					}
+				}
+				
+				pt_pick
+				{
+					actions
+					{
+						
+						Sequence seq.env_crouch_inspect,8
+						Wait 10
+						Pattern pt_end
+					}
+					events
+					{
+						OnDamage "Pattern pt_end"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						ResetTarget 1
+						IfAttr "reaction <= RE_KICKED Block begin"
+							SetAttr "reaction RE_NONE"
+							SetAttr "NewReaction RE_NONE"
+						Block end
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction >= RE_KICKED and reaction != RE_FEAR Pattern pt_end"
+					}
+				}
+			}
+			events
+			{	
+				OnAE_KrotchyToy "Wait 0"
+			}
+		}
+	}
+	
+	
+	events
+	{
+		OnAE_KrotchyToy "State st_picktoy"
+		OnTimer_tCheckTarget "CheckTarget 1"
+		//OnLost "ResetTarget 1"
+	}
+}
+
+behavior
+{
+	name bh_krotchy_millitary_nerd
+	inherited bh_krotchy_nerd_base
+	
+	States
+	{
+	
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						
+						SetAttr "flag_IgnoreCombat 1"
+						SetAttr "flag_IgnoreWeapon 1"
+						SetAttr "flag_IgnorePlayerFear 1"
+						SetAttr "ReactionThreshold RE_DANGER"
+						//SetAttr "ReactionThreshold RE_NONE"
+						
+						AvoidProhibitedArea false
+						SetAttr "flag_VitalEnemy 1"
+						SetAttr "NerdIgonreDistance BDK_DEFAULT_NERD_MILITARY_IGNORE,0,BDK_DEFAULT_NERD_MILITARY_IGNORE"
+						
+						
+					}
+				}
+			}
+		}
+	}
+}
+behavior
+{
+	name bh_krotchy_nerd
+	inherited bh_krotchy_nerd_base
+	
+	States
+	{
+	
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						
+						SetAttr "flag_IgnoreWeapon 1"
+						SetAttr "flag_IgnorePlayerFear 1"
+						SetAttr "ReactionThreshold RE_DANGER"
+						//SetAttr "ReactionThreshold RE_NONE"
+						
+						AvoidProhibitedArea false
+						SetAttr "flag_VitalEnemy 1"
+						SetAttr "NerdIgonreDistance BDK_DEFAULT_NERD_MELEE_IGNORE,0,BDK_DEFAULT_NERD_MELEE_IGNORE"
+						
+						
+					}
+				}
+			}
+		}
+	}
+}
+
+behavior
+{
+	name bh_krotchy_nerd_old
+	inherited bh_civil
+	
+	States
+	{
+	
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						AvoidProhibitedArea false
+						
+						SetAttr "flag_IgnorePlayerFear 1"
+						SetAttr "FirstRun 1"
+						ExecutePattern bh_base:st_init.pt_default
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						//CheckAttr "FirstRun Pattern pt_firstrun"
+						
+						
+						
+						ExecutePattern bh_base:st_start.pt_default
+						IfAttr "DistTo:Player <= 600 Block begin"
+							TargetPlayer 1
+							Face true
+							Wait 3
+							Face false
+							CheckAttr "target.active Block begin"
+								IfAttr "Visible:target == true and RelationTo:target == Relation:enemy State st_attack_melee"
+							Block end
+						Block end
+						repeat 3
+					}
+				}
+				
+				xpt_firstrun
+				{
+					actions
+					{
+						TargetEntByName "npc_krotchy"
+						TargetToMem msLEADER
+						
+						TargetPlayer 1
+						//TargetToMem msENEMY
+						Relationship target,enemy,1
+						SetSquad krotchy_squad // иначе нападают на чутьчуть на кротчи
+						ResetTarget 1
+						RemoveAttr FirstRun
+						
+						State st_start
+					}
+				}
+				
+				xpt_combat
+				{
+					actions
+					{
+						State st_attack_melee
+					}
+				}
+				
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						State st_start
+					}
+				}xpt_OnVisible
+				{
+					actions
+					{
+						IfAttr "Object:caller == Object:Player Block begin"
+							TargetCaller 1
+							State st_start
+						Block end
+						
+						ExecutePattern bh_base:st_idle.xpt_OnVisible
+					}
+				}
+			}
+		}
+		st_attack_melee
+		{	
+			Group Combat
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetPlayer 1
+						moveToTarget run,1
+						repeat 1
+					}
+					
+					events
+					{
+						OnTargetReach "IfAttr DistTo:Target < 50 Pattern pt_box"
+						//OnStandUpEnd "Pattern pt_end"
+					}
+				}
+		///		pt_box
+		//		{
+		//			actions
+		//			{
+		//				ExecutePattern st_util.xpt_SayHit
+		//				Face true
+		//				Sequence seq.melee_box_01_R,seq.melee_box_02_R,seq.melee_box_03
+		//				WaitForEnd 1
+		//					
+		//					
+		//				Sequence seq.melee_box_01_L,seq.melee_box_02_L
+		//				WaitForEnd 1
+		//					
+		//					
+		//					
+		//				//LEG seq.melee_kick1,
+		//				Sequence seq.action_punch_02
+		//				WaitForEnd 1
+		//					
+		//				Sequence seq.melee_box_idle
+		//				Face false
+		//				Pattern pt_end
+		//			}
+		//		}
+			}
+			events{
+				OnAE_KrotchyToy "State st_picktoy"
+			}
+		}
+		st_picktoy
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						//Timer CheckToy,1,repeated
+						TargetCaller 1
+						Pattern pt_moveto
+					}
+				}
+				
+				pt_moveto
+				{
+					actions
+					{
+						MoveToTarget run
+						Wait 5:3
+						Pattern pt_end
+					}
+					events
+					{
+						OnTargetReach "Pattern pt_pick"
+					}
+				}
+				
+				pt_pick
+				{
+					actions
+					{
+						//Timer CheckToy,0
+						Sequence seq.env_crouch_inspect,8
+						Wait 10
+						Pattern pt_end
+					}
+					events
+					{
+						OnDamage "Pattern pt_end"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						ResetTarget 1
+						IfAttr "reaction <= RE_KICKED Block begin"
+							SetAttr "reaction RE_NONE"
+							SetAttr "NewReaction RE_NONE"
+						Block end
+						State st_start
+					}
+				}
+				pt_lost{
+					actions{
+						TargetPlayer 1
+						State st_start
+					}
+				}
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction >= RE_KICKED and reaction != RE_FEAR Pattern pt_end"
+					}
+				}
+			}
+			events
+			{	
+				OnAE_KrotchyToy "Wait 0"
+				OnTargetReset "Pattern pt_end"
+				OnTimer_CheckToy "CheckTarget 1"
+				OnLost "Pattern pt_lost"
+				OnVisible "Pattern pt_moveto"
+			}
+		}
+		
+	}
+	events
+	{
+		OnAE_KrotchyToy "State st_picktoy"
+	}
+	
+}
+
+behavior
+{
+	name bh_krotchy_millitary_nerd_old
+	inherited bh_military
+	// !!!!!!!!!!!!!!!!!!!!!!
+	// сделай актуальное поведение
+	// !!!!!!!!!!!!!!!!!!!!!!
+	
+	States
+	{
+	
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						AvoidProhibitedArea false
+						Timer checkBehaviour,2,repeated
+					//	SetAttr "SOME 1"
+						ExecutePattern bh_base:st_init.pt_default
+						SetAttr "FirstRun 1"
+						
+						TargetEntByName mission_logic
+						TargetToMem msGP
+						ResetTarget 1
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						CheckAttr "FirstRun Pattern pt_firstrun"
+						
+						
+						
+						
+						
+						//IfAttr "DistTo:slot#msLEADER <= 504 Block begin"
+						//	TargetEnemy 1
+						//	CheckAttr "target.active Block begin"
+						//		//IfAttr "Visible:target == true and RelationTo:target == Relation:enemy State st_attack_melee"
+						//	Block end
+						//Block end*/
+						
+						ExecutePattern bh_base:st_start.pt_default
+					}
+					events{
+							//OnTimer_timerCheckBehaviourRules "ExecutePattern st_OverridedBehaviourRules.pt_default"
+							
+							
+							}
+					
+					
+				}
+				
+				pt_firstrun
+				{
+					actions
+					{
+						TargetEntByName "npc_krotchy"
+						TargetToMem msLEADER
+						
+						TargetPlayer 1
+						TargetToMem msENEMY
+						Relationship target,enemy,1
+						
+						ResetTarget 1
+						RemoveAttr FirstRun
+						
+						State st_start
+					}
+				}
+				
+				
+				
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						State st_start
+					}
+				}
+				
+				xpt_OnVisible
+				{
+					actions
+					{
+						TargetCaller 1
+						State st_start
+					
+						
+					//	ExecutePattern bh_base:st_idle.xpt_OnVisible
+					}
+				}
+				
+			}			
+		}
+		st_moving{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Aim false
+						Face false
+						FreeMovementParams area_all,256,-1,area_group
+						FreeMovement walk,reset
+						
+					}
+				}
+				
+			}	
+		
+		
+		
+		}
+		st_hited{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						
+						SetAttr "Hited 1"
+						Timer hittedRemove,10:20
+						IfAttr "Object:Target == slot#msENEMY Block begin"
+							TargetCaller 1
+							ExecutePattern st_start.xpt_combat
+						Block end
+						
+						
+					}
+				}
+				
+			}	
+		
+		
+		
+		}
+		st_picktoy
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetCaller 1
+						Pattern pt_moveto
+					}
+				}
+				
+				pt_moveto
+				{
+					actions
+					{
+						MoveToTarget run,1,0
+						Wait 5:3
+						Pattern pt_end
+					}
+					events
+					{
+						OnTargetReach "Pattern pt_pick"
+					}
+				}
+				
+				pt_pick
+				{
+					actions
+					{
+						
+						Sequence seq.env_crouch_inspect,8
+						Wait 10
+						Pattern pt_end
+					}
+					events
+					{
+						OnDamage "Pattern pt_end"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						ResetTarget 1
+						IfAttr "reaction <= RE_KICKED Block begin"
+							SetAttr "reaction RE_NONE"
+							SetAttr "NewReaction RE_NONE"
+						Block end
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction >= RE_KICKED and reaction != RE_FEAR Pattern pt_end"
+					}
+				}
+			}
+			events
+			{	
+				OnAE_KrotchyToy "Wait 0"
+				OnTargetReset "Pattern pt_end"
+			}
+		}
+		
+		st_OverridedBehaviourRules{
+		Group Combat
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+					CheckTarget 1
+					
+					CheckAttr "Hited ExecutePattern st_start.xpt_combat"
+					
+					//IfAttr "DistTo:slot#msLEADER <= 500 and DistTo:Player < 500 Block begin"
+						IfAttr "DistTo:Player < 700 Block begin"
+								
+							TargetPlayer 1
+							ExecutePattern st_start.xpt_combat
+						Block end	
+					//Block end
+					IfAttr "DistTo:Player >= 400 Block begin"
+								IgnoreTarget 3
+					Block end
+					State st_moving
+					}
+					events{
+						OnVisible "ExecutePattern st_start.xpt_combat"
+						OnLost "State st_idle"
+				
+					}	
+				}
+			}	
+		}
+	}
+	
+	
+	events{
+		OnTimer_hittedRemove "RemoveAttr Hited"
+		OnTimer_checkBehaviour "ExecutePattern st_OverridedBehaviourRules.pt_default"
+		OnHit "State st_hited"
+		OnAE_KrotchyToy "State st_picktoy"
+	}
+
+
+}
+
+behavior
+{
+	name bh_bdk_civil
+	inherited bh_civil
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns 
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						IfAttr "Name:self == String:npc_shopper SetAttr shopping 1"
+						SetAttr "flag_bystander 1"
+					}
+				}
+			}
+		}
+		
+		st_init_static
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern st_init.pt_default
+						SetAttr "flag_static 1"
+					}
+				}
+			}
+		}
+		
+		st_idle
+		{
+			group Neutral
+			patterns
+			{
+				xpt_SetAreaGroup
+				{
+					actions
+					{
+						SetAreaGroup AG_DEFAULT,AG_BATTLE
+						CheckAttr "shopping SetAreaGroup AG_SHOP"
+					}
+				}
+				xpt_SetHintGroup
+				{
+					actions
+					{
+						CheckAttr "flag_static Return 1"
+						SetHintGroup wish_fun_idle
+						CheckAttr "shopping SetHintGroup wish_fun_shop"
+					}
+				}
+				
+			}
+		}
+		
+	}
+	
+}

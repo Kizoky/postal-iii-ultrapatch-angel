@@ -1,0 +1,243 @@
+Constants
+{
+	Const AA_VIS_TRUE,2
+	Const AA_VIS_FALSE,0
+	Const AA_VIS_UNKNOWN,1
+}
+
+behavior
+{
+	name bh_hugo_tank
+	states
+	{	
+		//for damage use console variables:
+		//p3_tank_cannon
+		//p3_tank_gatling
+		
+		st_hugo_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions 
+					{
+						TargetEntByName mission_logic
+						TargetToMem msGP
+						
+						SetSquadRelation player_squad:enemy:5
+						TargetPlayer 1
+						FreeMovementParams hint_all,ED_CLOSE,ED_MIDDLE,hint_group,nearest,from_target
+						Relationship target,enemy,5
+						//TargetEnemy 1
+						
+						Timer tCanSay,3:2
+						Timer tCanSayHit,1
+						SetAttr "PlayerIsVisible AA_VIS_FALSE"
+						SetAttr "flag_zombie 1"
+						SetAttr "flag_boss 1"
+						
+						SetAttr "ea_dmg_absorb 90"
+						SetAttr "ea_blast_immune 1"
+					}
+				}
+			}
+		}
+		
+		st_tank
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions 
+					{
+						AttributeProgressBar "TankBaseHealthPanel,show,ea_health"
+						FreeMovement true
+						Pattern pt_check
+					}
+				}
+				
+				pt_check
+				{
+					actions
+					{
+						//перенес резисты сюда, чтобы при лоадгейме не сбрасывались
+						EntFireInput "pcc,Command:p3_tank_cannon_bullet_resist		0.92"
+						EntFireInput "pcc,Command:p3_tank_gatling_bullet_resist		0.88"
+						EntFireInput "pcc,Command:p3_tank_launcher_bullet_resist	0.88"
+						EntFireInput "pcc,Command:p3_tank_cannon_blast_resist		0.92"
+						EntFireInput "pcc,Command:p3_tank_gatling_blast_resist		0.85"
+						EntFireInput "pcc,Command:p3_tank_launcher_blast_resist		0.95"
+						EntFireInput "pcc,Command:p3_tank_cannon_melee_resist		0.95"
+						EntFireInput "pcc,Command:p3_tank_gatling_melee_resist		0.92"
+						EntFireInput "pcc,Command:p3_tank_launcher_melee_resist		0.88"
+						
+						IfAttr "PlayerIsVisible == AA_VIS_FALSE ExecutePattern st_util.xpt_SaySearch"
+						
+						TargetPlayer 1
+						CheckTarget 1
+						
+						//Relationship target,neutral,3
+						//ResetTarget 1
+						Repeat 1.0
+					}
+					events
+					{
+						OnVisible	"ExecutePattern .xpt_OnVisible"
+						OnLost		"ExecutePattern .xpt_OnLost"
+					}
+				}
+				
+				xpt_OnVisible
+				{
+					actions
+					{
+						SetAttr "PlayerIsVisible AA_VIS_TRUE"
+						ExecutePattern st_util.xpt_SayVisible
+						//FreeMovementParams hint_all,ED_CLOSE,ED_MIDDLE,hint_group,nearest,from_target
+					}
+				}
+				
+				xpt_OnLost
+				{
+					actions
+					{
+						IfAttr "PlayerIsVisible == AA_VIS_TRUE Block begin"
+							Timer tLost,8
+							SetAttr "PlayerIsVisible AA_VIS_UNKNOWN"
+						Block end
+					}
+				}
+				
+				xpt_OnSurelyLost
+				{
+					actions
+					{
+						SetAttr "PlayerIsVisible AA_VIS_FALSE"
+						// FreeMovementParams hint_all,ED_CLOSE,ED_VERY_FAR,hint_group
+					}
+				}
+			}
+			events
+			{
+				OnTimer_tLost "ExecutePattern .xpt_OnSurelyLost"
+			}
+		}
+		
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_SayAttack
+				{
+					actions
+					{
+						IfAttr "Timer:tCanSay > 0 Return 1"
+						IfAttr "PlayerIsVisible != AA_VIS_TRUE Return 1"
+						Say ATTACK
+						Timer tCanSay,6:4
+					}
+				}
+				
+				xpt_SayPissedOn
+				{
+					actions
+					{
+						CheckAttr "SaidNasty Block begin"
+							IfAttr "Timer:tCanSay > 0 Return 1"
+						Block end
+						
+						Say PISSEDON
+						Timer tCanSay,6:4
+						SetAttr "SaidNasty 1"
+					}
+				}
+				
+				xpt_SaySearch
+				{
+					actions
+					{
+						IfAttr "Timer:tCanSay > 0 Return 1"
+						Say SEARCHDUDE
+						Timer tCanSay,6:4
+					}
+				}
+				
+				xpt_SayVisible
+				{
+					actions
+					{
+						CheckAttr "SaidVisible Block begin"
+							IfAttr "Timer:tCanSay > 0 Return 1"
+						Block end
+						
+						Say SEESDUDE
+						Timer tCanSay,6
+						SetAttr "SaidVisible 1"
+					}
+				}
+				
+				xpt_SayHit
+				{
+					actions
+					{
+						IfAttr "Timer:tCanSayHit > 0 Return 1"
+						Say HIT
+						Timer tCanSayHit,3:2
+					}
+				}
+				
+				xpt_ResetSentencesStatus
+				{
+					actions
+					{
+						RemoveAttr "SaidNasty"
+						RemoveAttr "SaidVisible"
+					}
+				}
+			}
+		}
+		
+		st_OnDeath
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Say DYING,2
+						TargetFromMem msGP
+						FireEvent TankDead
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnTimer_tCanSay				"ExecutePattern st_util.xpt_ResetSentencesStatus"
+		
+		//реакции
+		OnDamaged					"ExecutePattern st_util.xpt_SayHit"
+		OnNasty						"ExecutePattern st_util.xpt_SayPissedOn"
+		OnSuperNasty				"ExecutePattern st_util.xpt_SayPissedOn"
+		
+		//пушки
+		OnCannonShoot				"ExecutePattern st_util.xpt_SayAttack"
+		//OnGatlingShoot				"ExecutePattern st_util.xpt_SayAttack"
+		OnLauncherShoot				"ExecutePattern st_util.xpt_SayAttack"
+		OnCannonDestroyed			"Wait 0"
+		OnGatlingDestroyed			"Wait 0"
+		OnLauncherLeftDestroyed		"Wait 0"
+		OnLauncherRightDestroyed	"Wait 0"
+		
+		//сломали
+		OnDeath						"ExecutePattern st_OnDeath.pt_default"
+	} 
+}
