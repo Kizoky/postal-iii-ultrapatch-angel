@@ -64,6 +64,8 @@ noticably on the main menu when it's used for dude's cigarette smoke!
 
 * Fixed "Mega-Sadist" achievement being unobtainable
 
+* Fixed an issue with NPC bump AI functionality
+
 * Fixed particles playing indefinitely after switching weapons while alt-fire pissing
 
 * Fixed headblobs not being immediately removed on hidden NPC's upon ragdoll
@@ -92,7 +94,7 @@ noticably on the main menu when it's used for dude's cigarette smoke!
 
 * Fixed various NPC weapons dealing only 1 damage
 
-* Fixed issues with the in-game font
+* Fixed issues with in-game text and font
 
 IMPROVEMENTS/ADDITIONS/CHANGES: 
 ===============================
@@ -103,9 +105,17 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 
 * Improved boomerang machete a ton
 
++ Added back and improved player jumping
+
 + Added the ability to spare hostages by kicking them away
 
 * Significantly improved taser secondary fire
+
+* The player can now be ragdolled through various means
+
+* Improved player vaulting a bit
+
+* Separated player cover from jumping
 
 * "Neurosurgeon" achievement now counts non-decapitation headshots
 
@@ -120,6 +130,10 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 + Added back unused upgrade indicators on the weapon selector
 
 + Added blink/flashing effect to ammo and weapon pickups
+
+* Nailbat throw trail now uses a lighter variant
+
++ Added player/NPC fire spreading
 
 * Crosshair is now hidden when utilizing certain weapons that don't require precise aim
 
