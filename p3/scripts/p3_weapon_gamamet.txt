@@ -1,0 +1,55 @@
+// Pistol
+
+WeaponData
+{
+	// Weapon data is loaded by both the Game and Client DLLs.
+	"ID"				"gamamet"
+	"printname"				""
+	"viewmodel"				"models/weapons/shop_vac/gamamet.mdl"
+	"playermodel"			"models/weapons/shop_vac/gamamet.mdl"
+	"anim_prefix"			"shopvac"
+	"bucket"				"1"
+	"bucket_position"		"6"
+	"bucket_360"			"1"
+	"bucket_position_360"	"6"
+
+	"clip_size"				"100"
+	"primary_ammo"			"None"
+	"secondary_ammo"		"None"
+
+	"weight"				"2"
+	"rumble"				"1"
+	"item_flags"			"0"
+
+	"fire_effect"			"M60_Fire_Fx"
+	"fire_rate1"			"0.1"
+	"disable_monkey"		"1"
+
+	"weapon_type"			"gadget"
+
+	// Sounds for the weapon. There is a max of 16 sounds per category (i.e. max 16 "single_shot" sounds)
+	SoundData
+	{
+		"special1"			"Weapon_ShopVac.Suit"
+		"burst"				"Weapon_ShopVac.Wock"
+		"special2"			"Weapon_ShopVac.Sprk"
+		"deploy"			"Weapon_ShopVac.Deploy"
+	}
+
+	// Weapon Sprite data is loaded by the Client DLL.
+	TextureData
+	{
+		"weapon"
+		{
+				"file"		"sprites/gama"
+				"width"		"128"
+				"height"	"128"
+		}
+		"weapon_small"
+		{
+				"file"		"sprites/weapon_small_icons/gama"
+				"width"		"128"
+				"height"	"128"
+		}
+	}
+}

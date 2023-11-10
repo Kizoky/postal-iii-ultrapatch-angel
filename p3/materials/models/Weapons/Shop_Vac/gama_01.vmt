@@ -1,0 +1,12 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Weapons/Shop_Vac/gama_01"
+//	"$bumpmap" "models/Weapons/Shop_Vac/shop_vac_01_normal"
+
+	"$basemapalphaphongmask" "1"
+	"$phong" "1"
+	"$phongexponent" 8
+	"$phongboost"	"1"
+	"$phongfresnelranges"	"[1.0 0.5 1]"
+	"$nocull" "1"
+}

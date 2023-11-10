@@ -1,0 +1,8 @@
+"UnlitGeneric"
+{
+	"$basetexture" "sprites/weapon_small_icons/gama"
+	"$additive" "0"
+	"$vertexcolor" "1"
+	"$vertexalpha" "1"
+	"$ignorez"     "1"
+}

@@ -1,0 +1,10 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Weapons/Shop_Vac/gama_03"
+	//"$bumpmap" ""
+	//"$normalmapalphaenvmapmask" 1
+	//"$envmaptint" "[0.05 0.05 0.05]"
+    "$translucent" "1"
+	//"$envmap" "env_cubemap"
+	//"$envmap" "cube_maps\winglass_01"
+}
