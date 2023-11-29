@@ -49,7 +49,7 @@ noticably on the main menu when it's used for dude's cigarette smoke!
 
 * Fixed an awkward nailbat/baton animation issue
 
-* Fixed an issue where the molotov would frequently do multiple duplicate explosions upon hitting the ground
+* Fixed an issue where the molotov would do multiple duplicate explosions upon hitting the ground
 
 * Fixed animation persistence issue for hidden ragdoll NPC's
 (This basically prevents a ghost version of the ragdolled NPC from doing animation events and attack traces)
@@ -114,6 +114,24 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 * The player can now be ragdolled through various means
 
 * Improved player vaulting a bit
+
++ Added back cut player save acknowledgement feature
+
++ Added back unused hostage death out sequence
+
++ Added actual camera screenshake for a variety of scenarios
+
++ Catnip is now able to blind NPC's
+
++ Added back and improved unused ability to blind NPC's with the laserpen
+
++ NPC's now become angry and attack the player after being blinded by them
+
+* Improved badgersaw melee hit detection
+
+* Made spray weapons require a direct hit on NPC faces to blind them
+
+* Improved segway movement and boost mechanic
 
 * Separated player cover from jumping
 
