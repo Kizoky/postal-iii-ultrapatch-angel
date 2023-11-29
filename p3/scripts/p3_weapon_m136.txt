@@ -25,6 +25,11 @@ WeaponData
 
 	"fire_effect"			"M136_Launch_Fx"
 	"fire_rate1"			"0.1"
+	
+	"shake_screen"	"1"
+	"screen_shake_amplitude"	"3"
+	"screen_shake_frequency"	"25"
+	"screen_shake_duration"	"0.2"
 
 	"weapon_type"			"ranged"
 

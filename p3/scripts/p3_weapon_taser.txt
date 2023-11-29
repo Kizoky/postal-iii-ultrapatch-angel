@@ -1,0 +1,75 @@
+// Pistol
+
+WeaponData
+{
+	// Weapon data is loaded by both the Game and Client DLLs.
+	"ID"					"taser"
+	"printname"				""
+	"viewmodel"				"models/weapons/taser/Taser.mdl"
+	"playermodel"			"models/weapons/taser/Taser.mdl"
+	"anim_prefix"			"deagle"
+	"bucket"				"0"
+	"bucket_position"		"2"
+	"bucket_360"			"0"
+	"bucket_position_360"	"1"
+
+	"clip_size"				"-1"
+    "default_clip"          "1"
+	"primary_ammo"			"Taser"
+	"secondary_ammo"		"None"
+
+	"weight"				"2"
+	"rumble"				"1"
+	"item_flags"			"0"
+
+	"fire_effect"			"Handgun_Fire_Fx"
+
+	"fire_rate1"			"0.2"
+	"fire_rate2"			"0.2"
+	
+	"shake_screen"	"1"
+	"screen_shake_amplitude"	"3"
+	"screen_shake_frequency"	"25"
+	"screen_shake_duration"	"0.2"
+
+	"weapon_type"			"nonlethal_ranged"
+
+	// Sounds for the weapon. There is a max of 16 sounds per category (i.e. max 16 "single_shot" sounds)
+	SoundData
+	{
+		"empty"				"Weapon_Taser.Empty"
+		"single_shot"		"Weapon_Taser.Single"
+		"single_shot_npc"	"Weapon_Taser.Single"
+		//"double_shot"
+		//"double_shot_npc"
+		//"burst"
+		"reload"			"Weapon_Taser.Reload"
+		"reload_npc"		"Weapon_Taser.Reload"
+		//"melee_miss"
+		//"melee_hit"
+		//"melee_hit_world"
+		//"special1"
+		//"special2"
+		//"special3"
+		//"taunt"
+		"holster"			"Weapon_Taser.Holster"
+		"deploy"			"Weapon_Taser.Deploy"
+	}
+
+	// Weapon Sprite data is loaded by the Client DLL.
+	TextureData
+	{
+		"weapon"
+		{
+				"file"		"sprites/taser"
+				"width"		"128"
+				"height"	"128"
+		}
+		"weapon_small"
+		{
+				"file"		"sprites/weapon_small_icons/tazer"
+				"width"		"128"
+				"height"	"128"
+		}
+	}
+}

@@ -28,6 +28,11 @@ WeaponData
 	"PrimaryMinDamage"	"15"
 	"PrimaryMaxDamage"	"20"
 	
+	"shake_screen"	"1"
+	"screen_shake_amplitude"	"3"
+	"screen_shake_frequency"	"25"
+	"screen_shake_duration"	"0.2"
+	
 	"NPCMinDamage"			"12"
 	"NPCMaxDamage"			"16"
 

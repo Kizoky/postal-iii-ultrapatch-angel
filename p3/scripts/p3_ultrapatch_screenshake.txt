@@ -1,0 +1,18 @@
+p3_ultrapatch_screenshake
+{
+	// Player kick screenshake...
+	"player_kick_amplitude" 	"3"
+	"player_kick_frequency" 	"40"
+	"player_kick_duration" 	"0.6"
+
+	// Player throw screenshake...
+	"player_throw_amplitude" 	"2"
+	"player_throw_frequency" 	"25"
+	"player_throw_duration" 	"0.5"
+
+	// Player hurt screenshake...
+	"player_hurt_shake_multiplier" 	"0.08"
+	"player_hurt_amplitude" 	"2"
+	"player_hurt_frequency" 	"25"
+	"player_hurt_duration" 	"0.25"
+}

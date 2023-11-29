@@ -1,0 +1,79 @@
+// Baseball bat
+
+WeaponData
+{
+	// Weapon data is loaded by both the Game and Client DLLs.
+	"ID"				"baton"
+	"printname"				""
+	"viewmodel"				"models/weapons/Baton/Baton_01.mdl"
+	"playermodel"			"models/weapons/Baton/Baton_01.mdl"
+	"anim_prefix"			"bat"
+	"bucket"				"2"
+	"bucket_position"		"1"
+	"bucket_360"			"2"
+	"bucket_position_360"	"1"
+
+	"meleeweapon"			"1"
+
+    "autoswitchfrom"        "1"
+    
+	"weight"				"2"
+	"rumble"				"1"
+	"item_flags"			"0"
+
+	"weapon_type"			"melee"
+	
+	"PrimaryMinDamage"		"10"
+	"PrimaryMaxDamage"		"20"
+
+	"NPCMinDamage"		"10"
+	"NPCMaxDamage"		"20"
+	
+	"shake_screen"	"1"
+	"screen_shake_amplitude"	"3"
+	"screen_shake_frequency"	"25"
+	"screen_shake_duration"	"0.2"
+    
+    
+	"SecondaryMinDamage"	"10"
+	"SecondaryMaxDamage"	"20"
+
+	// Sounds for the weapon. There is a max of 16 sounds per category (i.e. max 16 "single_shot" sounds)
+	SoundData
+	{
+		"single_shot"		"Weapon_CopBaton.Swing"
+		"melee_miss"		"Weapon_CopBaton.Miss"
+		"melee_hit"			"Weapon_CopBaton.Hit"
+		"melee_hit_world"	"Weapon_CopBaton.HitWorld"
+		"deploy"			"Weapon_CopBaton.Deploy"
+		"holster"			"Weapon_CopBaton.Holster"
+	}
+
+	// Weapon Sprite data is loaded by the Client DLL.
+	TextureData
+	{
+		"weapon"
+		{
+				"file"		"sprites/baton"
+				"width"		"128"
+				"height"	"128"
+		}
+		"weapon_s"
+		{
+				"file"		"sprites/baton_s"
+				"width"		"128"
+				"height"	"128"
+		}
+		"weapon_small"
+		{
+				"file"		"sprites/weapon_small_icons/baton"
+				"width"		"128"
+				"height"	"128"
+		}
+		"ammo"
+		{
+				"font"		"WeaponIconsSmall"
+				"character"	"p"
+		}
+	}
+}

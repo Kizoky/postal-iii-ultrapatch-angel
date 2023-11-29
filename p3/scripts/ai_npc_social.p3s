@@ -1,0 +1,5802 @@
+Constants
+{
+	Const RE_NONE,0
+	Const RE_SEEFLAME,1 // +
+	Const RE_BUMPED,2 // +
+	Const RE_DANGER,3 // +
+	
+	Const RE_NASTY,4 // +
+	Const RE_COMBAT,5 // +
+	Const RE_WEAPON,6 // +
+	
+	Const RE_PUKE,7 // +
+	Const RE_FEAR,8  // +
+	Const RE_PAINT,9 // for paparazzis in city hall
+	
+	Const RE_KICKED,10 // +
+	Const RE_SNATCHED,11 // +
+	Const RE_SPRAYED,12 // +
+	Const RE_STING,13
+	Const RE_IGNITE,14 // +
+	Const RE_STUNNED,15 //+
+	Const RE_TASED,16 // +
+	Const RE_TASING,17 // +
+	Const RE_BLINDED,18
+
+	Const NPC_PUKE_CHANSE,50
+	Const NPC_CALL_CHANSE,7
+	
+	Const SPRAY_DMG_DEFAULT,50
+	Const SPRAY_UNSTUN_TIMER,5
+	Const BLINDED_UNSTUN_TIMER,5
+	
+	Const FORGIVE_TIMER_DEFAULT,30
+	Const NASTY_TIMER_DEFAULT,8
+	Const NASTY_TIMER_SPREAD_DEFAULT,5
+	
+	Const COP_TIMER_SUSPECT_DEFAULT,120
+	
+	Const SCOLD_NONE,0
+	Const SCOLD_WRONG,1
+	Const SCOLD_WARN,2
+	Const SCOLD_BRUTAL,3
+	
+	Const FRIENDLY_FIRE_MAX,5
+	Const FRIENDLY_FIRE_DECREASE_TIMER,10
+	Const FRIENDLY_FIRE_BLOCK_TIMER,2
+	
+	Const BEES_FEAR_TIMER_DEFAULT,8
+}
+
+
+// social:
+// + greets
+// + sleazy greets
+// + chats
+// + cellphones
+// + see pissing
+// + see person in flame
+// + see wang
+// + see corpse
+// + see corpse (cop)
+// + see animal
+// + see cat
+// + pissing
+// + waiting (watching clock)
+// + see weapon (cop)
+// + see wrong/brutal act (cop)
+// + cop battle sounds (arrest, miranda etc.)
+// + on hit
+
+
+behavior
+{
+	name bh_social
+	inherited bh_human
+	
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						//AvoidProhibitedArea true
+						
+						SetAttr "LoveAnimals 0,0,1"
+						ChangeAttr "LoveAnimals 0:1"
+						
+						IfAttr "ea_faction == Faction:Zealots SetAttr LoveAnimals 1"
+						
+						SetAttr "reaction RE_NONE,0,31,on_change_event"
+						SetAttr "NewReaction RE_NONE,0,31,on_change_event"
+						SetAttr "ReactionThreshold RE_NONE,0,31"		//npc will never react for reaction with lower leve
+						SetAttr "ReactionIgnoreLevel RE_NONE,0,31"	//used in reaction states to determine wich reaction npc
+																												//will remember after current is finished
+						SetAttr "NotAttackedByPlayer 1"
+						SetAttr "FirstRun 1"
+						SetAttr "ea_takeable 1"
+						SetAttr "NumStartLoops 0"
+						SetAttr "ActualNumEnemy 0"
+						//SetAttr "NumFF 0,0,FRIENDLY_FIRE_MAX"
+						
+						//FLAGS
+							//SetAttr "flag_IgnoreWeapon 1"  //if set, NPC can't be scared by weapons
+							//SetAttr "flag_IgnoreCombat 1"	//if set, NPC will ignore combat and danger it hears
+							//SetAttr "flag_IgnorePlayerAttack 1"	//if set, NPC don't attack player after his unapropriate behavior
+							//SetAttr "flag_IgnorePlayerFear 1"	//if set, NPC won't fear player after his unapropriate behavior
+							//SetAttr "flag_bystander 1"	//if set, NPC counts as innocent bystander and cops will attack if you kill it
+							//SetAttr "flag_static 1" //if set, NPC will always go to node with hintgroup, set in Hammer
+							//SetAttr "flag_VitalEnemy 1" //do not change karma for this NPC if player is on good path
+							//SetAttr "flag_PlayerFriendly 1"	//is friend of player, will reply to hits with FRIENDLYFIRE
+																//if hitted too many times, will attack
+						//END OF FLAGS
+						
+						TargetEntByName mission_logic
+						IfAttr "Name:target == String:mission_logic TargetToMem msGP"
+						ResetTarget 1
+						
+						SetAttr "SprayDamage SPRAY_DMG_DEFAULT"
+						
+						Timer tBump,0
+						Timer tHitSound,0 //����� ��� ����� �� ��� ����� �����
+						Timer tCanSay,3:3
+						Timer tIgnoreNasty,0
+					}
+				}
+			}
+		}
+		
+		st_init_static
+		{
+			Group Neutarl
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern st_init.pt_default
+						SetAttr "flag_static 1"
+					}
+				}
+			}
+		}
+		
+		st_init_mavg
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern st_init.pt_default
+					}
+				}
+			}
+		}
+		
+		st_init_favg
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern st_init.pt_default
+					}
+				}
+			}
+		}
+		
+		st_init_mfat
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern st_init.pt_default
+					}
+				}
+			}
+		}
+		
+		st_init_ffat
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern st_init.pt_default
+					}
+				}
+			}
+		}
+		
+		st_init_mold
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern st_init.pt_default
+					}
+				}
+			}
+		}
+		
+		st_init_fold
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern st_init.pt_default
+					}
+				}
+			}
+		}
+		
+		st_init_special
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern st_init.pt_default
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						CheckAttr "FirstRun ExecutePattern .xpt_firstrun"
+						ExecutePattern .xpt_StartLoopUpdate
+						
+						FreeMovement false
+						SetAttr "ReactionIgnoreLevel RE_NONE"
+						SetAttr "busy 1"
+						
+						IfAttr "reaction >= RE_KICKED Pattern pt_react"
+						IfAttr "reaction == RE_PUKE Pattern pt_react"
+						CheckAttr "flag_bystander Block begin"
+							IfAttr "reaction >= RE_FEAR Pattern pt_react"
+						Block end
+						
+						ExecutePattern .xpt_CheckCombat
+						
+						IfAttr "ea_NumFear > 0 Block begin"
+							IfAttr "reaction >= RE_FEAR Pattern pt_react"
+							IfAttr "RelationTo:target == Relation:fear and DistTo:target > ED_FAR Relationship target,neutral"
+							IfAttr "RelationTo:target == Relation:fear SetAttr NewReaction RE_FEAR"
+							IfAttr "ea_NumVisibleFear > 0 SetAttr NewReaction RE_FEAR"
+						Block end
+						
+						IfAttr "reaction != RE_NONE Block begin"
+							Pattern pt_react
+						Block end
+						
+						ExecutePattern .xpt_idle
+						//ExecutePattern bh_base:st_start.pt_default
+					}
+				}
+				
+				pt_react
+				{
+					actions
+					{
+						ExecutePattern .xpt_ResetStartLoop
+						
+						IfAttr "Object:slot#msTARGET != Object:Null Block begin"
+							TargetFromMem msTARGET
+							ClearMem msTARGET
+						Block end
+						
+						Pattern pt_reaction
+					}
+				}
+				
+				pt_reaction
+				{
+					actions
+					{
+						IfAttr "reaction == RE_TASING	State st_OnTasing" //tasing by taser
+						IfAttr "reaction == RE_TASED	State st_OnTasing" //tased
+						IfAttr "reaction == RE_STUNNED	State st_OnTasing" //stunned by something blunt
+						IfAttr "reaction == RE_IGNITE	State st_OnIgnite" //is on fire
+						IfAttr "reaction == RE_SNATCHED	State st_OnSnatched" //snatched by animal
+						IfAttr "reaction == RE_FEAR ExecutePattern .xpt_fear"
+						IfAttr "reaction == RE_WEAPON	State st_seeweapon"
+						IfAttr "reaction == RE_COMBAT	State st_OnHearCombat"
+						IfAttr "reaction == RE_KICKED	State st_OnKicked" //kicked by somebody
+						IfAttr "reaction == RE_PUKE		State st_puke" // wants to puke
+						IfAttr "reaction == RE_NASTY	State st_OnNasty" //is urinated on or hit by shit/drocha
+						//IfAttr "reaction == RE_SEEINFLAME State st_OnSeeInFlame"
+						IfAttr "reaction == RE_BUMPED	State st_OnBumped"
+						IfAttr "reaction == RE_DANGER	State st_OnHearDanger"
+						IfAttr "reaction == RE_SEEFLAME	State st_OnSeeFlame" //when sees flame on ground
+						IfAttr "reaction == RE_BLINDED	State st_OnBlinded" // when blinded
+						IfAttr "reaction == RE_SPRAYED	State st_OnSprayStunned"
+						IfAttr "reaction == RE_STING	State st_OnBeeSting" //bees attack
+						
+						SetAttr "NewReaction RE_NONE"
+						SetAttr "reaction RE_NONE"
+						Pattern pt_default
+					}
+				}
+				
+				xpt_StartLoopUpdate
+				{
+					actions
+					{
+						CheckAttr "InStartCycle ChangeAttr NumStartLoops +1"
+						IfAttr "NumStartLoops == 0 SetAttr ActualNumEnemy ea_NumEnemy"
+						SetAttr "InStartCycle 1"
+					}
+				}
+				
+				xpt_ResetStartLoop
+				{
+					actions
+					{
+						CheckAttr "InStartCycle Block begin"
+							RemoveAttr InStartCycle
+							SetAttr "NumStartLoops 0"
+						Block end
+					}
+				}
+				
+				xpt_CheckCombat
+				{
+					actions
+					{
+						IfAttr "RelationTo:target == Relation:Enemy ExecutePattern .xpt_ChooseEnemy"
+						IfAttr "ActualNumEnemy > 0 ExecutePattern .xpt_ChooseEnemy"
+						IfAttr "TaskCombat == TC_SEARCH Pattern pt_precombat"
+					}
+				}
+				
+				xpt_ChooseEnemy
+				{
+					actions
+					{
+						IfAttr "RelationTo:target == Relation:enemy Block begin"
+							IfAttr "Object:target == Object:player SetAttr HatesPlayer 1"
+							CheckAttr "target.active Pattern pt_precombat"
+							Relationship target,neutral
+							IgnoreTarget 3
+							ResetTarget 1
+							ChangeAttr "ActualNumEnemy -1"
+						Block end
+						TargetEnemy 1
+						IfAttr "RelationTo:target == Relation:enemy Pattern pt_default"
+						ChangeAttr "ActualNumEnemy -1"
+						Pattern pt_default
+					}
+				}
+				
+				xpt_firstrun
+				{
+					actions
+					{
+						//model defined attributes are set with this thing
+						FireUser 1	//if fired to MAvg, it should fire OnImAMan back
+												 //if can talk with cell, returns OnIHaveCell back
+												 //if NPC is old and can use only basic combat abilities, returns OnImOld
+												 //if NPC is male bystander with different walk styles, returns OnImWalker
+												 //if NPC is MAvg or FAvg, it will return OnICanLean. useful for combat
+						RemoveAttr FirstRun
+						Pattern pt_default
+					}
+				}
+				
+				xpt_fear
+				{
+					actions
+					{
+						ExecutePattern .xpt_ResetStartLoop
+						State st_fear
+					}
+				}
+				
+				xpt_idle
+				{
+					actions
+					{
+						ExecutePattern .xpt_ResetStartLoop
+						State st_idle
+					}
+				}
+				
+				pt_precombat
+				{
+					actions
+					{
+						ExecutePattern .xpt_ResetStartLoop
+						ExecutePattern .xpt_SelectWeapon
+						
+						CheckAttr "WeaponChanged Block begin"
+							Wait 0.5
+							//WaitForEnd 1
+							RemoveAttr WeaponChanged
+						Block end
+						
+						ExecutePattern .xpt_combat
+						Pattern pt_default
+					}
+				}
+				
+				xpt_SelectWeapon
+				{
+					actions
+					{
+						//Weapon Arm
+						//Return 1
+						
+						IfAttr "HasWeapon:Ranged > 0 Block begin"
+							IfAttr "HasWeapon:Ranged != 2 SetAttr WeaponChanged 1"
+							Weapon select,ranged
+							SetAttr "ea_status sMILITANT"
+						Block end
+						
+						IfAttr "HasWeapon:Ranged == 0 and HasWeapon:melee > 0 Block begin"
+							IfAttr "HasWeapon:melee != 2 SetAttr WeaponChanged 1"
+							Weapon select,melee
+							SetAttr "ea_status sPUNISHER"
+						Block end
+					}
+				}
+				
+				xpt_combat
+				{
+					actions
+					{
+						State st_attack_melee
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						Repeat 0
+					}
+				}
+			}
+			events
+			{
+				OnAttrChange_ea_NumEnemy "ExecutePattern .xpt_ResetStartLoop"
+			}
+		}
+		
+		st_attack_melee
+		{
+			Group Combat
+			Patterns
+			{
+				pt_runloop
+				{
+					actions
+					{
+						CheckAttr "flag_bystander Block begin"
+							IfAttr "Timer:tForgivePlayer <= 0 Pattern pt_end"
+						Block end
+						
+						//��������� �� bh_human:st_attack_melee, � �� ��-�� �� �������� ����� ��-�������
+						MoveToTarget run,1
+						Repeat 3
+					}
+					events
+					{ 
+						OnTargetReach "Pattern pt_face"
+						OnInvalidRoute "Pattern pt_end"
+					}
+				}
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ResetTarget 1
+						RemoveAttr "busy"
+						AvoidProhibitedArea true
+						CheckAttr "flag_static SetAttr busy 1" //������� ������ ������
+						ExecutePattern .xpt_ResetParams
+						ExecutePattern .xpt_SelectWeapon
+						CheckAttr "ImWalker ExecutePattern .xpt_SetWalkPack"
+						Pattern pt_decide
+					}
+				}
+				
+				pt_decide
+				{
+					actions
+					{
+						CheckAttr "flag_static Pattern pt_gotohint" //������� ������ ���� � ����
+						Pattern pt_idle,pt_gotohint
+					}
+				}
+				
+				pt_idle
+				{
+					actions
+					{
+						ExecutePattern .xpt_SetAreaGroup
+						ExecutePattern .xpt_SetIdleParams
+						FreeMovement walk
+						Wait 10:10
+						ExecutePattern .xpt_CheckPhone
+					}
+					events
+					{
+						OnInvalidRoute "State st_start"
+						OnTargetReach "State st_start"
+					}
+				}
+				
+				pt_gotohint
+				{
+					actions
+					{
+						ExecutePattern .xpt_SetHintGroup
+						ExecutePattern .xpt_SetHintParams
+						FreeMovement walk,reset
+					}
+					events
+					{
+						OnInvalidRoute "Pattern pt_idle"
+					}
+				}
+				
+				xpt_ResetParams
+				{
+					actions
+					{
+						FreeMovement false
+						Aim false
+						Crouch false
+						Face false
+					}
+				}
+				
+				xpt_SelectWeapon
+				{
+					actions
+					{
+						Weapon disarm
+						SetAttr "ea_status sNEUTRAL"
+					}
+				}
+				
+				xpt_SetIdleParams
+				{
+					actions
+					{
+						FreeMovementParams area_all,ED_MIDDLE,ED_VERY_FAR,area_group
+						CheckAttr "flag_static FreeMovementParams area_all,ED_CLOSE,ED_MIDDLE,area_group"
+					}
+				}
+				
+				xpt_SetHintParams
+				{
+					actions
+					{
+						FreeMovementParams hint_all,ED_CLOSE,ED_FAR,hint_group,hint_face,use_node,once
+						CheckAttr "flag_static FreeMovementParams hint_all,-1,-1,hint_group,hint_face,use_node,nearest,once"
+					}
+				}
+				
+				xpt_SetWalkPack
+				{
+					actions
+					{
+						IfAttr "Timer:tChangeWalkPack > 0 Return 1"
+						TImer tChangeWalkPack,60:60
+						
+						SetAttr "walk_rnd 0"
+						ChangeAttr "walk_rnd 0:5"
+						
+						IfAttr "walk_rnd <= 1 SetActPack ACT_WALK,walk_neutral"
+						IfAttr "walk_rnd == 2 SetActPack ACT_WALK,walk_joggy"
+						IfAttr "walk_rnd == 3 SetActPack ACT_WALK,walk_fast"
+						IfAttr "walk_rnd == 4 SetActPack ACT_WALK,walk_slow"
+						IfAttr "walk_rnd == 5 SetActPack ACT_WALK,walk_heavy"
+						IfAttr "walk_rnd == 5 and ea_manner == Manner:LameWanker SetActPack ACT_WALK,walk_funny"
+						
+						RemoveAttr walk_rnd
+					}
+				}
+				
+				xpt_SetAreaGroup
+				{
+					actions
+					{
+					}
+				}
+				
+				xpt_SetHintGroup
+				{
+					actions
+					{
+						CheckAttr "flag_static Return 1"
+						SetHintGroup wish_fun_idle
+					}
+				}
+				
+				xpt_CheckPhone
+				{
+					actions
+					{
+						CheckAttr "flag_static Return 1" //������� �� ������ �� ��������
+						IfAttr "self.ea_faction != Faction:Citizens Return 1"
+						
+						CheckAttr "IHaveCell Block begin"
+							SetAttr "rnd 0,0,100"
+							ChangeAttr "rnd 0:100"
+							IfAttr "rnd < NPC_CALL_CHANSE Block begin"
+								RemoveAttr rnd
+								State so_phonecall
+							Block end
+							RemoveAttr rnd
+						Block end
+					}
+				}
+				
+				xpt_OnVisible
+				{
+					actions
+					{
+						TargetCaller 1
+						
+						IfAttr "RelationTo:target == Relation:enemy State st_start"
+						IfAttr "RelationTo:target == Relation:fear  State st_start"
+						
+						CheckAttr "flag_static Block begin"
+							IgnoreTarget 10
+							ResetTarget 1
+							Return 1
+						Block end
+						
+						StateMatrix faction
+						StateMatrix social
+						
+						IgnoreTarget 10
+						ResetTarget 1
+					}
+				}
+				
+				xpt_SeeOnFire
+				{
+					actions
+					{
+						ExecutePattern .xpt_OnVisible
+					}
+				}
+				
+				xpt_OnNewEnemy
+				{
+					actions
+					{
+						TargetCaller 1
+						State st_start
+					}
+				}
+				
+				xpt_OnNewFear
+				{
+					actions
+					{
+						TargetCaller 1
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						State st_start
+					}
+				}
+				
+				xpt_OnHit
+				{
+					actions
+					{
+						ExecutePattern st_util.xpt_OnHit
+						IfAttr "RelationTo:caller == Relation:enemy Block begin"
+							TargetCaller 1
+							State st_start
+						Block end
+						
+						IfAttr "Object:target != Object:caller Block begin"
+							TargetCaller 1
+							State st_start
+						Block end
+						
+						CheckAttr "flag_IgnoreWeapon Return 1"
+						TargetCaller 1
+						ExecutePattern st_seeweapon.xpt_precheck
+					}
+				}
+				
+				xpt_OnWrongAct
+				{
+					actions
+					{
+						IfAttr "Object:caller != Object:player Return 1"
+						IfAttr "slot#msGP.PlayerPath != PATH_GOOD Return 1"
+						
+						CheckAttr "flag_bystander Block begin"
+							IfAttr "Visible:caller == 1 Block begin"
+								IfAttr "Timer:tCanSay > 0 Return 1"
+								IfAttr "VoicePrefix:self != String:WHR Say MADCOP"
+								IfAttr "VoicePrefix:self == String:WHR Say WF_MADCOP"
+								Timer tCanSay,5:3
+							Block end
+						Block end
+					}
+				}
+				
+				xpt_OnBrutalAct
+				{
+					actions
+					{
+						CheckAttr "flag_bystander Block begin"
+							IfAttr "Visible:caller == 1 Block begin"
+								TargetCaller 1
+								ExecutePattern st_util.xpt_AddTargetToFear
+							Block end
+						Block end
+					}
+				}
+			}
+			events
+			{
+				OnVisible			"ExecutePattern .xpt_OnVisible"
+				OnFire_SGreet		"Pattern so_greet.pt_wait"
+				//OnHearDanger "SetAttr NewReaction RE_DANGER"
+				//OnHearCombat "SetAttr NewReaction RE_FEAR"
+				OnAE_OnFire			"ExecutePattern .xpt_SeeOnFire"
+				OnSawEnemy			"ExecutePattern .xpt_OnNewEnemy"
+				OnSawFear			"ExecutePattern .xpt_OnNewFear"
+				OnNewEnemy			"ExecutePattern .xpt_OnNewEnemy"
+				OnNewFear			"ExecutePattern .xpt_OnNewFear"
+				OnHit				"ExecutePattern .xpt_OnHit"
+				
+				OnAE_WrongAct		"ExecutePattern .xpt_OnWrongAct"
+				OnAE_BrutalAct		"ExecutePattern .xpt_OnBrutalAct"
+			}
+		}
+		
+		st_OnTasing
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						CheckAttr "NotAttackedByPlayer Block begin"
+							IfAttr "Object:target == Object:player ExecutePattern st_util.xpt_OnAttackedByPlayer"
+						Block end
+						
+						SetAttr "OldStatus ea_status"
+						SetAttr "ea_status sVICTIM"
+						SetAttr "ea_tased 1"
+						Senses false
+						Face false
+						FreeMovement false
+						
+						//���� �� ������� ����� ���������� ������, ��������� ��� ����� �����
+						IfAttr "reaction == RE_STUNNED	Pattern pt_stunout"
+						IfAttr "reaction == RE_TASED	Pattern pt_tased"
+						IfAttr "reaction == RE_TASING	Pattern pt_tasing"
+					}
+				}
+				
+				pt_tased:ignore_ext_events // ��� ���������
+				{
+					actions
+					{
+						Effect 4,Tazer_Hit_Smoke_Fx,pelvis,0,0,0,-1,true
+						SetAttr "NewReaction RE_TASED"
+						Sequence seq.g_reaction_tased
+						Wait 1.5:1.5
+						Pattern pt_stunout
+					}
+					events
+					{
+						OnHostaged "Pattern pt_hostaged"
+						OnUnstunned "Pattern pt_unstunned"
+						OnStandUpEnd	"Pattern pt_unstunned"
+						OnArrested "Pattern pt_arrested"
+						OnDeath "ExecutePattern st_OnDeath.pt_default"
+						OnTasingStart "Pattern pt_tasing"
+						OnExtinguish	"ExecutePattern .xpt_OnExtinguish"
+						OnIgnite		"ExecutePattern .xpt_OnIgnite"
+					}
+				}
+				
+				pt_tasing:ignore_ext_events //��� ���������
+				{
+					actions
+					{
+						Effect 4,Tazer_Hit_Smoke_Fx,pelvis,0,0,0,-1,true
+						SetAttr "NewReaction RE_TASING"
+						Wait 20
+						Pattern pt_stunout
+					}
+					events
+					{
+						OnUnconscious "Pattern pt_unconscious"
+						OnTasingFinish "Pattern pt_stunout"
+						OnDeath "ExecutePattern st_OnDeath.pt_default"
+						OnUnstunned "Pattern pt_unstunned" //���� ������ ���������� �� ����� � �������
+						OnExtinguish	"ExecutePattern .xpt_OnExtinguish"
+						OnIgnite		"ExecutePattern .xpt_OnIgnite"
+					}
+				}
+				
+				pt_stunout:ignore_ext_events
+				{
+					actions
+					{
+						Sequence seq.reaction_stun,9000
+						Wait 20
+						Pattern pt_unstunned
+					}
+					events
+					{
+						OnHostaged "Pattern pt_hostaged"
+						OnUnstunned "Pattern pt_unstunned"
+						OnStandUpEnd	"Pattern pt_unstunned"
+						OnArrested "Pattern pt_arrested"
+						OnTasingStart	"Pattern pt_tasing"
+						OnTased		"Pattern pt_tased"
+						OnDeath "ExecutePattern st_OnDeath.pt_default"
+						OnExtinguish	"ExecutePattern .xpt_OnExtinguish"
+						OnIgnite		"ExecutePattern .xpt_OnIgnite"
+					}
+				}
+				
+				pt_unconscious:ignore_ext_events
+				{
+					actions
+					{
+						IfAttr "reaction >= RE_TASED Effect 4,Tazer_Hit_Smoke_Fx,pelvis,0,0,-12,-1,true"
+						State st_OnUnconscious
+					}
+					events
+					{
+						OnDeath "ExecutePattern st_OnDeath.pt_default"
+					}
+				}
+				
+				pt_unstunned
+				{
+					actions
+					{
+						Senses true
+						RemoveAttr "ea_tased"
+						SetAttr "ea_status sNEUTRAL"
+						Effect 4,reset
+						Pattern pt_end
+					}
+				}
+				
+				pt_hostaged
+				{
+					actions
+					{
+						IfAttr "reaction <= RE_TASING Block begin"
+							SetAttr "reaction RE_NONE"
+							SetAttr "NewReaction RE_NONE"
+						Block end
+						
+						RemoveAttr "ea_tased"
+						State st_OnHostaged
+					}
+				}
+				
+				pt_arrested:ignore_ext_events
+				{
+					actions
+					{
+						SetAttr "ea_status sNEUTRAL"
+						State st_OnArrested
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						ResetSequence 1
+						SetAttr "ea_status OldStatus"
+						RemoveAttr OldStatus
+						
+						IfAttr "reaction <= RE_TASING and reaction != RE_IGNITE Block begin"
+							SetAttr "NewReaction RE_NONE"
+							SetAttr "reaction RE_NONE"
+						Block end
+						
+						IfAttr "ea_status == sIGNITED SetAttr NewReaction RE_IGNITE"
+						
+						State st_start
+					}
+				}
+				
+				xpt_OnExtinguish
+				{
+					actions
+					{
+						IfAttr "OldStatus == sIGNITED SetAttr OldStatus sNEUTRAL"
+					}
+				}
+				
+				xpt_OnIgnite
+				{
+					actions
+					{
+						SetAttr "OldStatus sIGNITED"
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						//SetAttr "NewReaction RE_NONE"
+						//SetAttr "reaction RE_NONE"
+					}
+				}
+			}
+			events
+			{
+				OnExtinguish	"ExecutePattern .xpt_OnExtinguish"
+				OnIgnite		"ExecutePattern .xpt_OnIgnite"
+			}
+		}
+
+		st_OnBlinded // Kizoky
+		{	
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						//ExecutePattern .xpt_DecreaseConsciousness
+						Senses false
+						SetAttr	"ea_tased 1"
+						//SetAttr "ea_takeable 1"
+						Pattern pt_stunned
+					}
+				}
+				
+				pt_stunned
+				{
+					actions
+					{
+						Sequence seq.reaction_spray,9000
+						ExecutePattern .xpt_scream
+						Timer tScream,5,repeated
+						Timer tUnstun,BLINDED_UNSTUN_TIMER
+						Pattern pt_stunloop
+					}
+				}
+				
+				pt_stunloop
+				{
+					actions
+					{
+						IfAttr "Timer:tUnstun <= 0 Pattern pt_end"
+						Repeat 3
+						//Wait 20
+						//Pattern pt_end
+					}
+					events
+					{
+						OnDeath "ExecutePattern st_OnDeath.pt_default"
+						OnTimer_tUnstun	"Pattern pt_end"
+						OnUnconscious "Pattern pt_unconscious"
+						OnHostaged "Pattern pt_hostaged"
+						//OnSprayStunned "Timer tUnstun,SPRAY_UNSTUN_TIMER"
+						OnBlinded "Timer tUnstun, BLINDED_UNSTUN_TIMER"
+						OnTimer_tScream "ExecutePattern .xpt_scream"
+						OnUnstunned "Pattern pt_end"
+						OnStandUpEnd	"Pattern pt_end"
+						//OnTimer_tStopAction "Pattern pt_end"
+					}
+				}
+				
+				pt_hostaged
+				{
+					actions
+					{
+						SetAttr "hostaged 1"
+						Pattern pt_end
+					}
+				}
+				
+				pt_unconscious:ignore_ext_events
+				{
+					actions
+					{
+						SetAttr "ea_takeable 0"
+						RemoveAttr ea_tased
+						State st_OnUnconscious
+					}
+					events
+					{
+						OnDeath "ExecutePattern st_OnDeath.pt_default"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						Senses true
+						//SetAttr "ea_takeable 0"
+						RemoveAttr ea_tased
+						Timer tScream,0
+						
+						IfAttr "reaction <= RE_BLINDED Block begin"
+							SetAttr "reaction RE_NONE"
+							SetAttr "NewReaction RE_NONE"
+						Block end
+						
+						CheckAttr "hostaged State st_OnHostaged"
+						
+						ResetSequence 1
+						//CheckAttr "flag_bystander ExecutePattern st_util.xpt_AddTargetToFear"
+						TargetPlayer 1
+						Relationship target,enemy,8
+						CheckAttr "flag_bystander Timer tForgivePlayer,FORGIVE_TIMER_DEFAULT"
+						MoveToTarget true
+						State st_start
+					}
+				}
+				
+				xpt_scream
+				{
+					actions
+					{
+						Say SCREAM
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction > RE_BLINDED Pattern pt_end"
+					}
+				}
+			}
+		}
+
+		
+		st_OnSprayStunned
+		{	
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						//ExecutePattern .xpt_DecreaseConsciousness
+						Senses false
+						SetAttr	"ea_tased 1"
+						//SetAttr "ea_takeable 1"
+						Pattern pt_stunned
+					}
+				}
+				
+				pt_stunned
+				{
+					actions
+					{
+						Sequence seq.reaction_spray,9000
+						ExecutePattern .xpt_scream
+						Timer tScream,5,repeated
+						Timer tUnstun,SPRAY_UNSTUN_TIMER
+						Pattern pt_stunloop
+					}
+				}
+				
+				pt_stunloop
+				{
+					actions
+					{
+						IfAttr "Timer:tUnstun <= 0 Pattern pt_end"
+						Repeat 3
+						//Wait 20
+						//Pattern pt_end
+					}
+					events
+					{
+						OnDeath "ExecutePattern st_OnDeath.pt_default"
+						OnTimer_tUnstun	"Pattern pt_end"
+						OnUnconscious "Pattern pt_unconscious"
+						OnHostaged "Pattern pt_hostaged"
+						OnSprayStunned "Timer tUnstun,SPRAY_UNSTUN_TIMER"
+						OnTimer_tScream "ExecutePattern .xpt_scream"
+						OnUnstunned "Pattern pt_end"
+						OnStandUpEnd	"Pattern pt_end"
+						//OnTimer_tStopAction "Pattern pt_end"
+					}
+				}
+				
+				pt_hostaged
+				{
+					actions
+					{
+						SetAttr "hostaged 1"
+						Pattern pt_end
+					}
+				}
+				
+				pt_unconscious:ignore_ext_events
+				{
+					actions
+					{
+						SetAttr "ea_takeable 0"
+						RemoveAttr ea_tased
+						State st_OnUnconscious
+					}
+					events
+					{
+						OnDeath "ExecutePattern st_OnDeath.pt_default"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						Senses true
+						//SetAttr "ea_takeable 0"
+						RemoveAttr ea_tased
+						Timer tScream,0
+						
+						IfAttr "reaction <= RE_SPRAYED Block begin"
+							SetAttr "reaction RE_NONE"
+							SetAttr "NewReaction RE_NONE"
+						Block end
+						
+						CheckAttr "hostaged State st_OnHostaged"
+						
+						ResetSequence 1
+						CheckAttr "flag_bystander ExecutePattern st_util.xpt_AddTargetToFear"
+						State st_start
+					}
+				}
+				
+				xpt_scream
+				{
+					actions
+					{
+						Say SCREAM
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction > RE_SPRAYED Pattern pt_end"
+					}
+				}
+			}
+		}
+		
+		st_OnHostaged  // ����� � ���������
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions 
+					{
+						Senses false
+						CheckAttr "ea_tased RemoveAttr ea_tased"  // ��������� �� ������� �� ���� ����� ���� ��� ��� ����� ���������
+						TargetPlayer 1
+						FireEvent HostagedMe
+						SetAttr "ea_status sVICTIM"
+						SetAttr "hostaged 1"
+						Pattern pt_loop
+					}
+				}
+				pt_loop  // ������ ������ "���� � ������"
+				{
+					actions
+					{
+						AreaEvent HOSTAGE,32
+						Repeat 1
+					}
+				}
+				pt_resque  // ��� ���������� � ������� �� ���� ����
+				{
+					actions
+					{
+						AreaEvent HOSTAGE_RESQUE,32
+						Pattern pt_resque_exit
+					}
+				}
+				pt_resque_exit
+				{
+					actions
+					{
+						RemoveAttr hostaged
+						TargetPlayer 1
+						FireEvent ResquedMe
+						State st_start
+					}
+				}
+			}
+			events
+			{ 
+				OnResque "Pattern pt_resque"
+			}
+		}
+		
+		st_OnHearCombat
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "NewReaction RE_FEAR"
+						Pattern pt_end
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						IfAttr "reaction <= RE_COMBAT Block begin"
+							SetAttr "reaction RE_NONE"
+							SetAttr "NewReaction RE_NONE"
+						Block end
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction > RE_COMBAT Pattern pt_end"
+					}
+				}
+			}
+		}
+		
+		st_OnHearDanger
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						FreeMovement false
+						Pattern pt_react
+					}
+				}
+				
+				pt_react
+				{
+					actions
+					{
+						Pattern pt_danger //,pt_fear
+					}
+				}
+				
+				pt_danger
+				{
+					actions
+					{
+						Sequence seq.reaction_shocked_2,seq.reaction_confused,seq.reaction_afraid
+						Wait 0.2
+						ExecutePattern .xpt_SayDanger
+						Wait 1:1
+						Pattern pt_end, //pt_fear
+					}
+				}
+				
+				pt_fear
+				{
+					actions
+					{
+						SetAttr "NewReaction RE_FEAR"
+						Wait 0.5
+						Pattern pt_end
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						ResetSequence 1
+						
+						IfAttr "reaction <= RE_DANGER Block begin"
+							SetAttr "reaction RE_NONE"
+							SetAttr "NewReaction RE_NONE"
+						Block end
+						
+						State st_start
+					}
+				}
+				
+				xpt_SayDanger
+				{
+					actions
+					{
+						IfAttr "VoicePrefix:self == String:GAY Block begin"
+							Say SCREAM,GETCOP,1
+							Return 1
+						Block end
+						
+						IfAttr "ea_manner == Manner:LowLife Say SCREAM,SEECARNAGE,1"
+						IfAttr "ea_manner != Manner:LowLife Say SCREAM,GETCOP,SEECARNAGE,1" //,wait
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction > RE_DANGER Pattern pt_end"
+					}
+				}
+			}
+		}
+		
+		st_OnSeeFlame
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						FreeMovement false
+						FreeMovementParams area_all,ED_MIDDLE,ED_FAR,move_from_target //backaway
+						SetActPack ACT_RUN,run_panic,Alert
+						Pattern pt_moveout
+					}
+				}
+				
+				pt_moveout
+				{
+					actions
+					{
+						FreeMovement run
+						Say SEEFIRE
+						Wait 3:3
+						Pattern pt_end
+					}
+					events
+					{
+						OnTargetReach "Pattern pt_end"
+						OnInvalidRoute "Pattern pt_end"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						SetActPack ACT_RUN,run_normal,Alert
+						
+						IfAttr "reaction <= RE_SEEFLAME Block begin"
+							SetAttr "NewReaction RE_NONE"
+							SetAttr "reaction RE_NONE"
+						Block end
+						
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction > RE_SEEFLAME Pattern pt_end"
+					}
+				}
+			}
+		}
+		
+		st_fear
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern .xpt_InitRunAway
+						FreeMovement false
+						Face false
+						ExecutePattern .xpt_SelectWeapon
+						SetActPack ACT_RUN,run_panic,Alert
+						Gesture g_emote_afraid,2:2
+						Timer tAfraid,4,repeated
+						Timer tFear,30:30
+						Pattern pt_runaway
+					}
+				}
+				
+				xpt_InitRunAway
+				{
+					actions
+					{
+						SetAttr "RunAway_Tries 0"
+					}
+				}
+				
+				xpt_SelectWeapon
+				{
+					actions
+					{
+						Weapon disarm
+						//�����
+					}
+				}
+				
+				pt_decide
+				{
+					actions
+					{
+						Pattern pt_runaway,pt_beg
+					}
+				}
+				
+				pt_runaway
+				{
+					actions
+					{
+						ResetSequence 1
+						ExecutePattern .xpt_SetParams
+						FreeMovement run
+						
+						Wait 1
+						SetAttr "RunAway_Tries 0"
+						//���� ��-���� ����-�� �������� �������, ���������� �������
+						
+						ExecutePattern .xpt_SayRun
+						Wait 5:4
+						Pattern pt_decide
+					}
+					events
+					{
+						OnInvalidRoute "ExecutePattern .xpt_OnInvalidRoute"
+						//OnTargetReach "Pattern pt_decide"
+					}
+				}
+				
+				xpt_OnInvalidRoute
+				{
+					actions
+					{
+						CheckAttr "RunAway_Tries Block begin"
+							IfAttr "RunAway_Tries < 3 Block begin"
+								ChangeAttr "RunAway_Tries +1"
+								Pattern pt_runaway
+								Return 1
+							Block end
+							
+							IfAttr "RunAway_Tries == 3 SetAttr RunAway_Tries 0"
+						Block end
+						
+						Pattern pt_beg
+					}
+				}
+				
+				xpt_SetParams
+				{
+					actions
+					{
+						IfAttr "RunAway_Tries == 0 FreeMovementParams area_hidden,ED_FAR,ED_VERY_FAR,move_from_target" //,safe
+						IfAttr "RunAway_Tries == 1 FreeMovementParams area_all,ED_MIDDLE,ED_VERY_FAR,move_from_target"
+						IfAttr "RunAway_Tries == 2 FreeMovementParams area_all,ED_MIDDLE,ED_VERY_FAR"
+					}
+				}
+				
+				pt_beg
+				{
+					actions
+					{
+						FreeMovement false
+						Sequence seq.env_crouch,9000 
+						Gesture g_emote_afraid,2:2
+						ExecutePattern .xpt_SayBeg
+						Wait 4:4
+						Pattern pt_runaway
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						RemoveAttr RunAway_Tries
+						Timer tFear,0
+						Timer tAfraid,0
+						ResetGesture g_emote_afraid
+						ResetSequence 1
+						SetActPack ACT_RUN,run_normal,Alert
+						Crouch false
+						
+						IfAttr "reaction <= RE_FEAR Block begin"
+							SetAttr "NewReaction	RE_NONE"
+							SetAttr "reaction		RE_NONE"
+						Block end
+						
+						State st_start
+					}
+				}
+				
+				xpt_SayRun
+				{
+					actions
+					{
+						IfAttr "ea_Manner == Manner:LowLife Block begin"
+							Say SEECARNAGE,SCREAM
+							Return 1
+						Block end
+						
+						Say SEECARNAGE,SCREAM,GETCOP
+						//Say CHAV_ATTACK
+					}
+				}
+				
+				xpt_SayBeg
+				{
+					actions
+					{
+						IfAttr "Object:target == Object:player Say CRY,DONTKILLME"
+						IfAttr "Object:target != Object:player Say CRY"
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction > RE_FEAR Pattern pt_end"
+					}
+				}
+			}
+			events
+			{
+				//OnHit "Say DONTKILLME"
+				OnTimer_tFear "Pattern pt_end"
+				OnTimer_tAfraid "Gesture g_emote_afraid,2:2"
+			}
+		}
+		
+		
+		st_OnKicked
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						FireEvent KickedMe
+						
+						CheckAttr "NotAttackedByPlayer Block begin"
+							IfAttr "Object:target == Object:player ExecutePattern st_util.xpt_OnAttackedByPlayer"
+						Block end
+						
+						SetAttr "ReactionIgnoreLevel RE_WEAPON"
+						SetAttr "Commented 0"
+						
+						IfAttr "reaction == RE_KICKED Block begin"
+							SetAttr "reaction RE_NONE"
+							SetAttr "NewReaction RE_NONE"
+						Block end
+						
+						ExecutePattern st_util.xpt_SayHit
+						Wait 5
+						Pattern pt_end
+					}
+					events
+					{
+						OnStandUpBegin "Pattern pt_standing"
+					}
+				}
+				
+				pt_standing
+				{
+					actions
+					{
+						Wait 5
+						Pattern pt_end
+					}
+					events
+					{
+						OnStandUpEnd "Pattern pt_react"
+					}
+				}
+				
+				pt_react
+				{
+					actions
+					{
+						CheckAttr "NewReactionSet Pattern pt_end"
+						Pattern pt_decide
+					}
+				}
+				
+				pt_decide
+				{
+					actions
+					{
+						IfAttr "RelationTo:target == Relation:enemy Pattern pt_end"
+						IfAttr "RelationTo:target == Relation:fear  Pattern pt_end"
+						
+						CheckAttr "flag_IgnorePlayerAttack Block begin"
+							CheckAttr "flag_IgnorePlayerFear Pattern pt_blame"
+							Pattern pt_blame,pt_fear
+						Block end
+						
+						CheckAttr "flag_IgnorePlayerFear Pattern pt_attack,pt_blame"
+						
+						Pattern pt_blame,pt_attack,pt_fear
+					}
+				}
+				
+				pt_attack
+				{
+					actions
+					{
+						IfAttr "Object:target == Object:player ExecutePattern st_util.xpt_AddTargetToEnemy"
+						Pattern pt_end
+					}
+				}
+				
+				pt_blame
+				{
+					actions
+					{
+						Face true
+						Wait 0.3:0.3
+						Sequence emote_aggro
+						Say BUMPED
+						WaitForEnd 1
+						SetAttr "Commented 1"
+						Pattern pt_end
+					}
+				}
+				
+				pt_fear
+				{
+					actions
+					{
+						ExecutePattern st_util.xpt_AddTargetToFear
+						SetAttr "NewReaction RE_FEAR"
+						Pattern pt_end
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						Face false
+						ResetSequence 1
+						RemoveAttr Commented
+						
+						RemoveAttr "NewReactionSet"
+						
+						IfAttr "reaction <= ReactionIgnoreLevel Block begin"
+							SetAttr "NewReaction RE_NONE"
+							SetAttr "reaction	 RE_NONE"
+						Block end
+						
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction >= RE_STUNNED Pattern pt_end"
+						IfAttr "reaction > ReactionIgnoreLevel SetAttr NewReactionSet 1"
+					}
+				}
+			}
+			events
+			{
+				OnKicked "Pattern pt_default"
+				OnHit "Wait 0"
+			}
+		}
+		
+		st_OnBumped
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Pattern pt_end,pt_comment
+					}
+				}
+				
+				pt_comment
+				{
+					actions
+					{
+						LookAt true
+						Say BUMPED,0 //,wait
+						Pattern pt_end
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						LookAt false
+						IfAttr "NewReaction <= RE_BUMPED SetAttr NewReaction RE_NONE"
+						IfAttr "reaction <= RE_BUMPED SetAttr reaction RE_NONE"
+						Timer tBump,8
+						IgnoreTarget 10
+						ResetTarget 1
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction > RE_BUMPED Pattern pt_end"
+					}
+				}
+			}
+			events
+			{
+				OnBump "Wait 0"
+			}
+		}
+		
+		
+		st_OnNasty
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "Timer:tIgnoreNasty > 0 Pattern pt_end"
+						SetAttr "Commented 0"
+						FreeMovement false
+						Pattern pt_react
+					}
+				}
+				
+				pt_react
+				{
+					actions
+					{
+						IfAttr "RelationTo:target == Relation:enemy Pattern pt_puke,pt_end"
+						IfAttr "RelationTo:target == Relation:fear 	Pattern pt_puke,pt_end"
+						
+						//����, ����� ��������� ������ ��������, ������ ���� ������� �����
+						IfAttr "Object:target == Object:Player Block begin"
+							CheckAttr "flag_IgnorePlayerAttack SetAttr flag_IgnoreNastyAttack 1"
+						Block end
+						IfAttr "Object:target != Object:Player SetAttr flag_IgnoreNastyAttack 1"
+						//������� � ������� ���� ��� ���������� ��������
+						
+						CheckAttr "flag_IgnoreNastyAttack Block begin"
+							CheckAttr "flag_IgnorePlayerFear Block begin"
+								IfAttr "Commented == 0 Pattern pt_comment,pt_puke"
+								IfAttr "Commented == 1 Pattern pt_puke"
+							Block end
+							
+							IfAttr "Commented == 0 Pattern pt_comment,pt_puke,pt_fear"
+							IfAttr "Commented == 1 Pattern pt_puke,pt_fear"
+						Block end
+						
+						CheckAttr "flag_IgnorePlayerFear Block begin"
+							IfAttr "Commented == 0 Pattern pt_attack,pt_comment,pt_puke"
+							IfAttr "Commented == 1 Pattern pt_attack,pt_puke"
+						Block end
+						
+						IfAttr "Commented == 0 Pattern pt_comment,pt_attack,pt_puke,pt_fear"
+						IfAttr "Commented == 1 Pattern pt_attack,pt_puke,pt_fear"
+					}
+				}
+				
+				pt_comment
+				{
+					actions
+					{
+						LookAt true
+						Sequence emote_annoyed
+						ExecutePattern .xpt_SayPissedOn
+						WaitForEnd 1
+						SetAttr "Commented 1"
+						Pattern pt_react
+					}
+				}
+				
+				pt_attack
+				{
+					actions
+					{
+						IfAttr "Commented == 0 ExecutePattern .xpt_SayPissedOn"
+						ExecutePattern st_util.xpt_AddTargetToEnemy
+						Pattern pt_end
+					}
+				}
+				
+				pt_puke
+				{
+					actions
+					{
+						SetAttr "NewReaction RE_PUKE"
+						Pattern pt_end
+					}
+				}
+				
+				pt_fear
+				{
+					actions
+					{
+						ExecutePattern st_util.xpt_AddTargetToFear
+						SetAttr "NewReaction RE_FEAR"
+						Pattern pt_end
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						RemoveAttr flag_IgnoreNastyAttack
+						IfAttr "Timer:tIgnoreNasty <= 0 Timer tIgnoreNasty,NASTY_TIMER_DEFAULT:NASTY_TIMER_SPREAD_DEFAULT"
+						//�������� ��� ����, ����� ����� ���� �������� ������� �������� ��� ������������, �� ���������� ������ �����
+						LookAt false
+						RemoveAttr Commented
+						
+						IfAttr "NewReaction <= RE_NASTY Block begin"
+							SetAttr "NewReaction RE_NONE"
+							SetAttr "reaction RE_NONE"
+						Block end
+						
+						State st_start
+					}
+				}
+				
+				xpt_SayPissedOn
+				{
+					actions
+					{
+						Say PISSEDON,1
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction > RE_NASTY Pattern pt_end"
+					}
+				}
+			}
+		}
+		
+		st_puke
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ResetTarget 1
+						FreeMovement false
+						FireInput self,HeadTurningOff
+						Pattern pt_prevomit
+					}
+				}
+				
+				pt_prevomit
+				{
+					actions
+					{
+						Sequence seq.reaction_barf
+						Say PUKE,1 //,wait
+						WaitForEnd 1
+						Pattern pt_vomit
+					}
+				}
+				
+				pt_vomit
+				{
+					actions
+					{
+						Sequence seq.reaction_vomit,2:2
+						Say VOMIT,2
+						Wait 3:0.5
+						Pattern pt_end
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						IfAttr "Timer:tIgnoreNasty <= 0 Timer tIgnoreNasty,NASTY_TIMER_DEFAULT:NASTY_TIMER_SPREAD_DEFAULT"
+						
+						FireInput self,HeadTurningOn
+						ResetSequence 1
+						IfAttr "NewReaction <= RE_PUKE Block begin"
+							SetAttr "NewReaction RE_NONE"
+							SetAttr "reaction RE_NONE"
+						Block end
+						
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction > RE_PUKE Pattern pt_end"
+					}
+				}
+			}
+		}
+		
+		st_OnSnatched
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						FreeMovement false
+						Senses false
+						SetAttr "ea_status sVICTIM"
+						Pattern pt_scream
+					}
+				}
+				
+				pt_scream
+				{
+					actions
+					{
+						ExecutePattern .xpt_scream
+						Wait 2:4
+						Repeat 0
+					}
+				}
+				
+				pt_unsnatch
+				{
+					actions
+					{
+						Pattern pt_end
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						Senses true
+						SetAttr "ea_status sNEUTRAL"
+						IfAttr "NewReaction <= RE_SNATCHED SetAttr NewReaction RE_NONE"
+						IfAttr "reaction <= RE_SNATCHED SetAttr reaction RE_NONE"
+						SetAttr "NewReaction RE_FEAR"
+						State st_start
+					}
+				}
+				
+				xpt_scream
+				{
+					actions
+					{
+						Say SCREAM
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction > RE_SNATCHED Pattern pt_end"
+					}
+				}
+			}
+			events
+			{
+				OnUnsnatch "Pattern pt_unsnatch"
+			}
+		}
+		
+		st_OnIgnite
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern .xpt_SelectWeapon
+						Aim false
+						Crouch false
+						Face false
+						FreeMovement false
+						SetAttr "ea_status sIGNITED"
+						ExecutePattern .xpt_setparams
+						Timer tPlayGesture,3,repeated
+						Senses false
+						Gesture g_onfire,3
+						//SetAttr "ignite 1"
+						Pattern pt_runaround
+					}
+				}
+				
+				pt_runaround
+				{
+					actions
+					{
+						AreaEvent OnFire,32
+						FreeMovement run,reset
+						ExecutePattern .xpt_SayOnFire
+						Wait 2:4
+						Repeat 0
+					}
+					events
+					{
+						OnTimer_tPlayGesture "Gesture g_onfire,3"
+						OnInvalidRoute "Repeat 0"
+						OnTargetReach "Repeat 0"
+					}
+				}
+				
+				pt_extinguish
+				{
+					actions
+					{
+						IfAttr "Object:target == Object:Null Pattern pt_end"
+						IfAttr "RelationTo:target == Relation:enemy Pattern pt_end"
+						IfAttr "RelationTo:target == Relation:fear Pattern pt_end"
+						
+						IfAttr "Object:target == Object:player Block begin"
+							CheckAttr "flag_IgnorePlayerAttack Block begin"
+								CheckAttr "flag_IgnorePlayerFear Pattern pt_end"
+								Pattern pt_fear
+							Block end
+							CheckAttr "flag_IgnorePlayerFear Pattern pt_attack"
+							Pattern pt_attack,pt_fear
+						Block end
+						
+						IfAttr "Object:target != Object:Player Pattern pt_end"
+					}
+				}
+				
+				pt_attack
+				{
+					actions
+					{
+						ExecutePattern st_util.xpt_AddTargetToEnemy
+						Pattern pt_end
+					}
+				}
+				
+				pt_fear
+				{
+					actions
+					{
+						ExecutePattern st_util.xpt_AddTargetToFear
+						Pattern pt_end
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						//RemoveAttr ignite
+						SetActPack ACT_RUN,default_run,Alert
+						AvoidProhibitedArea true
+						Senses true
+						
+						ResetSequence 1
+						ResetGesture g_onfire
+						
+						IfAttr "reaction <= RE_IGNITE Block begin"
+							SetAttr "NewReaction RE_NONE"
+							SetAttr "reaction RE_NONE"
+							SetAttr "ea_status sNEUTRAL"
+						Block end
+						
+						CheckAttr "flag_bystander SetAttr NewReaction RE_FEAR"
+						
+						State st_start
+					}
+				}
+				
+				xpt_SetParams
+				{
+					actions
+					{
+						SetActPack ACT_RUN,run_panic,Alert
+						FreeMovementParams area_all,ED_MIDDLE,ED_VERY_FAR
+						AvoidProhibitedArea false
+					}
+				}
+				
+				xpt_SelectWeapon
+				{
+					actions
+					{
+						Weapon drop
+						//Weapon disarm
+					}
+				}
+				
+				xpt_SayOnFire
+				{
+					actions
+					{
+						Say ONFIRE,SCREAM
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction > RE_IGNITE Pattern pt_end"
+					}
+				}
+			}
+			events
+			{
+				OnExtinguish "Pattern pt_extinguish"
+			}
+		}
+		
+		st_OnBeeSting
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern st_OnIgnite.xpt_SelectWeapon
+						Aim false
+						Crouch false
+						Face false
+						LookAt false
+						FreeMovement false
+						
+						ExecutePattern .xpt_SetParams
+						ExecutePattern .xpt_ResetTimer
+						Timer tPlayGesture,3,repeated
+						Senses false
+						Gesture g_onfire,3
+						
+						Pattern pt_runaround
+					}
+				}
+				
+				pt_runaround
+				{
+					actions
+					{
+						IfAttr "Timer:tBees <= 0 Pattern pt_end"
+						FreeMovement run,reset
+						ExecutePattern .xpt_Scream
+						Wait 2:4
+						Repeat 0
+					}
+					events
+					{
+						OnTimer_tPlayGesture "Gesture g_onfire,3"
+						OnInvalidRoute "Repeat 0"
+						OnTargetReach "Repeat 0"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						SetActPack ACT_RUN,default_run,Alert
+						AvoidProhibitedArea true
+						Senses true
+						SetAttr "ea_status sNEUTRAL"
+						
+						ResetSequence 1
+						ResetGesture g_onfire
+						
+						IfAttr "reaction <= RE_STING Block begin"
+							SetAttr "NewReaction RE_NONE"
+							SetAttr "reaction RE_NONE"
+						Block end
+						
+						CheckAttr "flag_bystander SetAttr NewReaction RE_FEAR"
+						
+						State st_start
+					}
+				}
+				
+				xpt_scream
+				{
+					actions
+					{
+						Say SCREAM
+					}
+				}
+				
+				xpt_ResetTimer
+				{
+					actions
+					{
+						Timer tBees,BEES_FEAR_TIMER_DEFAULT
+					}
+				}
+				
+				xpt_SetParams
+				{
+					actions
+					{
+						SetActPack ACT_RUN,run_panic
+						FreeMovementParams area_all,ED_MIDDLE,ED_VERY_FAR
+						AvoidProhibitedArea false
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction > RE_STING Pattern pt_end"
+					}
+				}
+			}
+			events
+			{
+				OnBeeSting	"ExecutePattern .xpt_ResetTimer"
+			}
+		}
+		
+		so_greet
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						CheckAttr "target.flag_bystander Block begin"
+							CheckAttr "target.busy Pattern pt_end"
+							SetAttr "busy 1"
+							SetAttr "leader 1"
+							Pattern pt_pregreet,pt_end
+						Block end
+						
+						Pattern pt_end
+					}
+				}
+				
+				pt_pregreet
+				{
+					actions
+					{
+						CheckAttr "greet_sleazy Pattern pt_greet"
+						SetAttr "greet_normal 1"
+						Pattern pt_greet
+					}
+				}
+				
+				pt_greet
+				{
+					actions
+					{
+						Wait 0:1
+						FireEvent SGreet
+						LookAt true
+						Gesture g_greet_normal
+						Wait 0.2
+						CheckAttr "greet_sleazy Say SLEEZ"
+						CheckAttr "greet_normal Say GREET"
+						//AreaEvent Greet,10000
+						Wait 0.5
+						FireEvent SGreetResponseOK
+						Wait 5
+						Pattern pt_end
+					}
+					events
+					{
+						OnFire_SGreetResponse "Pattern pt_chat,pt_end"
+					}
+				}
+				
+				pt_wait
+				{
+					actions
+					{
+						//ShowMessage "[Waiting],$P3Debug"
+						//AreaEvent Waiting,10000
+						SetAttr "busy 1"
+						TargetCaller 1
+						Wait 5
+						FireEvent Cancel
+						Pattern pt_end
+					}
+					events
+					{
+						OnFire_SGreetResponseOK "Pattern pt_response"
+					}
+				}
+				
+				pt_response
+				{
+					actions
+					{
+						//AreaEvent Response,10000
+						//ShowMessage "[Responsing],$P3Debug"
+						LookAt true
+						Gesture g_greet_normal
+						Wait 0.2
+						CheckAttr "target.greet_normal Say GREET,GREETRESPONSE"
+						CheckAttr "target.greet_sleazy Say SLEEZ,SLEAZYRESPONSE"
+						Wait 0.2:0.3
+						FireEvent SGreetResponse
+						Wait 5
+						Pattern pt_end
+					}
+					events
+					{
+						OnFire_SChatRequest "Pattern pt_chatok"
+					}
+				}
+				
+				pt_chat
+				{
+					actions
+					{
+						State so_chat
+					}
+				}
+				
+				pt_chatok
+				{
+					actions
+					{
+						//IfAttr "Visible:target == false Pattern pt_end"
+						Wait 0.2
+						FireEvent SChatResponse
+						Pattern so_chat.pt_moveto
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						CheckAttr "leader FireEvent Cancel"
+						RemoveAttr "leader"
+						RemoveAttr "greet_sleazy"
+						RemoveAttr "greet_normal"
+						IgnoreTarget 30
+						LookAt false
+						ResetTarget 1
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						Pattern pt_end
+					}
+				}
+			}
+			events
+			{
+				OnFire_Cancel "IfAttr Object:caller == Object:target Pattern pt_end"
+			}
+		}
+		
+		so_greetdude
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "busy 1"
+						Pattern pt_end
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						IgnoreTarget 5
+						ResetTarget 1
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						Pattern pt_end
+					}
+				}
+			}
+		}
+		
+		so_sleeze
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "busy 1"
+						SetAttr "greet_sleazy 1"
+						State so_greet
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						Pattern so_greet.pt_end
+					}
+				}
+			}
+		}
+		
+		so_chat
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						//AreaEvent ChatRequest,10000
+						FireEvent SChatRequest
+						Wait 5
+						Pattern pt_end
+					}
+					events
+					{
+						OnFire_SChatResponse "Pattern pt_moveto"
+					}
+				}
+				
+				pt_moveto
+				{
+					actions
+					{
+						FreeMovement false
+						Face true
+						LookAt true
+						MoveToTarget walk,0,0
+						Wait 5
+						FireEvent Cancel
+						Pattern pt_end
+					}
+					events
+					{
+						OnTargetClose "Pattern pt_listen"
+					}
+				}
+				
+				pt_listen
+				{
+					actions
+					{
+						CheckAttr "leader Pattern pt_call"
+						FreeMovement false
+						Face true
+						LookAt true
+						Sequence seq.dialogue_listen
+						Wait 4:4
+						FireEvent Cancel
+						Pattern pt_end
+					}
+					events
+					{
+						OnFire_SChatCallEnd			"Pattern pt_response"
+						OnFire_SChatResponseEnd	"Pattern pt_followup"
+						OnFire_SChatFollowUpEnd	"Pattern pt_leadout"
+						OnFire_SChatLeadOutEnd	"Pattern pt_end"
+					}
+				}
+				
+				pt_call
+				{
+					actions
+					{
+						//AreaEvent Chat,10000
+						RemoveAttr "leader"
+						Sequence seq.dialogue_idea,seq.dialogue_phrase1,seq.dialogue_phrase2
+						Say CALL //,wait
+						Wait 1.5:1
+						WaitForEnd 1
+						FireEvent SChatCallEnd
+						Pattern pt_listen
+					}
+				}
+				
+				pt_response
+				{
+					actions
+					{
+						Sequence seq.dialogue_point,seq.dialogue_phrase1,seq.dialogue_phrase2
+						Say RESPONSE //,wait
+						Wait 1.5:1
+						WaitForEnd 1
+						FireEvent SChatResponseEnd
+						Pattern pt_listen
+					}
+				}
+				
+				pt_followup
+				{
+					actions
+					{
+						Sequence seq.dialogue_point,seq.dialogue_phrase1,seq.dialogue_phrase2
+						Say FOLLOWUP //,wait
+						Wait 1.5:0.5
+						WaitForEnd 1
+						FireEvent SChatFollowUpEnd
+						Pattern pt_listen
+					}
+				}
+				
+				pt_leadout
+				{
+					actions
+					{
+						Sequence seq.dialogue_wow,seq.dialogue_no,seq.dialogue_phrase3
+						Say LEADOUT //,wait
+						Wait 1.5:0.5
+						WaitForEnd 1
+						FireEvent SChatLeadOutEnd
+						Pattern pt_end
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						RemoveAttr "greet_sleazy"
+						RemoveAttr "greet_normal"
+						RemoveAttr "leader"
+						Face false
+						LookAt false
+						ResetTarget 1
+						IgnoreTarget 30
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						FireEvent Cancel
+						Pattern pt_end
+					}
+				}
+			}
+			events
+			{
+				OnFire_Cancel "Pattern pt_end"
+			}
+		}
+		
+		so_seepiss
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "busy 1"
+						Pattern pt_comment,pt_end
+					}
+				}
+				
+				pt_comment
+				{
+					actions
+					{
+						LookAt true
+						//Gesture seq.g_agitate_agressive,seq.g_confusion_agressive,seq.g_reaction_pissing
+						Say SEEPISSING //,wait
+						// Wait 2:1
+						//WaitForEnd 1
+						Pattern pt_end
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						LookAt false
+						IgnoreTarget 20
+						ResetTarget 1
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						Pattern pt_end
+					}
+				}
+			}
+		}
+		
+		so_seeanimal
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "ea_manner == Manner:LowLife Pattern pt_end"
+						SetAttr "busy 1"
+						IfAttr "target.ea_manner == Manner:PussyCat State so_seecat"
+						SetAttr "AnimalNotCat 1"
+						Pattern pt_decide
+					}
+				}
+				
+				pt_decide
+				{
+					actions
+					{
+						LookAt true
+						IfAttr "LoveAnimals == 0 Pattern pt_hate"
+						IfAttr "LoveAnimals == 1 Pattern pt_love"
+						Pattern pt_end
+					}
+				}
+				
+				pt_hate
+				{
+					actions
+					{
+						CheckAttr "AnimalNotCat Say HATESANIMAL"
+						CheckAttr "AnimalCat Say HATESANIMAL,HATESCAT"
+						Wait 2
+						Pattern pt_end
+					}
+				}
+				
+				pt_love
+				{
+					actions
+					{
+						CheckAttr "AnimalNotCat Say LIKESANIMAL"
+						CheckAttr "AnimalCat Say LIKESANIMAL,LIKESCAT"
+						Wait 2
+						Pattern pt_end
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						RemoveAttr "AnimalCat"
+						RemoveAttr "AnimalNotCat"
+						LookAt false
+						IgnoreTarget 30
+						ResetTarget 1
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						Pattern pt_end
+					}
+				}
+			}
+		}
+		ut_assist
+		{
+			group Alert
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						AssistTarget 1
+						ExecutePattern st_util.xpt_AddTargetToEnemy
+						State st_start
+					}				
+				}
+			}
+		}
+		so_seecat
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "LoveAnimals == 1 Pattern pt_pet,pt_comment,pt_end"
+						IfAttr "LoveAnimals == 0 Pattern pt_comment,pt_end"
+					}
+				}
+				
+				pt_pet
+				{
+					actions
+					{
+						State so_petcat
+					}
+				}
+				
+				pt_comment
+				{
+					actions
+					{
+						SetAttr "AnimalCat 1"
+						Pattern so_seeanimal.pt_decide
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						IgnoreTarget 30
+						ResetTarget 1
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						Pattern pt_end
+					}
+				}
+			}
+		}
+		so_seecop
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Say 2COP
+					}
+				}
+				pt_copaggro
+				{
+					actions
+					{
+						Say COPREPORT
+					}
+				}
+			}
+		}
+		so_petcat
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						CheckAttr "target.busy Return 1"
+						SetAttr "busy 1"
+						Face true
+						FreeMovement false
+						//Headblob 2,OnIrritate
+						FireEvent Interest
+						Timer tFollowkitty,10
+						Wait 1
+						//Pattern pt_moveto_cat
+						State st_start
+					}
+					events
+					{
+						OnFire_Response "Pattern pt_moveto_cat"
+					}
+				}
+				pt_moveto_cat
+				{
+					actions
+					{
+						MoveToTarget walk
+					}
+					events
+					{
+						OnTargetReach "Pattern pt_pickup_cat"
+						OnTimer_tFollowkitty "State st_start"
+					}
+				}
+				pt_pickup_cat
+				{
+					actions
+					{
+						Say LIKESCAT
+						Timer tFollowkitty,0
+						Sequence seq.env_crouch_inspect
+						Wait 0.5
+						FireEvent PickUp
+						Wait 2:2
+						Pattern pt_end
+					}
+				}
+				pt_end
+				{
+					actions
+					{
+						Face false
+						State st_start
+					}
+				}
+				xpt_ReactionChange
+				{
+					actions
+					{
+						Pattern pt_end
+					}
+				}
+			}
+			events
+			{
+				OnFire_Cancel "Pattern pt_end"
+			}
+		}
+		
+		so_playerdead
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "busy 1"
+						Pattern pt_comment,pt_moveto
+					}
+				}
+				
+				pt_comment
+				{
+					actions
+					{
+						LookAt true
+						Wait 0.2
+						Say DEADTAUNT
+						Wait 0.3:0.5
+						Pattern pt_end
+					}
+				}
+				
+				pt_moveto
+				{
+					actions
+					{
+						FreeMovement false
+						LookAt true
+						MoveToTarget walk,1,0,to_target
+						Wait 5
+						Pattern pt_end
+					}
+					events
+					{
+						OnTargetClose "Pattern pt_decide"
+						OnInvalidRoute "Pattern pt_end"
+					}
+				}
+				
+				pt_decide
+				{
+					actions
+					{
+						CheckAttr "HatesPlayer Pattern pt_hit"
+						Pattern pt_check
+					}
+				}
+				
+				pt_hit
+				{
+					actions
+					{
+						Face true
+						IfAttr "HasWeapon:ranged == 2 Pattern pt_shoot"
+						Pattern pt_kick
+					}
+				}
+				
+				pt_shoot
+				{
+					actions
+					{
+						Aim true
+						WaitForEnd 1
+						Hit 1
+						Say DEADTAUNT
+						Wait 0.2:0.5
+						Pattern pt_end
+					}
+				}
+				
+				pt_kick
+				{
+					actions
+					{
+						MoveToTarget walk,0,0
+						Wait 0.7
+						Sequence seq.melee_kick1
+						Wait 0.2
+						Say DEADTAUNT
+						WaitForEnd 1
+						Pattern pt_end
+					}
+				}
+				
+				pt_check
+				{
+					actions
+					{
+						Face true
+						Sequence seq.env_inspect_ground
+						Wait 0.3
+						Say DEADTAUNT
+						WaitForEnd 1
+						//IfAttr "RelationTo:player == Relation:enemy ShowMessage [!!!],$P3Debug"
+						//ShowMessage "[Dude is dead ololol],$P3Debug"
+						Pattern pt_end
+					}
+				}
+				
+				
+				pt_end
+				{
+					actions
+					{
+						Aim false
+						Face false
+						LookAt false
+						IgnoreTarget 10
+						ResetTarget 1
+						State st_start
+					}
+				}
+				
+				xpt_reactionchange
+				{
+					actions
+					{
+						IfAttr "reaction >= RE_BUMPED Pattern pt_end"
+						SetAttr "NewReaction RE_NONE"
+						SetAttr "reaction RE_NONE"
+					}
+				}
+			}
+		}
+		so_copdead
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						FreeMovement false
+						TargetCaller 1
+						IgnoreTarget 30
+						MoveToTarget true
+						Wait 15
+						Pattern pt_end
+					}
+					events
+					{
+						OnTargetReach "Pattern pt_investigate"
+					}
+				}
+				pt_investigate
+				{
+					actions
+					{
+						Face true
+						Sequence seq.env_crouch,5
+						Say SEESDEADCOP
+						Wait 2:3
+						Pattern pt_end
+					}
+				}
+				pt_end
+				{
+					actions
+					{
+						IfAttr "reaction < RE_SNATCHED Block begin"
+							SetAttr "reaction RE_NONE"
+							SetAttr "NewReaction RE_NONE"
+						Block end
+						State st_start
+					}
+				}
+				xpt_ReactionChange
+				{
+					actions
+					{
+						Pattern pt_end
+					}
+				}
+			}
+		}
+		so_seewang
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "busy 1"
+						Pattern pt_prepare,pt_end
+					}
+				}
+				
+				pt_prepare
+				{
+					actions
+					{
+						IfAttr "Object:target != Object:player Block begin"
+							CheckAttr "target.pissing State so_seepiss"
+						Block end
+						
+						IfAttr "Object:target == Object:player and target.ea_games == 1 State so_seepiss" // ???
+						
+						Pattern pt_comment
+					}
+				}
+				
+				pt_comment
+				{
+					actions
+					{
+						LookAt true
+						Gesture g_emote_lol
+						Say SEEWANG
+						Wait 3:2
+						Pattern pt_end
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						ResetGesture 1
+						LookAt false
+						IgnoreTarget 20
+						ResetTarget 1
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction >= RE_DANGER Pattern pt_end"
+						SetAttr "NewReaction RE_NONE"
+						SetAttr "reaction RE_NONE"
+					}
+				}
+			}
+		}
+		
+		so_phonecall
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "busy 1"
+						SpawnItem "spawner_cellphone,owner,hand_right"
+						TargetItem 1
+						FireEvent ImOwner
+						Timer tSay,3:5
+						Pattern pt_talk
+					}
+				}
+				
+				pt_talk
+				{
+					actions
+					{
+						//FreeMovement false
+						Gesture g_cellphone,50
+						//Sequence seq.idle_cellphone_loop,50
+						Wait 10:20
+						Pattern pt_end
+					}
+					events
+					{
+						OnTimer_tSay "ExecutePattern .xpt_SayPhrase"
+					}
+				}
+				
+				pt_drop
+				{
+					actions
+					{
+						Item throw,forward
+						WaitForEnd 1
+						SetAttr "NewReaction RE_FEAR"
+						Pattern pt_end
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						ResetSequence 1
+						ResetGesture g_cellphone
+						TargetItem 1
+						IfAttr "Object:target != Object:Null Item kill"
+						ResetTarget 1
+						Timer tSay,0
+						State st_start
+					}
+				}
+				
+				xpt_SayPhrase
+				{
+					actions
+					{
+						Say CELL
+						Timer tSay,3:5
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction >= RE_NASTY Pattern pt_end"
+						SetAttr "reaction RE_NONE"
+						SetAttr "NewReaction RE_NONE"
+					}
+				}
+			}
+			events
+			{
+				OnFire_CellOnFire "Pattern pt_drop"
+			}
+		}
+		
+		so_seecorpse
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						FreeMovement false
+						LookAt true
+						Pattern pt_moveto
+					}
+				}
+				
+				pt_moveto
+				{
+					actions
+					{
+						MoveToTarget walk
+						Wait 5
+						State st_start
+					}
+					events
+					{
+						OnTargetClose "Pattern pt_decide"
+					}
+				}
+				
+				pt_decide
+				{
+					actions
+					{
+						CheckAttr "flag_bystander Block begin"
+							CheckAttr "ImAMan Block begin"
+								SetAttr "droch_rnd 0"
+								ChangeAttr "droch_rnd 0:99"
+								IfAttr "droch_rnd <= 1 SetAttr StartDroch 1"
+								RemoveAttr droch_rnd
+								
+								CheckAttr "StartDroch Block begin"
+									RemoveAttr StartDroch
+									State ev_fapfap
+								Block end
+							Block end
+						Block end
+						
+						Pattern pt_shock,pt_fear,pt_callcop
+					}
+				}
+				
+				pt_shock
+				{
+					actions
+					{
+						SetAttr "NewReaction RE_PUKE"
+						Pattern pt_end
+					}
+				}
+				
+				pt_fear
+				{
+					actions
+					{
+						ExecutePattern st_util.xpt_AddTargetToFear
+						SetAttr "NewReaction RE_FEAR"
+						Pattern pt_end
+					}
+				}
+				
+				pt_callcop
+				{
+					actions
+					{
+						Sequence seq.reaction_shocked,seq.reaction_shocked_2,2:2
+						Wait 0.2:0.2
+						IfAttr "VoicePrefix:self != String:HOBO and VoicePrefix:self != String:WHR Say GETCOP"
+						IfAttr "VoicePrefix:self == String:HOBO	Say SEECARNAGE"
+						IfAttr "VoicePrefix:self == String:WHR	Say SEECARNAGE"
+						WaitForEnd 1
+						Pattern pt_end
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						IgnoreTarget 50
+						ResetTarget 1
+						LookAt false
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						Pattern pt_end
+					}
+				}
+			}
+		}
+		
+		so_inflame
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						FreeMovement false
+						Pattern pt_see,pt_seeflame
+					}
+				}
+				
+				pt_see
+				{
+					actions
+					{
+						LookAt true
+						Face true
+						Wait 0.5:0.5
+						Say SEEONFIRE
+						Sequence seq.emotion_greet,seq.emotion_hey
+						Wait 2
+						Pattern pt_seeflame,pt_end
+					}
+				}
+				
+				pt_seeflame
+				{
+					actions
+					{
+						SetAttr "NewReaction RE_SEEFLAME"
+						Wait 0.5
+						Pattern pt_end
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						LookAt false
+						ResetSequence 1
+						IgnoreTarget 10
+						ResetTarget 1
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						Pattern pt_end
+					}
+				}
+			}
+		}
+		
+		ev_wait
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "busy 1"
+						Timer tWait,40
+						CheckAttr "flag_static Timer tWait,0"
+						
+						SetActPack ACT_IDLE,civil_idle
+						FreeMovement false
+						FireInput self,HeadTurningOff
+						ResetTarget 1
+						Pattern pt_stay
+					}
+				}
+				
+				pt_stay
+				{
+					actions
+					{
+						Wait 2:2
+						Sequence idle_common
+						WaitForEnd 1
+						Wait 3:2
+						
+						//Senses false
+						Sequence seq.idle_TimeCheck2
+						Wait 0.2:0.2
+						Say WATCH
+						WaitForEnd 1
+						//Senses true
+						
+						Repeat 0
+					}
+					events
+					{
+						OnTimer_tWait	"Pattern pt_end"
+					}
+				}
+				
+				
+				pt_end
+				{
+					actions
+					{
+						FireInput self,HeadTurningOn
+						ResetSequence 1
+						ResetGesture 1
+						Timer tWait,0
+						SetActPack ACT_IDLE,idle
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						Pattern pt_end
+					}
+				}
+				
+			}
+		}
+		
+		
+		ev_piss
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "busy 1"
+						CheckAttr "ImAMan Pattern pt_prepiss"
+						Pattern pt_end
+					}
+				}
+				
+				pt_prepiss
+				{
+					actions
+					{
+						FireInput self,HeadTurningOff
+						SetAttr "ea_status sGROSS"
+						SetAttr "pissing 1"
+						Timer tPiss,10
+						Pattern pt_piss
+					}
+				}
+				
+				pt_piss
+				{
+					actions
+					{
+						Sequence seq.weemote_idle,10
+						Wait 3:3
+						IfAttr "VoicePrefix:self != String:HOBO Say PISSING"
+						IfAttr "VoicePrefix:self == String:HOBO Say WM_PISSING"
+						Repeat 1
+					}
+					events
+					{
+						OnTimer_tPiss "Pattern pt_end"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						FireInput self,HeadTurningOn
+						Timer tPiss,0
+						ResetSequence 1
+						SetAttr "ea_status sNEUTRAL"
+						RemoveAttr "pissing"
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						Pattern pt_end
+					}
+				}
+			}
+		}
+		
+		ev_charity
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "busy 1"
+						FreeMovement false
+						Timer tBeg,4:3
+						Pattern pt_beg
+					}
+				}
+				
+				pt_beg
+				{
+					actions
+					{
+						Sequence seq.env_charity,9000
+						Wait 30:30
+						CheckAttr "flag_static Repeat 30" //30 ���� �������� �����
+						Pattern pt_end
+					}
+					events
+					{
+						OnTimer_tBeg "Say BEG"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{	
+						ResetSequence 1
+						
+						IfAttr "reaction < RE_NASTY Block begin"
+							SetAttr "reaction RE_NONE"
+							SetAttr "NewReaction RE_NONE"
+						Block end
+						
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction >= RE_NASTY Pattern pt_end"
+						//SetAttr "reaction RE_NONE"
+						//SetAttr "NewReaction RE_NONE"
+					}
+				}
+			}
+		}
+		
+		ev_chair
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "busy 1"
+						FreeMovement false
+						Timer tSitIdle,20:10,repeated
+						
+						Pattern pt_sit
+					}
+					
+				}
+				
+				pt_sit
+				{
+					actions
+					{
+						Sequence ev_chair,9000
+						Wait 60:120
+						CheckAttr "flag_static Repeat 0"
+						Pattern pt_end
+					}
+					events
+					{
+						OnTimer_tSitIdle	"ExecutePattern .xpt_idle"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						ResetSequence 1
+						Wait 1
+						IfAttr "reaction < RE_DANGER Block begin"
+							SetAttr "reaction RE_NONE"
+							SetAttr "NewReaction RE_NONE"
+						Block end
+						State st_start
+					}
+				}
+				
+				xpt_idle
+				{
+					actions
+					{
+						Gesture g_idle_sitting
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction >= RE_DANGER Pattern pt_end"
+					}
+				}
+			}
+		}
+		
+		ev_table_left //THIS STATE IS PROBABLY BROKEN AND DON'T HAVE pt_end AND xpt_ReactionChange
+		{
+			group Neutral
+			patterns
+			{
+				pt_default:ignore_ext_events
+				{
+					actions
+					{
+						CallPattern pt_in
+						Sequence ev_table_working_1
+						WaitForEnd 1
+						Sequence ev_table_bored
+						WaitForEnd 1
+						Pattern pt_out
+					}
+					events
+					{
+						OnHearCombat "Pattern pt_alert"
+						OnHit "Pattern pt_alert"
+					}
+				}
+				pt_in:ignore_ext_events
+				{
+					actions
+					{
+						SetActPack ACT_IDLE,test_table_idle
+						FireInput self,EnableCollisionCheck
+						Sequence seq.env_table_sit_chair_L
+						WaitForEnd 1
+					}
+					events
+					{
+						OnHearCombat "Pattern pt_alert"
+						OnHit "Pattern pt_alert"
+					}
+				}
+				pt_out:ignore_ext_events
+				{
+					actions
+					{
+						SetActPack ACT_IDLE,ACT_IDLE
+						FireInput self,DisableCollisionCheck
+						Sequence seq.env_table_stand_chair_L
+						WaitForEnd 1
+						State st_start
+					}
+				}
+				pt_alert:ignore_ext_events
+				{
+					actions
+					{
+						TargetCaller 1
+						SetActPack ACT_IDLE,ACT_IDLE
+						FireInput self,DisableCollisionCheck
+						Sequence seq.env_table_stand_chair_L
+						WaitForEnd 1
+						State st_start
+					}
+					events
+					{
+					}
+				}
+			}
+		}
+		ev_table_right //THIS STATE IS PROBABLY BROKEN AND DON'T HAVE pt_end AND xpt_ReactionChange
+		{
+			group Neutral
+			patterns
+			{
+				pt_default:ignore_ext_events
+				{
+					actions
+					{
+						CallPattern pt_in
+						Sequence ev_table_working_1
+						WaitForEnd 1
+						Sequence ev_table_bored
+						WaitForEnd 1
+						Pattern pt_out
+					}
+					events
+					{
+						OnHearCombat "Pattern pt_alert"
+						OnHit "Pattern pt_alert"
+					}
+				}
+				pt_in:ignore_ext_events
+				{
+					actions
+					{
+						SetActPack ACT_IDLE,test_table_idle
+						FireInput self,EnableCollisionCheck
+						Sequence seq.env_table_sit_chair_R
+						WaitForEnd 1
+					}
+					events
+					{
+						OnHearCombat "Pattern pt_alert"
+						OnHit "Pattern pt_alert"
+					}
+				}
+				pt_out:ignore_ext_events
+				{
+					actions
+					{
+						SetActPack ACT_IDLE,ACT_IDLE
+						FireInput self,DisableCollisionCheck
+						Sequence seq.env_table_stand_chair_R
+						WaitForEnd 1
+						State st_start
+					}
+				}
+				pt_alert:ignore_ext_events
+				{
+					actions
+					{
+						TargetCaller 1
+						SetActPack ACT_IDLE,ACT_IDLE
+						FireInput self,DisableCollisionCheck
+						Sequence seq.env_table_stand_chair_R
+						WaitForEnd 1
+						State st_start
+					}
+				}
+			}
+		}
+
+		
+		ev_bed
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "busy 1"
+						FreeMovement false
+						Senses false
+						ResetTarget 1
+						Pattern pt_bed
+					}
+				}
+				
+				pt_bed
+				{
+					actions
+					{
+						Sequence seq.env_bed,9000
+						Wait 60:120
+						CheckAttr "flag_static Repeat 0"
+						Pattern pt_end
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						ResetSequence 1
+						WaitForEnd 1
+						Senses true
+						
+						IfAttr "reaction < RE_NASTY Block begin"
+							SetAttr "reaction RE_NONE"
+							SetAttr "NewReaction RE_NONE"
+						Block end
+						
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction >= RE_NASTY Pattern pt_end"
+					}
+				}
+			}
+		}
+		
+		
+		ev_lie_ground
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "busy 1"
+						FreeMovement false
+						Senses false
+						ResetTarget 1
+						Pattern pt_lie
+					}
+				}
+				
+				pt_lie
+				{
+					actions
+					{
+						Sequence seq.env_lie,9000
+						Wait 60:120
+						CheckAttr "flag_static Repeat 0"
+						Pattern pt_end
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						ResetSequence 1
+						WaitForEnd 1
+						Senses true
+						
+						IfAttr "reaction < RE_NASTY Block begin"
+							SetAttr "reaction RE_NONE"
+							SetAttr "NewReaction RE_NONE"
+						Block end
+						
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction >= RE_NASTY Pattern pt_end"
+					}
+				}
+			}
+		}
+		
+		
+		ev_cashmachine
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "busy 1"
+						FireInput self,HeadTurningOff
+						Sequence seq.env_cash_machine
+						WaitForEnd 1
+						Pattern pt_end
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						FireInput self,HeadTurningOn
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						Pattern pt_end
+					}
+				}
+			}
+		}
+		
+		
+		ev_phonebooth
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Pattern pt_prepare
+					}
+				}
+				
+				pt_prepare
+				{
+					actions
+					{
+						SetAttr "busy 1"
+						FreeMovement false
+						FireInput self,HeadTurningOff
+						TargetItem 1
+						FireEvent ImOwner
+						Timer tSay,10:5
+						Pattern pt_phone
+					}
+				}
+				
+				pt_phone
+				{
+					actions
+					{
+						//CheckAttr "flag_static RemoveAttr PhoneKilled" //����� � �������� ������ ��������
+						Sequence seq.env_phone,100
+						Wait 30:60
+						CheckAttr "flag_static Repeat 0"
+						Pattern pt_end
+					}
+					events
+					{
+						OnAnimTAKE		"SpawnItem spawner_phone,owner,hand_left"
+						OnAnimDROP		"ExecutePattern .xpt_KillItem"
+						OnTimer_tSay 	"ExecutePattern .xpt_SayPhrase"
+						//OnPlayerPush	"SetAttr NewReaction RE_BUMPED"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						ResetSequence 1
+						ExecutePattern .xpt_KillItem
+						RemoveAttr PhoneKilled
+						//ExecutePattern .xpt_KillItem
+						FireInput self,HeadTurningOn
+						
+						IfAttr "reaction < RE_DANGER Block begin"
+							SetAttr "reaction RE_NONE"
+							SetAttr "NewReaction RE_NONE"
+						Block end
+						
+						State st_start
+					}
+				}
+				
+				xpt_KillItem
+				{
+					actions
+					{
+						CheckAttr "PhoneKilled Return 1"
+						TargetItem 1
+						Item kill
+						SetAttr "PhoneKilled 1"
+						CheckAttr "flag_static Block begin"
+							IfAttr "reaction == RE_NONE RemoveAttr PhoneKilled"
+							//���� �������� �� �������, � ������ ��������, �� ������ ����� ������
+						Block end
+					}
+				}
+				
+				xpt_SayPhrase
+				{
+					actions
+					{
+						Say CELL
+						Timer tSay,3:5
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction >= RE_DANGER	Pattern pt_end"
+					}
+				}
+			}
+		}
+		
+		ev_interest
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "busy 1"
+						ResetTarget 1
+						FireInput self,HeadTurningOff
+						FreeMovement false
+						CheckAttr "flag_static Pattern pt_interest"
+						Timer tInterest,10:10
+						Pattern pt_interest
+					}
+				}
+				
+				pt_interest
+				{
+					actions
+					{
+						Sequence ev_reaction_interest,9000
+						Wait 5:3
+						CheckAttr "flag_static Repeat 0"
+						IfAttr "Timer:tInterest <= 0 Pattern pt_end"
+						Repeat 0
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						ResetSequence 1
+						FireInput self,HeadTurningOn
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						Pattern pt_end
+					}
+				}
+			}
+		}
+		
+		ev_inspect
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "busy 1"
+						ResetTarget 1
+						FireInput self,HeadTurningOff
+						FreeMovement false
+						Pattern pt_inspect
+					}
+				}
+				
+				pt_inspect
+				{
+					actions
+					{
+						Sequence seq.env_inspect_ground,9000
+						Wait 3:5
+						
+						IfAttr "VoicePrefix:self != String:HOBO and VoicePrefix:self != String:WHR Say INVESTIGATE"
+						IfAttr "VoicePrefix:self == String:HOBO	Say WM_INVESTIGATE"
+						IfAttr "VoicePrefix:self == String:WHR	Say WF_INVESTIGATE"
+						
+						Wait 3:3
+						Pattern pt_end
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						ResetSequence 1
+						FireInput self,HeadTurningOn
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						Pattern pt_end
+					}
+				}
+			}
+		}
+		
+		ev_fapfap
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ResetTarget 1
+						FireInput self,HeadTurningOff
+						SetAttr "ea_status sGROSS"
+						SetAttr "busy 1"
+						Pattern pt_droch1
+					}
+				}
+				
+				pt_droch1
+				{
+					actions
+					{
+						Sequence seq.droch_slow,9000
+						Wait 10:10
+						Pattern pt_droch2
+					}
+				}
+				
+				pt_droch2
+				{
+					actions
+					{
+						Sequence seq.droch_med,9000
+						Wait 30:20
+						Pattern pt_droch3
+					}
+				}
+				
+				pt_droch3
+				{
+					actions
+					{
+						Sequence seq.droch_fast,9000
+						Wait 15:15
+						Pattern pt_finish
+					}
+				}
+				
+				pt_finish
+				{
+					actions
+					{
+						Say CHEER
+						Sequence reaction_fun
+						WaitForEnd 1
+						Pattern pt_end
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						SetAttr "ea_status sNEUTRAL"
+						ResetSequence 1
+						FireInput self,HeadTurningOn
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						Pattern pt_end
+					}
+				}
+			}
+		}
+		
+		ev_xxxshop
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						CheckAttr "ImAMan State ev_interest,ev_fapfap"
+						State ev_interest
+					}
+				}
+			}
+		}
+		
+		ev_shop
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						FireInput self,HeadTurningOff
+						SetAttr "busy 1"
+						Pattern pt_stay
+					}
+				}
+				
+				pt_stay
+				{
+					actions
+					{
+						Sequence idle_shopkeeper,9000
+						Wait 30:60
+						Repeat 0
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						FireInput self,HeadTurningOn
+						
+						IfAttr "reaction < RE_DANGER Block begin"
+							SetAttr "reaction RE_NONE"
+							SetAttr "NewReaction RE_NONE"
+						Block end
+						
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{	
+						IfAttr "reaction >= RE_DANGER Pattern pt_end"
+					}
+				}
+			}
+		}
+
+		
+		st_feartarget
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "busy 1"
+						ExecutePattern st_util.xpt_AddTargetToFear
+						SetAttr "NewReaction RE_FEAR"
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction >= RE_FEAR State st_start"
+					}
+				}
+			}
+		}
+		
+		st_seeweapon
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "Object:target == Object:Player Block begin"
+							IfAttr "slot#msGP.PlayerPath == PATH_GOOD Block begin"
+								SetAttr "PlayerGood 1"
+								CheckAttr "slot#msGP.PlayerBehaveBad RemoveAttr PlayerGood 1"
+								
+								CheckAttr "PlayerGood Block begin"
+									RemoveAttr PlayerGood
+									IgnoreTarget 10
+									ResetTarget 1
+									Pattern pt_end
+								Block end
+							Block end
+						Block end
+						
+						SetAttr "busy 1"
+						
+						CheckTarget 1
+						CheckLOS 1
+						Wait 0.2
+						Pattern pt_end
+					}
+					events
+					{
+						OnVisible	"Pattern pt_check"
+						OnLOS		"Pattern pt_check"
+					}
+				}
+				xpt_precheck
+				{
+					actions
+					{
+						Pattern pt_check
+					}
+				}
+				pt_check
+				{
+					actions
+					{
+						CheckAttr "target.ea_ActiveWeapon Block begin"
+							IfAttr "target.ea_ActiveWeapon == 0 Pattern pt_fistfight" //empty hands -
+							IfAttr "target.ea_ActiveWeapon == 1 Pattern pt_ignore" //animals -
+							IfAttr "target.ea_ActiveWeapon == 2 Pattern pt_ignore" //gadgets,grenades -
+							IfAttr "target.ea_ActiveWeapon == 3 Pattern pt_ignore" //nonlethal melee -
+							IfAttr "target.ea_ActiveWeapon == 4 Pattern pt_ignore" //nonlethal ranged -
+							IfAttr "target.ea_ActiveWeapon == 5 Pattern pt_attack_melee" //,pt_fear" //lethal melee
+							IfAttr "target.ea_ActiveWeapon == 6 Pattern pt_attack_ranged" //,pt_fear" //ranged
+							IfAttr "target.ea_ActiveWeapon == 7 Pattern pt_fear" //scary ranged
+						Block end
+					}
+				}
+				
+				pt_fistfight
+				{
+					actions
+					{
+						IfAttr "HasWeapon:ranged == 0 and HasWeapon:melee == 0 Block begin"
+							CheckAttr "flag_IgnorePlayerAttack Block begin"
+								CheckAttr "flag_IgnorePlayerFear Pattern pt_ignore"
+								Pattern pt_prefear,pt_ignore
+							Block end
+							CheckAttr "flag_IgnorePlayerFear Pattern pt_attack,pt_ignore"
+							Pattern pt_attack,pt_prefear,pt_ignore
+						Block end
+						
+						CheckAttr "flag_IgnorePlayerAttack Pattern pt_ignore"
+						Pattern pt_attack,pt_ignore
+					}
+				}
+				
+				pt_attack_melee
+				{
+					actions
+					{
+						IfAttr "target.ea_status != sKILLER Pattern pt_end"
+						IfAttr "HasWeapon:ranged == 0 and HasWeapon:melee == 0 Block begin"
+							CheckAttr "flag_IgnorePlayerFear Pattern pt_ignore"
+							Pattern pt_prefear
+						Block end
+						CheckAttr "flag_IgnorePlayerAttack Pattern pt_ignore"
+						Pattern pt_attack
+					}
+				}
+				
+				pt_attack_ranged
+				{
+					actions
+					{
+						IfAttr "HasWeapon:ranged == 0 Block begin"
+							CheckAttr "flag_IgnorePlayerFear Pattern pt_ignore"
+							Pattern pt_prefear
+						Block end
+						CheckAttr "flag_IngorePlayerAttack Pattern pt_ignore"
+						Pattern pt_attack
+					}
+				}
+				
+				pt_attack
+				{
+					actions
+					{
+						ExecutePattern st_util.xpt_AddTargetToEnemy
+						Pattern pt_end
+					}
+				}
+				
+				pt_prefear
+				{
+					actions
+					{
+						//IfAttr "AngleTo:target < 50 Pattern pt_fear,pt_moveaway"
+						Pattern pt_fear
+						//Pattern pt_moveaway
+					}
+				}
+				
+				pt_moveaway
+				{
+					actions
+					{
+						Face true
+						//FreeMovement false
+						FreeMovementParams area_all,-1,-1,area_group,move_from_target
+						FreeMovement walk,reset
+						Gesture g_dialogue_point
+						Wait 0:1
+						Say FEARFUL
+						Wait 1.5:1.5
+						Pattern pt_fear
+					}
+				}
+				
+				pt_fear
+				{
+					actions
+					{
+						ExecutePattern st_util.xpt_AddTargetToFear
+						SetAttr "NewReaction RE_FEAR"
+						Pattern pt_end
+					}
+				}
+				
+				pt_ignore
+				{
+					actions
+					{
+						IgnoreTarget 5
+						ResetTarget 1
+						Pattern pt_end
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						Face false
+						
+						IfAttr "reaction <= RE_WEAPON Block begin"
+							SetAttr "NewReaction RE_NONE"
+							SetAttr "reaction RE_NONE"
+						Block end
+						
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction > RE_WEAPON Pattern pt_end"
+					}
+				}
+			}
+		}
+		
+		st_OnDeath
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "Object:caller == Object:Player Block begin"
+							CheckAttr "flag_bystander Block begin"
+								TargetFromMem msGP
+								FireEvent PlayerKillBystander
+								AreaEvent PlayerKillBystander,16
+							Block end
+						Block end
+							
+						
+						ExecutePattern bh_base:st_OnDeath.pt_default
+					}
+				}
+			}
+		}
+		
+		st_OnUnconscious
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default:ignore_ext_events
+				{
+					actions
+					{
+						TargetCaller 1
+						FireEvent DisabledMe
+						
+						Pattern bh_base:st_OnUnconscious.pt_default
+					}
+				}
+			}
+		}
+		
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "Object:caller == Object:player Block begin"
+							CheckAttr "flag_PlayerFriendly Block begin"
+								TargetCaller 1
+								SetAttr "target.NumFF FRIENDLY_FIRE_MAX"
+								ExecutePattern st_util.xpt_AddTargetToEnemy
+								SetSquadRelation player_squad:enemy:3
+								RemoveAttr flag_PlayerFriendly
+								ExecutePattern st_util.xpt_OnPlayerFailsFriendship
+							Block end
+						Block end
+						
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+		
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_OnNewReaction
+				{
+					actions
+					{	
+						IfAttr "NewReaction == RE_NONE Return 1"
+						IfAttr "NewReaction <= ReactionThreshold SetAttr NewReaction RE_NONE"
+						
+						IfAttr "NewReaction == RE_WEAPON Block begin"
+							CheckAttr "flag_IgnoreWeapon Block begin"
+								SetAttr "NewReaction RE_NONE"
+								Return 1
+							Block end
+							
+							//bystanders do not fear dude, if he is good cop and carries weapon
+							IfAttr "Object:caller == Object:player Block begin"
+								//CheckAttr "flag_bystander Block begin"
+								IfAttr "slot#msGP.PlayerPath == PATH_GOOD Block begin"
+									SetAttr "NeedToIgnoreWeapon 1"
+									CheckAttr "slot#msGP.PlayerBehaveBad RemoveAttr NeedToIgnoreWeapon"
+									CheckAttr "NeedToIgnoreWeapon Block begin"
+										RemoveAttr NeedToIgnoreWeapon
+										SetAttr "NewReaction RE_NONE"
+										Return 1
+									Block end
+								Block end
+								//Block end
+								IfAttr "slot#msGP.PlayerPath != PATH_GOOD SetAttr NewReaction RE_WEAPON"
+							Block end
+						Block end
+						
+						IfAttr "NewReaction == RE_COMBAT Block begin"
+							CheckAttr "flag_IgnoreCombat Block begin"
+								SetAttr "NewReaction RE_NONE"
+								Return 1
+							Block end
+						Block end
+						
+						IfAttr "NewReaction == RE_DANGER Block begin"
+							CheckAttr "flag_IgnoreCombat Block begin"
+								SetAttr "NewReaction RE_NONE"
+								Return 1
+							Block end
+						Block end
+						
+						IfAttr "NewReaction > reaction Block begin"
+							SetAttr "reaction NewReaction"
+							//SetAttr "NewReaction RE_NONE"
+						Block end
+						//SetAttr "NewReaction RE_NONE"
+					}
+				}
+				
+				xpt_OnReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction == RE_NONE Return 1"
+						//SetAttr "NewReaction RE_NONE"
+						
+						IfAttr "Object:target != Object:Null TargetToMem msTEMP"
+						
+						IfAttr "Object:caller != Object:Null Block begin"
+							TargetCaller 1
+							TargetToMem msTARGET
+							IfAttr "Object:slot#msTEMP != Object:Null TargetFromMem msTEMP"
+						Block end
+						
+						ClearMem msTEMP
+						
+						ExecutePattern xpt_ReactionChange
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						State st_start
+						//���� ������� �� ��������� �� ��� ����� ��������,
+						//�� � ��� ������� ����� �� �� ������ � ������� ��������
+					}
+				}
+				
+				xpt_SayHit
+				{
+					actions
+					{
+						IfAttr "Timer:tHitSound > 0 Return 1"
+						
+						IfAttr "Object:caller == Object:player Block begin"
+							CheckAttr "flag_PlayerFriendly Block begin"
+								IfAttr "RelationTo:player == Relation:neutral Say FRIENDLYFIRE,HIT"
+								IfAttr "RelationTo:player == Relation:enemy	Block begin"
+									Say HIT
+									RemoveAttr flag_PlayerFriendly
+								Block end
+								Timer tHitSound,3:3
+								Return 1
+							Block end
+						Block end
+						
+						Say HIT
+						Timer tHitSound,3:3
+					}
+				}
+				
+				xpt_CheckBump
+				{
+					actions
+					{
+						IfAttr "Object:Caller == Object:Player Block begin"
+							IfAttr "Timer:tBump <= 0 and reaction < RE_BUMPED SetAttr NewReaction RE_BUMPED"
+						Block end
+					}
+				}
+				
+				xpt_OnHit
+				{
+					actions
+					{
+						//EntFireInput caller,FireFSMScriptEvent:OnFire_HitedMe
+						FireEvent HitedMe,caller
+						
+						CheckAttr "NotAttackedByPlayer Block begin"
+							IfAttr "Object:caller == Object:player ExecutePattern st_util.xpt_OnAttackedByPlayer"
+						Block end
+						
+						IfAttr "Object:caller == Object:player and caller.ea_ActiveWeapon == 0 Block begin"
+							IfAttr "reaction != RE_KICKED AreaEvent FistFight,6"
+							//�������, ����� ����� �������������� ��� ��������, � �� ��� ���������
+						Block end
+						
+						IfAttr "Object:caller == Object:Player Block begin"
+							IfAttr "RelationTo:caller == Relation:enemy RemoveAttr flag_PlayerFriendly"
+							CheckAttr "flag_PlayerFriendly Block begin"
+								TargetToMem msTEMP
+								TargetCaller 1
+								FireEvent FriendlyFire
+								TargetFromMem msTEMP
+								IfAttr "caller.NumFF == FRIENDLY_FIRE_MAX Block begin"
+									Say FRIENDLYFIREFINAL
+									TargetCaller 1
+									ExecutePattern st_util.xpt_AddTargetToEnemy
+									SetSquadRelation player_squad:enemy:3
+									RemoveAttr flag_PlayerFriendly
+									ExecutePattern st_util.xpt_OnPlayerFailsFriendship
+									Return 1
+								Block end
+							Block end
+						Block end
+						
+						IfAttr "Object:caller == Object:player Block begin"
+							IfAttr "Object:target != Object:player and RelationTo:caller == Relation:enemy Block begin"
+								TargetCaller 1
+								IfAttr "TaskCombat != TC_NONE SetAttr FailType FAIL_INTERRUPT"
+								//���� � ���, �� ����������� ���� � ������������ � �����
+								//���� ���, �� ���� ��� ������ �� ����� ������ � ����� �����
+							Block end
+						Block end
+						
+						ExecutePattern st_util.xpt_SayHit
+					}
+				}
+				
+				xpt_AddTargetToEnemy
+				{
+					actions
+					{
+						IfAttr "Object:target == Object:Player ExecutePattern st_util.xpt_AddPlayerToEnemy"
+						IfAttr "Object:target != Object:Player Relationship target,enemy,3"
+					}
+				}
+				
+				xpt_AddPlayerToEnemy
+				{
+					actions
+					{
+						TargetPlayer 1
+						Relationship target,enemy,8
+						CheckAttr "flag_bystander Timer tForgivePlayer,FORGIVE_TIMER_DEFAULT"
+					}
+				}
+				
+				xpt_AddTargetToFear
+				{
+					actions
+					{
+						IfAttr "Object:target == Object:Player ExecutePattern st_util.xpt_AddPlayerToFear"
+						IfAttr "Object:target != Object:Player Relationship target,fear" 
+					}
+				}
+				
+				xpt_AddPlayerToFear
+				{
+					actions
+					{
+						TargetPlayer 1
+						Relationship target,fear
+						//CheckAttr "flag_bystander Timer tForgivePlayer,FORGIVE_TIMER_DEFAULT"
+					}
+				}
+				
+				xpt_OnPlayerFailsFriendship
+				{
+					actions
+					{
+						//�� ������� �����
+					}
+				}
+				
+				xpt_ForgivePlayer
+				{
+					actions
+					{
+						TargetToMem msTEMP
+						TargetPlayer 1
+						Relationship target,neutral
+						ResetTarget 1
+						TargetFromMem msTEMP
+						ClearMem msTEMP
+					}
+				}
+				
+				xpt_OnAttackedByPlayer
+				{
+					actions
+					{
+						RemoveAttr NotAttackedByPlayer
+					}
+				}
+				
+				xpt_OnSeeWeapon
+				{
+					actions
+					{
+						IfAttr "Object:caller == Object:player Block begin"
+							IfAttr "slot#msGP.PlayerPath != PATH_GOOD SetAttr NewReaction RE_WEAPON"
+							IfAttr "slot#msGP.PlayerPath == PATH_GOOD Block begin"
+								CheckAttr "PlayerBehaveBad SetAttr NewReaction RE_WEAPON"
+							Block end
+						Block end
+						
+						IfAttr "Object:caller != Object:player SetAttr NewReaction RE_WEAPON"
+					}
+				}
+				
+				xpt_OnStatusChange
+				{
+					actions
+					{
+						
+					}
+				}
+			}
+		}
+		
+	}
+	events
+	{
+		OnFire_SeeCop				"ExecutePattern so_seecop.pt_default"
+		OnFire_CopAggro				"ExecutePattern so_seecop.pt_copaggro"
+		
+		OnBump						"ExecutePattern st_util.xpt_CheckBump"
+		OnKicked					"SetAttr NewReaction RE_KICKED"
+		OnFallToGround				"IfAttr Object:caller == Object:Player SetAttr NewReaction RE_KICKED"
+		OnNasty						"IfAttr Timer:tIgnoreNasty <= 0 SetAttr NewReaction RE_NASTY"
+		OnSuperNasty				"IfAttr Timer:tIgnoreNasty <= 0 SetAttr NewReaction RE_NASTY"
+		OnApplyCatnip				"IfAttr Timer:tIgnoreNasty <= 0 SetAttr NewReaction RE_NASTY"
+		OnSnatched					"SetAttr NewReaction RE_SNATCHED"
+		OnIgnite					"SetAttr NewReaction RE_IGNITE"
+		OnBeeSting					"SetAttr NewReaction RE_STING"
+		OnTasingStart				"SetAttr NewReaction RE_TASING"
+		OnTased						"SetAttr NewReaction RE_TASED"
+		OnSeeFlame					"SetAttr NewReaction RE_SEEFLAME"
+		OnHearDanger 				"SetAttr NewReaction RE_DANGER"
+		OnHearCombat 				"SetAttr NewReaction RE_COMBAT"
+		OnAE_HasWeapon				"ExecutePattern st_util.xpt_OnSeeWeapon"
+		OnAE_FistFight				"SetAttr NewReaction RE_COMBAT"
+		OnSprayStunned				"SetAttr NewReaction RE_SPRAYED"
+		OnBlinded					"SetAttr NewReaction RE_BLINDED"
+		OnBatonShocked				"SetAttr NewReaction RE_STUNNED"
+		OnStun						"SetAttr NewReaction RE_STUNNED"
+		OnAttrChange_NewReaction	"IfAttr NewReaction != RE_NONE ExecutePattern st_util.xpt_OnNewReaction"
+		OnAttrChange_reaction		"IfAttr reaction != RE_NONE ExecutePattern st_util.xpt_OnReactionChange"
+		OnAttrChange_ea_status		"ExecutePattern st_util.xpt_OnStatusChange"
+		OnHit						"ExecutePattern st_util.xpt_OnHit"
+		OnTimer_tForgivePlayer		"ExecutePattern st_util.xpt_ForgivePlayer"
+		
+		//model-related attributes
+		OnImAMan			"SetAttr ImAMan 1"
+		OnIHaveCell			"SetAttr IHaveCell 1"
+		OnImOld				"SetAttr ImOld 1"
+		OnImWalker			"SetAttr ImWalker 1"
+		OnICanLean			"SetAttr ICanLean 1"
+	}
+}
+
+
+
+
+behavior
+{
+	name bh_civil
+	inherited bh_military_new
+	
+	States
+	{
+		st_InterestCombat
+		{
+			Group Alert
+			Patterns
+			{
+				pt_reaction 
+				{
+					actions 
+					{
+						Face false
+						IfAttr "ea_Faction == target.ea_Faction Block begin"	// � ��� ������ ����- ������� �� ������, ��� ��� ����� ���� ������ �����, � ������������� ��� ��� �������� ���������				
+							State ut_assist
+						Block end
+						IfAttr "ea_Faction != target.ea_Faction Block begin"  // � ��� ������ �������- ������� �� �� �����
+							Relationship target,enemy
+						Block end
+						State st_start
+					}
+				}
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction >= RE_SNATCHED State st_start"
+					}
+				}
+			}
+		}
+	}
+}
+
+
+
+
+behavior
+{
+	name bh_police
+	inherited bh_civil
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						SetAttr "flag_IgnorePlayerFear 1"
+						SetAttr "ReactionThreshold RE_DANGER"
+						
+						IfAttr "slot#msGP.PlayerPath == PATH_GOOD Block begin"
+							SetAttr "flag_IgnorePlayerAttack 1"
+							SetAttr "flag_PlayerFriendly 1"
+							SetAttr "ea_takeable 0"
+						Block end
+						
+						SetSquad Police_squad
+						
+						SetAttr "scolded SCOLD_NONE,on_change_event"
+					}
+				}
+			}
+		}
+		st_combat_logic
+		{
+			Group Combat
+			Patterns
+			{
+				xpt_SetTaskDefault
+				{
+					actions
+					{
+						SetAttr "combat_rnd 0"
+						ChangeAttr "combat_rnd 0:1"
+						
+						IfAttr "combat_rnd == 0 SetAttr TaskCombat TC_POSITION"
+						IfAttr "combat_rnd == 1 SetAttr TaskCombat TC_MOVE"
+					}
+				}
+			}
+		}
+		so_seehobo
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						//TargetCaller 1
+						
+						CheckAttr "target.busy Pattern pt_scold"
+						pattern pt_end
+					}
+				}
+				
+				pt_scold
+				{
+					actions
+					{
+						FreeMovement false
+						Face true
+						Sequence seq.agitate_civil
+						Say SEEWRONGACT
+						Wait 1:2
+						FireEvent SeeCop
+						Wait 1:2
+						Pattern pt_end
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						IgnoreTarget 20
+						ResetTarget 1
+						
+						Face false
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction >= RE_NASTY Pattern pt_end"
+					}
+				}
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_decide
+				{
+					actions
+					{
+						SetAttr "busy 1"
+						Pattern pt_idle
+					}
+				}
+				
+				xpt_OnVisible
+				{
+					actions
+					{
+						TargetCaller 1
+						
+						IfAttr "target.ea_armed == WPN_BADGER and target.ea_status <= sPUNISHER Block begin"
+							Say SEEBADGER
+							IgnoreTarget 8
+							ResetTarget 1
+							Return 1
+						Block end
+						
+						IfAttr "Object:target == Object:player and slot#msGP.PlayerPath == PATH_GOOD Block begin"
+							CheckAttr "slot#msGP.PlayerBehaveBad StateMatrix faction"
+							IgnoreTarget 5
+							ResetTarget 1
+							Return 1
+						Block end
+						
+						IfAttr "Object:target == Object:slot#msSUSPECTED Block begin"
+							ExecutePattern st_util.xpt_AddTargetToEnemy
+							State st_start
+						Block end
+						
+						ExecutePattern bh_base:st_idle.xpt_OnVisible
+					}
+				}
+				
+				xpt_OnSeeWrongAct
+				{
+					actions
+					{
+						IfAttr "scolded >= SCOLD_WRONG Return 1"
+						SetAttr "scolded SCOLD_WRONG"
+						TargetCaller 1
+						State so_scold
+					}
+				}
+				
+				xpt_OnSeeBrutalAct
+				{
+					actions
+					{
+						IfAttr "scolded >= SCOLD_BRUTAL Return 1"
+						SetAttr "scolded SCOLD_BRUTAL"
+						TargetCaller 1
+						State so_scold
+					}
+				}
+				
+				xpt_OnPlayerKillBystander
+				{
+					actions
+					{
+						IfAttr "ea_health <= 0 Return 1"
+						TargetPlayer 1
+						
+						IfAttr "slot#msGP.PlayerPath != PATH_GOOD Block begin"
+							Say DISOBEYED
+							ExecutePattern st_util.xpt_AddTargetToEnemy
+							State st_start
+						Block end
+						
+						IfAttr "slot#msGP.PlayerPath == PATH_GOOD Block begin"
+							CheckAttr "slot#msGP.PlayerBehaveBad Block begin"
+								ExecutePattern st_util.xpt_AddTargetToEnemy
+								State st_start
+							Block end
+							
+							IfAttr "scolded >= SCOLD_WARN Return 1"
+							SetAttr "scolded SCOLD_WARN"
+							State so_scold
+						Block end
+					}
+				}
+				
+				xpt_OnPlayerKillPoliceman
+				{
+					actions
+					{
+						IfAttr "ea_health <= 0 Return 1"
+						Face false
+						TargetPlayer 1
+						Say SEESDEADCOP
+						SetSquadRelation player_squad:enemy:3
+						ExecutePattern st_util.xpt_AddTargetToEnemy
+						State st_start
+					}
+				}
+			}
+			events
+			{
+				OnAE_WrongAct	"ExecutePattern .xpt_OnSeeWrongAct"
+				OnAE_BrutalAct	"ExecutePattern .xpt_OnSeeBrutalAct"
+				
+				OnAE_PlayerKillBystander	"ExecutePattern .xpt_OnPlayerKillBystander"
+				OnAE_PlayerKillPoliceman	"ExecutePattern .xpt_OnPlayerKillPoliceman"
+			}
+		}
+		so_scold
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetCaller 1
+						
+						FreeMovement false
+						Pattern pt_face
+					}
+				}
+				
+				pt_face
+				{
+					actions
+					{
+						IfAttr "AngleTo:target < 30 Pattern pt_scold"
+						
+						Face true
+						Wait 0.3
+						Face false
+						
+						Repeat 0
+					}
+				}
+				
+				pt_scold
+				{
+					actions
+					{
+						IfAttr "DistTo:target > ED_FAR Pattern pt_end"
+						
+						ExecutePattern .xpt_SayScold				
+						Sequence agitate_common
+						WaitForEnd 1
+						
+						Pattern pt_end
+					}
+				}
+				
+				pt_attack
+				{
+					actions
+					{
+						Say DISOBEYED
+						ExecutePattern st_util.xpt_AddTargetToEnemy
+						SetSquadRelation player_squad:enemy:3
+						SetAttr "attacking 1"
+						Pattern pt_end
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						Face false
+						
+						CheckAttr "attacking Block begin"
+							RemoveAttr attacking
+							State st_start
+						Block end
+						
+						IgnoreTarget 10
+						ResetTarget 1
+						
+						State st_start
+					}
+				}
+				
+				xpt_SayScold
+				{
+					actions
+					{
+						IfAttr "scolded == SCOLD_WRONG Say SEEBAD,SEEWRONGACT"
+						IfAttr "scolded == SCOLD_WARN Say WARNPLAYER"
+						IfAttr "scolded == SCOLD_BRUTAL Block begin"
+							IfAttr "slot#msGP.PlayerPath != PATH_GOOD FireEvent Brutality"
+							IfAttr "target.Brutality == BRUTALITY_MAX Pattern pt_attack"
+							IfAttr "slot#msGP.PlayerPath != PATH_GOOD Say SEEBRUTALACT"
+							IfAttr "slot#msGP.PlayerPath == PATH_GOOD Say SEEBRUTALACT,WARNPLAYER"
+						Block end
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						Pattern pt_end
+					}
+				}
+			}
+			events
+			{
+				OnAE_PlayerKillPoliceman	"ExecutePattern st_idle.xpt_OnPlayerKillPoliceman"
+			}
+		}
+		st_seeweapon
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						State so_warn
+					}
+				}
+				xpt_precheck
+				{
+					actions
+					{
+						IfAttr "slot#msGP.PlayerPath == PATH_GOOD Block begin"
+							CheckAttr "slot#msGP.PlayerBehaveBad Pattern pt_check"
+							Return 1
+						Block end
+						
+						IfAttr "slot#msGP.PlayerPath != PATH_GOOD Pattern pt_check"
+					}
+				}
+			}
+		}
+		so_warn
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "target.ea_Faction == Faction:Police Block begin"
+							IfAttr "target.Object:target == Object:Null Pattern pt_end"
+							AssistTarget 1
+						Block end
+						
+						SetAttr "NumWarns 0,0,4"
+						FreeMovement false
+						CheckTarget 1
+						Wait 1
+						Pattern pt_face
+					}
+					events
+					{
+						OnVisible "Pattern pt_prepare"
+						OnLost		"Pattern pt_face"
+					}
+				}
+				
+				pt_face
+				{
+					actions
+					{
+						IfAttr "AngleTo:target < 30 Block begin"
+							CheckTarget 1
+							Wait 1
+							Pattern pt_moveto
+						Block end
+						
+						Face true
+						Wait 0.5
+						Face false
+						
+						Repeat 0
+					}
+					events
+					{
+						OnVisible	"Pattern pt_prepare"
+						OnLost		"Pattern pt_moveto"
+					}
+				}
+				
+				pt_moveto
+				{
+					actions
+					{
+						MoveToTarget run,0,0
+						Timer tWarnMove,15
+						Pattern pt_moveloop
+					}
+				}
+				
+				pt_moveloop
+				{
+					actions
+					{
+						IfAttr "Timer:tWarnMove <= 0 Pattern pt_end"
+						CheckTarget 1
+						Repeat 1
+					}
+					events
+					{
+						OnVisible "Pattern pt_prepare"
+					}
+				}
+				pt_prepare
+				{
+					actions
+					{
+						MoveToTarget false
+						FreeMovement false
+						LookAt true
+						Face true
+						IfAttr "HasWeapon:ranged == 1 Block begin"
+							Weapon select,ranged
+							Wait 1
+						Block end
+						IfAttr "HasWeapon:ranged == 2 Aim true"
+						//SetAttr "visible 1"
+						//SetAttr "NewReaction RE_WEAPON"
+						//��� ��� ����� ������ ���� �����������?
+						FreeMovementParams area_all,0,ED_CLOSE,from_target
+						FreeMovement true
+						Timer tUpdate,2,repeated
+						ExecutePattern .xpt_update
+						Pattern pt_warn
+					}
+				}
+				pt_warn
+				{
+					actions
+					{
+						IfAttr "NumWarns <= 1 Say FREEZE,GETDOWN,SEEWEAPON"
+						IfAttr "NumWarns > 1 and NumWarns < 4 Say DROPWEAPON,ARREST,GETDOWN"
+						ChangeAttr "NumWarns +1"
+						//FireEvent CopAggro
+						Repeat 5
+					}
+				}
+				
+				pt_attack
+				{
+					actions
+					{
+						AvoidProhibitedArea false
+						//�� ������ �������� ������
+						IfAttr "target.ea_Faction == Faction:Police Block begin"
+							IfAttr "target.Object:target == Object:Null Pattern pt_end"
+							AssistTarget 1
+						Block end
+						
+						Say DISOBEYED
+						ExecutePattern st_util.xpt_AddTargetToEnemy
+						
+						Pattern pt_end
+					}
+				}
+				
+				pt_cancel
+				{
+					actions
+					{
+						Face false
+						LookAt false
+						Aim false
+						FreeMovement false
+						MoveToTarget false
+						Weapon disarm
+						Wait 1
+						
+						Pattern pt_end
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						IfAttr "reaction < RE_NASTY Block begin"
+							SetAttr "NewReaction RE_NONE"
+							SetAttr "reaction RE_NONE"
+						Block end
+						IfAttr "reaction == RE_WEAPON Block begin"
+							SetAttr "NewReaction RE_NONE"
+							SetAttr "reaction RE_NONE"
+						Block end
+						SetAttr "NumWarns 0,0,4"
+						//RemoveAttr visible
+						IfAttr "RelationTo:target == Relation:enemy State st_start"
+						Aim false
+						State st_start
+					}
+				}
+				xpt_update
+				{
+					actions
+					{
+						IfAttr "target.ea_status == sNEUTRAL Pattern pt_cancel"
+						IfAttr "target.ea_status == sKILLER Pattern pt_attack"
+						CheckAttr "target.active Return 1"
+						Pattern pt_cancel
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction >  RE_WEAPON Pattern pt_end"
+						IfAttr "reaction == RE_KICKED Pattern pt_end"
+					}
+				}
+			}
+			events
+			{
+				OnTargetReset 		"Pattern pt_cancel"
+				OnTargetUnconscious "Pattern pt_cancel"
+				OnTargetArrested	"Pattern pt_cancel"
+				OnTimer_tUpdate "ExecutePattern .xpt_update"
+				OnAttrMax_NumWarns "Pattern pt_attack"
+			}
+		}
+		so_seecorpse
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						HeadBlob 1,attention
+						
+						IfAttr "target.Object:target != Object:null Block begin"
+							TargetToMem msTEMP
+							AssistTarget 1
+							ExecutePattern .xpt_CheckJustice
+							TargetFromMem msTEMP
+						Block end
+						
+						ExecutePattern bh_base:so_seecorpse.pt_default
+					}
+				}
+				pt_decide
+				{
+					actions
+					{
+						Pattern pt_investigate,pt_warn
+					}
+				}
+				
+				pt_investigate
+				{
+					//����������� ����
+					actions
+					{
+						Sequence seq.env_inspect_ground,5
+						Wait 1:1
+						Say INVESTIGATE
+						Wait 1:1
+						ResetSequence 1
+						
+						Pattern pt_search
+					}
+				}
+				
+				pt_warn
+				{
+					//����� ����� � ������ � ������� ��������, ��� �� ��� �� �� ��� ��������
+					actions
+					{
+						ResetTarget 1
+						FreeMovementParams area_all,ED_VERY_CLOSE,ED_MIDDLE,from_target
+						Timer tSearch,15:10
+						Pattern pt_warn_loop
+					}
+				}
+				
+				pt_warn_loop
+				{
+					actions
+					{
+						FreeMovement walk
+						
+						IfAttr "Timer:tCanSay <= 0 Block begin"
+							Timer tCanSay,5:3
+							Say SEARCH
+						Block end
+						
+						Repeat 5
+					}
+					events
+					{
+						OnTimer_tSearch "Pattern pt_search"
+					}
+				}
+				
+				pt_search
+				{
+					actions
+					{
+						SetAttr "TaskCombat TC_SEARCH"
+						Pattern pt_end
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						IfAttr "target.ea_status == sCORPSE Block begin"
+							IgnoreTarget 50
+							ResetTarget 1
+						Block end
+						
+						ResetSequence 1
+						FreeMovement false
+						MoveToTarget false
+						LookAt false
+						
+						State st_start
+					}
+				}
+				
+				xpt_OnVisible
+				{
+					actions
+					{
+						TargetCaller 1
+						
+						IfAttr "Object:caller == Object:slot#msSUSPECTED Block begin"
+							Relationship target,enemy,3
+							SetAttr "TaskCombat TC_NONE"
+							Pattern pt_end
+						Block end
+						
+						CheckAttr "target.flag_bystander Block begin"
+							IfAttr "Timer:tCanSay <= 0 Block begin"
+								Timer tCanSay,5
+								Say WARNPEOPLE
+							Block end
+						Block end
+						
+						IgnoreTarget 10
+						ResetTarget 1
+					}
+				}
+				
+				xpt_CheckJustice
+				{
+					actions
+					{
+						IfAttr "target.ea_faction == Faction:Police Return 1"
+						IfAttr "Object:target == Object:player and slot#msGP.PlayerPath == PATH_GOOD Return 1"
+						//���� ����� ����� ���� �����, ��� � ��� KOS
+						
+						TargetToMem msSUSPECTED
+						Timer tForgiveSuspect,COP_TIMER_SUSPECT_DEFAULT
+					}
+				}
+			}
+			events
+			{
+				OnVisible "ExecutePattern .xpt_OnVisible"
+			}
+		}
+		st_war
+		{
+			group Alert
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern st_util.xpt_AddTargetToEnemy
+						State st_start
+					}
+				}
+			}
+		}
+		st_OnDeath
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "Object:caller == Object:player Block begin"
+							TargetFromMem msGP
+							FireEvent PlayerKillPoliceman
+							AreaEvent PlayerKillPoliceman,16
+						Block end
+						
+						ExecutePattern bh_base:st_OnDeath.pt_default
+					}
+				}
+			}
+		}
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_ResetScold
+				{
+					actions
+					{
+						SetAttr "scolded SCOLD_NONE"
+					}
+				}
+			}
+		}
+		ChangeKarma
+		{
+			Group Neutral
+			Patterns
+			{
+				NonLethal
+				{
+					actions
+					{
+						IfAttr "slot#msGP.PlayerPath == PATH_GOOD Block begin"
+							PlayerKarma -KARMA_MED
+						Block end
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnHearCombat "SetAttr NewReaction RE_WEAPON"
+		//OnHearDanger "SetAttr NewReaction RE_WEAPON"
+		OnTimer_tForgiveSuspect "ClearMem msSUSPECTED"
+		OnTimer_tResetScold	"ExecutePattern st_util.xpt_ResetScold"
+		OnAttrChange_scolded	"IfAttr scolded != SCOLD_NONE Timer tResetScold,8"
+	}
+}
+
+behavior
+{
+	name bh_goodpath_cop
+	inherited bh_police
+}
+
+
+behavior
+{
+	name bh_hub2_civil
+	inherited bh_civil
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						SetAttr "flag_bystander 1"
+						
+						SetSquadRelation taliban_squad:fear,local
+					}
+				}
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_SetHintGroup
+				{
+					actions
+					{
+						CheckAttr "flag_static Return 1"
+						
+						IfAttr "ea_manner != Manner:LowLife Block begin"
+							SetHintGroup wish_fun_idle
+							CheckAttr "IHaveCell SetHintGroup wish_fun_idle,wish_fun_phone"
+							CheckAttr "ImAMan SetHintGroup wish_fun_idle,wish_fun_phone,wish_fun_man"
+						Block end
+						
+						IfAttr "ea_manner == Manner:LowLife Block begin"
+							SetHintGroup wish_fun_hobo
+							CheckAttr "ImAMan SetHintGroup wish_fun_hobo,wish_fun_man"
+						Block end
+					}
+				}
+				
+				xpt_SetHintParams
+				{
+					actions
+					{
+						FreeMovementParams hint_all,ED_CLOSE,ED_VERY_FAR,hint_group,hint_face,use_node,once
+						CheckAttr "flag_static FreeMovementParams hint_all,-1,-1,hint_group,hint_face,use_node,nearest,once"
+					}
+				}
+				
+			}
+		}
+	}
+}
+
+behavior
+{
+	name bh_hub2_civil_static
+	inherited bh_hub2_civil
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						SetAttr "flag_static 1"
+					}
+				}
+			}
+		}
+	}
+}

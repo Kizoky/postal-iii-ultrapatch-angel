@@ -318,14 +318,14 @@ DUDE_RESPAWN	characters\Dude\dude_respawn_thisagain.wav
 DUDE_RESPAWN	characters\Dude\dude_respawn_tryharder.wav
 DUDE_RESPAWN	characters\Dude\dude_respawn_yousuck.wav
 // Game Save Acknowlegement
-//DUDE_SAVEGAME	characters\Dude\dude_saving_againV1.wav
-//DUDE_SAVEGAME	characters\Dude\dude_saving_againV2.wav
-//DUDE_SAVEGAME	characters\Dude\dude_saving_kidstoday.wav
-//DUDE_SAVEGAME	characters\Dude\dude_saving_mygrammaw.wav
-//DUDE_SAVEGAME	characters\Dude\dude_saving_skillV1.wav
-//DUDE_SAVEGAME	characters\Dude\dude_saving_skillV2.wav
-//DUDE_SAVEGAME	characters\Dude\dude_saving_weakV1.wav
-//DUDE_SAVEGAME	characters\Dude\dude_saving_weakV2.wav
+DUDE_SAVEGAME_AGAIN	characters\Dude\dude_saving_againV1.wav
+DUDE_SAVEGAME_AGAIN	characters\Dude\dude_saving_againV2.wav
+DUDE_SAVEGAME_AGAIN	characters\Dude\dude_saving_mygrammaw.wav
+DUDE_SAVEGAME_AGAIN	characters\Dude\dude_saving_skillV1.wav
+DUDE_SAVEGAME_AGAIN	characters\Dude\dude_saving_skillV2.wav
+DUDE_SAVEGAME	characters\Dude\dude_saving_kidstoday.wav
+DUDE_SAVEGAME	characters\Dude\dude_saving_weakV1.wav
+DUDE_SAVEGAME	characters\Dude\dude_saving_weakV2.wav
 // Riding a Segway:
 DUDE_SEGWAY	characters\Dude\dude_segway_chickmagnet.wav
 DUDE_SEGWAY	characters\Dude\dude_segway_gayerthanitlooksV1.wav

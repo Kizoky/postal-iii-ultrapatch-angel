@@ -1,0 +1,85 @@
+// Pistol
+
+WeaponData
+{
+	// Weapon data is loaded by both the Game and Client DLLs.
+	"ID"				"m60"
+	"printname"				""
+	"viewmodel"				"models/weapons/m60/m60_uni.mdl"
+	"playermodel"			"models/weapons/m60/m60_uni.mdl"
+	"anim_prefix"			"deagle"
+	"bucket"				"3"
+	"bucket_position"		"2"
+	"bucket_360"			"3"
+	"bucket_position_360"	"2"
+	"recoil"				"5"
+
+	"clip_size"				"100"
+	"primary_ammo"			"M60"
+	"secondary_ammo"		"None"
+
+	"weight"				"2"
+	"rumble"				"1"
+	"item_flags"			"0"
+
+	"fire_effect"			"M60_Fire_Fx"
+	"fire_rate1"			"0.1"
+	
+	"PrimaryMinDamage"		"20"
+	"PrimaryMaxDamage"		"25"
+	
+	"shake_screen"	"1"
+	"screen_shake_amplitude"	"3"
+	"screen_shake_frequency"	"25"
+	"screen_shake_duration"	"0.2"
+	
+	"NPCMinDamage"			"15"
+	"NPCMaxDamage"			"20"
+
+	"weapon_type"			"big_gun"
+
+	// Sounds for the weapon. There is a max of 16 sounds per category (i.e. max 16 "single_shot" sounds)
+	SoundData
+	{
+		"empty"				"Weapon_M60.Empty"
+		"single_shot"		"Weapon_M60.Single"
+		"single_shot_npc"	"Weapon_M60.Single"
+		//"double_shot"
+		//"double_shot_npc"
+		//"burst"				"Weapon_M60.Burst"
+		"reload"			"Weapon_M60.Reload"
+		"reload_npc"		"Weapon_M60.Reload"
+		//"melee_miss"
+		//"melee_hit"
+		//"melee_hit_world"
+		"special1"			"Weapon_M60.Rush"
+		//"special2"
+		//"special3"
+		//"taunt"
+		"deploy"			"Weapon_M60.Deploy"
+		"holster"			"Weapon_M60.Holster"
+	}
+
+	// Weapon Sprite data is loaded by the Client DLL.
+	TextureData
+	{
+		"weapon"
+		{
+				"file"		"sprites/m_gun"
+				"width"		"128"
+				"height"	"128"
+		}
+		"weapon_small"
+		{
+				"file"		"sprites/weapon_small_icons/m_gun"
+				"width"		"128"
+				"height"	"128"
+		}
+		"ammo"
+		{
+				"file"		"sprites/weapon_small_icons/ammo_mgun"
+				"width"		"128"
+				"height"	"128"
+		}
+	}
+}
