@@ -115,6 +115,8 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 
 * Improved player vaulting a bit
 
++ Added gamamet/fartgun back into the game and replaced the weapon selector icon with an english version
+
 + Added back cut player save acknowledgement feature
 
 + Added back unused hostage death out sequence
