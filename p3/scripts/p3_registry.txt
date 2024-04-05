@@ -7,6 +7,7 @@ p3_registry
 	"player_hurt_comment_long_chance"	"20"
 	"player_hurt_comment_rare_chance"	"8"
 	"fire_spread_duration"			"5"
+	"last_landmark"			""
 
 	//-------------------------------------------------------------------------
 	// Sound
