@@ -29,7 +29,7 @@ noticably on the main menu when it's used for dude's cigarette smoke!
 
 * Fixed an issue where some sounds wouldn't change their pitch, but the volume instead
 
-* Fixed player spray animation being cancelled if both primary and secondary fire are held when using catnip or pepperspray
+* Fixed player spray animation being cancelled but the spray still continuing if both primary and secondary fire are held when using catnip or pepperspray
 
 * Fixed props below a certain mass not interrupting melee attacks, causing multiple duplicate impacts and lag
 
@@ -96,6 +96,15 @@ noticably on the main menu when it's used for dude's cigarette smoke!
 
 * Fixed issues with in-game text and font
 
+* Fixed slowmo not being disabled upon player death
+
+* Fixed an issue where the player would automatically move without user input under specific circumstances
+(https://youtu.be/UajWzGByMkM?t=2093)
+
+* Fixed an issue where emptyhands aren't properly switched to after the nailbat gets stuck in an NPC
+
+* Fixed nailbat not falling off of pincushioned NPC after time
+
 IMPROVEMENTS/ADDITIONS/CHANGES: 
 ===============================
 
@@ -105,11 +114,22 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 
 * Improved boomerang machete a ton
 
+* Improved weemote and burst fire pissing
+
++ Added impact velocity based screenshake upon taking fall damage
+
 + Added back and improved player jumping
 
 + Added the ability to spare hostages by kicking them away
 
 * Significantly improved taser secondary fire
+
+* The player and their segway angles now match "info_landmark" entities upon level transition
+
+- Removed jarring "forward strike" attack animation for nailbat and baton
+
+* Fixed an awkward nailbat/baton animation issue
+(https://youtu.be/z2Adr_nOQmI)
 
 * The player can now be ragdolled through various means
 
@@ -121,9 +141,11 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 
 + Added back unused hostage death out sequence
 
-+ Added actual camera screenshake for a variety of scenarios
++ Added actual camera screenshake for a variety of scenarios (car explosions, getting hurt, melee weapon hits, etc.)
 
 + Catnip is now able to blind NPC's
+
+* Cat weapon skin texture is now consistent between level transitions or saving/loading
 
 + Added back and improved unused ability to blind NPC's with the laserpen
 
