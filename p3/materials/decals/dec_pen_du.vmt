@@ -1,0 +1,9 @@
+"LightmappedGeneric"
+{
+    "$basetexture" "Decals/dec_pen_du"
+    "$decal" 1
+    "$decalscale" 0.3
+	"$vertexalpha" "1"
+//	"$translucent" 1
+}
+
