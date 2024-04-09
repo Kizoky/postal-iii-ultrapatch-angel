@@ -145,8 +145,6 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 
 + Catnip is now able to blind NPC's
 
-* Cat weapon skin texture is now consistent between level transitions or saving/loading
-
 + Added back and improved unused ability to blind NPC's with the laserpen
 
 + NPC's now become angry and attack the player after being blinded by them
