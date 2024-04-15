@@ -3,6 +3,8 @@ p3_registry
 	//-------------------------------------------------------------------------
 	// Ultrapatch
 	//-------------------------------------------------------------------------
+	"zombie_acid_damage_min"		"15.0"
+	"zombie_acid_damage_max"		"25.0"
 	"player_hurt_comment_short_chance"	"75"
 	"player_hurt_comment_long_chance"	"20"
 	"player_hurt_comment_rare_chance"	"8"
