@@ -1254,6 +1254,21 @@
 	}
 }
 
+"Weapon_M136.RocketCatLoad"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/m136/rocket_cat_load_01.wav"
+		"wave"		"weapons/m136/rocket_cat_load_02.wav"
+		"wave"		"weapons/m136/rocket_cat_load_03.wav"
+		"wave"		"weapons/m136/rocket_cat_load_04.wav"
+	}
+}
+
 "Weapon_M136.Beep"
 {
 	"channel"		"CHAN_WEAPON"
