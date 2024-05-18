@@ -1,0 +1,382 @@
+//////////////////////// factions
+factions
+{
+	0 NullFaction
+	1 Police 
+	2 Zealots
+	3 Citizens
+	4 Hobos
+	5 Animals
+	6 Player
+	7 LaserDot 
+	8 Effects 
+	9 Items
+	10 Taliban
+	11 Venezuela
+	90 Anchor
+}
+
+state_matrices
+{
+	Police //ut_assist
+	{
+//              		Police  		Zealots   			Citizens			Hobos				Animals 			Player   			LaserDot			Effects 		Items			Taliban
+		sNEUTRAL	 	"nothing___		nothing__			nothing__			nothing__			nothing__			nothing__			nothing__			nothing__		nothing__		nothing__"
+		sPROVOKER	 	"nothing___		st_warning			nothing__			nothing__			nothing__			nothing__			nothing__			nothing__		nothing__		nothing__"
+		sPUNISHER	 	"nothing__		st_arrest			so_warn				nothing__			nothing__			nothing__			nothing__			nothing__		nothing__		st_war"
+		sMILITANT	 	"nothing__		st_war				so_warn				so_warn				st_war				so_warn				nothing__			nothing__		nothing__		st_war"
+		sKILLER		 	"nothing__		st_war				st_war				st_war				st_war				st_war				nothing__			nothing__		nothing__		st_war"
+		sVICTIM		 	"so_copdead		nothing__			nothing__			so_seehobo			nothing__			nothing__			nothing__			nothing__		nothing__		nothing__"
+		sCORPSE		 	"so_copdead		st_seecorpse		st_seecorpse		nothing__			nothing__			so_playerdead		nothing__			nothing__		nothing__		nothing__"
+	}	
+		
+	Zealots
+	{
+//              	Police    	Zealots   		Citizens			Hobos			Animals 			Player   			LaserDot			Effects 
+
+		sNEUTRAL	 	"nothing__		nothing___		nothing__			nothing__			nothing__			nothing__			nothing__			nothing__"
+		sPROVOKER	 	"nothing__		st_interest		nothing__			nothing__			nothing__			mx_checkZ			nothing__			nothing__"
+		sPUNISHER	 	"nothing__		ut_assist	  	nothing__			nothing__			nothing__			mx_checkZ			nothing__			nothing__"
+		sMILITANT	 	"st_war			ut_assist		nothing__			nothing__			nothing__			mx_checkZ			nothing__			nothing__"
+
+		sKILLER		 	"nothing__		nothing__			nothing__			nothing__			nothing__			nothing__			nothing__			nothing__"
+		sVICTIM		 	"nothing__		ut_assist			nothing__			nothing__			nothing__			nothing__			nothing__			nothing__"
+		sCORPSE		 	"nothing__		nothing__			nothing__			nothing__			nothing__			so_playerdead			nothing__			nothing__"
+	}
+	
+	Citizens
+	{
+//              Police    	Zealots   	Citizens						Hobos				Animals 		Player   		LaserDot		Effects 
+////
+		sNEUTRAL	 	"ignore___	ignore___		ignore___						ignore___		so_seeanimal	so_greetdude	ignore___		ignore___"
+		
+// непись шумит и всячески досаждает, не проявляя агрессии к кому-либо живому
+		sPROVOKER	 	"ignore___	ignore___		ignore___						ignore___		ignore___		ignore___		ignore___		ignore___"
+		
+// непись ведет себя агрессивно к кому-либо, не применяя огнестрельного оружия
+		sPUNISHER	 	"ignore___	ignore___		ignore___						ignore___		ignore___			ignore___		ignore___		ignore___"
+		
+// непись ведет себя агрессивно к кому-либо, применяя огнестрельное оружие  
+		sMILITANT	 	"ignore___	st_feartarget	st_feartarget			ignore___		st_fear			st_seeweapon		ignore___		ignore___"
+
+// временный статус, непись только что убил кого-либо BAT_MELEE
+		sKILLER		 	"st_feartarget		st_feartarget	st_feartarget			ignore___		st_fear			st_seeweapon		ignore___		ignore___"
+
+		sIGNITED		"so_inflame	so_inflame		so_inflame				so_inflame	so_seeanimal	ignore___		ignore___		ignore___"
+// npc is pissing
+		sGROSS			"so_seewang	so_seewang		so_seewang				so_seewang	ignore___		so_seewang		ignore___		ignore___"
+		
+// непись не отвечает арессией на агрессию
+		sVICTIM		 	"ignore___	ignore___		ignore___						ignore___		ignore___		ignore___			ignore___		ignore___"
+		
+// непись больше не живой
+		sCORPSE		 	"so_seecorpse	so_seecorpse	so_seecorpse	so_seecorpse		ignore___		so_playerdead	ignore___		ignore___"
+	}
+	
+	Animals
+	{
+//              	Police    	Zealots   	Citizens		Hobos		Animals 		Player   		LaserDot		Effects 
+
+		sNEUTRAL	 	"ignore___		ignore___		ignore___		ignore___		ignore___		ignore___		ignore___		ignore___"
+		sPROVOKER	 	"ignore___		ignore___		ignore___		ignore___		ignore___		st_fear			ignore___		ignore___"
+		sPUNISHER	 	"ignore___		ignore___		ignore___		ignore___		ignore___		ignore___		ignore___		ignore___"
+		sMILITANT	 	"ignore___		ignore___		ignore___		ignore___		ignore___		ignore___		ignore___		ignore___"
+		sCORPSE		 	"an_flesh		an_flesh		an_flesh		ignore___		an_flesh		an_flesh		st_ignore		st_ignore"
+
+
+	}
+	
+}
+
+
+////////////////////// vision modes
+
+vision_modes
+{
+ Police
+ {
+ //              	Police  		Zealots   		Citizens			Animals 		Player   			LaserDot		Effects 
+ sNEUTRAL	 		"vm_Optimal   vm_Optimal    vm_Optimal    vm_Optimal    vm_Optimal    vm_Optimal    vm_Optimal"
+ sPROVOKER	 	"vm_Optimal   vm_Full		    vm_Full    		vm_Full    		vm_Full    		vm_Full    		vm_Full"
+ sPUNISHER	 	"vm_Optimal   vm_Full		    vm_Full    		vm_Full    		vm_Full    		vm_Full    		vm_Full" 
+ }
+ 
+ Zealots
+ {
+ //              	Police  		Zealots   		Citizens			Animals 		Player   			LaserDot		Effects 
+ sNEUTRAL	 		"vm_Optimal   vm_Optimal    vm_Optimal    vm_Optimal    vm_Optimal    vm_Optimal    vm_Optimal"
+ sPROVOKER	 	"vm_Optimal   vm_Full		    vm_Full    		vm_Full    		vm_Full    		vm_Full    		vm_Full"
+ sPUNISHER	 	"vm_Optimal   vm_Full		    vm_Full    		vm_Full    		vm_Full    		vm_Full    		vm_Full" 
+ }
+ 
+ Citizens
+ {
+ //              	Police  		Zealots   		Citizens			Animals 		Player   			LaserDot		Effects 
+ sNEUTRAL	 		"vm_Optimal   vm_Optimal    vm_Optimal    vm_Optimal    vm_Optimal    vm_Optimal    vm_Optimal"
+ sPROVOKER	 	"vm_Optimal   vm_Full		    vm_Full    		vm_Full    		vm_Full    		vm_Full    		vm_Full"
+ sPUNISHER	 	"vm_Optimal   vm_Full		    vm_Full    		vm_Full    		vm_Full    		vm_Full    		vm_Full" 
+ }
+ 
+ Hobos
+ {
+ //              	Police  		Zealots   		Citizens			Animals 		Player   			LaserDot		Effects 
+ sNEUTRAL	 		"vm_Optimal   vm_Optimal    vm_Optimal    vm_Optimal    vm_Optimal    vm_Optimal    vm_Optimal"
+ sPROVOKER	 	"vm_Optimal   vm_Full		    vm_Full    		vm_Full    		vm_Full    		vm_Full    		vm_Full"
+ sPUNISHER	 	"vm_Optimal   vm_Full		    vm_Full    		vm_Full    		vm_Full    		vm_Full    		vm_Full" 
+ }
+ 
+ Animals
+ {
+ //              	Police  		Zealots   		Citizens			Animals 		Player   			LaserDot		Effects 
+ sNEUTRAL	 		"vm_Optimal   vm_Optimal    vm_Optimal    vm_Optimal    vm_Optimal    vm_Optimal    vm_Optimal"
+ sPROVOKER	 	"vm_Optimal   vm_Full		    vm_Full    		vm_Full    		vm_Full    		vm_Full    		vm_Full"
+ sPUNISHER	 	"vm_Optimal   vm_Full		    vm_Full    		vm_Full    		vm_Full    		vm_Full    		vm_Full" 
+ }
+}
+
+
+
+
+
+//////////////////////// manners
+manners
+{
+	0	NullManner
+	1	Player
+	2	StreetBro
+	3	JusticeMan
+	4	StGranny
+	5	LameWanker
+	6	SoccerMom
+	7	CuteGirl
+	8	Vendor
+	9	RedNeck
+	10	SushiNinja
+	11	Girl
+	12	MedicDoc
+	13	StrayDog
+	14	MonkeyApe
+	15	PussyCat
+	16  JihadBeard
+	17	RhinoCow
+	18  LaserDot
+	19	Mission
+	20 	GayGuy
+	21	NerdyNerd
+	22	Lowlife
+	90	Anchor
+}
+
+social_matrix
+{
+//        		 Player   	StreetBro  JusticeMan 	StGranny  LameWanker 	SoccerMom	CuteGirl 	Vendor    	RedNeck 	SushiNinja 	Girl      	MedicDoc    StrayDog  	Monkey    	PussyCat	JihadBeard	RhinoCow 	LaserDot	Mission		GayGuy		NerdyNerd  LowLife    
+	Player		"ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	BAT_MELEE 	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___ 	st_ignore	st_ignore	ignore__"           
+	StreetBro	"ignore___	so_greet	ignore___	ignore___	ignore___	ignore___	so_sleeze	st_custom	ignore___	ignore___ 	ignore___	ignore___	ignore___	ignore___	st_kitty	ignore___ 	st_ignore	st_ignore	ignore__"           
+	JusticeMan	"ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___ 	st_ignore	st_ignore	ignore__	ignore__	ignore__	so_seehobo"
+	StGranny    "ignore___	so_kibitz	ignore___	so_greet	ignore___	ignore___	ignore___	ignore___	ignore___	st_fear	 	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___ 	st_ignore	st_ignore	ignore__"     
+	LameWanker 	"st_ignore	ignore___	ignore___	ignore___	ignore___	ignore___	so_lover_	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___ 	st_ignore	st_ignore	ignore__"           
+	SoccerMom	"st_ignore	ignore___	ignore___	ignore___	ignore___	st_ignore	ignore___	ignore___	so_giggle	ignore___	ignore___	ignore___	ignore___  	ignore___	ignore___	ignore___ 	st_ignore	st_ignore	ignore__"           
+	CuteGirl	"ignore___	so_sleeze	ignore___	ignore___	ignore___	ignore___	so_greet	ignore___	ignore___	ignore___ 	ignore___	ignore___	ignore___  	ignore___	ignore___	ignore___ 	st_ignore	st_ignore	ignore__"           
+	Vendor		"ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___  	ignore___	ignore___	ignore___ 	st_ignore	st_ignore	ignore__"     
+	RedNeck		"ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	so_lover_	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___  	ignore___	st_kitty	ignore___ 	st_ignore	st_ignore	ignore__"     
+	SushiNinja	"ignore___	BAT_MELEE	BAT_MELEE	ignore___	ignore___	ignore___	so_lover_	ignore___	ignore___	ignore___	ignore___	BAT_MELEE	ignore___  	ignore___	ignore___	BAT_MELEE 	st_ignore	st_ignore	ignore__"     
+	Girl		"ignore___	ignore___	ignore___	ignore___	ignore___	so_giggle	ignore___	ignore___	st_greets	so_giggle	ignore___	ignore___	ignore___  	ignore___	ignore___	ignore___ 	st_ignore	st_ignore	ignore__"   
+	MedicDoc	"ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	BAT_MELEE	ignore___	ignore___	ignore___  	ignore___	BAT_ANIMAL 	ignore___ 	st_ignore	st_ignore	ignore__"   
+	StrayDog	"ignore___	an_tear		ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___  	ignore___	ignore___	ignore___ 	an_laser_	an_laser_	ignore__"   
+	MonkeyApe	"st_attack 	st_attack 	st_attack	st_attack	st_attack	st_attack	st_attack	st_attack	st_attack	st_attack  	st_attack	st_attack	ev_throw   	ignore___	ev_throw   	st_attack 	ignore___	ignore___	ignore__"   
+	PussyCat	"ignore___	an_tear		an_tear	 	ignore___	ignore___	an_close__	ignore___	ignore___	ignore___	an_tear	 	ignore___	an_tear		ignore___	ignore___	ignore___  	ignore___ 	ignore___	ignore___	ignore__"             
+	JihadBeard	"ignore___  ignore___ 	BAT_MELEE 	ignore___	ignore___ 	ignore___	ignore___	ignore___	ignore___	BAT_MELEE	ignore___	ignore___	ignore___	ignore___	ignore___  	st_ignore 	ignore___	ignore___	ignore__"
+	RhinoCow	"st_rhino_ 	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___  	ignore___ 	ignore___	ignore___	ignore__"             
+	GayGuy      "ignore___ 	ignore___   ignore___ 	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___ 	ignore___	ignore___	ignore___	ignore___	ignore___  	ignore___ 	ignore___	ignore___	ignore___	so_lover_	ignore__"
+	NerdyNerd	"ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore___	ignore__	ignore___	ignore__	ignore___	ignore___	ignore___	ignore___	ignore__	ignore___	so_greet	ignore__"
+}
+
+
+item_types
+{
+	1 TestItem
+	2 itmXXX
+	3 itmFood
+	4 itmToy
+	5 itmTrash
+	6 itmDrink
+	7 itmItem
+	8 itmShit
+	9 itmCatnip
+	10 itmWeapon
+	11 itmNasty
+	12 Flame
+	13 itmSeed
+	14 fxTaserBeam
+	15 Catnip
+	16 Acid
+	90 Anchor
+}
+
+item_matrix
+{
+//        		 TestItem  itmXXX  		itmFood 		itmToy 			itmTrash  	itmDrink 	  itmItem	  	itmShit	   	itmCatnip	  itmWeapon   itmNasty	  Flame	     	itmSeed	   	fxTaserBeam	          
+	StreetBro		"ignore___ itm_check	st_ignore		ev_itmTake	ignore___		ev_itmTake	ignore___	 	ignore___		ignore___		st_ignore		ignore___		ignore___		ignore___		ignore___"           
+	JusticeMan	"ignore___ ignore___	ignore___		ignore___		ignore___ 	ignore___		ignore___	 	ignore___		ignore___		st_ignore		ignore___		ignore___		ignore___		ignore___	"     
+	StGranny    "ignore___ ignore___	ignore___		ignore___		ev_itmTake 	ignore___		ignore___		ignore___		ignore___		st_ignore		ignore___		ignore___		ignore___		ignore___	"     
+	LameWanker	"ignore___ ignore___	ignore___		ignore___		ignore___ 	ignore___		ignore___		ignore___		ignore___		st_ignore		ignore___		ignore___		ignore___		ignore___	"           
+	SoccerMom		"ignore___ ignore___	ignore___		ignore___		ignore___ 	ignore___		ignore___	 	ignore___		ignore___		st_ignore		so_vomit_		ignore___		ignore___		ignore___	"           
+	CuteGirl		"ignore___ ignore___	ignore___		ignore___		ignore___ 	ignore___		ignore___	 	ignore___		ignore___		st_ignore		ignore___		ignore___		ignore___		ignore___	"           
+	Vendor			"ignore___ ignore___	ignore___		ignore___		ignore___ 	ignore___		ignore___	 	ignore___		ignore___		st_ignore		ignore___		ignore___		ignore___		ignore___	"     
+	RedNeck			"ignore___ ignore___	ignore___		ignore___		ignore___ 	ignore___		ignore___	 	ignore___		ignore___		st_ignore		ignore___		ignore___		ignore___		ignore___	"     
+	SushiNinja	"ignore___ ignore___	ignore___		ignore___		ignore___		ignore___		ignore___	 	ignore___		ignore___		ev_itmGrab	ignore___		ignore___		ignore___		ignore___	"     
+	Girl				"ignore___ itm_check	ignore___		ignore___		ignore___ 	ignore___		ignore___	 	ignore___		ignore___		st_ignore		ignore___		ignore___		ignore___		ignore___	"             
+	StrayDog		"ignore___ st_ignore	_an_hungry	an_windfall	ignore___ 	ignore___		ignore___	 	ignore___		ignore___		st_ignore		ignore___		ignore___		ignore___		ignore___	"   
+	MonkeyApe		"ignore___ ignore___	ignore___		ignore___		ignore___ 	ignore___		ignore___ 	ev_itmTake	ignore___		st_ignore		ignore___		ignore___		ignore___		ignore___	"  
+	                                                                                                                                                                                 
+//	Monkey 			"st_ignore _itm_check	_an_hungry_take	_ev_itmTak	_ev_itmTak 	_ev_itmTak	_ev_itmTak ev_itmTake		ignore___		"                                                    
+	PussyCat		"st_ignore st_ignore	st_ignore		st_ignore		st_ignore	st_ignore		st_ignore	 	st_ignore		st_ignore		st_ignore		ignore___		ignore___		ignore___		ignore___	" 
+	JihadBeard	"ignore___ ignore___	ignore___		ignore___		ignore___		ignore___		ignore___	 	ignore___		ignore___		ev_itmGrab	ignore___		ignore___		ignore___		ignore___	"     
+}
+
+//events
+//{
+	
+//	OnPushHeavy "ShowMessage [Push Event],$P3Debug"
+	
+
+// -------------------------------------------- ATTRIBUTES
+	
+//	OnAttrChange_ea_status "ShowMessage [ea_status changed!!!!!!!],$P3Debug"
+//	OnAttrChange_ea_status "ExecutePattern ut_macros.pt_status"
+
+// -------------------------------------------- FIRE	
+//	OnFire_strike "CallState so_ouch"
+//	OnFire_hi "ExecutePattern ut_macros.pt_targetCaller"	
+//	OnFire_go "State st_active"
+	
+//	OnFire_WAIT_FOR_ME "CallState st_waiter"
+
+//	OnFire_good "ExecutePattern ut_logic.pt_mood_plus"
+//	OnFire_bad "ExecutePattern ut_logic.pt_mood_minus"
+
+//	OnFire_stopit "State so_guilty"
+
+//	OnFire_WASSUP "ExecutePattern ut_macros.pt_caller"
+
+//	OnFire_HEY "ExecutePattern ut_macros.pt_social"
+//	OnFire_HOUND "ExecutePattern ut_macros.pt_caller"
+
+// -------------------------------------------- AOE FIRE	
+	
+//	OnAE_PANIC "ExecutePattern ut_reaction.pt_panic"
+//	OnAE_TASED "ExecutePattern ut_reaction.pt_tased"
+//	OnAE_KICKED "ExecutePattern ut_reaction.pt_kicked"
+//	OnAE_BARKTEST "Wait 0,0"
+//	OnAE_BARK "State TEST_BARK_FEAR"
+	
+//	OnAE_smellYummy "ExecutePattern ut_macros.pt_targetCaller"
+//	OnAE_CATNIP "ExecutePattern ut_items.pt_catnip"
+//	OnAE_HOSTAGE "ExecutePattern ut_reaction.pt_hostage"
+//	OnAE_MEDIC "ExecutePattern ut_reaction.pt_medic"
+//	OnAE_WarningInit "ExecutePattern ut_reaction.pt_warning"
+	
+//--------------------------------------------- DEBUG
+
+//	OnPathTrackUnresolved "ShowMessage [Event_OnPathTrackUnresolved],$P3Debug"
+//	OnInvalidRoute "ShowMessage [Event_OnInvalidRoute],$P3Debug"
+//	OnPathTrackFailed "ShowMessage [Event_OnPathTrackFailed],$P3Debug"
+	
+//	OnBump "ShowMessage [Event_OnBump],$P3Debug"
+//	OnStunned "ShowMessage [Event_OnStunned],P3Debug"
+//	OnTasingFinish "ShowMessage [Event_OnTasingFinish],$P3Debug"
+
+//	OnFire_LEVELCHANGEF "Headblob 5,LevelChangeFar"
+//	OnFire_LEVELCHANGEM "Headblob 5,LevelChangeMid"
+//	OnFire_LEVELCHANGEC "Headblob 5,LevelChangeClose"
+
+
+// -------------------------------------------- EVENTS FROM ANIMATIONS
+//	OnAnimYUM "ShowMessage [YUMMY,YUMMY],$P3Karma"
+//	OnDervishBegin "ShowMessage [DAMN HARDCODE DERVISH],$P3Karma"
+	
+
+// ---< DEBUG >---< DEBUG >---< DEBUG >---< DEBUG >---< DEBUG >---< DEBUG >---< DEBUG >---< DEBUG >
+
+//	OnUseCommand "ShowMessage [USE COMMAND CATCHED],$P3Karma"
+//	OnHit "ShowMessage [HIT CATCHED],$P3Karma"
+//	OnHearCombat "ShowMessage [I HEAR YOUR PIU-PIU],$P3Karma"
+
+// -------------------------------------------- MARKER FIRE
+//	OnFire_MarkMyTarget "ExecutePattern ut_targetFilter.pt_mark"
+
+// -------------------------------------------- TIMERS
+//	OnTimer_tBUSY "ExecutePattern ut_timer.pt_timer_tBUSY"
+//	OnTimer_tENEMY "ExecutePattern ut_timer.pt_timer_tENEMY"
+//	OnTimer_tSUSPECTED "ExecutePattern ut_timer.pt_timer_tSUSPECTED"
+//	OnTimer_tINTEREST "ExecutePattern ut_timer.pt_timer_tINTEREST"
+//	OnTimer_tCALM "ExecutePattern ut_set.pt_calm"
+//	OnTimer_tPASS_VOMIT "ExecutePattern ut_timer.pt_timer_tPASS_VOMIT"
+
+//	OnTimer_tPASS_ITEMS "ExecutePattern ut_timer.pt_timer_tPASS_ITEMS"
+//	OnTimer_tPASS_ANIMALS "ExecutePattern ut_timer.pt_timer_tPASS_ANIMALS"
+
+//	OnTimer_tTESTTIMER "ExecutePattern ut_timer.pt_timer_tTESTTIMER"
+	
+//	OnTimer_tSTATUS "ExecutePattern ut_timer.pt_timer_tSTATUS"
+//	OnTimer_tSTATUS "SetAttr ea_status 0"
+//	OnTimer_tHEADBLOBOFF "Headblob 1,reset"
+//	OnTimer_tHEADBLOBOFF "ShowMessage [YUMMY,YUMMY],$P3Karma"
+
+	
+//	OnTimer_tMISSIONPART2 "ExecutePattern .xpt_missionPart2"
+//	OnTimer_tMISSIONPART2 "ShowMessage [---CONDITION REGISTERED---],$P3Karma"
+
+//		OnTimer_tWEAPONCATNIP "ExecutePattern .xpt_giveCatnip" // MISSION DCR
+
+
+	
+//	OnTimer_tTESTTIMER "ShowMessage [---BOBOOOM---],$P3Karma"
+// -------------------------------------------- COMMON
+
+//	OnHearCombat "State st_hearcombat"
+	
+//	OnHearCombat "State st_hearcom"
+//	OnHearDanger "State st_heardgr"
+
+//	OnHearDanger "State st_heardanger"
+
+//	OnHit "State st_hit"
+//	OnHit "ShowMessage [---HIT---],$P3Karma"
+
+//	OnSnatched "State st_snatched"
+
+//	OnTasingStart "ExecutePattern st_tased.xpt_pretased"
+//	OnTased "State st_tased"
+	
+//	OnKicked "State st_kicked"
+
+//		OnTased "Sequence seq.g_reaction_tased"
+
+
+//	OnDamage "Wait 0"
+	
+//	OnHostaged "State st_hostage"
+//	OnEnemySpoted "ExecutePattern ut_war.pt_EnemySpoted"
+	
+// -------------------------------------------- NASTY	
+//	OnNasty "State st_ignite"	
+//	OnNasty "State so_kibitz"	
+//	OnNasty "State test_state"	
+
+//		OnNasty "ExecutePattern ut_missions.pt_pw_react"	
+//		OnNasty "TargetCaller 1"
+//		OnNasty "ExecutePattern mis_test.pt_counter"	
+//		OnNasty "TargetEntByName mission_test"	
+			
+// -------------------------------------------- IGNITE	
+//	OnInFlame "State ev_evade__"
+//	OnSeeFlame "State ev_interest"
+//	OnIgnite "State st_ignite"
+// }
+
+
+
+// PlayVideo filename,fade_in_time,fade_out_time[,console_command]
+
+// PlayVideo placeholder,1.5,1.5
