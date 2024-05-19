@@ -5,14 +5,44 @@ NOTE: Some changes or fixes might have missed, only the more mentionable things 
 FIXES:
 ======
 
+* Fixed semi-frequent game crashes caused by player throwing things
+
 * Fixed gas refusing to pour sometimes after a level transition
 
 * Fixed RPG fuel gauge getting stuck after secondary firing while charging a shot
 
 * Fixed player random idle sequence not being reset properly
 
+* Fixed "Personal jesus" achievement not working as intended
+
+* Fixed "Peta Chairman" achievement not working as intended
+
+* Fixed "Kavorkian" achievement not working as intended
+
+* Fixed "Mega-Sadist" achievement being unobtainable
+
+* Fixed "Real American" achievement counting towards Rhinos instead of terrorists
+
+* Fixed MSAA breaking interaction glow outline effect
+
+* Fixed all NPC's belonging to the incorrect faction
+(Specific faction related AI behavior is now accurate)
+
+* Fixed all NPC's belonging to the incorrect manner
+(Specific manner related AI behavior is now accurate)
+
+* Fixed camera shake occurring when badgersaw isn't even attacking
+
+* Fixed NPC's not receiving push force upon being ragdolled by segway
+
 * Fixed being able to take a hostage with any weapon by having it selected beforehand
 (You now automatically switch to the first compatible weapon upon taking a hostage if you don't already have one selected)
+
+* Fixed cat death gibbing not being reset after getting shot from m136/rpg
+
+* Fixed frequent player camera jittering issue
+
+* Fixed cats getting stuck in walls and specific props
 
 * Fixed Steam_01.vmt particle material being depthblended, causing visual artifacts, most 
 noticably on the main menu when it's used for dude's cigarette smoke!
@@ -20,6 +50,10 @@ noticably on the main menu when it's used for dude's cigarette smoke!
 * Fixed headblob getting stuck to the player upon picking up a tamed cat in some situations
 
 * Fixed police academy cutscenes playing in the wrong order (English language specific issue)
+
+* Fixed crash upon processing impact of cats launched out of the m136/rpg
+
+* Fixed a crash that can occur upon attempting to redestroy an NPC's head with the fireaxe or sledgehammer
 
 * Fixed crash that can happen when you release a hostage who already died from burning to death
 
@@ -62,8 +96,6 @@ noticably on the main menu when it's used for dude's cigarette smoke!
 
 * Fixed cats getting "stuck" when hitting the ground after being thrown in some occasions
 
-* Fixed "Mega-Sadist" achievement being unobtainable
-
 * Fixed an issue with NPC bump AI functionality
 
 * Fixed particles playing indefinitely after switching weapons while alt-fire pissing
@@ -77,8 +109,6 @@ noticably on the main menu when it's used for dude's cigarette smoke!
 * Fixed player stand up animations being almost unnoticeable after being ragdolled
 
 * Fixed particle effects playing on reselection after holstering while pouring gasoline
-
-* Fixed "Real American" achievement counting towards Rhinos instead of terrorists
 
 * Fixed a bug where cat weapon shooting sounds would still play on previously cat-silenced weapons after player respawn
 
@@ -116,9 +146,33 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 
 * Improved weemote and burst fire pissing
 
++ NPCs can now be ragdolled upon being hit by objects launched from the shopvac
+
+* Improved and fixed the quality/resolution of various textures
+
 + Added impact velocity based screenshake upon taking fall damage
 
-+ Added back and improved player jumping
++ Added back cut dude self pissing lines
+
+* Improved player interaction
+
+* Nailbat, baton, and machete is now automatically switched to upon pickup after being thrown
+
++ Added back unused NPC head explosion gibs
+
+* Improved NPC head explosion
+
+* Improved weemote/player piss extinguishing
+
+* Zombie acid attacks are now handled appropriately
+
++ Added back and improved cut player jumping
+
+* NPC's can now become ragdolled while they are getting up off the ground
+
++ Added hitgroup damage threshold multipliers for player ragdolling
+
+* Overhauled M136/RPG weapon
 
 + Added the ability to spare hostages by kicking them away
 
@@ -179,7 +233,7 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 
 * Prevented physx simulation while the game is paused
 
-+ "Champ Whisperer" achievement is now actually implemented and obtainable
++ "Champ Whisperer" achievement is now implemented and obtainable
 
 * Free-roaming is now unlocked by default
 
@@ -217,6 +271,8 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 + Added molotov detonation screenshake, a scorch decal now appears where the molotov landed
 
 - Removed DRM
+
++ Included SDK files for modders/developers
 
 * Updated and improved pause menu UI
 

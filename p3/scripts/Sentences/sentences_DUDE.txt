@@ -281,9 +281,9 @@ DUDE_PISSING	characters\Dude\dude_pissing_oohyeahV2.wav
 DUDE_PISSING	characters\Dude\dude_pissing_sigh.wav
 DUDE_PISSING	characters\Dude\dude_pissing_thatstheticket.wav
 // Pissing on self:
-//DUDE_SELFPISS	characters\Dude\dude_pissing_onselfV1.wav
-//DUDE_SELFPISS	characters\Dude\dude_pissing_onselfV2.wav
-//DUDE_SELFPISS	characters\Dude\dude_pissing_onselfV3.wav
+DUDE_SELFPISS	characters\Dude\dude_pissing_onselfV1.wav
+DUDE_SELFPISS	characters\Dude\dude_pissing_onselfV2.wav
+DUDE_SELFPISS	characters\Dude\dude_pissing_onselfV3.wav
 // Being Attacked by Police
 //DUDE_COPATTACK	characters\Dude\dude_policeattack_attica.wav
 //DUDE_COPATTACK	characters\Dude\dude_policeattack_dontblame.wav
