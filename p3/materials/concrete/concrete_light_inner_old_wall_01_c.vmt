@@ -1,0 +1,8 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "concrete/concrete_light_inner_old_wall_01_c"
+	"$selfillum" "1"
+	//"$bumpmap" "concrete/concrete_yellow_old_wall_01_normal" 
+
+}
+
