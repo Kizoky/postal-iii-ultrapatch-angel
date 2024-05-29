@@ -63,6 +63,18 @@
 	}
 }
 
+"Ammo.M136"
+{
+	"channel"		"CHAN_ITEM"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/m136/m136_reload_03.wav"
+	}
+}
+
 "Ammo.Shotgun"
 {
 	"channel"		"CHAN_ITEM"
@@ -1235,6 +1247,30 @@
 		"wave"		"weapons/m136/m136_shot_03.wav"
 		"wave"		"weapons/m136/m136_shot_04.wav"
 		"wave"		"weapons/m136/m136_shot_05.wav"
+	}
+}
+
+"Weapon_M136.Deploy"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/m136/m136_reload_05.wav"
+	}
+}
+
+"Weapon_M136.Holster"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/m136/m136_reload_01.wav"
 	}
 }
 
