@@ -144,6 +144,36 @@
 	}
 }
 
+"Weapon_EmptyHands.Melee_Hit"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/hands/bare_hands_body_hit_05.wav"
+		"wave"		"weapons/hands/bare_hands_body_hit_06.wav"
+		"wave"		"weapons/hands/bare_hands_body_hit_07.wav"
+		"wave"		"weapons/hands/bare_hands_body_hit_08.wav"
+	}
+}
+
+"Weapon_EmptyHands.Melee_HitWorld"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/hands/bare_hands_body_hit_01.wav"
+		"wave"		"weapons/hands/bare_hands_body_hit_02.wav"
+		"wave"		"weapons/hands/bare_hands_body_hit_03.wav"
+		"wave"		"weapons/hands/bare_hands_body_hit_04.wav"
+	}
+}
+
 //-----------------------------------------------------------------------------
 // Desert Eagle
 //-----------------------------------------------------------------------------
