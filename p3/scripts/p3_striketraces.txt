@@ -1,0 +1,82 @@
+//-------------------------------------------------------------------------
+// STRIKE TRACES
+//-------------------------------------------------------------------------
+// HINT: This file is reloaded every time the location is reloaded
+//
+// Example of creating in a qc file:
+//
+// $sequence machete_attack_right {
+// 	...
+// 	{ event AE_P3_STRIKETRACE 0 "MacheteAttack1" }
+// }
+//
+// Default parameters:
+//
+// "material"		"striketraces/SimpleTrace"
+// "attachment1"	"striketrace1"	// initial attachment
+// "attachment2"	"striketrace2"	// final attachment
+// "fade"			"0 4 20 24"		// fade/lifetime (frames, fps=24)
+// "seglifetime"	"0.2"			// lifetime of each segment
+// "segmindist"		"2"				// minimum distance between segments
+// "color"			"[1 1 1 1]"		// color and transparency
+
+"p3_striketraces.txt"
+{
+	"MacheteAttack1"
+	{
+		"material"		"striketraces/SimpleTrace"
+		"attachment1"	"machete_striketrace1"
+		"attachment2"	"machete_striketrace2"
+
+		"seglifetime"	"0.15"
+		"fade"			"5 9 13 15"
+		"color"			"[0.6 0.6 0.65 0.2]"
+	}
+
+	"MacheteAttack2"
+	{
+		"material"		"striketraces/SimpleTrace"
+		"attachment1"	"machete_striketrace1"
+		"attachment2"	"machete_striketrace2"
+
+		"fade"			"3 7 14 18"
+		"color"			"[0.6 0.6 0.65 0.1]"
+	}
+
+	"ShovelAttack1"
+	{
+		"material"		"striketraces/SimpleTrace"
+		"attachment1"	"machete_striketrace1"
+		"attachment2"	"machete_striketrace2"
+
+		"seglifetime"	"0.2"
+		"segmindist"	"2"
+		"fade"			"10 18 26 30"   // Extended fade/lifetime
+		"color"			"[0.6 0.6 0.65 0.2]"
+	}
+
+
+	"ShovelAttack2"
+	{
+		"material"		"striketraces/SimpleTrace"
+		"attachment1"	"machete_striketrace1"
+		"attachment2"	"machete_striketrace2"
+
+		"seglifetime"	"0.2"
+		"segmindist"	"2"
+		"fade"			"5 9 13 15"
+		"color"			"[0.6 0.6 0.65 0.2]"
+	}
+
+	"BatAttack1"
+	{
+		"material"		"striketraces/SimpleTrace"
+		"attachment1"	"bat_striketrace1"
+		"attachment2"	"bat_striketrace2"
+
+		"seglifetime"	"0.2"
+		"segmindist"	"2"
+		"fade"			"5 9 13 15"
+		"color"			"[0.6 0.6 0.65 0.2]"
+	}
+}
