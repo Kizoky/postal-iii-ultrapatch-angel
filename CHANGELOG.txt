@@ -135,8 +135,6 @@ noticably on the main menu when it's used for dude's cigarette smoke!
 
 * Fixed an issue where emptyhands aren't properly switched to after the nailbat gets stuck in an NPC
 
-* Catnip spray now triggers an auto-reload, regardless of player use
-
 * Fixed pistol muzzle flash attachment point
 
 * Fixed catnip slowmotion potentially causing a usercommand buffer overflow
@@ -155,6 +153,8 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 * Replaced dude pistol firing animations with ones that exhibit reduced recoil
 
 * Significantly improved and enhanced player kicking
+
+* Catnip spray now triggers an auto-reload, regardless of player use
 
 + Added back unused sounds for loading a cat into the m136/rpg
 
