@@ -601,6 +601,20 @@
 	}
 }
 
+"Weapon_Shotgun.Pump"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/shotgun/shotgun_lock_01.wav"
+		"wave"		"weapons/shotgun/shotgun_lock_02.wav"
+	}
+}
+
+
 "Weapon_Shotgun.Holster"
 {
 	"channel"		"CHAN_WEAPON"
