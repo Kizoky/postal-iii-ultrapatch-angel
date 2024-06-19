@@ -302,8 +302,9 @@
 "Weapon_M16.Single"
 {
 	"channel"		"CHAN_WEAPON"
-	"volume"		"VOL_NORM"
-	"soundlevel"	"SNDLVL_GUNFIRE"
+	"volume"	    "0.5"
+	"pitch"			"100,105"
+
 	"rndwave"
 	{
 		"wave"		"weapons/m16/m-16_shot_05.wav"
