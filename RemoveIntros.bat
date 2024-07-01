@@ -7,6 +7,7 @@ del "p3_english\media\SOURCE_LOGO*.bik" /s /f /q
 del "p3\media\logo_1_akella*.bik" /s /f /q
 del "p3\media\logo_2_RWS*.bik" /s /f /q
 del "p3\media\logo_3_TMS*.bik" /s /f /q
+del "p3\media\zoom_logo*.bik" /s /f /q
 
 color 0a
 echo.
