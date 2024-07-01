@@ -23,10 +23,14 @@ FIXES:
 
 * Fixed "Real American" achievement counting towards Rhinos instead of terrorists
 
+* Fixed camera Z view angle getting stuck in rare occasions
+
 * Fixed MSAA breaking interaction glow outline effect
 
 * Fixed all NPC's belonging to the incorrect faction
 (Specific faction related AI behavior is now accurate)
+
+* Fixed numerous non-standard apostrophes in p3_english.txt that messed up text rendering in-game
 
 * Fixed all NPC's belonging to the incorrect manner
 (Specific manner related AI behavior is now accurate)
@@ -149,6 +153,14 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 + Added striketraces for all melee weapons
 
 + Added back cut shotgun pumping feature and improved functionality
+
++ Added quickselect hotkey feature for the weapon selector to make it more intuitive
+
++ Added back cut/unused bystander freakout player voice lines
+
++ Added back unused badgersaw attack sounds
+
+* NPC's are now forced to puke if their face gets pissed on
 
 * Replaced dude pistol firing animations with ones that exhibit reduced recoil
 
