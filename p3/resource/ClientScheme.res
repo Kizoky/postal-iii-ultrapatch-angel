@@ -466,11 +466,11 @@ Scheme
 		{
 			"1"
 			{
-				"name"		"Verdana"
-				"tall"		"15"
-				"weight"	"700"
+				"name"		"soup" 
+				"tall"		"20"
+				"weight"	"500"
 				"antialias" "1"
-				"additive"	"1"
+				"custom"	"1"
 			}
 		}
 		HudHintTextLarge
