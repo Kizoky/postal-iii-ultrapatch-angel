@@ -241,9 +241,9 @@ DUDE_KUSEBADGER	characters\Dude\dude_k_badger_larryisbadgersaw.wav
 DUDE_KCOPATTAC	characters\Dude\dude_k_policeattack_beloved.wav
 DUDE_KCOPATTAC	characters\Dude\dude_k_policeattack_idol.wav
 // Pulling out a weapon and bystanders freak out (As Krotchy):
-//DUDE_KWEAPONOUT	characters\Dude\dude_k_weaponout_cartoon.wav
-//DUDE_KWEAPONOUT	characters\Dude\dude_k_weaponout_prematurely.wav
-//DUDE_KWEAPONOUT	characters\Dude\dude_k_weaponout_testicle.wav
+DUDE_KWEAPONOUT	characters\Dude\dude_k_weaponout_cartoon.wav
+DUDE_KWEAPONOUT	characters\Dude\dude_k_weaponout_prematurely.wav
+DUDE_KWEAPONOUT	characters\Dude\dude_k_weaponout_testicle.wav
 // End of game challenge event (insane path):
 DUDE_ENDEVENTINSANE	characters\Dude\dude_lastmission_getouttahereV1.wav
 //DUDE_ENDEVENTINSANE	characters\Dude\dude_lastmission_getouttahereV2.wav
@@ -408,13 +408,13 @@ DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_surprise.wav
 DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_whattheyallsay.wav
 DUDE_VIOLENTCOMMENT	characters\Dude\dude_violent_yougogirl.wav
 // Pulling out a weapon and bystanders freak out:
-//DUDE_WEAPONOUT	characters\Dude\dude_weaponout_abadshot.wav
-//DUDE_WEAPONOUT	characters\Dude\dude_weaponout_airingitout.wav
-//DUDE_WEAPONOUT	characters\Dude\dude_weaponout_innocent.wav
-//DUDE_WEAPONOUT	characters\Dude\dude_weaponout_pocketfull.wav
-//DUDE_WEAPONOUT	characters\Dude\dude_weaponout_psychotic.wav
-//DUDE_WEAPONOUT	characters\Dude\dude_weaponout_realityshow.wav
-//DUDE_WEAPONOUT	characters\Dude\dude_weaponout_terroristswin.wav
+DUDE_WEAPONOUT	characters\Dude\dude_weaponout_abadshot.wav
+DUDE_WEAPONOUT	characters\Dude\dude_weaponout_airingitout.wav
+DUDE_WEAPONOUT	characters\Dude\dude_weaponout_innocent.wav
+DUDE_WEAPONOUT	characters\Dude\dude_weaponout_pocketfull.wav
+DUDE_WEAPONOUT	characters\Dude\dude_weaponout_psychotic.wav
+DUDE_WEAPONOUT	characters\Dude\dude_weaponout_realityshow.wav
+DUDE_WEAPONOUT	characters\Dude\dude_weaponout_terroristswin.wav
 // While shooting snot wads:
 DUDE_PWSHOOTING	characters\Dude\dude_porn_shootingwads10V1.wav
 DUDE_PWSHOOTING	characters\Dude\dude_porn_shootingwads10V2.wav

@@ -1433,6 +1433,27 @@
 //	}
 }
 
+"Weapon_Badger.ClawAttack"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/badger/Beaver_attack_01.wav"
+		"wave"		"weapons/badger/Beaver_attack_02.wav"
+		"wave"		"weapons/badger/Beaver_attack_03.wav"
+		"wave"		"weapons/badger/Beaver_attack_04.wav"
+		"wave"		"weapons/badger/Beaver_attack_05.wav"
+		"wave"		"weapons/badger/Beaver_attack_06.wav"
+		"wave"		"weapons/badger/Beaver_attack_07.wav"
+		"wave"		"weapons/badger/Beaver_attack_08.wav"
+		"wave"		"weapons/badger/Beaver_attack_09.wav"
+		"wave"		"weapons/badger/Beaver_attack_10.wav"
+	}
+}
+
 "Weapon_Badger.Claw1"
 {
 	"channel"		"CHAN_WEAPON"
