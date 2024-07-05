@@ -1,0 +1,372 @@
+
+// TEST
+"champ_bark.growling"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"		"*vo/champ/growling.wav"
+}
+
+"champ_bark.woof"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"		"*vo/champ/woof.wav"
+}
+
+"champ_bark.woofwoofwoof"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"		"*vo/champ/woofwoofwoof.wav"
+}
+
+//////////////////////////////////////////////////////////////////// CHAMP
+
+"champ_aggro_01"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"		"^*characters/champ/champ_aggro_01.wav"
+}
+
+"champ_aggro_02"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"		"^*characters/champ/champ_aggro_02.wav"
+}
+
+"champ_alert_01"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"		"^*characters/champ/champ_alert_01.wav"
+}
+
+"champ_alert_02"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"		"^*characters/champ/champ_alert_02.wav"
+}
+
+"champ_alert_03"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"		"^*characters/champ/champ_alert_03.wav"
+}
+
+"champ_attack_01"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"		"^*characters/champ/champ_attack_01.wav"
+}
+
+"champ_attack_02"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"		"^*characters/champ/champ_attack_02.wav"
+}
+
+"champ_attack_03"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"		"^*characters/champ/champ_attack_03.wav"
+}
+
+"champ_breathing"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"		"^*characters/champ/champ_breathing.wav"
+}
+
+"champ_damage_01"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"		"^*characters/champ/champ_damage_01.wav"
+}
+
+"champ_damage_02"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"		"^*characters/champ/champ_damage_02.wav"
+}
+
+"champ_damage_03"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"		"^*characters/champ/champ_damage_03.wav"
+}
+
+"champ_escape"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"		"^*characters/champ/champ_escape.wav"
+}
+
+"champ_rend_01"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"		"^*characters/champ/champ_got_it_attack_01.wav"
+}
+
+"champ_rend_02"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"		"^*characters/champ/champ_got_it_attack_02.wav"
+}
+
+"champ_hungry_01"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"		"^*characters/champ/champ_hungry_01.wav"
+}
+
+"champ_hungry_02"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"		"^*characters/champ/champ_hungry_02.wav"
+}
+
+"champ_hungry_03"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"		"^*characters/champ/champ_hungry_03.wav"
+}
+
+"champ_yummy"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"		"^*characters/champ/champ_yummy.wav"
+}
+
+"champ_active_01"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"		"^*characters/champ/champ_your_turn_01.wav"
+}
+
+"champ_active_02"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"		"^*characters/champ/champ_your_turn_02.wav"
+}
+
+"champ_active_03"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"		"^*characters/champ/champ_your_turn_03.wav"
+}
+
+"champ_active_04"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"		"^*characters/champ/champ_your_turn_04.wav"
+}
+
+"cat_meow_01"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"		"^*characters/cat/cat_meow_01.wav"
+}
+
+"cat_meow_02"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"		"^*characters/cat/cat_meow_02.wav"
+}
+
+"cat_meow_03"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"		"^*characters/cat/cat_meow_03.wav"
+}
+"cat_meow_04"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"		"^*characters/cat/cat_meow_04.wav"
+}
+"cat_meow_05"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"		"^*characters/cat/cat_meow_05.wav"
+}
+"cat_meow_06"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"		"^*characters/cat/cat_meow_06.wav"
+}
+
+"Cat.Attack"
+{
+	"channel"		"CHAN_AUTO"
+	"volume"		"0.3"
+	"pitch"		"90,120"
+
+	"rndwave"
+	{
+		"wave"		"weapons/badger/Beaver_claw_01.wav"
+		"wave"		"weapons/badger/Beaver_claw_02.wav"
+		"wave"		"weapons/badger/Beaver_claw_04.wav"
+		"wave"		"weapons/badger/Beaver_claw_06.wav"
+		"wave"		"weapons/badger/Beaver_claw_09.wav"
+		"wave"		"weapons/badger/Beaver_claw_19.wav"
+		"wave"		"weapons/badger/Beaver_claw_18.wav"
+		"wave"		"weapons/badger/Beaver_claw_17.wav"
+		"wave"		"weapons/badger/Beaver_claw_16.wav"
+	}
+}
+
+"Cat.Hiss"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"characters/cat/cat_hiss_01.wav"
+		"wave"		"characters/cat/cat_hiss_02.wav"
+		"wave"		"characters/cat/cat_hiss_03.wav"
+		"wave"		"characters/cat/cat_hiss_04.wav"
+	}
+}
+
+"Swarm.Buzz"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"@weapons/vacuum/vacuum_power_start_and_loop.wav"
+}
+
+
+
+"Rhino.Grunt"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"characters/rhino/rhino_grunts_01.wav"
+		"wave"		"characters/rhino/rhino_grunts_02.wav"
+		"wave"		"characters/rhino/rhino_grunts_03.wav"
+		"wave"		"characters/rhino/rhino_grunts_04.wav"
+		"wave"		"characters/rhino/rhino_grunts_05.wav"
+		"wave"		"characters/rhino/rhino_grunts_06.wav"
+		"wave"		"characters/rhino/rhino_grunts_07.wav"
+		"wave"		"characters/rhino/rhino_grunts_08.wav"
+	}
+}
+
+"Rhino.Step"
+{
+	"channel"		"CHAN_VOICE"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"characters/rhino/rhino_step_01.wav"
+		"wave"		"characters/rhino/rhino_step_02.wav"
+		"wave"		"characters/rhino/rhino_step_03.wav"
+		"wave"		"characters/rhino/rhino_step_04.wav"
+		"wave"		"characters/rhino/rhino_step_05.wav"
+		"wave"		"characters/rhino/rhino_step_06.wav"
+		"wave"		"characters/rhino/rhino_step_07.wav"
+		"wave"		"characters/rhino/rhino_step_08.wav"
+	}
+}
