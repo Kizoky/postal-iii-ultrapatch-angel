@@ -23,11 +23,11 @@ WeaponData
 
 	"weapon_type"			"melee"
 	
-	"PrimaryMinDamage"		"10"
-	"PrimaryMaxDamage"		"20"
+	"PrimaryMinDamage"		"50"
+	"PrimaryMaxDamage"		"55"
 
-	"NPCMinDamage"		"10"
-	"NPCMaxDamage"		"20"
+	"NPCMinDamage"		"25"
+	"NPCMaxDamage"		"35"
 	
 	"shake_screen"	"1"
 	"screen_shake_amplitude"	"3"
@@ -35,8 +35,8 @@ WeaponData
 	"screen_shake_duration"	"0.2"
     
     
-	"SecondaryMinDamage"	"10"
-	"SecondaryMaxDamage"	"20"
+	"SecondaryMinDamage"	"200"
+	"SecondaryMaxDamage"	"250"
 
 	// Sounds for the weapon. There is a max of 16 sounds per category (i.e. max 16 "single_shot" sounds)
 	SoundData

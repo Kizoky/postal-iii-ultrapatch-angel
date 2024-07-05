@@ -20,8 +20,8 @@ WeaponData
 
 	"weapon_type"			"none"
 
-	"PrimaryMinDamage"		"5"
-	"PrimaryMaxDamage"		"5"
+	"PrimaryMinDamage"		"35"
+	"PrimaryMaxDamage"		"40"
 
 	"SecondaryMinDamage"	"0"
 	"SecondaryMaxDamage"	"0"
