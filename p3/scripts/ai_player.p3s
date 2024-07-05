@@ -26,7 +26,7 @@ behavior
 						SetAttr "WeaponConfirmed 1"
 						SetAttr "active 1"
 						SetAttr "NumFF 0,0,FRIENDLY_FIRE_MAX"
-						Timer 	"tRegenerate,0.5,repeated"
+						Timer 	"tRegenerate,0.06,repeated"
 						Timer	"tStopRegen,1"
 						Timer 	"tKiller,0"
 						Timer	tFireWeapon,2,repeated
