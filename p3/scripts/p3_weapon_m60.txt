@@ -25,16 +25,16 @@ WeaponData
 	"fire_effect"			"M60_Fire_Fx"
 	"fire_rate1"			"0.1"
 	
-	"PrimaryMinDamage"		"20"
-	"PrimaryMaxDamage"		"25"
+	"PrimaryMinDamage"		"25"
+	"PrimaryMaxDamage"		"30"
 	
 	"shake_screen"	"1"
 	"screen_shake_amplitude"	"3"
 	"screen_shake_frequency"	"25"
 	"screen_shake_duration"	"0.2"
 	
-	"NPCMinDamage"			"15"
-	"NPCMaxDamage"			"20"
+	"NPCMinDamage"			"3"
+	"NPCMaxDamage"			"3"
 
 	"weapon_type"			"big_gun"
 

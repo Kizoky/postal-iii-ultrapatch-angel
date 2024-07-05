@@ -12,7 +12,7 @@ WeaponData
 	"bucket_position"		"3"
 	"bucket_360"			"3"
 	"bucket_position_360"	"3"
-	"recoil"				"3"
+	"recoil"				"5"
 
 	"clip_size"				"30"
 	"primary_ammo"			"M16"
@@ -25,16 +25,16 @@ WeaponData
 	"fire_effect"			"Handgun_Fire_Fx"
 	"fire_rate1"			"0.1"
 	
-	"PrimaryMinDamage"	"15"
-	"PrimaryMaxDamage"	"20"
+	"PrimaryMinDamage"	"10"
+	"PrimaryMaxDamage"	"15"
 	
 	"shake_screen"	"1"
 	"screen_shake_amplitude"	"3"
 	"screen_shake_frequency"	"25"
 	"screen_shake_duration"	"0.2"
 	
-	"NPCMinDamage"			"12"
-	"NPCMaxDamage"			"16"
+	"NPCMinDamage"			"5"
+	"NPCMaxDamage"			"5"
 
 	"weapon_type"			"ranged"
 

@@ -25,19 +25,19 @@ WeaponData
 
 	"fire_effect"			"Small_Handgun_Fire_Fx"
 
-	"fire_rate1"			"0.3"
-	"fire_rate2"			"0.2"
+	"fire_rate1"			"0.2"
+	"fire_rate2"			"0.1"
 	
-	"PrimaryMinDamage"	"20"
-	"PrimaryMaxDamage"	"25"
+	"PrimaryMinDamage"	"40"
+	"PrimaryMaxDamage"	"45"
 	
 	"shake_screen"	"1"
 	"screen_shake_amplitude"	"3"
 	"screen_shake_frequency"	"25"
 	"screen_shake_duration"	"0.2"
 	
-	"NPCMinDamage"			"12"
-	"NPCMaxDamage"			"15"
+	"NPCMinDamage"			"31"
+	"NPCMaxDamage"			"31"
 
 // weapon types
 // none							0

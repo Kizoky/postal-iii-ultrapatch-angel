@@ -35,8 +35,8 @@ WeaponData
 	"PrimaryMinDamage"	"60"
 	"PrimaryMaxDamage"	"80"
 	
-	"NPCMinDamage"			"30"
-	"NPCMaxDamage"			"50"
+	"NPCMinDamage"			"7"
+	"NPCMaxDamage"			"7"
 
 
 	// Sounds for the weapon. There is a max of 16 sounds per category (i.e. max 16 "single_shot" sounds)
