@@ -1,0 +1,187 @@
+TipsData
+{
+	"layout2" " mc mc1 mc2 PDB aa aa1 aa2 generic_03 "
+    "layout3" " srm bdk sbe sub pwac zhqa pm2 kmtd kmtd1 jwb gri "
+    
+	generic
+	{
+		"count" "44"
+		
+		1
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_1"
+		}
+		2
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_2"
+		}
+		3
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_3"
+		}
+		4
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_4"
+		}
+		5
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_5"
+		}
+		6
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_6"
+		}
+		7
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_7"
+		}
+		8
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_8"
+		}
+		9
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_9"
+		}
+		10
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_10"
+		}
+		11
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_11"
+		}
+		12
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_12"
+		}
+		13
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_13"
+		}
+		14
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_14"
+		}
+		15
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_15"
+		}
+		16
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_16"
+		}
+		17
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_17"
+		}
+		18
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_18"
+		}
+		19
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_19"
+		}
+		20
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_20"
+		}
+		21
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_21"
+		}
+		22
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_22"
+		}
+		23
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_23"
+		}
+		24
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_24"
+		}
+		25
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_25"
+		}
+		26
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_26"
+		}
+		27
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_27"
+		}
+		28
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_28"
+		}
+		29
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_29"
+		}
+		30
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_30"
+		}
+		31
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_31"
+		}
+		32
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_32"
+		}
+		33
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_33"
+		}
+		34
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_34"
+		}
+		35
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_35"
+		}
+		36
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_36"
+		}
+		37
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_37"
+		}
+		38
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_38"
+		}
+		39
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_39"
+		}
+		40
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_40"
+		}
+		41
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_41"
+		}
+		42
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_42"
+		}
+		43
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_43"
+		}
+		44
+		{
+			"text" "#P3_GENERIC_TIP_TEXT_44"
+		}
+	}
+}
