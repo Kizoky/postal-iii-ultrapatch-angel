@@ -25,6 +25,8 @@ Usage of this patch alongside these mods will result in numerous conflicts and i
 
 NEW CONSOLE COMMANDS FOR FEATURES/CHANGES:
 ==========================================
+p3_ultrapatch_cam_lerp
+p3_ultrapatch_cam_lerp_factor
 p3_ultrapatch_weapon_blocked_check_radius
 p3_ultrapatch_segway_leaning
 p3_ultrapatch_kick_shove_dmg_min
