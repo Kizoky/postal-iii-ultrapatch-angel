@@ -147,6 +147,8 @@ noticably on the main menu when it's used for dude's cigarette smoke!
 
 * Fixed nailbat not falling off of pincushioned NPC after time
 
+* Fixed P3_RemoveAllBoltons not removing all boltons
+
 IMPROVEMENTS/ADDITIONS/CHANGES: 
 ===============================
 
