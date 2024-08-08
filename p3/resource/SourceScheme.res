@@ -246,7 +246,7 @@ Scheme
 			"1"
 			{
 				"name"		"soup"
-				"tall"		"17"
+				"tall"		"16"
 				"weight"	"450"
 				"antialias" "1"
 				"outline" "0"
@@ -261,7 +261,7 @@ Scheme
 			"1"
 			{
 				"name"		"Courier New"
-				"tall"		"14"
+				"tall"		"10"
 				"weight"	"500"
 				"antialias" "1"
 			}
@@ -273,7 +273,7 @@ Scheme
 			"1"
 			{
 				"name"		"Courier New"
-				"tall"		"11"
+				"tall"		"7"
 				"weight"	"500"
 				"antialias" "1"
 			}
@@ -285,8 +285,8 @@ Scheme
 				"name"		 "Lucida Console" [$WINDOWS]
 				"name"		 "Lucida Console" [$X360]
 				"name"		 "Verdana" [$POSIX]
-				"tall"		"15" [$POSIX]
-				"tall"		 "14"
+				"tall"		"11" [$POSIX]
+				"tall"		 "10"
 				"tall_lodef" "15"
 				"tall_hidef" "20"
 				"weight"	 "0"
@@ -299,7 +299,7 @@ Scheme
 			{
 				"name"		"soup" [!$OSX]
 				"name"		"Verdana" [$OSX]
-				"tall"		"20"
+				"tall"		"19"
 				"weight"	"500"
 				"antialias" "1"
 				"custom"	"1"
@@ -311,7 +311,7 @@ Scheme
 			{
 				"name"		"soup" [!$OSX]
 				"name"		"Verdana Bold" [$OSX]
-				"tall"		"20"
+				"tall"		"19"
 				"weight"	"1000"
 				"antialias" "1"
 				"custom"	"1"
@@ -323,7 +323,7 @@ Scheme
 			{
 				"name"		"soup" [!$OSX]
 				"name"		"Verdana" [$OSX]
-				"tall"		"20"
+				"tall"		"19"
 				"weight"	"500"
 				"underline" "1"
 				"antialias" "1"
@@ -336,8 +336,8 @@ Scheme
 			{
 				"name"		"soup" [!$OSX]
 				"name"		"Verdana" [$OSX]
-				"tall"		"16" [!$OSX]
-				"tall"		"17" [$OSX]
+				"tall"		"15" [!$OSX]
+				"tall"		"16" [$OSX]
 				"weight"	"0"
 				"antialias" "1"
 				"custom"	"1"
@@ -349,7 +349,7 @@ Scheme
 			{
 				"name"		"soup" [!$OSX]
 				"name"		"Verdana" [$OSX]
-				"tall"		"17"
+				"tall"		"16"
 				"weight"	"0"
 				"dropshadow" "1"
 				"antialias" "1"
@@ -362,7 +362,7 @@ Scheme
 			{
 				"name"		"soup" [!$OSX]
 				"name"		"Verdana" [$OSX]
-				"tall"		"16"
+				"tall"		"15"
 				"weight"	"0"
 				"antialias" "1"
 				"custom"	"1"
@@ -375,7 +375,7 @@ Scheme
 			{
 				"name"		"soup" [!$OSX]
 				"name"		"Verdana" [$OSX]
-				"tall"		"22"
+				"tall"		"21"
 				"weight"	"0"
 				"antialias" "1"
 				"custom"	"1"
@@ -387,7 +387,7 @@ Scheme
 			{
 				"name"		"soup" [!$OSX]
 				"name"		"Verdana" [$OSX]
-				"tall"		"16"
+				"tall"		"15"
 				"weight"	"1000"
 				"antialias" "1"
 				"custom"	"1"
@@ -395,7 +395,7 @@ Scheme
 			"1"	[$X360]
 			{
 				"name"		"soup"
-				"tall"		"28"
+				"tall"		"27"
 				"weight"	"2000"
 				"outline"	"1"
 				"antialias" "1"
@@ -407,8 +407,8 @@ Scheme
 			"1"
 			{
 				"name"			"soup"
-				"tall"			"24"
-				"tall_hidef"	"28"
+				"tall"			"23"
+				"tall_hidef"	"31"
 				"weight"		"2000"
 				"outline"		"1"
 				"antialias" "1"
@@ -420,8 +420,8 @@ Scheme
 			"1"
 			{
 				"name"			"soup"
-				"tall"			"24"
-				"tall_hidef"	"28"
+				"tall"			"23"
+				"tall_hidef"	"31"
 				"weight"		"2000"
 				"blur"			"3"
 				"blur_hidef"	"5"
@@ -434,7 +434,7 @@ Scheme
 			"1"	
 			{
 				"name"		"Soup"
-				"tall"		"32"
+				"tall"		"31"
 				"weight"	"300"
 				"antialias"	"1"
 				"custom"	"1"
@@ -443,7 +443,7 @@ Scheme
 			"2"	
 			{
 				"name"		"Soup"
-				"tall"		"36"
+				"tall"		"35"
 				"weight"	"300"
 				"antialias"	"1"
 				"custom"	"1"
@@ -452,7 +452,7 @@ Scheme
 			"3"	
 			{
 				"name"		"Soup" 
-				"tall"		"40" 
+				"tall"		"39" 
 				"weight"	"300"
 				"antialias" "1"
 				"custom" "1"
@@ -461,7 +461,7 @@ Scheme
 			"4"	
 			{
 				"name"		"Soup" 
-				"tall"		"44" 
+				"tall"		"43" 
 				"weight"	"300"
 				"antialias" "1"
 				"custom" "1"
@@ -473,20 +473,20 @@ Scheme
 			"1"	[$OSX]
 			{
 				"name"		"Helvetica Bold"
-				"tall"		"24"
+				"tall"		"20"
 				"antialias" "1"
 			}
 			"1"	[$WIN32]
 			{
 				"name"		"Verdana" 
-				"tall"		"20" 
+				"tall"		"16" 
 				"weight"	"600"
 				"antialias" "1"
 			}
 			"1"	[$X360]
 			{
 				"name"		"Verdana"
-				"tall"			"18"
+				"tall"			"14"
 				"tall_hidef"	"20"
 				"weight"	"1200"
 				"antialias" "1"
@@ -498,7 +498,7 @@ Scheme
 			"1"
 			{
 				"name"		"Soup"
-				"tall"		"24"
+				"tall"		"23"
 				"weight"	"1200"
 				"antialias" "1"
 				"outline" "1"
@@ -511,7 +511,7 @@ Scheme
 			"1"
 			{
 				"name"		"Soup"
-				"tall"		"22"
+				"tall"		"21"
 				"weight"	"1200"
 				"antialias" "1"
 				//"outline" "1"
@@ -525,7 +525,7 @@ Scheme
 			"1"
 			{
 				"name"		"Soup"
-				"tall"		"19"
+				"tall"		"18"
 				"weight"	"1200"
 				"antialias" "1"
 				"outline" "1"
@@ -535,7 +535,7 @@ Scheme
 			"2"
 			{
 				"name"		"Soup"
-				"tall"		"24"
+				"tall"		"23"
 				"weight"	"1200"
 				"antialias" "1"
 				"outline" "1"
@@ -566,8 +566,8 @@ Scheme
 				//"name"		 "soup" [$WINDOWS]
 				"name"		 "Lucida Console" [$X360]
 				"name"		 "Verdana" [$POSIX]
-				"tall"		"15" [$POSIX]
-				"tall"		"14"
+				"tall"		"11" [$POSIX]
+				"tall"		"10"
 				"weight"	"500"
 				"antialias" "1"
 				"custom"	"1"
@@ -581,8 +581,8 @@ Scheme
 				//"name"		 "soup" [$WINDOWS]
 				"name"		 "Lucida Console" [$X360]
 				"name"		 "Verdana" [$POSIX]
-				"tall"		"15" [$POSIX]
-				"tall"		"14"
+				"tall"		"11" [$POSIX]
+				"tall"		"10"
 				"weight"	"500"
 				"antialias" "1"
 				"custom"	"1"
@@ -596,8 +596,8 @@ Scheme
 				//"name"		 "soup" [$WINDOWS]
 				"name"		 "Lucida Console" [$X360]
 				"name"		 "Verdana" [$POSIX]
-				"tall"		"15" [$POSIX]
-				"tall"		"13"
+				"tall"		"11" [$POSIX]
+				"tall"		"9"
 				"weight"	"500"
 				"antialias" "1"
 				"custom"	"1"
@@ -610,7 +610,7 @@ Scheme
 			"1"
 			{
 				"name"		"Marlet"
-				"tall"		"24"
+				"tall"		"20"
 				"weight"	"500"
 				"antialias" "1"
 				//"symbol"	"1"
@@ -623,7 +623,7 @@ Scheme
 			"1"
 			{
 				"name"		"Trebuchet MS"
-				"tall"		"28"
+				"tall"		"24"
 				"weight"	"900"
 			}
 		}
@@ -633,7 +633,7 @@ Scheme
 			"1"
 			{
 				"name"		"Trebuchet MS"
-				"tall"		"24"
+				"tall"		"20"
 				"weight"	"900"
 			}
 		}
@@ -643,7 +643,7 @@ Scheme
 			"1"
 			{
 				"name"		"Trebuchet MS"
-				"tall"		"22"
+				"tall"		"18"
 				"weight"	"900"
 			}
 		}
@@ -655,7 +655,7 @@ Scheme
 			"1"
 			{
 				"name"		"Trebuchet MS"
-				"tall"		"44"
+				"tall"		"40"
 				"weight"	"900"
 			}
 		}
@@ -664,7 +664,7 @@ Scheme
 			"1"
 			{
 				"name"		"Trebuchet MS"
-				"tall"		"45"
+				"tall"		"41"
 				"weight"	"900"
 			}
 		}
@@ -673,7 +673,7 @@ Scheme
 			"1"
 			{
 				"name"		"Trebuchet MS"
-				"tall"		"46"
+				"tall"		"42"
 				"weight"	"900"
 			}
 		}
@@ -682,7 +682,7 @@ Scheme
 			"1"
 			{
 				"name"		"Trebuchet MS"
-				"tall"		"47"
+				"tall"		"43"
 				"weight"	"900"
 			}
 		}
@@ -691,7 +691,7 @@ Scheme
 			"1"
 			{
 				"name"		"Trebuchet MS"
-				"tall"		"48"
+				"tall"		"44"
 				"weight"	"900"
 			}
 		}
@@ -700,7 +700,7 @@ Scheme
 			"1"
 			{
 				"name"		"Trebuchet MS"
-				"tall"		"49"
+				"tall"		"45"
 				"weight"	"900"
 			}
 		}
@@ -711,14 +711,14 @@ Scheme
 				"name"		 "Lucida Console" [$WINDOWS]
 				"name"		 "Lucida Console" [$X360]
 				"name"		 "Verdana" [$POSIX]
-				"tall"		"15" [$POSIX]
-				"tall"		"14"
+				"tall"		"11" [$POSIX]
+				"tall"		"10"
 				"weight"	"0"
 			}
 //			"1"
 //			{
 //				"name"		"FixedSys"
-//				"tall"		"24"
+//				"tall"		"20"
 //				"weight"	"0"
 //			}
 		}
@@ -730,15 +730,15 @@ Scheme
 				"name"		 "Lucida Console" [$WINDOWS]
 				"name"		 "Lucida Console" [$X360]
 				"name"		 "Verdana" [$POSIX]
-				"tall"		"15" [$POSIX]
-				"tall"		"14"
+				"tall"		"11" [$POSIX]
+				"tall"		"10"
 				"weight"	"0"
 				"dropshadow" "1"
 			}
 //			"1"
 //			{
 //				"name"		"FixedSys"
-//				"tall"		"24"
+//				"tall"		"20"
 //				"weight"	"0"
 //			}
 		}
@@ -749,7 +749,7 @@ Scheme
 			{
 				"name"		"soup" [!$OSX]
 				"name"		"Verdana" [$OSX]
-				"tall"		"20"
+				"tall"		"19"
 				"weight"	"500"
 				"antialias" "1"
 				"custom"	"1"
@@ -761,7 +761,7 @@ Scheme
 			{
 				"name"		"soup" [!$OSX]
 				"name"		"Verdana Italic" [$OSX]
-				"tall"		"20"
+				"tall"		"19"
 				"weight"	"500"
 				"italic"	"1"
 				"antialias" "1"
@@ -774,7 +774,7 @@ Scheme
 			{
 				"name"		"soup" [!$OSX]
 				"name"		"Verdana Bold" [$OSX]
-				"tall"		"20"
+				"tall"		"19"
 				"weight"	"900"
 				"antialias" "1"
 				"custom"	"1"
@@ -786,7 +786,7 @@ Scheme
 			{
 				"name"		"soup" [!$OSX]
 				"name"		"Verdana Bold Italic" [$OSX]
-				"tall"		"20"
+				"tall"		"19"
 				"weight"	"900"
 				"italic"	"1"
 				"antialias" "1"
@@ -799,7 +799,7 @@ Scheme
 			"1"
 			{
 				"name"		"HalfLife2"
-				"tall"		"76"
+				"tall"		"72"
 				"weight"	"400"
 				"antialias"	"1"
 				"custom"	"1"
@@ -811,7 +811,7 @@ Scheme
 			"1"
 			{
 				"name"		"HalfLife2"
-				"tall"		"124"
+				"tall"		"120"
 				"weight"	"400"
 				"antialias"	"1"
 				"custom"	"1"
@@ -823,7 +823,7 @@ Scheme
 			"1"
 			{
 				"name"			"Trebuchet MS"
-				"tall"			"20"
+				"tall"			"16"
 				"tall_hidef"	"24"
 				"weight"		"900"
 				"antialias"		"1"
@@ -835,7 +835,7 @@ Scheme
 			"1"
 			{
 				"name"			"Trebuchet MS"
-				"tall"			"20"
+				"tall"			"16"
 				"tall_hidef"	"24"
 				"weight"		"900"
 				"blur"			"3"
@@ -851,7 +851,7 @@ Scheme
 				"name"		"Arial" [!$OSX]
 				"name"		"Verdana Bold" [$OSX]
 				"weight"		"2000"
-				"tall"			"24"
+				"tall"			"20"
 				"antialias"		"1"
 			}
 		}
@@ -863,7 +863,7 @@ Scheme
 				"name"		"Arial" [!$OSX]
 				"name"		"Verdana Bold" [$OSX]
 				"weight"		"2000"
-				"tall"			"22"
+				"tall"			"18"
 				"antialias"		"1"
 			}
 		}
@@ -875,8 +875,8 @@ Scheme
 				"name"		"Soup" [!$OSX]
 				"name"		"Verdana Bold" [$OSX]
 				"weight"		"1500"
-				"tall"			"20" [!$OSX]
-				"tall"			"22" [$OSX]
+				"tall"			"19" [!$OSX]
+				"tall"			"21" [$OSX]
 				"antialias"		"1"
 				"custom"		"1"
 			}
@@ -889,7 +889,7 @@ Scheme
 				"name"		"Soup" [!$OSX]
 				"name"		"Verdana Bold" [$OSX]
 				"weight"		"1500"
-				"tall"			"20"
+				"tall"			"19"
 				"antialias"		"1"
 				"custom"		"1"
 			}
@@ -903,8 +903,8 @@ Scheme
 				"name"		"Arial" [!$OSX]
 				"name"		"Verdana Bold" [$OSX]
 				"weight"		"1500"
-				"tall"			"18" [!$OSX]
-				"tall"			"20" [$OSX]
+				"tall"			"17" [!$OSX]
+				"tall"			"19" [$OSX]
 				"antialias"		"1"
 				"custom"		"1"
 			}
@@ -917,7 +917,7 @@ Scheme
 				"name"		"Soup" [!$OSX]
 				"name"		"Verdana Bold" [$OSX]
 				"weight"		"1500"
-				"tall"			"28"
+				"tall"			"27"
 				"antialias"		"1"
 				"custom"		"1"
 			}
@@ -930,8 +930,8 @@ Scheme
 				"name"		"Soup" [!$OSX]
 				"name"		"Verdana" [$OSX]
 				"weight"		"1000"
-				"tall"			"19" [!$OSX]
-				"tall"			"20" [$OSX]
+				"tall"			"18" [!$OSX]
+				"tall"			"19" [$OSX]
 				"antialias"		"1"
 				"custom"		"1"
 			}
@@ -957,7 +957,7 @@ Scheme
 				"name"		"Soup" [!$OSX]
 				"name"		"Verdana Bold" [$OSX]
 				"weight"		"550"
-				"tall"			"24"
+				"tall"			"23"
 				"antialias"		"1"
 				"custom"		"1"
 			}
@@ -969,8 +969,8 @@ Scheme
 			{
 				"name"		"soup" [!$OSX]
 				"name"		"Verdana" [$OSX]
-				"tall"		"32"
-				"tall_lodef"	"40"
+				"tall"		"31"
+				"tall_lodef"	"43"
 				"weight"	"500"
 				"additive"	"0"
 				"antialias" "1"
@@ -983,7 +983,7 @@ Scheme
 			"1"
 			{
 				"name"		"soup"
-				"tall"		"20"
+				"tall"		"19"
 				"weight"	"0"
 				"range"		"0x0000 0x017F" //	Basic Latin, Latin-1 Supplement, Latin Extended-A
 				"yres"	"480 599"
@@ -992,7 +992,7 @@ Scheme
 			"2"
 			{
 				"name"		"soup"
-				"tall"		"20"
+				"tall"		"19"
 				"weight"	"0"
 				"range"		"0x0000 0x017F" //	Basic Latin, Latin-1 Supplement, Latin Extended-A
 				"yres"	"600 767"
@@ -1001,7 +1001,7 @@ Scheme
 			"3"
 			{
 				"name"		"soup"
-				"tall"		"20"
+				"tall"		"19"
 				"weight"	"0"
 				"range"		"0x0000 0x017F" //	Basic Latin, Latin-1 Supplement, Latin Extended-A
 				"yres"	"768 1023"
@@ -1011,7 +1011,7 @@ Scheme
 			"4"
 			{
 				"name"		"soup"
-				"tall"		"23"
+				"tall"		"22"
 				"weight"	"0"
 				"range"		"0x0000 0x017F" //	Basic Latin, Latin-1 Supplement, Latin Extended-A
 				"yres"	"1024 1199"
@@ -1021,7 +1021,7 @@ Scheme
 			"5"
 			{
 				"name"		"soup"
-				"tall"		"23"
+				"tall"		"22"
 				"weight"	"0"
 				"range"		"0x0000 0x017F" //	Basic Latin, Latin-1 Supplement, Latin Extended-A
 				"yres"	"1200 6000"

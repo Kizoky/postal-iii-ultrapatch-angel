@@ -117,7 +117,7 @@ Scheme
 			"1"
 			{
 				"name"		"soup"
-				"tall"		"17"
+				"tall"		"16"
 				"weight"	"500"
 				"antialias" "1"
 				"custom"	"1"
@@ -128,7 +128,7 @@ Scheme
 			"1"
 			{
 				"name"		"soup"
-				"tall"		"17"
+				"tall"		"16"
 				"weight"	"1000"
 				"antialias" "1"
 				"custom"	"1"
@@ -139,7 +139,7 @@ Scheme
 			"1"
 			{
 				"name"		"soup"
-				"tall"		"17"
+				"tall"		"16"
 				"weight"	"500"
 				"underline" "1"
 				"custom"	"1"
@@ -150,7 +150,7 @@ Scheme
 			"1"
 			{
 				"name"		"soup"
-				"tall"		"20"
+				"tall"		"19"
 				"weight"	"500"
 				"antialias" "1"
 				"custom"	"1"
@@ -162,7 +162,7 @@ Scheme
 			"1"
 			{
 				"name"		"soup"
-				"tall"		"26"
+				"tall"		"22"
 				"weight"	"550"
 				"antialias" "1"
 				"custom"	"1"
@@ -174,7 +174,7 @@ Scheme
 			"1"
 			{
 				"name"		"soup"
-				"tall"		"18"
+				"tall"		"16"
 				"weight"	"0"
 				"antialias" "1"
 			}
