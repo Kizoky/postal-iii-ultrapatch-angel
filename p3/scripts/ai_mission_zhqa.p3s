@@ -1,0 +1,571 @@
+Constants
+{
+	Const ZHQA_FRAGS_GARDEN,8
+	Const ZHQA_FRAGS_VILLAGE,16
+	Const ZHQA_FRAGS_HOUSE,21
+	Const ZHQA_FRAGS_ASSAULT,28
+}
+
+behavior
+{
+	name bh_hqzealot
+	inherited bh_civil
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						SetSquad sq_zealots
+						SetSquadRelation player_squad:enemy:5
+						SetSquadRelation sq_police:enemy:2
+						AvoidProhibitedArea true
+						SetAreaGroup ag_approach,ag_House_Entrance,ag_apples,ag_barracks,AG_DEFAULT
+						
+						SetAttr "GrenadeType GRND_TYPE_BEENEST"
+						ChangeAttr "GrenadesNum 0:2"
+						SetAttr "BombardChance 10"
+						
+						SetAttr "flag_VitalEnemy 1"
+						SetAttr "flag_Protected 1"
+						SetAttr "flag_IgnoreCombat 1"
+						SetAttr "flag_IgnoreWeapon 1"
+						SetAttr "flag_IgnorePlayerFear 1"
+						SetAttr "ReactionThreshold RE_DANGER"
+					}
+				}
+			}
+		}
+		st_idle
+		{
+			group Neutral
+			patterns
+			{
+				pt_decide
+				{
+					actions
+					{
+						Pattern pt_idle
+					}
+				}
+				xpt_SetIdleParams
+				{
+					actions
+					{
+						FreeMovementParams area_all,ED_MIDDLE,ED_VERY_FAR,area_group
+					}
+				}
+				pt_aggro
+				{
+					actions
+					{
+						TargetCaller 1
+						//Face true
+						State st_start
+					}
+				}
+				xpt_OnVisible
+				{
+					actions
+					{
+						IfAttr "RelationTo:caller == Relation:enemy Pattern pt_aggro"
+					}
+				}
+			}
+			events
+			{
+				OnHearDanger "Pattern st_idle.pt_aggro"
+				OnHearCombat "Pattern st_idle.pt_aggro"
+			}
+		}
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						
+						IfAttr "Object:caller == Object:player ChangeAttr slot#msGP.frags +1"
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+	}
+}
+behavior
+{
+	name bh_hqpolice
+	inherited bh_civil
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						SetSquad sq_police
+						SetSquadRelation sq_zealots:enemy:3
+						AvoidProhibitedArea true
+						//Timer tComment,10:10
+						//Timer tMove,20 //,repeated
+						SetAttr "agnum 0"
+						SetAreaGroup ag_apples,AG_DEFAULT:walkable
+						
+						SetAttr "GrenadeType GRND_TYPE_FRAG"
+						SetAttr "BombardChance 10"
+						SetAttr "flag_ThrowSafe 1"
+						
+						SetAttr "flag_PlayerFriendly 1"
+						SetAttr "flag_IgnorePlayerFear 1"
+						SetAttr "flag_IgnorePlayerAttack 1"
+						SetAttr "flag_IgnoreWeapon 1"
+						SetAttr "flag_IgnoreCombat 1"
+						SetAttr "ReactionThreshold RE_DANGER"
+						
+						SetAttr "ea_clubdmg_absorb RESIST_HIGH"
+						SetAttr "ea_bulletdmg_absorb RESIST_HIGH"
+						SetAttr "ea_blastdmg_absorb RESIST_MED"
+						SetAttr "ea_crit_disabled 1"
+					}
+				}
+			}
+		}
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_CheckCombat
+				{
+					actions
+					{
+						CheckAttr "flag_PlayerFriendly Block begin"
+							IfAttr "slot#msGP.frags >= ZHQA_FRAGS_GARDEN	and agnum == 0 SetAttr NeedToMove 1"
+							IfAttr "slot#msGP.frags >= ZHQA_FRAGS_VILLAGE	and agnum == 1 SetAttr NeedToMove 1"
+							IfAttr "slot#msGP.frags >= ZHQA_FRAGS_HOUSE		and agnum == 2 SetAttr NeedToMove 1"
+							IfAttr "slot#msGP.frags >= ZHQA_FRAGS_ASSAULT	and agnum == 3 SetAttr NeedToMove 1"
+						Block end
+						
+						CheckAttr "NeedToMove Return 1"
+						ExecutePattern bh_base:st_start.xpt_CheckCombat
+					}
+				}
+			}
+		}
+		st_combat_logic
+		{
+			Group Combat
+			Patterns
+			{
+				xpt_SayAttack
+				{
+					actions
+					{
+						IfAttr "Timer:tSay > 0 Return 1"
+						
+						IfAttr "Object:target != Object:player Say SW_HEROIC"
+						IfAttr "Object:target == Object:player Say SW_PURSUIT"
+						
+						Timer tSay,3:5
+					}
+				}
+			}
+		}
+		st_idle
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						CheckAttr "NeedToMove Pattern pt_move"
+						SetAttr "TaskCombat TC_SEARCH"
+						ExecutePattern st_combat_logic.xpt_ResetTaskStatus
+						State st_start
+					}
+				}
+				pt_aggro
+				{
+					actions
+					{
+						IfAttr "RelationTo:caller == Relation:enemy Block begin"
+							TargetCaller 1
+							State st_start
+						Block end
+					}
+				}
+				pt_hit
+				{
+					actions
+					{
+						IfAttr "Object:caller == Object:player Block begin"
+							Say SW_FRIENDLYFIRE
+							SetAttr "rnd 0"
+							ChangeAttr "rnd 0:10"
+							IfAttr "rnd > 8 EntFireInput proxy,Say:INJUREBYSTANDER"
+						Block end
+					}
+				}
+				pt_move
+				{
+					actions
+					{
+						RemoveAttr NeedToMove
+						Say SW_GOGOGO
+						ChangeAttr "agnum +1"
+						IfAttr "agnum == 0 SetAreaGroup ag_apples,AG_DEFAULT:walkable"
+						IfAttr "agnum == 1 SetAreaGroup ag_barracks,AG_DEFAULT:walkable"
+						IfAttr "agnum == 2 SetAreaGroup ag_House_Entrance,AG_DEFAULT:walkable"
+						IfAttr "agnum == 3 SetAreaGroup ag_approach,AG_DEFAULT:walkable"
+						IfAttr "agnum == 4 SetAttr agnum 0"
+						
+						Pattern st_idle.pt_moveto
+					}
+				}
+				pt_moveto:ignore_ext_events
+				{
+					actions
+					{
+						Aim false
+						Crouch false
+						Face false
+						FreeMovementParams area_all,ED_MIDDLE,5000,area_group
+						FreeMovement run,reset
+						Wait 5:10
+						FreeMovement false
+						State st_start
+					}
+					events
+					{
+						//OnHearDanger "Pattern st_idle.pt_aggro"
+						//OnHearCombat "Pattern st_idle.pt_aggro"
+						//OnVisible "Pattern st_idle.pt_aggro"
+						OnTargetReach "State st_start"
+						OnInvalidRoute "Pattern pt_moveto"
+						OnNewEnemy "State st_start"
+					}
+				}
+				xpt_OnVisible
+				{
+					actions
+					{
+						IfAttr "RelationTo:caller == Relation:enemy Pattern pt_aggro"
+					}
+				}
+			}
+			events
+			{
+				OnHearDanger "Pattern st_idle.pt_aggro"
+				OnHearCombat "Pattern st_idle.pt_aggro"
+			}
+		}
+		st_OnDeath
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "Object:caller == Object:player Block begin"
+							EntFireInput proxy,Say:KILLBYSTANDER
+							TargetFromMem msGP
+							FireEvent SWATDeadByPlayer
+						Block end
+						TargetCaller 1
+						AreaEvent NPCdead,16
+						
+						ExecutePattern bh_base:st_OnDeath.pt_default
+					}
+				}
+			}
+		}
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_aggplayer
+				{
+					actions
+					{
+						IfAttr "caller.ea_Faction != Faction:Police Return 1"
+						
+						SetAttr "rnd 0"
+						ChangeAttr "rnd 0:20"
+						IfAttr "rnd >= 11 Say SW_MANDOWN"
+						
+						IfAttr "caller.Object:target == Object:player Block begin"
+							SetSquadRelation player_squad:enemy:8
+							RemoveAttr "flag_PlayerFriendly 1"
+							TargetPlayer 1
+						Block end
+						IfAttr "target.ea_Manner != Manner:Player ResetTarget 1"
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		
+		//OnInvalidRoute "Pattern st_idle.pt_moveto"
+		//OnAllEnemiesDead "Pattern st_idle.pt_moveto"
+		//OnTargetReset "State st_start"
+		//OnTimer_tMove "ExecutePattern st_idle.pt_move"
+		//OnTimer_tComment "ExecutePattern st_idle.pt_comment"
+		OnAE_NPCdead "ExecutePattern st_util.xpt_aggplayer"
+		//OnHit "ExecutePattern st_idle.pt_hit"
+	}
+}
+behavior
+{
+	name bh_hqalgore
+	inherited bh_citizen
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetSquadRelation player_squad:enemy
+						SetSquadRelation sq_police:enemy
+						ExecutePattern bh_base:st_init.pt_default
+						SetAttr "ea_crit_disabled 1"
+					}
+				}
+			}
+		}
+		st_idle
+		{
+			group Alert
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+					}
+				}
+			}
+		}
+		st_OnUnconscious
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default:ignore_ext_events
+				{
+					actions
+					{
+						EntFireUser mission_logic,3
+						ExecutePattern bh_base:st_OnUnconscious.pt_default
+					}
+				}
+			}
+		}
+		st_OnArrested
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default:ignore_ext_events
+				{
+					actions
+					{
+						EntFireUser mission_logic,3
+						ExecutePattern bh_base:st_OnArrested.pt_default
+					}
+				}
+			}
+		}
+		st_OnDeath
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						EntFireUser mission_logic,4
+						ExecutePattern bh_base:st_OnDeath.pt_default
+					}
+				}
+			}
+		}
+		ChangeKarma
+		{
+			Group Neutral
+			Patterns
+			{
+				Lethal
+				{
+					actions
+					{
+						//�����
+					}
+				}
+				NonLethal
+				{
+					actions
+					{
+						//�����
+					}
+				}
+			}
+		}
+	}
+}
+behavior
+{
+	name bh_hqlogic
+	inherited bh_mission_logic_base
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "frags 0,0,100,on_change_event:OnZealotKilled"
+						SetAttr "NeedFrags ZHQA_FRAGS_ASSAULT"
+						SetAttr "PlayerPath PATH_GOOD"
+						SetAttr "PlayerDoNotKillSWAT 1"
+					}
+				}
+			}
+		}
+		st_start
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						PlayerKarma show
+						MissionLog add_primary,main,#P3_ZHQA_MISSION1
+						MissionLog add_primary,main2,#P3_ZHQA_COUNTER
+						MissionLog add_secondary,sec1,#P3_ZHQA_SEC1
+					}
+					events
+					{
+						OnZealotKilled "ExecutePattern .xpt_counter"
+					}
+				}
+				xpt_counter
+				{
+					actions
+					{
+						//ChangeAttr "frags +1"
+						ChangeAttr "NeedFrags -1"
+						MissionLog add_primary,main2,#P3_ZHQA_COUNTER
+						IfAttr "frags == ZHQA_FRAGS_GARDEN	EntFireInput spawner_apples,Enable"
+						IfAttr "frags == ZHQA_FRAGS_VILLAGE	EntFireInput spawner_village,Enable"
+						IfAttr "frags == ZHQA_FRAGS_HOUSE	EntFireInput spawner_house,Enable"
+						IfAttr "frags == ZHQA_FRAGS_ASSAULT	Pattern pt_al"
+					}
+				}
+				pt_al
+				{
+					actions
+					{
+						EntFireInput door_01,Unlock
+						EntFireInput door_02,Unlock
+						EntFireInput door_7,Unlock
+						EntFireInput shop_door_c,Unlock
+						EntFireInput spawner_algore,Enable
+						EntFireInput spawner_ranged2,Enable
+						EntFireInput spawner_melee2,Enable
+						MissionLog done,main
+						MissionLog done,main2
+						playvideo zhqa_door,1,1
+						MissionLog add_primary,main3,#P3_ZHQA_MISSION2
+					}
+					
+				}
+				pt_end
+				{
+					actions
+					{
+						CheckAttr "PlayerDoNotKillSWAT MissionLog done,sec1"
+						MissionLog done,main3
+						Wait 1
+						EntFireInput proxy,Say:TASKFINISH
+						EntFireInput fade_out,Fade
+						Wait 1
+						TargetPlayer 1
+						IfAttr "Karma:target >  0 EntFireInput pcc1,Command:video_exitcmd zhqa_2 p3_end_mission"
+						IfAttr "Karma:target <= 0 EntFireInput pcc1,Command:video_exitcmd zhqa_4 p3_end_mission"
+					}
+				}
+				pt_fail
+				{
+					actions
+					{
+						CheckAttr "PlayerDoNotKillSWAT MissionLog done,sec1"
+						MissionLog fail,main3
+						PlayerKarma -KARMA_FULL
+						Wait 1
+						EntFireInput proxy,Say:ALKILL
+						EntFireInput fade_out,Fade
+						Wait 1
+						EntFireInput "pcc1,Command:video_exitcmd zhqa_3 p3_end_mission"
+					}
+				}
+			}
+		}
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_OnPlayerKillSWAT
+				{
+					actions
+					{
+						MissionLog fail,sec1
+						RemoveAttr PlayerDoNotKillSWAT
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnUser3 "Pattern st_start.pt_end"
+		OnUser4 "Pattern st_start.pt_fail"
+		OnFire_SWATDeadByPlayer	"ExecutePattern st_util.xpt_OnPlayerKillSWAT"
+		
+		OnNewGame "ExecutePattern weaponGive.ZHQA"
+	}
+}

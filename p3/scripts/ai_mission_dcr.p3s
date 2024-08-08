@@ -1,0 +1,987 @@
+Constants
+{
+	Const DCR_NPC_SHOP_CHANSE,10
+	Const DCR_CATS_SUSHI,3
+	Const DCR_CATS_MAX,10
+}
+
+behavior
+{
+	name bh_cats_mission
+	inherited bh_mission_logic_base
+	
+	states
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "CatsCollected 0,0,DCR_CATS_MAX,on_change_event"
+						SetAttr "PlayerPath PATH_NONE"
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						PlayerKarma hide
+						//EntFireInput "pcc,Command:p3_dude_is_good 0"
+						EntFireInput "lpp,GiveWeapon:p3_weapon_catnip"
+						EntFireInput "pcc,Command:use p3_weapon_catnip"
+						TargetPlayer 1
+						CheckAttr "target.wpn_HaveGamamet EntFireInput lpp,GiveWeapon:p3_weapon_gamamet"
+						EntFireInput "npc_spawner_dogs,Enable"
+						
+						//PlayVideo "cr_1,0,1"
+						//EntFireInput "npc_spawner_cats,Enable"
+						//EntFireInput "npc_spawner_cats,SetMaxLiveChildren:10"
+						
+						State st_mission
+					}
+				}
+			}
+		}
+		
+		st_mission
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default // Pre-sushi
+				{
+					actions
+					{
+						ExecutePattern st_util.xpt_RefreshTask
+						Wait 2
+						ShowMessage #P3_DCR_START
+					}
+				}
+				
+				pt_sushi
+				{
+					actions
+					{
+						SetAttr "SushiSpawned 1"
+						PlayVideo "dcr_2,1,1"
+						
+						Wait 0.9
+						EntFireInput "npc_spawner_sushi_m,enable"
+						EntFireInput "npc_spawner_sushi_r,enable"
+						EntFireInput "npc_spawner_cats,SetMaxLiveChildren:25"
+						EntFireInput "spawner_police,SetMaxLiveChildren:10"
+						EntFireUser muzak.ambient,1
+						EntFireInput muzak.battle,PlaySound
+						Wait 0.2
+						MissionLog add_primary,SurviveSushi,#P3_DCR_SUSHI_TASK
+						Wait 1.5
+						
+						ShowMessage #P3_DCR_SUSHI_ASSAULT
+					}
+				}
+				
+				xpt_CatsCollectedChange
+				{
+					actions
+					{
+						ExecutePattern st_util.xpt_RefreshTask
+					
+						IfAttr "CatsCollected == DCR_CATS_MAX state st_end"
+					
+						IfAttr "CatsCollected >= DCR_CATS_SUSHI Block begin"
+							CheckAttr "SushiSpawned Return 1"
+							Pattern pt_sushi
+						Block end
+					}
+				}
+			}
+			events
+			{
+				OnFire_CatPicked	"ChangeAttr CatsCollected 1"
+				OnFire_CatThrown	"ChangeAttr CatsCollected -1"
+				OnAttrChange_CatsCollected "ExecutePattern .xpt_CatsCollectedChange"
+				OnPlayerIn				"SetAttr PlayerUnderground 1"
+				OnPlayerOut				"RemoveAttr PlayerUnderground"
+				
+				OnPlayerEnter_Garage	"SetAttr PlayerInGarage 1"
+				OnPlayerLeave_Garage	"RemoveAttr PlayerInGarage"
+				OnPlayerEnter_HouseA	"SetAttr PlayerInHouseA 1"
+				OnPlayerLeave_HouseA	"RemoveAttr PlayerInHouseA"
+				OnPlayerEnter_HouseB	"SetAttr PlayerInHouseB 1"
+				OnPlayerLeave_HouseB	"RemoveAttr PlayerInHouseB"
+				OnPlayerEnter_Shop		"SetAttr PlayerInShop 1"
+				OnPlayerLeave_Shop		"RemoveAttr PlayerInShop"
+			}
+		}
+		
+		st_end
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						MissionLog done,CollectCats
+						MissionLog done,SurviveSushi
+						
+						EntFireInput fade_in,fade
+						Wait 1
+						EntFireInput	"pcc,Command:video_exitcmd dcr_3 p3_end_mission"
+						
+						//EntFireInput "npc_spawner_cats,disable"
+						//EntFireInput "npc_spawner_sushi,KillHierarhy"
+						//EntFireInput "nps_spawner_cop,disable"
+						
+						//Wait 2
+						
+						//EndMission 1
+						//EntFireInput "pcc,Command:changelevel mall_cut"
+					}
+				}
+			}
+		}
+		
+		st_util
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				xpt_StartSpawnCops
+				{
+					actions
+					{
+						CheckAttr "CopsSpawned Return 1"
+						
+						SetAttr "CopsSpawned 1"
+						EntFireInput "npc_spawner_cop,enable"
+					}
+				}
+				
+				xpt_RefreshTask
+				{
+					actions
+					{
+						MissionLog add_primary,CollectCats,#P3_DCR_MAIN_TASK
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnNewGame "ExecutePattern weaponGive.DCR"
+	}
+}
+
+
+
+
+behavior
+{
+	name bh_dcr_civil
+	inherited bh_civil
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						Timer tCheckShop,0
+						SetAttr "flag_bystander 1"
+					}
+				}
+			}
+		}
+		
+		st_init_static
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern st_init.pt_default
+						SetAttr "flag_static 1"
+					}
+				}
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_decide
+				{
+					actions
+					{
+						ExecutePattern .xpt_CheckShopping
+						ExecutePattern bh_base:st_idle.pt_decide
+					}
+				}
+				
+				xpt_SetIdleParams
+				{
+					actions
+					{
+						FreeMovementParams area_all,ED_CLOSE,ED_FAR,area_group
+						CheckAttr "shopping FreeMovementParams area_all,ED_CLOSE,-1,area_group"
+					}
+				}
+				
+				xpt_SetAreaGroup
+				{
+					actions
+					{
+						SetAreaGroup AG_DEFAULT
+						CheckAttr "shopping SetAreaGroup AG_SHOP"
+					}
+				}
+				
+				xpt_SetHintGroup
+				{
+					actions
+					{
+						CheckAttr "flag_static Return 1"
+						
+						SetHintGroup wish_fun_idle
+						CheckAttr "IHaveCell SetHintGroup wish_fun_idle,wish_fun_phone"
+						CheckAttr "ImAMan SetHintGroup wish_fun_idle,wish_fun_phone,wish_fun_man"
+						//Because all MAvgs can use phone
+						
+						CheckAttr "shopping SetHintGroup wish_fun_shop"
+					}
+				}
+				
+				xpt_CheckShopping
+				{
+					actions
+					{
+						CheckAttr "flag_static Return 1"
+						
+						IfAttr "Timer:tCheckShop > 0 Return 1"
+						
+						SetAttr "rnd 0,0,100"
+						ChangeAttr "rnd 0:100"
+						IfAttr "rnd <= DCR_NPC_SHOP_CHANSE Block begin"
+							SetAttr "shopping 1"
+							Timer tShopping,50:60
+						Block end
+						
+						Timer tCheckShop,30
+					}
+				}
+			}
+		}
+		
+		st_seeweapon
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						CheckAttr "slot#msGP.PlayerUnderground Return 1"
+						ExecutePattern bh_base:st_seeweapon.pt_default
+					}
+				}
+			}
+		}
+		
+	}
+	events
+	{
+		OnTimer_tShopping "RemoveAttr shopping"
+	}
+}
+
+behavior
+{
+	name bh_dcr_civil_static
+	inherited bh_dcr_civil
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "flag_static 1"
+						ExecutePattern bh_base:st_init.pt_default
+					}
+				}
+			}
+		}
+	}
+}
+
+
+behavior
+{
+	name bh_dcr_civil_shopper
+	inherited bh_dcr_civil
+	
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						SetAttr "shopping 1"
+					}
+				}
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_CheckShoping
+				{
+					actions
+					{
+						Wait 0
+					}
+				}
+			}
+		}
+		
+	}
+	
+}
+
+
+behavior
+{
+	name bh_dcr_civil_shopkeeper
+	inherited bh_dcr_civil
+	
+	States
+	{
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "RelationTo:player == Relation:enemy Block begin"
+							CheckAttr "slot#msGP.PlayerInShop Timer tForgivePlayer,20"
+						Block end
+						
+						ExecutePattern bh_base:st_start.pt_default
+					}
+				}
+			}
+		}
+		
+		st_OnHearCombat
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "Object:caller == Object:player Block begin"
+							CheckAttr "slot#msGP.PlayerInShop Pattern st_seeweapon.pt_check" //��������� �� ���� ��������
+						Block end
+						
+						IfAttr "Object:caller != Object:player Pattern bh_base:st_OnHearCombat.pt_default"
+						
+						Pattern pt_end
+					}
+				}
+			}
+		}
+		
+	}
+}
+
+
+behavior
+{
+	name bh_dcr_civil_house
+	inherited bh_dcr_civil
+	
+	States
+	{
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_decide
+				{
+					actions
+					{
+						ExecutePattern .xpt_SetAreaGroup
+						Pattern pt_idle,pt_gotohint
+					}
+				}
+				
+				xpt_SetAreaGroup
+				{
+					actions
+					{
+						CheckAttr "LiveInHouseA SetAreaGroup AG_HOUSEA"
+						CheckAttr "LiveInHouseB SetAreaGroup AG_HOUSEB"
+						CheckAttr "LiveInGarage SetAreaGroup AG_GARAGE"
+					}
+				}
+				
+				xpt_SetHintGroup
+				{
+					actions
+					{
+						CheckAttr "LiveInHouseA Block begin"
+							SetHintGroup wish_fun_housea
+							SetLeanGroup lg_housea
+						Block end
+						
+						CheckAttr "LiveInHouseB SetHintGroup wish_fun_houseb"
+						CheckAttr "LiveInGarage SetHintGroup wish_fun_garage"
+					}
+				}
+				
+				xpt_OnVisible
+				{
+					actions
+					{
+						IfAttr "Object:caller == Object:player Block begin"
+							CheckAttr "LiveInHouseA Block begin"
+								CheckAttr "slot#msGP.PlayerInHouseA SetAttr PlayerInvader 1"
+							Block end
+							
+							CheckAttr "LiveInHouseB Block begin"
+								CheckAttr "slot#msGP.PlayerInHouseB SetAttr PlayerInvader 1"
+							Block end
+							
+							CheckAttr "LiveInGarage Block begin"
+								CheckAttr "slot#msGP.PlayerInGarage SetAttr PlayerInvader 1"
+							Block end
+							
+							CheckAttr "PlayerInvader Block begin"
+								ExecutePattern st_util.xpt_AddPlayerToEnemy
+								//Say POSTAL
+								RemoveAttr PlayerInvader
+								Timer tCheckPlayerLoc,3,repeated
+								State st_start
+							Block end
+						Block end
+						
+						ExecutePattern bh_base:st_idle.xpt_OnVisible
+					}
+				}
+			}
+		}
+		
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_CheckPlayerLocation
+				{
+					actions
+					{
+						SetAttr "PlayerLeft 1"
+						
+						CheckAttr "LiveInHouseA Block begin"
+							CheckAttr "slot#msGP.PlayerInHouseA RemoveAttr PlayerLeft"
+						Block end
+						
+						CheckAttr "LiveInHouseB Block begin"
+							CheckAttr "slot#msGP.PlayerInHouseB RemoveAttr PlayerLeft"
+						Block end
+						
+						CheckAttr "LiveInGarage Block begin"
+							CheckAttr "slot#msGP.PlayerInGarage RemoveAttr PlayerLeft"
+						Block end
+						
+						CheckAttr "PlayerLeft Block begin"
+							TargetPlayer 1
+							Relationship target,neutral
+							ResetTarget 1
+							State st_start
+						Block end
+					}
+				}
+			}
+		}
+		
+	}
+	events
+	{
+		OnLiveInHouseA	"SetAttr LiveInHouseA 1"
+		OnLiveInHouseB	"SetAttr LiveInHouseB 1"
+		OnLiveInGarage	"SetAttr LiveInGarage 1"
+		OnTimer_tCheckPlayerLoc "ExecutePattern st_util.xpt_CheckPlayerLocation"
+	}
+	
+}
+
+behavior
+{
+	name bh_dcr_street_hobo
+	inherited bh_dcr_civil
+	
+	States
+	{
+	
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_decide
+				{
+					actions
+					{
+						Pattern pt_gotohint
+					}
+				}
+				
+				xpt_SetHintGroup
+				{
+					actions
+					{
+						SetHintGroup wish_fun_hobo_street,wish_fun_man
+					}
+				}
+			}
+		}
+		
+	}
+	
+}
+
+
+behavior
+{
+	name bh_dcr_sewer_hobo
+	inherited bh_civil
+	States
+	{
+	
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						SetAreaGroup AG_SEWER
+						SetAttr "ReactionTreshold RE_FEAR"
+					}
+				}
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_idle
+				{
+					actions
+					{
+						AvoidProhibitedArea true
+						Pattern bh_base:st_idle.pt_idle
+					}
+					events
+					{
+						OnInvalidRoute "Pattern pt_return"
+					}
+				}
+				
+				pt_return
+				{
+					actions
+					{
+						AvoidProhibitedArea false
+						SetAreaGroup AG_SEWER,AG_DEFAULT:walkable
+						FreeMovementParams area_all,ED_MIDDLE,-1,area_group
+						FreeMovement run
+						Wait 10
+						State st_start
+					}
+					events
+					{
+						OnTargetReach "State st_start"
+					}
+				}
+				
+				xpt_SetAreaGroup
+				{
+					actions
+					{
+						SetAreaGroup AG_SEWER
+					}
+				}
+				
+				xpt_SetHintGroup
+				{
+					actions
+					{
+						SetHintGroup wish_fun_hobo
+					}
+				}
+				
+				xpt_OnVisible
+				{
+					actions
+					{
+						IfAttr "Object:caller == Object:player Block begin"
+							CheckAttr "slot#msGP.PlayerUnderground Block begin"
+								ExecutePattern st_util.xpt_AddPlayerToEnemy
+								AreaEvent EnemyDetected,128
+								State st_start
+							Block end
+						Block end
+						
+						IgnoreTarget 5
+						ResetTarget 1
+					}
+				}
+			}
+		}
+		
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_AddPlayerToEnemy
+				{
+					actions
+					{
+						TargetPlayer 1
+						Relationship target,enemy,3
+						Timer tCheckPlayer,3,repeated
+						AvoidProhibitedArea false
+					}
+				}
+				
+				xpt_CheckPlayerPlace
+				{
+					actions
+					{
+						CheckAttr "slot#msGP.PlayerUnderground Block begin"
+							Timer tStopPursuit,10
+							//this timer resets if player is in underground
+							//when he leaves, hobos stop pursuing him after 10 seconds
+							//Return 1
+						Block end
+						
+						//Timer tStopPursuit,10
+					}
+				}
+				
+				xpt_ForgivePlayer
+				{
+					actions
+					{
+						TargetPlayer 1
+						Relationship target,neutral
+						Timer tCheckPlayer,0
+						AvoidProhibitedArea true
+						State st_start
+					}
+				}
+			}
+		}
+		
+	}
+	events
+	{
+		OnAE_EnemyDetected "ExecutePattern st_util.xpt_AddPlayerToEnemy"
+		OnTimer_tCheckPlayer "ExecutePattern st_util.xpt_CheckPlayerPlace"
+		OnTimer_tStopPursuit	"ExecutePattern st_util.xpt_ForgivePlayer"
+	}
+}
+
+
+behavior 
+{
+	name bh_sushi
+	inherited bh_military_new
+	
+	states
+	{
+		st_init
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						SetSquad Sushi_squad
+						SetSquadRelation Player_squad:enemy:3
+						
+						SetAttr "flag_IgnorePlayerFear 1"
+						SetAttr "flag_IgnoreCombat 1"
+						SetAttr "flag_IgnoreWeapon 1"
+						
+						SetAttr "ReactionThreshold RE_DANGER"
+						SetAttr "LoveAnimals 0"
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				xpt_combat
+				{
+					actions
+					{
+						AreaEvent SushiEnemySpotted,64
+						ExecutePattern bh_base:st_start.xpt_combat
+					}
+				}
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				xpt_SelectWeapon
+				{
+					actions
+					{
+						IfAttr "ea_ActiveWeapon == Weapon:Ranged Aim true,false"
+					}
+				}
+				
+				pt_gotohint
+				{
+					actions
+					{
+						Pattern pt_idle
+					}
+				}
+				
+				pt_idle
+				{
+					actions
+					{
+						CheckAttr "PlayerInHouseA Pattern bh_base:st_idle.pt_idle"
+						CheckAttr "PlayerInHouseB Pattern bh_base:st_idle.pt_idle"
+						CheckAttr "PlayerInGarage Pattern bh_base:st_idle.pt_idle"
+						
+						TargetPlayer 1
+						MoveToTarget run,0
+						Wait 5
+						State st_start
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						State st_start
+					}
+				}
+				
+				xpt_OnVisible
+				{
+					actions
+					{
+						TargetCaller 1
+						IfAttr "RelationTo:Target == Relation:Enemy State st_start"
+					}
+				}
+				
+				xpt_OnSushiEnemySpotted
+				{
+					actions
+					{
+						TargetCaller 1
+						AssistTarget 1
+						Relationship target,enemy
+						State st_start
+					}
+				}
+				
+			}
+			events
+			{
+				OnAE_SushiEnemySpotted "ExecutePattern .xpt_OnSushiEnemySpotted"
+			}
+		}
+		
+		st_combat_logic
+		{
+			Group Combat
+			Patterns
+			{
+				xpt_SayAttack
+				{
+					actions
+					{
+						IfAttr "Timer:tCanSay > 0 Return 1"
+						Say POSTAL,SEECATPOACHER
+						Timer tCanSay,5:3
+					}
+				}
+				
+				xpt_SayShoot
+				{
+					actions
+					{
+						IfAttr "Timer:tCanSay > 0 Return 1"
+						Say POSTAL,SEECATPOACHER
+						Timer tCanSay,5:3
+					}
+				}
+			}
+		}
+		
+		st_util
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				xpt_OnCatPicked
+				{
+					actions
+					{
+						Say SEECATPOACHER,2
+						Timer tCanSay,3:3
+					}
+				}
+				
+				xpt_CatnipKillerCheck
+				{
+					actions
+					{
+						IfAttr "ea_NumEnemies == 0 and ea_NumFear == 0 Block begin"
+							TargetCaller 1
+							Hate true
+						Block end
+						
+						State st_start
+					}
+					events
+					{
+						OnEnemiesDead "Hate false"
+					}
+				}
+				
+				xpt_AddCallerToEnemy
+				{
+					actions
+					{
+						TargetCaller 1
+						Relationship target,enemy
+						AreaEvent SushiEnemySpotted,64
+					}
+				}
+				
+				xpt_OnHit
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_util.xpt_OnHit
+						IfAttr "Object:caller == Object:player ExecutePattern st_util.xpt_AddCallerToEnemy"
+					}
+				}
+			}
+		}
+	}
+	
+	events
+	{
+		//OnAE_CATNIP "ExecutePattern st_util.xpt_CatnipKillerCheck"
+		//OnAE_Dervish "ExecutePattern st_util.xpt_AddCallerToEnemy"
+		OnCatPicked "ExecutePattern st_util.xpt_OnCatPicked"
+	}
+}
+
+behavior
+{
+	name bh_dcr_cat
+	inherited bh_cat
+	States
+	{
+		st_catched
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default:ignore_ext_events
+				{
+					actions
+					{
+						EntFireInput npc_sushi,FireFSMScriptEvent:OnCatPicked,64
+						Pattern bh_base:st_catched.pt_default
+					}
+				}
+			}
+		}
+		
+	}
+}

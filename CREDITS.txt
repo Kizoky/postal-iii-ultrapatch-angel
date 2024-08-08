@@ -7,6 +7,5 @@ Made with love by core members of the Whackjob Interactive devteam!
 
 - Pseudonym_Tim: Lead Developer and Programmer
 - Kizoky: Programming
-- Kenny_MCII: Programming, Balancing, and Mission Improvements
+- Kenny_MCII: Programming, Balancing, Testing, and Mission Improvements
 - Elwood: English Writing Improvements, Balancing, and Mission Improvements
-- Lena: Mapping and Audio

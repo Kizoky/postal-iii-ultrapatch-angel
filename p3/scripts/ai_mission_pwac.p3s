@@ -1,0 +1,1674 @@
+Constants
+{
+	Const PWAC_DIST_AL_TELEPORT,640
+	//Const PWAC_AL_DAMAGE,-18
+}
+
+behavior
+{
+	name bh_mission_prison
+	inherited bh_mission_logic_base
+	
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "PlayerKillPrisoner 0"
+						Timer tCheckJail,3
+						
+						SetAttr "PlayerPath PATH_INSANE"
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						PlayerKarma show
+						EntFireInput "lpp,RemoveAllWeapon"
+						EntFireInput "lpp,GiveWeapon:p3_weapon_shopvac"
+						//EntFireInput "pcc,Command:p3_player_skin prisoner"
+						//EntFireInput "pcc,Command:p3_dude_is_good 0"
+						
+						//Wait 0.5
+						MissionLog "add_primary,escort,#P3_PWAC_PRI1"
+						MissionLog "add_primary,survive,#P3_PWAC_PRI2"
+						MissionLog "add_secondary,dontkill,#P3_PWAC_SEC1"
+						
+						SetAttr "CurrentBattle 1" //����� �������� ������
+						SetAttr "BattleInProgress 1"	//���� �������� ���������, �� ����� ����
+														//������� ����� ����������, ����� �� �������� ����� ������� ���
+						Pattern pt_fight_loop
+					}
+				}
+				
+				pt_fight_loop
+				{
+					actions
+					{
+						IfAttr "CurrentBattle == 9 Pattern pt_escape"
+						
+						ExecutePattern .xpt_CheckFightStatus
+						
+						CheckAttr "Done Block begin"
+							RemoveAttr CopsDone
+							RemoveAttr PrisonDone
+							RemoveAttr SWATDone
+							RemoveAttr GuardsDone
+							RemoveAttr Done
+							//RemoveAttr HurtAl
+							RemoveAttr BattleInProgress
+							ExecutePattern .xpt_DisableHints
+							ExecutePattern .xpt_CheckAutoSave
+							ChangeAttr "CurrentBattle +1"
+							TargetEntByName npc_al
+							FireEvent WayClear
+						Block end
+						
+						Repeat 1
+					}
+				}
+				
+				pt_escape
+				{
+					actions
+					{
+						TargetEntByName npc_al
+						FireEvent StartEscape
+						Wait 30
+						State st_end
+					}
+				}
+				
+				xpt_CheckFightStatus
+				{
+					actions
+					{
+						IfAttr "CurrentBattle == 1 CheckAttr Clear01_Cops SetAttr CopsDone 1"
+						IfAttr "CurrentBattle == 2 CheckAttr Clear02_Cops SetAttr CopsDone 1"
+						IfAttr "CurrentBattle == 3 CheckAttr Clear03_Cops SetAttr CopsDone 1"
+						IfAttr "CurrentBattle == 4 CheckAttr Clear04_Cops SetAttr CopsDone 1"
+						IfAttr "CurrentBattle == 5 CheckAttr Clear05_Cops SetAttr CopsDone 1"
+						IfAttr "CurrentBattle == 6 CheckAttr Clear06_Cops SetAttr CopsDone 1"
+						IfAttr "CurrentBattle == 7 CheckAttr Clear07_Cops SetAttr CopsDone 1"
+						IfAttr "CurrentBattle == 8 CheckAttr Clear08_Cops SetAttr CopsDone 1"
+						
+						IfAttr "CurrentBattle == 1 CheckAttr Clear01_Prisoners SetAttr PrisonDone 1"
+						IfAttr "CurrentBattle == 2 CheckAttr Clear02_Prisoners SetAttr PrisonDone 1"
+						IfAttr "CurrentBattle == 3 CheckAttr Clear03_Prisoners SetAttr PrisonDone 1"
+						IfAttr "CurrentBattle == 4 CheckAttr Clear04_Prisoners SetAttr PrisonDone 1"
+						IfAttr "CurrentBattle == 5 CheckAttr Clear05_Prisoners SetAttr PrisonDone 1"
+						IfAttr "CurrentBattle == 6 CheckAttr Clear06_Prisoners SetAttr PrisonDone 1"
+						IfAttr "CurrentBattle == 7 CheckAttr Clear07_Prisoners SetAttr PrisonDone 1"
+						IfAttr "CurrentBattle == 8 CheckAttr Clear08_Prisoners SetAttr PrisonDone 1"
+						
+						IfAttr "CurrentBattle == 5 CheckAttr Clear05_SWAT SetAttr SWATDone 1"
+						IfAttr "CurrentBattle == 6 CheckAttr Clear06_SWAT SetAttr SWATDone 1"
+						IfAttr "CurrentBattle == 7 CheckAttr Clear07_SWAT SetAttr SWATDone 1"
+						IfAttr "CurrentBattle == 8 CheckAttr Clear08_SWAT SetAttr SWATDone 1"
+						
+						CheckAttr "CopsDone Block begin"
+							IfAttr "CurrentBattle < 5 SetAttr GuardsDone 1"
+							IfAttr "CurrentBattle >= 5 Block begin"
+								CheckAttr "SWATDone SetAttr GuardsDone 1"
+							Block end
+						Block end
+						
+						CheckAttr "GuardsDone Block begin"
+							IfAttr "PlayerKillPrisoner == 0 SetAttr Done 1"
+							IfAttr "PlayerKillPrisoner == 1 Block begin"
+								CheckAttr "PrisonDone SetAttr Done 1"
+							Block end
+						Block end
+					}
+				}
+				
+				xpt_DisableHints
+				{
+					actions
+					{
+						IfAttr "CurrentBattle == 1 Block begin"
+							EntFireInput hint_al_01a,DisableHint
+							EntFireInput hint_al_01b,DisableHint
+							EntFireInput tg_battle_01,Disable
+						Block end 
+						
+						IfAttr "CurrentBattle == 2 Block begin"
+							EntFireInput hint_al_02a,DisableHint
+							EntFireInput hint_al_02b,DisableHint
+							EntFireInput tg_battle_02,Disable
+						Block end
+						
+						IfAttr "CurrentBattle == 3 Block begin"
+							EntFireInput hint_al_03a,DisableHint
+							EntFireInput hint_al_03b,DisableHint
+							EntFireInput tg_battle_03,Disable
+						Block end
+						
+						IfAttr "CurrentBattle == 4 Block begin"
+							EntFireInput hint_al_04a,DisableHint
+							EntFireInput hint_al_04b,DisableHint
+							EntFireInput tg_battle_04,Disable
+						Block end
+						
+						IfAttr "CurrentBattle == 5 Block begin"
+							EntFireInput hint_al_05a,DisableHint
+							EntFireInput hint_al_05b,DisableHint
+							EntFireInput tg_battle_05,Disable
+						Block end
+						
+						IfAttr "CurrentBattle == 6 Block begin"
+							EntFireInput hint_al_06a,DisableHint
+							EntFireInput hint_al_06b,DisableHint
+							EntFireInput tg_battle_06,Disable
+						Block end
+						
+						IfAttr "CurrentBattle == 7 Block begin"
+							EntFireInput hint_al_07a,DisableHint
+							EntFireInput hint_al_07b,DisableHint
+							EntFireInput tg_battle_07,Disable
+						Block end
+						
+						IfAttr "CurrentBattle == 8 Block begin"
+							EntFireInput hint_al_08a,DisableHint
+							EntFireInput hint_al_08b,DisableHint
+							EntFireInput tg_battle_08,Disable
+						Block end
+					}
+				}
+				
+				xpt_CheckAutoSave
+				{
+					actions
+					{
+						IfAttr "CurrentBattle == 3 EntFireInput las,Save"
+						IfAttr "CurrentBattle == 5 EntFireInput las,Save"
+						IfAttr "CurrentBattle == 7 EntFireInput las,Save"
+					}
+				}
+			}
+			events
+			{
+				OnEscortComplete "State st_end"
+			}
+		}
+		
+		st_end
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						MissionLog done,escort
+						MissionLog done,survive
+						IfAttr "PlayerKillPrisoner == 0 MissionLog done,dontkill"
+						EntFireInput "fade_in,Fade"
+						Wait 1
+						EntFireInput "pcc,Command:video_exitcmd pwac_2 p3_end_mission"
+						//EntFireInput "pcc,Command:changelevel btk"
+					}
+				}
+			}
+		}
+		
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_door01
+				{
+					actions
+					{
+						//SetAttr "DoorOpened 1"
+						//EntFireInput "hobo_spawner,ChangeDestinationGroup:spawnpoint_02"
+						//EntFireInput "hobo_spawner,AddMaxChildren:3"
+						//EntFireInput "hobo_spawner,Enable"
+					}
+				}
+				
+				xpt_OnPlayerKillPrisoner
+				{
+					actions
+					{
+						IfAttr "PlayerKillPrisoner == 1 Return 1"
+						SetAttr "PlayerKillPrisoner 1"
+						MissionLog fail,dontkill
+						ShowMessage #P3_PWAC_MSG2
+					}
+				}
+				
+				//xpt_StartHurting
+				//{
+				//	actions
+				//	{
+				//		CheckAttr "BattleInProgress Block begin"
+				//			ShowMessage #P3_PWAC_RETURN
+				//			SetAttr "HurtAl 1"
+				//		Block end
+				//	}
+				//}
+				
+				//xpt_StopHurting
+				//{
+				//	actions
+				//	{
+				//		RemoveAttr HurtAl
+				//	}
+				//}
+				
+				xpt_CheckJail
+				{
+					actions
+					{
+						CheckAttr "PlayerInJail EntFireInput lpp,Say:JAILESCAPE"
+						Timer tCheckJail,10:2
+					}
+				}
+				
+				xpt_PlayerLeavesJail
+				{
+					actions
+					{
+						RemoveAttr PlayerInJail
+						Timer tCheckJail,0
+					}
+				}
+			}
+		}
+		
+		st_fail
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						MissionLog fail,survive
+						ShowMessage #P3_PWAC_FAIL
+						EntFireInput "fade_it,Fade"
+						MissionLog fail,escort
+						Wait 1
+						EntFireInput "pcc,Command:reload"
+					}
+				}
+			}
+		}
+		
+	}
+	events
+	{
+		OnDoorOpened "ExecutePattern st_util.xpt_door01"
+		OnFire_AlGoreDead "State st_fail"
+		OnFire_PlayerKillPrisoner "ExecutePattern st_util.xpt_OnPlayerKillPrisoner"
+		OnFire_BattleStarts		"SetAttr BattleInProgress 1"
+		
+		//������ �� ���������
+		OnClear01_Cops			"SetAttr Clear01_Cops 1"
+		OnClear02_Cops			"SetAttr Clear02_Cops 1"
+		OnClear03_Cops			"SetAttr Clear03_Cops 1"
+		OnClear04_Cops			"SetAttr Clear04_Cops 1"
+		OnClear05_Cops			"SetAttr Clear05_Cops 1"
+		OnClear06_Cops			"SetAttr Clear06_Cops 1"
+		OnClear07_Cops			"SetAttr Clear07_Cops 1"
+		OnClear08_Cops			"SetAttr Clear08_Cops 1"
+		
+		OnClear01_Prisoners		"SetAttr Clear01_Prisoners 1"
+		OnClear02_Prisoners		"SetAttr Clear02_Prisoners 1"
+		OnClear03_Prisoners		"SetAttr Clear03_Prisoners 1"
+		OnClear04_Prisoners		"SetAttr Clear04_Prisoners 1"
+		OnClear05_Prisoners		"SetAttr Clear05_Prisoners 1"
+		OnClear06_Prisoners		"SetAttr Clear06_Prisoners 1"
+		OnClear07_Prisoners		"SetAttr Clear07_Prisoners 1"
+		OnClear08_Prisoners		"SetAttr Clear08_Prisoners 1"
+		
+		OnClear05_SWAT			"SetAttr Clear05_SWAT 1"
+		OnClear06_SWAT			"SetAttr Clear06_SWAT 1"
+		OnClear07_SWAT			"SetAttr Clear07_SWAT 1"
+		OnClear08_SWAT			"SetAttr Clear08_SWAT 1"
+		
+		//autokill Al
+		//OnHurt01_Start			"IfAttr CurrentBattle == 1 ExecutePattern st_util.xpt_StartHurting"
+		//OnHurt01_Stop			"IfAttr CurrentBattle == 1 ExecutePattern st_util.xpt_StopHurting"
+		//OnHurt02_Start			"IfAttr CurrentBattle == 2 ExecutePattern st_util.xpt_StartHurting"
+		//OnHurt02_Stop			"IfAttr CurrentBattle == 2 ExecutePattern st_util.xpt_StopHurting"
+		//OnHurt03_Start			"IfAttr CurrentBattle == 3 ExecutePattern st_util.xpt_StartHurting"
+		//OnHurt03_Stop			"IfAttr CurrentBattle == 3 ExecutePattern st_util.xpt_StopHurting"
+		//OnHurt04_Start			"IfAttr CurrentBattle == 4 ExecutePattern st_util.xpt_StartHurting"
+		//OnHurt04_Stop			"IfAttr CurrentBattle == 4 ExecutePattern st_util.xpt_StopHurting"
+		//OnHurt05_Start			"IfAttr CurrentBattle == 5 ExecutePattern st_util.xpt_StartHurting"
+		//OnHurt05_Stop			"IfAttr CurrentBattle == 5 ExecutePattern st_util.xpt_StopHurting"
+		//OnHurt06_Start			"IfAttr CurrentBattle == 6 ExecutePattern st_util.xpt_StartHurting"
+		//OnHurt06_Stop			"IfAttr CurrentBattle == 6 ExecutePattern st_util.xpt_StopHurting"
+		//OnHurt07_Start			"IfAttr CurrentBattle == 7 ExecutePattern st_util.xpt_StartHurting"
+		//OnHurt07_Stop			"IfAttr CurrentBattle == 7 ExecutePattern st_util.xpt_StopHurting"
+		//OnHurt08_Start			"IfAttr CurrentBattle == 8 ExecutePattern st_util.xpt_StartHurting"
+		//OnHurt08_Stop			"IfAttr CurrentBattle == 8 ExecutePattern st_util.xpt_StopHurting"
+		
+		//Dude jail voices
+		OnPlayerLeavesJail		"ExecutePattern st_util.xpt_PlayerLeavesJail"
+		OnTimer_tCheckJail		"ExecutePattern st_util.xpt_CheckJail"
+		
+		OnNewGame "ExecutePattern weaponGive.PWAC"
+	}
+	
+}
+
+
+behavior
+{
+	name bh_al_prisoner
+	inherited bh_civil
+	
+	States
+	{
+		
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						SetAreaGroup AG_DEFAULT,AG_BATTLE01,AG_BATTLE02,AG_BATTLE03,AG_BATTLE04,AG_BATTLE05,AG_BATTLE06,AG_BATTLE07,AG_BATTLE08
+						SetActPack ACT_WALK,walk_funny
+						//SetActPack ACT_RUN,run_relax
+						
+						SetHintGroup hg_al_b1
+						//SetHintGroup hg_al_f1
+						AvoidProhibitedArea true
+						//SetAttr "msgStuck_CanShow 1"
+						
+						SetAttr "flag_IgnoreWeapon 1"
+						SetAttr "flag_IgnorePlayerAttack 1"
+						SetAttr "flag_IgnorePlayerFear 1"
+						SetAttr "flag_IgnoreCombat 1"
+						SetAttr "ReactionThreshold RE_DANGER"
+						
+						SetAttr "ea_bulletdmg_absorb RESIST_HIGH"
+						SetAttr "ea_clubdmg_absorb RESIST_HIGH"
+						SetAttr "ea_blastdmg_absorb RESIST_MED"
+						
+						Timer tCheckWang,5,repeated
+						Timer tSayWang,0
+						Timer tCanSay,3:3
+						Timer tRegen,1,repeated
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						AttributeProgressBar "AlPrisonerHealthPanel,show,ea_health"
+						
+						ExecutePattern bh_base:st_start.pt_default
+					}
+				}
+				
+				xpt_CheckCombat
+				{
+					actions
+					{
+						//�����, �� � ���� ������ �� �������
+					}
+				}
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_decide
+				{
+					actions
+					{
+						CheckAttr "escape Pattern pt_escape"
+						CheckAttr "waiting Pattern pt_wait"
+						Pattern pt_movetoplayer
+					}
+				}
+				
+				pt_movetoplayer
+				{
+					actions
+					{
+						FreeMovement false
+						TargetPlayer 1
+						MoveToTarget run,1
+						Repeat 3
+					}
+					events
+					{
+						OnInvalidRoute "Pattern pt_TryUnstuck"
+					}
+				}
+				
+				pt_TryUnstuck
+				{
+					actions
+					{
+						FreeMovementParams area_all,4,8,from_target
+						FreeMovement true
+						Wait 1.5
+						Pattern pt_movetoplayer
+					}
+					events
+					{
+						OnInvalidRoute "State st_start"
+					}
+				}
+				
+				pt_escape
+				{
+					actions
+					{
+						SetHintGroup hg_escape
+						FreeMovementParams hint_all,-1,-1
+						FreeMovement run
+					}
+				}
+				
+				pt_wait
+				{
+					actions
+					{
+						ExecutePattern .xpt_SetHintGroup
+						ExecutePattern .xpt_CheckTeleport
+						FreeMovementParams hint_all,-1,-1,hint_group,use_node
+						FreeMovement run,reset
+						Wait 20
+						State st_wait
+					}
+					events
+					{
+						OnInvalidRoute "Repeat 1"
+						//OnTargetReach "State st_wait"
+						OnFire_WayClear "ExecutePattern .xpt_WayClear"
+					}
+				}
+				
+				xpt_SetHintGroup
+				{
+					actions
+					{
+						IfAttr "slot#msGP.CurrentBattle == 1 SetHintGroup hg_wait_01"
+						IfAttr "slot#msGP.CurrentBattle == 2 SetHintGroup hg_wait_02"
+						IfAttr "slot#msGP.CurrentBattle == 3 SetHintGroup hg_wait_03"
+						IfAttr "slot#msGP.CurrentBattle == 4 SetHintGroup hg_wait_04"
+						IfAttr "slot#msGP.CurrentBattle == 5 SetHintGroup hg_wait_05"
+						IfAttr "slot#msGP.CurrentBattle == 6 SetHintGroup hg_wait_06"
+						IfAttr "slot#msGP.CurrentBattle == 7 SetHintGroup hg_wait_07"
+						IfAttr "slot#msGP.CurrentBattle == 8 SetHintGroup hg_wait_08"
+					}
+				}
+				
+				xpt_CheckWang
+				{
+					actions
+					{
+						IfAttr "Timer:tSayWang > 0 Return 1"
+						
+						TargetPlayer 1
+						IfAttr "DistTo:target < ED_CLOSE and target.ea_armed == 33 Block begin"
+							Say SEEPISS,1
+							Timer tSayWang,8:4
+						Block end
+					}
+				}
+				
+				xpt_StartWait
+				{
+					actions
+					{
+						CheckAttr "waiting Return 1"
+						ExecutePattern st_util.xpt_StartWait
+						State st_start
+					}
+				}
+				
+				xpt_WayClear
+				{
+					actions
+					{
+						ExecutePattern st_util.xpt_WayClear
+						State st_start
+					}
+				}
+				
+				xpt_OnVisible
+				{
+					actions
+					{
+						IgnoreTarget 3
+						ResetTarget 1
+					}
+				}
+				
+				xpt_CheckTeleport
+				{
+					actions
+					{
+						TargetPlayer 1
+						IfAttr "DistTo:target < PWAC_DIST_AL_TELEPORT  Return 1" //���� �� ������, �� ����������� �� ���� - ��� ������
+						
+						IfAttr "slot#msGP.CurrentBattle == 1 EntFireInput al_teleport_01,Teleport"
+						IfAttr "slot#msGP.CurrentBattle == 2 EntFireInput al_teleport_02,Teleport"
+						IfAttr "slot#msGP.CurrentBattle == 3 EntFireInput al_teleport_03,Teleport"
+						IfAttr "slot#msGP.CurrentBattle == 4 EntFireInput al_teleport_04,Teleport"
+						IfAttr "slot#msGP.CurrentBattle == 5 EntFireInput al_teleport_05,Teleport"
+						IfAttr "slot#msGP.CurrentBattle == 6 EntFireInput al_teleport_06,Teleport"
+						IfAttr "slot#msGP.CurrentBattle == 7 EntFireInput al_teleport_07,Teleport"
+						IfAttr "slot#msGP.CurrentBattle == 8 EntFireInput al_teleport_08,Teleport"
+					}
+				}
+			}
+			events
+			{
+				OnTimer_tCheckWang	"ExecutePattern .xpt_CheckWang"
+				OnPlayerPass		"ExecutePattern .xpt_StartWait"
+			}
+		}
+		
+		st_wait
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						FreeMovement false
+						
+						TargetFromMem msGP
+						FireEvent BattleStarts
+						
+						TargetPlayer 1
+						Face true
+						LookAt true
+						
+						Timer tIdle,2:2
+						Pattern pt_loop
+					}
+				}
+				
+				pt_loop
+				{
+					actions
+					{
+						Wait 2:2
+						ExecutePattern .xpt_comment
+						Wait 3:2
+						Repeat 0
+					}
+					events
+					{
+						OnTimer_tIdle "ExecutePattern .xpt_idle"
+					}
+				}
+				
+				pt_clear
+				{
+					actions
+					{
+						Say CLEAR,ENCOURAGEMENT,2
+						ExecutePattern st_util.xpt_WayClear
+						Pattern pt_end
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						Face false
+						LookAt false
+						
+						State st_start
+					}
+				}
+				
+				xpt_idle
+				{
+					actions
+					{
+						Gesture g_idle_lite
+						Timer tIdle,7:5
+					}
+				}
+				
+				xpt_comment
+				{
+					actions
+					{
+						IfAttr "Timer:tCanSay > 0 Return 1"
+						
+						Say BERATEMENT
+						Timer tCanSay,3:3
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						Pattern pt_end
+					}
+				}
+			}
+			events
+			{
+				OnTimer_tCheckWang "ExecutePattern st_idle.xpt_CheckWang"
+				OnFire_WayClear	"Pattern pt_clear"
+			}
+		}
+		
+		st_OnNasty
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						LookAt true
+						ExecutePattern .xpt_SayPissed
+						Wait 2:1
+						Pattern pt_end
+					}
+				}
+				
+				xpt_SayPissed
+				{
+					actions
+					{
+						IfAttr "Timer:tCanSay > 0 Return 1"
+						
+						Say PISSEDON
+						Timer tCanSay,3:3
+					}
+				}
+			}
+		}
+		
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetFromMem msGP
+						FireEvent AlGoreDead
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+		
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_Regen
+				{
+					actions
+					{
+						//CheckAttr "slot#msGP.HurtAl Block begin"
+						//	ChangeAttr "ea_health PWAC_AL_DAMAGE"
+						//	Return 1
+						//Block end
+						
+						IfAttr "ea_health == 100 Return 1"
+						ChangeAttr "ea_health +1"
+						IfAttr "ea_health > 100 SetAttr ea_health 100"
+					}
+				}
+				
+				xpt_StartWait
+				{
+					actions
+					{
+						CheckAttr "waiting Return 1"
+						SetAttr "waiting 1"
+					}
+				}
+				
+				xpt_WayClear
+				{
+					actions
+					{
+						RemoveAttr waiting
+					}
+				}
+				
+				xpt_StartEscape
+				{
+					actions
+					{
+						SetAttr "escape 1"
+						State st_start
+					}
+				}
+			}
+		}
+		
+	}
+	events
+	{
+		//OnChangeFloor "SetHintGroup hg_al_f1"
+		OnTimer_tRegen		"ExecutePattern st_util.xpt_Regen"
+		OnPlayerPass		"ExecutePattern st_util.xpt_StartWait"
+		OnFire_WayClear		"ExecutePattern st_util.xpt_WayClear"
+		OnFire_StartEscape	"ExecutePattern st_util.xpt_StartEscape"
+	}
+	
+}
+
+
+
+behavior
+{
+	name bh_pwac_military
+	inherited bh_civil
+	
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						SetAttr "TaskCombat TC_NONE"
+						
+						SetAttr "flag_CombatUsesAG 1"
+						SetAttr "flag_IgnorePlayerFear 1"
+						SetAttr "flag_IgnoreCombat 1"
+						SetAttr "flag_IgnoreWeapon 1"
+						SetAttr "ReactionThreshold RE_DANGER"
+						
+						SetAttr "ea_bulletdmg_absorb RESIST_MED"
+						SetAttr "ea_clubdmg_absorb RESIST_MED"
+						SetAttr "ResistsSet 1"
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_FirstRun
+				{
+					actions
+					{
+						CheckAttr "ResistsSet Block begin"
+							CheckAttr "flag_pwac_tough Block begin"
+								SetAttr "ea_bulletdmg_absorb RESIST_HIGH"
+								SetAttr "ea_clubdmg_absorb RESIST_HIGH"
+							Block end
+							
+							CheckAttr "flag_pwac_weak Block begin"
+								SetAttr "ea_bulletdmg_absorb RESIST_LOW"
+								SetAttr "ea_clubdmg_absorb RESIST_LOW"
+							Block end
+						Block end
+						
+						ExecutePattern bh_base:st_start.xpt_FirstRun
+					}
+				}
+				
+				xpt_SelectWeapon1 //���������, ��� ����� � ������� �������� ��������
+				{
+					actions
+					{
+						SetAttr "NeedWeapon 1"
+						
+						CheckAttr "flag_pwac_PreferR ExecutePattern .xpt_SelectWeapon_Ranged"
+						//CheckAttr "flag_pwac_PreferM ExecutePattern .xpt_SelectWeapon_Melee"
+						
+						CheckAttr "NeedWeapon Block begin"
+							IfAttr "HasWeapon:ranged > 0 ExecutePattern .xpt_SelectWeapon_Ranged"
+							IfAttr "HasWeapon:ranged == 0 and HasWeapon:melee  > 0 ExecutePattern .xpt_SelectWeapon_Melee"
+						Block end
+						
+					}
+				}
+				
+				xpt_SelectWeapon_Ranged
+				{
+					actions
+					{
+						Weapon select,ranged
+						RemoveAttr NeedWeapon
+						IfAttr "HasWeapon:Ranged != 2 SetAttr WeaponChanged 1"
+					}
+				}
+				
+				xpt_SelectWeapon_Melee
+				{
+					actions
+					{
+						IfAttr "HasWeapon:melee == 0 Block begin"
+							//���� ������� �����, �� ������ �� ������
+							Weapon disarm
+							RemoveAttr NeedWeapon
+							Return 1
+						Block end
+						
+						Weapon select,melee
+						RemoveAttr NeedWeapon
+						IfAttr "HasWeapon:Melee != 2 SetAttr WeaponChanged 1"
+					}
+				}
+				
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_decide
+				{
+					actions
+					{
+						SetAttr "busy 1"
+						Pattern pt_idle
+					}
+				}
+				pt_idle
+				{
+					actions
+					{
+						FreeMovementParams area_all,ED_CLOSE,ED_MIDDLE,area_group
+						FreeMovement random
+						Wait 4:2
+						State st_start
+					}
+					events
+					{
+						OnTimer_tDisarm	"ExecutePattern .xpt_SelectWeapon_Delayed"
+					}
+				}
+				xpt_SelectWeapon
+				{
+					actions
+					{
+						Timer tDisarm,3
+					}
+				}
+				xpt_SelectWeapon_Delayed
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_idle.xpt_SelectWeapon
+					}
+				}
+				xpt_OnHearCombat
+				{
+					actions
+					{
+						IfAttr "RelationTo:caller == Relation:enemy Block begin"
+							TargetCaller 1
+							State st_start
+						Block end
+						
+						IfAttr "caller.ea_faction == ea_faction Block begin"
+							TargetCaller 1
+							AssistTarget 1
+							State st_start
+						Block end
+					}
+				}
+				xpt_OnVisible
+				{
+					actions
+					{
+						TargetCaller 1
+						IfAttr "RelationTo:target == Relation:enemy State st_start"
+						
+						IgnoreTarget 3
+						ResetTarget 1
+					}
+				}
+			}
+			events
+			{
+				OnHearCombat "ExecutePattern .xpt_OnHearCombat"
+			}
+		}
+		
+		st_combat_move
+		{
+			Group Combat
+			Patterns
+			{
+				xpt_OnTaskFail
+				{
+					actions
+					{
+						IfAttr "FailType == FAIL_INV_ROUTE and DistTo:target > ED_CLOSE and Visible:target == 0 Block begin"
+							ExecutePattern st_combat_logic.xpt_retarget
+							ExecutePattern st_combat_logic.xpt_RestartCurrentTask
+						Block end
+						
+						ExecutePattern bh_base:st_combat_move.xpt_OnTaskFail
+					}
+				}
+			}
+		}
+		
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_OnHit
+				{
+					actions
+					{
+						IfAttr "Object:caller == Object:player Block begin"
+							SetAttr "ea_bulletdmg_absorb RESIST_NONE"
+							SetAttr "ea_clubdmg_absorb RESIST_NONE"
+							
+							CheckAttr "flag_pwac_tough Block begin"
+								SetAttr "ea_bulletdmg_absorb RESIST_MED"
+								SetAttr "ea_clubdmg_absorb RESIST_MED"
+							Block end
+							
+							RemoveAttr ResistsSet
+						Block end
+						
+						ExecutePattern bh_base:st_util.xpt_OnHit
+					}
+				}
+				
+				xpt_OnSpawned_Battle01
+				{
+					actions
+					{
+						SetAreaGroup AG_BATTLE01 //,AG_DEFAULT:walkable
+					}
+				}
+				xpt_OnSpawned_Battle02
+				{
+					actions
+					{
+						SetAreaGroup AG_BATTLE02 //,AG_DEFAULT:walkable
+					}
+				}
+				xpt_OnSpawned_Battle03
+				{
+					actions
+					{
+						SetAreaGroup AG_BATTLE03 //,AG_DEFAULT:walkable
+					}
+				}
+				xpt_OnSpawned_Battle04
+				{
+					actions
+					{
+						SetAreaGroup AG_BATTLE04 //,AG_DEFAULT:walkable
+					}
+				}
+				xpt_OnSpawned_Battle05
+				{
+					actions
+					{
+						SetAreaGroup AG_BATTLE05 //,AG_DEFAULT:walkable
+					}
+				}
+				xpt_OnSpawned_Battle06
+				{
+					actions
+					{
+						SetAreaGroup AG_BATTLE06 //,AG_DEFAULT:walkable
+					}
+				}
+				xpt_OnSpawned_Battle07
+				{
+					actions
+					{
+						SetAreaGroup AG_BATTLE07 //,AG_DEFAULT:walkable
+					}
+				}
+				xpt_OnSpawned_Battle08
+				{
+					actions
+					{
+						SetAreaGroup AG_BATTLE08 //,AG_DEFAULT:walkable
+					}
+				}
+			}
+		}
+		
+	}
+	events
+	{
+		//events from spawnpoints
+		OnSpawned_Tough 		"SetAttr flag_pwac_tough		1"	//resists of this npc are higher
+		OnSpawned_Weak			"SetAttr flag_pwac_weak			1"	//resists are lower
+		OnSpawned_PreferR		"SetAttr flag_pwac_preferR 		1"	//npc prefers ranged weapons
+		OnSpawned_PreferM		"SetAttr flag_pwac_preferM 		1"	//prefers melee
+		OnSpawned_DontThrow		"SetAttr flag_pwac_DontThrow	1"	//npc don't throw grenades
+		//OnSpawned_AttackPlayer	"SetAttr flag_pwac_AttackPlayer 1"
+		
+		OnSpawned_Battle01	"ExecutePattern st_util.xpt_OnSpawned_Battle01"
+		OnSpawned_Battle02	"ExecutePattern st_util.xpt_OnSpawned_Battle02"
+		OnSpawned_Battle03	"ExecutePattern st_util.xpt_OnSpawned_Battle03"
+		OnSpawned_Battle04	"ExecutePattern st_util.xpt_OnSpawned_Battle04"
+		OnSpawned_Battle05	"ExecutePattern st_util.xpt_OnSpawned_Battle05"
+		OnSpawned_Battle06	"ExecutePattern st_util.xpt_OnSpawned_Battle06"
+		OnSpawned_Battle07	"ExecutePattern st_util.xpt_OnSpawned_Battle07"
+		OnSpawned_Battle08	"ExecutePattern st_util.xpt_OnSpawned_Battle08"
+	}
+}
+
+
+behavior
+{
+	name bh_prisoner
+	inherited bh_pwac_military
+	
+	States
+	{
+	
+		st_init
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						SetAttr "GrenadeType GRND_TYPE_MOLOTOV"
+						SetAttr "GrenadesNum 3:5"
+						SetAttr "BombardChance 30"
+						
+						SetSquad Prison_squad
+						SetSquadRelation Cops_squad:enemy:2
+						
+						SetAttr "flag_IgnorePlayerAttack 1"
+						SetAttr "flag_PlayerFriendly 1"
+						
+						ExecutePattern st_init.xpt_CheckPlayerRelation
+					}
+				}
+				xpt_CheckPlayerRelation
+				{
+					actions
+					{
+						IfAttr "slot#msGP.PlayerKillPrisoner == 1 Block begin"
+							ExecutePattern st_util.xpt_AddPlayerToEnemy
+							RemoveAttr flag_IgnorePlayerAttack
+							RemoveAttr flag_PlayerFriendly
+						Block end
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "slot#msGP.PlayerKillPrisoner == 1 ExecutePattern st_util.xpt_AddPlayerToEnemy"
+						ExecutePattern bh_base:st_start.pt_default
+					}
+				}
+			}
+		}
+		
+		st_combat_logic
+		{
+			Group Combat
+			Patterns
+			{
+				xpt_SayAttack
+				{
+					actions
+					{
+						IfAttr "Timer:tCanSay > 0 Return 1"
+						Say INM_POSTAL
+						Timer tCanSay,5:3
+					}
+				}
+				
+				xpt_SayShoot
+				{
+					actions
+					{
+						IfAttr "Timer:tCanSay > 0 Return 1"
+						Say INM_POSTAL
+						Timer tCanSay,5:3
+					}
+				}
+				
+				xpt_SayPush
+				{
+					actions
+					{
+						IfAttr "Timer:tCanSay > 0 Return 1"
+						Say INM_POSTAL
+						Timer tCanSay,5:3
+					}
+				}
+				
+				xpt_SaySnipe
+				{
+					actions
+					{
+						ExecutePattern st_combat_logic.xpt_SayShoot
+					}
+				}
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_idle
+				{
+					actions
+					{
+						Pattern bh_base:st_idle.pt_idle
+					}
+					events
+					{
+						OnTargetReach "Pattern pt_agitate"
+						OnInvalidRoute "Pattern pt_agitate"
+					}
+				}
+				
+				pt_agitate
+				{
+					actions
+					{
+						Sequence emote_aggro
+						Wait 0.3:0.2
+						Say INM_RIOT
+						Wait 1.5
+						State st_start
+					}
+				}
+			}
+		}
+		
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_AddPlayerToEnemy
+				{
+					actions
+					{
+						SetSquadRelation Player_squad:enemy:4
+						
+						SetAttr "rnd 0"
+						ChangeAttr "rnd 0:2"
+						IfAttr "rnd == 0 TargetPlayer 1"
+						RemoveAttr rnd
+					}
+				}
+				xpt_OnSpawned_Battle01
+				{
+					actions
+					{
+						SetSquad Prison_squad_01
+						SetSquadRelation Cops_squad_01:enemy:2
+						ExecutePattern st_init.xpt_CheckPlayerRelation
+						ExecutePattern bh_base:st_util.xpt_OnSpawned_Battle01
+					}
+				}
+				xpt_OnSpawned_Battle02
+				{
+					actions
+					{
+						SetSquad Prison_squad_02
+						SetSquadRelation Cops_squad_02:enemy:2
+						ExecutePattern st_init.xpt_CheckPlayerRelation
+						ExecutePattern bh_base:st_util.xpt_OnSpawned_Battle02
+					}
+				}
+				xpt_OnSpawned_Battle03
+				{
+					actions
+					{
+						SetSquad Prison_squad_03
+						SetSquadRelation Cops_squad_03:enemy:2
+						ExecutePattern st_init.xpt_CheckPlayerRelation
+						ExecutePattern bh_base:st_util.xpt_OnSpawned_Battle03
+					}
+				}
+				xpt_OnSpawned_Battle04
+				{
+					actions
+					{
+						SetSquad Prison_squad_04
+						SetSquadRelation Cops_squad_04:enemy:2
+						ExecutePattern st_init.xpt_CheckPlayerRelation
+						ExecutePattern bh_base:st_util.xpt_OnSpawned_Battle04
+					}
+				}
+				xpt_OnSpawned_Battle05
+				{
+					actions
+					{
+						SetSquad Prison_squad_05
+						SetSquadRelation Cops_squad_05:enemy:2
+						ExecutePattern st_init.xpt_CheckPlayerRelation
+						ExecutePattern bh_base:st_util.xpt_OnSpawned_Battle05
+					}
+				}
+				xpt_OnSpawned_Battle06
+				{
+					actions
+					{
+						SetSquad Prison_squad_06
+						SetSquadRelation Cops_squad_06:enemy:2
+						ExecutePattern st_init.xpt_CheckPlayerRelation
+						ExecutePattern bh_base:st_util.xpt_OnSpawned_Battle06
+					}
+				}
+				xpt_OnSpawned_Battle07
+				{
+					actions
+					{
+						SetSquad Prison_squad_07
+						SetSquadRelation Cops_squad_07:enemy:2
+						ExecutePattern st_init.xpt_CheckPlayerRelation
+						ExecutePattern bh_base:st_util.xpt_OnSpawned_Battle07
+					}
+				}
+				xpt_OnSpawned_Battle08
+				{
+					actions
+					{
+						SetSquad Prison_squad_08
+						SetSquadRelation Cops_squad_08:enemy:2
+						ExecutePattern st_init.xpt_CheckPlayerRelation
+						ExecutePattern bh_base:st_util.xpt_OnSpawned_Battle08
+					}
+				}
+			}
+		}
+		
+		st_OnDeath
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Say INM_DYING,2
+						ExecutePattern bh_base:st_OnDeath.pt_default
+					}
+				}
+			}
+		}
+		
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "Object:caller == Object:Player Block begin"
+							TargetFromMem msGP
+							FireEvent PlayerKillPrisoner
+							AreaEvent PlayerKillPrisoner,8
+						Block end
+						
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+		
+	}
+	events
+	{
+		OnAE_PlayerKillPrisoner "ExecutePattern st_util.xpt_AddPlayerToEnemy"
+	}
+	
+}
+
+
+
+behavior
+{
+	name bh_prison_guard
+	inherited bh_pwac_military
+	
+	States
+	{
+	
+		st_init
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						SetAttr "GrenadeType GRND_TYPE_FRAG"
+						SetAttr "flag_ThrowSafe 1"
+						
+						SetSquad Cops_squad
+						SetSquadRelation Prison_squad:enemy:2,Player_squad:enemy:4
+					}
+				}
+			}
+		}
+		
+		st_combat_logic
+		{
+			Group Combat
+			Patterns
+			{
+				xpt_SayShoot
+				{
+					actions
+					{
+						IfAttr "Timer:tCanSay > 0 Return 1"
+						Say ATTACKING
+						Timer tCanSay,5:3
+					}
+				}
+				
+				xpt_SaySnipe
+				{
+					actions
+					{
+						IfAttr "Timer:tCanSay > 0 Return 1"
+						Say SHOTBLOCKED
+						Timer tCanSay,5:3
+					}
+				}
+				
+				xpt_SayAttack
+				{
+					actions
+					{
+						IfAttr "Timer:tCanSay > 0 Return 1"
+						Say ARREST,DISOBEYED
+						Timer tCanSay,5:3
+					}
+				}
+			}
+		}
+		
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_OnCopDown
+				{
+					actions
+					{
+						Say SEESDEADCOP
+					}
+				}
+				xpt_OnSpawned_Battle01
+				{
+					actions
+					{
+						SetSquad Cops_squad_01
+						SetSquadRelation Prison_squad_01:enemy:2,Player_squad:enemy:4
+						ExecutePattern bh_base:st_util.xpt_OnSpawned_Battle01
+					}
+				}
+				xpt_OnSpawned_Battle02
+				{
+					actions
+					{
+						SetSquad Cops_squad_02
+						SetSquadRelation Prison_squad_02:enemy:2,Player_squad:enemy:4
+						ExecutePattern bh_base:st_util.xpt_OnSpawned_Battle02
+					}
+				}
+				xpt_OnSpawned_Battle03
+				{
+					actions
+					{
+						SetSquad Cops_squad_03
+						SetSquadRelation Prison_squad_03:enemy:2,Player_squad:enemy:4
+						ExecutePattern bh_base:st_util.xpt_OnSpawned_Battle03
+					}
+				}
+				xpt_OnSpawned_Battle04
+				{
+					actions
+					{
+						SetSquad Cops_squad_04
+						SetSquadRelation Prison_squad_04:enemy:2,Player_squad:enemy:4
+						ExecutePattern bh_base:st_util.xpt_OnSpawned_Battle04
+					}
+				}
+				xpt_OnSpawned_Battle05
+				{
+					actions
+					{
+						SetSquad Cops_squad_05
+						SetSquadRelation Prison_squad_05:enemy:2,Player_squad:enemy:4
+						ExecutePattern bh_base:st_util.xpt_OnSpawned_Battle05
+					}
+				}
+				xpt_OnSpawned_Battle06
+				{
+					actions
+					{
+						SetSquad Cops_squad_06
+						SetSquadRelation Prison_squad_06:enemy:2,Player_squad:enemy:4
+						ExecutePattern bh_base:st_util.xpt_OnSpawned_Battle06
+					}
+				}
+				xpt_OnSpawned_Battle07
+				{
+					actions
+					{
+						SetSquad Cops_squad_07
+						SetSquadRelation Prison_squad_07:enemy:2,Player_squad:enemy:4
+						ExecutePattern bh_base:st_util.xpt_OnSpawned_Battle07
+					}
+				}
+				xpt_OnSpawned_Battle08
+				{
+					actions
+					{
+						SetSquad Cops_squad_08
+						SetSquadRelation Prison_squad_08:enemy:2,Player_squad:enemy:4
+						ExecutePattern bh_base:st_util.xpt_OnSpawned_Battle08
+					}
+				}
+			}
+		}
+		
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetToMem msTEMP
+						TargetEntByName "npc_cop"
+						IfAttr "Object:target != Object:self FireEvent CopDown"
+						TargetFromMem msTEMP
+						
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnFire_CopDown "ExecutePattern st_util.xpt_OnCopDown"
+	}
+	
+}
+
+behavior
+{
+	name bh_prison_swat
+	inherited bh_prison_guard
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						SetAttr "ea_crit_disabled 1"
+					}
+				}
+			}
+		}
+		st_combat_logic
+		{
+			Group Combat
+			Patterns
+			{
+				xpt_SayShoot
+				{
+					actions
+					{
+						IfAttr "Timer:tCanSay > 0 Return 1"
+						Say SW_HEROIC
+						Timer tCanSay,5:3
+					}
+				}
+				
+				xpt_SaySnipe
+				{
+					actions
+					{
+						IfAttr "Timer:tCanSay > 0 Return 1"
+						Say SW_HEROIC,SW_CATCH
+						Timer tCanSay,5:3
+					}
+				}
+				
+				xpt_SayAttack
+				{
+					actions
+					{
+						IfAttr "Timer:tCanSay > 0 Return 1"
+						Say SW_HEROIC
+						Timer tCanSay,5:3
+					}
+				}
+			}
+		}
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_OnCopDown
+				{
+					actions
+					{
+						Say SW_MANDOWN
+					}
+				}
+			}
+		}
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetToMem msTEMP
+						TargetEntByName "npc_swat"
+						IfAttr "Object:target != Object:self FireEvent CopDown"
+						TargetFromMem msTEMP
+						
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+	}
+}
