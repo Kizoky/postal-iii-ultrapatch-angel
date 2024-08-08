@@ -164,7 +164,7 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 
 + Added mauling sounds for cat snatching
 
-* Badgersaw now forces NPC's
+* Badgersaw now forces NPC's to vomit
 
 + Added back unused dude badgersaw pissing voice lines
 
