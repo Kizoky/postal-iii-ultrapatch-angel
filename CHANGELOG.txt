@@ -150,6 +150,8 @@ noticably on the main menu when it's used for dude's cigarette smoke!
 IMPROVEMENTS/ADDITIONS/CHANGES: 
 ===============================
 
+* Significantly improved balancing for weapons and player health regeneration
+
 + Added striketraces for all melee weapons
 
 + Added back cut shotgun pumping feature and improved functionality
@@ -159,6 +161,19 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 + Added back cut/unused bystander freakout player voice lines
 
 + Added back unused badgersaw attack sounds
+
++ Added mauling sounds for cat snatching
+
+* Badgersaw now forces NPC's
+
++ Added back unused dude badgersaw pissing voice lines
+
+* Made various missions less annoying/boring:
+
+- Snot Wad collection quota in pw (PW_SNOTBALLS_NUM) is now 20 (40 in vanilla)
+- Cat collection quota in dcr (DCR_CATS_MAX) is now 10 (15 in vanilla)
+- Kill quota to progress through each area in zhqa (ZHQA_FRAGS) is now 8, 16, 21, 28 (8, 16, 28, 40 in vanilla)
+- Removed annoying "al disappearance feature" on PWAC
 
 * NPC's are now forced to puke if their face gets pissed on
 
