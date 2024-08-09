@@ -385,4 +385,8 @@
 
 		"userid"		"long"
 	}
+	
+	"savegame"
+	{
+	}
 }
