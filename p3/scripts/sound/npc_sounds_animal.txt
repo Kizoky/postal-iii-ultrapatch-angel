@@ -287,6 +287,34 @@
 	"wave"		"^*characters/cat/cat_meow_06.wav"
 }
 
+"Cat.Dervish.Move"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"		"SNDLVL_NORM"
+
+	"wave"		"^*characters/cat/Cat_Dervish_Move.wav"
+}
+
+"Cat.Dervish.Down"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"		"SNDLVL_NORM"
+
+	"wave"		"^*characters/cat/Cat_Dervish_Down.wav"
+}
+
+"Cat.Dervish.Hit"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"		"SNDLVL_NORM"
+
+	"wave"		"^*characters/cat/Cat_Dervish_Hit_01.wav"
+    //"wave"	"^*characters/cat/Cat_Dervish_Hit_02.wav"
+}
+
 "Cat.Attack"
 {
 	"channel"		"CHAN_AUTO"
