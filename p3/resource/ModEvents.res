@@ -389,4 +389,8 @@
 	"savegame"
 	{
 	}
+	
+	"p3_npc_player_kill"
+	{
+	}
 }
