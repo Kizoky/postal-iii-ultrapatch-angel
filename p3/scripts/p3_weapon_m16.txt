@@ -33,8 +33,8 @@ WeaponData
 	"screen_shake_frequency"	"25"
 	"screen_shake_duration"	"0.2"
 	
-	"NPCMinDamage"			"5"
-	"NPCMaxDamage"			"5"
+	"NPCMinDamage"			"2"
+	"NPCMaxDamage"			"2"
 
 	"weapon_type"			"ranged"
 
