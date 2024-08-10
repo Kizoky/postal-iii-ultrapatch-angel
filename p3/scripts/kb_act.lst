@@ -36,7 +36,7 @@
 "blank"			"=========================="
 "toggle_p3_mission_log"		"#P3_Log"
 "jpeg"					"#Valve_Take_Screen_Shot"
-"save quick"			"#Valve_Quick_Save"
+"p3_ultrapatch_quicksave"			"#Valve_Quick_Save"
 "load quick"			"#Valve_Quick_Load"
 "pause"					"#Valve_Pause_Game"
 "quit"					"#Valve_Quit_Game"

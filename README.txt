@@ -25,6 +25,7 @@ Usage of this patch alongside these mods will result in numerous conflicts and i
 
 NEW CONSOLE COMMANDS FOR FEATURES/CHANGES:
 ==========================================
+p3_ultrapatch_quicksave
 p3_ultrapatch_cam_lerp
 p3_ultrapatch_cam_lerp_factor
 p3_ultrapatch_weapon_blocked_check_radius
