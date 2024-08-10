@@ -27,17 +27,17 @@ FIXES:
 
 * Fixed MSAA breaking interaction glow outline effect
 
-* Fixed all NPC's belonging to the incorrect faction
+* Fixed all NPCs belonging to the incorrect faction
 (Specific faction related AI behavior is now accurate)
 
 * Fixed numerous non-standard apostrophes in p3_english.txt that messed up text rendering in-game
 
-* Fixed all NPC's belonging to the incorrect manner
+* Fixed all NPCs belonging to the incorrect manner
 (Specific manner related AI behavior is now accurate)
 
 * Fixed camera shake occurring when badgersaw isn't even attacking
 
-* Fixed NPC's not receiving push force upon being ragdolled by segway
+* Fixed NPCs not receiving push force upon being ragdolled by segway
 
 * Fixed being able to take a hostage with any weapon by having it selected beforehand
 (You now automatically switch to the first compatible weapon upon taking a hostage if you don't already have one selected)
@@ -57,13 +57,13 @@ noticably on the main menu when it's used for dude's cigarette smoke!
 
 * Fixed crash upon processing impact of cats launched out of the m136/rpg
 
-* Fixed a crash that can occur upon attempting to redestroy an NPC's head with the fireaxe or sledgehammer
+* Fixed a crash that can occur upon attempting to redestroy an NPCs head with the fireaxe or sledgehammer
 
 * Fixed crash that can happen when you release a hostage who already died from burning to death
 
 * Fixed camera shake animation sequences carrying over and playing infinitely while the player is ragdolled
 
-* Fixed NPC's continuing to speak when they're killed
+* Fixed NPCs continuing to speak when they're killed
 
 * Fixed an issue where some sounds wouldn't change their pitch, but the volume instead
 
@@ -89,7 +89,7 @@ noticably on the main menu when it's used for dude's cigarette smoke!
 
 * Fixed an issue where the molotov would do multiple duplicate explosions upon hitting the ground
 
-* Fixed animation persistence issue for hidden ragdoll NPC's
+* Fixed animation persistence issue for hidden ragdoll NPCs
 (This basically prevents a ghost version of the ragdolled NPC from doing animation events and attack traces)
 
 * Fixed player sometimes saying cut "badger pissing" lines when attacking with the badgersaw
@@ -106,11 +106,11 @@ noticably on the main menu when it's used for dude's cigarette smoke!
 
 * Fixed particles playing indefinitely after switching weapons while alt-fire pissing
 
-* Fixed headblobs not being immediately removed on hidden NPC's upon ragdoll
+* Fixed headblobs not being immediately removed on hidden NPCs upon ragdoll
 
 * Fixed incorrect player throwing arm angles after switching to grenade or molotov while the current weapon is lowered
 
-* Fixed being unable to dismember corpses of NPC's that were killed by the nailbat
+* Fixed being unable to dismember corpses of NPCs that were killed by the nailbat
 
 * Fixed player stand up animations being almost unnoticeable after being ragdolled
 
@@ -120,13 +120,13 @@ noticably on the main menu when it's used for dude's cigarette smoke!
 
 * Fixed being able to switch weapons during NPC arrest sequence and holstered the current weapon
 
-* Fixed electricity effect being stuck on NPC's forever if hit by a taser energyball and then ragdolled
+* Fixed electricity effect being stuck on NPCs forever if hit by a taser energyball and then ragdolled
 
 * Fixed NPC stunning sequence not ending upon ragdoll
 
 * Fixed player attempting to shove with weapons that don't have the ability
 
-* Fixed being able to tase NPC's that are ragdolled
+* Fixed being able to tase NPCs that are ragdolled
 
 * Fixed various NPC weapons dealing only 1 damage
 
@@ -152,8 +152,6 @@ noticably on the main menu when it's used for dude's cigarette smoke!
 IMPROVEMENTS/ADDITIONS/CHANGES: 
 ===============================
 
-* Significantly improved balancing for weapons and player health regeneration
-
 + Added striketraces for all melee weapons
 
 + Added back cut shotgun pumping feature and improved functionality
@@ -166,18 +164,11 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 
 + Added mauling sounds for cat snatching
 
-* Badgersaw now forces NPC's to vomit
+* Badgersaw now forces NPCs to vomit
 
 + Added back unused dude badgersaw pissing voice lines
 
-* Made various missions less annoying/boring:
-
-- Snot Wad collection quota in pw (PW_SNOTBALLS_NUM) is now 20 (40 in vanilla)
-- Cat collection quota in dcr (DCR_CATS_MAX) is now 10 (15 in vanilla)
-- Kill quota to progress through each area in zhqa (ZHQA_FRAGS) is now 8, 16, 21, 28 (8, 16, 28, 40 in vanilla)
-- Removed annoying "al disappearance feature" on PWAC
-
-* NPC's are now forced to puke if their face gets pissed on
+* NPCs are now forced to puke if their face gets pissed on
 
 * Replaced dude pistol firing animations with ones that exhibit reduced recoil
 
@@ -225,7 +216,7 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 
 + Added back and improved cut player jumping
 
-* NPC's can now become ragdolled while they are getting up off the ground
+* NPCs can now become ragdolled while they are getting up off the ground
 
 + Added hitgroup damage threshold multipliers for player ragdolling
 
@@ -254,11 +245,11 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 
 + Added actual camera screenshake for a variety of scenarios (car explosions, getting hurt, melee weapon hits, etc.)
 
-+ Catnip is now able to blind NPC's
++ Catnip is now able to blind NPCs
 
-+ Added back and improved unused ability to blind NPC's with the laserpen
++ Added back and improved unused ability to blind NPCs with the laserpen
 
-+ NPC's now become angry and attack the player after being blinded by them
++ NPCs now become angry and attack the player after being blinded by them
 
 * Improved badgersaw melee hit detection
 
@@ -272,7 +263,7 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 
 + Added back a lot of previously unused mission specific loading screen backgrounds
 
-* NPC's are now unable to be arrested or taken as a hostage if they're on fire
+* NPCs are now unable to be arrested or taken as a hostage if they're on fire
 
 * There is now a player weapon input delay for a short time after the snatch quicktime event
 
@@ -294,11 +285,11 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 
 * Free-roaming is now unlocked by default
 
-+ Added stars headblob to NPC's upon taser energyball stun
++ Added stars headblob to NPCs upon taser energyball stun
 
 * Player ragdolls immediately upon death instead of playing an animation beforehand, death voice lines removed
 
-* Significantly reduced ignite time for props and NPC's
+* Significantly reduced ignite time for props and NPCs
 
 * Improved player weapon shoving
 (NPC detection improved, animation speed increased by 50%, player is now capped to walking speed)
@@ -338,11 +329,23 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 BALANCING:
 ==========
 
+* Significantly improved balancing for weapons
+* Sped up player health regeneration
+
 MISSIONS:
 =========
 
+* Made various missions less annoying/boring:
+
+- Snot Wad collection quota in pw (PW_SNOTBALLS_NUM) is now 20 (40 in vanilla)
+- Cat collection quota in dcr (DCR_CATS_MAX) is now 10 (15 in vanilla)
+- Kill quota to progress through each area in zhqa (ZHQA_FRAGS) is now 8, 16, 21, 28 (8, 16, 28, 40 in vanilla)
+- Removed annoying "al disappearance feature" on PWAC
+
 MAPPING:
 ========
+
+*Improved the nav mesh for escort missions (PA, PWAC, SBE)
 
 POSTAL3SCRIPT IMPROVEMENTS/ADDITIONS/CHANGES:
 =============================================
