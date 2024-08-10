@@ -299,7 +299,7 @@
 	"wave"			"weapons/m16/m16_empty.wav"
 }
 
-"Weapon_M16.Single"
+"Weapon_Sniper.Single"
 {
 	"channel"		"CHAN_WEAPON"
 	"volume"	    "0.5"
@@ -318,6 +318,19 @@
 		"wave"		"weapons/m16/m-16_shot_13.wav"
 		"wave"		"weapons/m16/m-16_shot_14.wav"
 		"wave"		"weapons/m16/m-16_shot_15.wav"
+	}
+}
+
+"Weapon_M16.Single"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"	    "0.5"
+	"pitch"			"100,105"
+
+	"rndwave"
+	{
+		"wave"		"weapons/m16/m16_shot_01.wav"
+		"wave"		"weapons/m16/m16_shot_02.wav"
 	}
 }
 
