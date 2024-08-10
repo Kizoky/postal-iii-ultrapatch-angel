@@ -1,0 +1,9 @@
+"UnlitGeneric"
+{
+	"$basetexture" "sprites/weapon_small_icons/sniper_rifle"
+	"$additive" "0"
+    "$translucent" "1"
+	"$vertexcolor" "1"
+	"$vertexalpha" "1"
+	"$ignorez"     "1"
+}
