@@ -299,7 +299,7 @@
 	"wave"			"weapons/m16/m16_empty.wav"
 }
 
-"Weapon_M16.Single"
+"Weapon_SniperRifle.Single"
 {
 	"channel"		"CHAN_WEAPON"
 	"volume"	    "0.5"
@@ -318,6 +318,77 @@
 		"wave"		"weapons/m16/m-16_shot_13.wav"
 		"wave"		"weapons/m16/m-16_shot_14.wav"
 		"wave"		"weapons/m16/m-16_shot_15.wav"
+	}
+}
+
+"Draw.SniperRifle"
+{
+	"channel"		"CHAN_ITEM"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"	"weapons/Generic/SniperRifle_Draw01.wav"
+		"wave"	"weapons/Generic/SniperRifle_Draw02.wav"
+		"wave"	"weapons/Generic/SniperRifle_Draw03.wav"
+	}
+}
+
+"Weapon_SniperRifle.MagOut"
+{
+	"channel"		"CHAN_ITEM"
+	"soundlevel"		"SNDLVL_NORM"
+
+    "rndwave"
+	{
+			"wave"		"^weapons/SniperRifle/SniperRifle_magout01.wav"
+			"wave"		"^weapons/SniperRifle/SniperRifle_magout02.wav"
+			"wave"		"^weapons/SniperRifle/SniperRifle_magout03.wav"
+	}
+	
+}
+
+"Weapon_SniperRifle.MagIn"
+{
+	"channel"		"CHAN_ITEM"
+	"soundlevel"		"SNDLVL_NORM"
+
+    "rndwave"
+	{
+			"wave"		"^weapons/SniperRifle/SniperRifle_magin01.wav"
+			"wave"		"^weapons/SniperRifle/SniperRifle_magin02.wav"
+			"wave"		"^weapons/SniperRifle/SniperRifle_magin03.wav"
+	}
+	
+}
+
+"Weapon_SniperRifle.Zoom"
+{
+	"channel"		"CHAN_ITEM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"^weapons/SniperRifle/scopezoom.wav"
+}
+
+"Weapon_SniperRifle.Bolt"
+{
+	"channel"		"CHAN_ITEM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"^weapons/SniperRifle/SniperRifle_Bolt.wav"
+}
+
+"Weapon_M16.Single"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"	    "0.5"
+	"pitch"			"100,105"
+
+	"rndwave"
+	{
+		"wave"		"weapons/m16/m16_shot_01.wav"
+		"wave"		"weapons/m16/m16_shot_02.wav"
 	}
 }
 
