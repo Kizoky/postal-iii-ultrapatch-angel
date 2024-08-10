@@ -156,6 +156,8 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 
 + Added back cut shotgun pumping feature and improved functionality
 
++ Added back the cut Sniper Rifle weapon
+
 + Added quickselect hotkey feature for the weapon selector to make it more intuitive
 
 + Added back cut/unused bystander freakout player voice lines
