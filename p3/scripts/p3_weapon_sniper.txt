@@ -1,0 +1,84 @@
+// Sniper Rifle
+
+WeaponData
+{
+	// Weapon data is loaded by both the Game and Client DLLs.
+	"ID"					"sniper"
+	"printname"				"Sniper Rifle"
+	"viewmodel"				"models/weapons/sniper/sniper.mdl"
+	"playermodel"				"models/weapons/sniper/sniper.mdl"
+	"anim_prefix"				"m16"
+	"bucket"				"2"
+	"bucket_position"		"6"
+	"bucket_360"			"3"
+	"bucket_position_360"	"3"
+	"recoil"				"40"
+	"GasTrailLightRadius" 			"25"
+	
+	"shake_screen" 			"1"
+	"screen_shake_amplitude" 		"4"
+	"screen_shake_frequency"		"25"
+	"screen_shake_duration" 		"0.25"
+
+	"clip_size"				"5"
+	"primary_ammo"			"M16"
+	
+	"SecondaryMinDamage"	"150"
+	"SecondaryMaxDamage"	"200"
+
+	"weight"				"2"
+	"rumble"				"1"
+	"item_flags"			"0"
+
+	"fire_effect"			"Handgun_Fire_FX"
+	"fire_rate1"			"2.5"
+	
+	"PrimaryMinDamage"		"150"
+	"PrimaryMaxDamage"		"200"
+	
+	"NPCMinDamage"			"35"
+	"NPCMaxDamage"			"50"
+
+	"weapon_type"			"big_gun"
+
+	// Sounds for the weapon. There is a max of 16 sounds per category (i.e. max 16 "single_shot" sounds)
+	SoundData
+	{
+		"empty"				"Weapon_M16.Empty"
+		"single_shot"		"Weapon_SniperRifle.Single"
+		"single_shot_npc"	"Weapon_SniperRifle.Single"
+		"reload"			"Weapon_M16.Reload"
+		"reload_npc"		"Weapon_M16.Reload"
+		"deploy"			"Draw.SniperRifle"
+	}
+	
+
+	// Weapon Sprite data is loaded by the Client DLL.
+	TextureData
+	{
+		"weapon"
+		{
+				"file"		"sprites/sniper_rifle"
+				"width"		"128"
+				"height"	"128"
+		}
+		"weapon_s"
+		{
+				"file"		"sprites/sniper_rifle"
+				"width"		"128"
+				"height"	"128"
+		}
+		"weapon_small"
+		{
+				"file"		"sprites/weapon_small_icons/sniper_rifle"
+				"width"		"128"
+				"height"	"128"
+		}
+		"ammo"
+		{
+				"file"		"sprites/weapon_small_icons/ammo_m16"
+				"width"		"128"
+				"height"	"128"
+		}
+	}
+}
