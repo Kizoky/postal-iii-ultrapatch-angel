@@ -347,7 +347,10 @@ MISSIONS:
 MAPPING:
 ========
 
-*Improved the nav mesh for escort missions (PA, PWAC, SBE)
+* Improved the nav mesh for escort missions (PA, PWAC, SBE)
+* Added Sniper Rifle to various maps (PA, PWAC, MTZ, ZHQA, AA, AA1, AA2, PM2)
+* Fixed a misplaced floor tile on the exterior of Porn World (Hub1 variants)
++ Added additional maps to free roam (Dog School, Daveland, Cashmart, City Hall, Grotto, Cosmetics Lab and Police Station)
 
 POSTAL3SCRIPT IMPROVEMENTS/ADDITIONS/CHANGES:
 =============================================
