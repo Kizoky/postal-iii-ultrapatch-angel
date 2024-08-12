@@ -8,12 +8,9 @@ We understand that the community deserved a better game, and we hope that our pa
 
 If you encounter any issues or have suggestions, please visit the Whackjob Interactive discord server (https://discord.com/invite/Q8K8TMA) or send an email to pseudotim256@gmail.com.
 
-INSTALLATION AND NOTES:
-=======================
-To install the patch, copy and paste all the files into the root directory of Postal III, and overwrite when prompted. 
-It is recommended to use a fresh install of Postal III that hasn't been launched yet.
-
-If you wish to remove the intros that play when you launch the game, you can run the included "RemoveIntros" batch file after copying it to the root directory of the game.
+NOTES:
+======
+If you wish to remove the intros that play when you launch the game, you can run the included "RemoveIntros" batch file.
 
 If you don't want to play with some of the more controversial features of the patch or vanilla game, you can
 disable each of them individually using their respective developer console commands, which you can find a list of at the bottom of this README. 
