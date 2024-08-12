@@ -1,0 +1,12 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Weapons/Grenade/Tear_Gas"
+	"$bumpmap" "models/Weapons/Grenade/Tear_Gas_normal"
+	
+	"$basemapalphaphongmask" "1"
+	
+	"$phong" "1"
+	"$phongexponent" 8
+	"$phongboost"	"1"
+	"$phongfresnelranges"	"[0.5 0.8 1.0]"
+}
