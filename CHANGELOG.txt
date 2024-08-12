@@ -30,12 +30,12 @@ FIXES:
 * Fixed all NPCs belonging to the incorrect faction
 (Specific faction related AI behavior is now accurate)
 
-* Fixed numerous non-standard apostrophes in p3_english.txt that messed up text rendering in-game
-
 * Fixed all NPCs belonging to the incorrect manner
 (Specific manner related AI behavior is now accurate)
 
-* Fixed camera shake occurring when badgersaw isn't even attacking
+* Fixed numerous non-standard apostrophes in p3_english.txt that messed up text rendering in-game
+
+* Fixed camera shake occurring when badgersaw isn't even attacking yet
 
 * Fixed NPCs not receiving push force upon being ragdolled by segway
 
@@ -149,14 +149,24 @@ noticably on the main menu when it's used for dude's cigarette smoke!
 
 * Fixed P3_RemoveAllBoltons not removing all boltons
 
+* Fixed a crash that can occur when grabbing objects
+
+* Fixed hud messages breaking on screen resolution change
+
+* Fixed an issue with InputFireFSMScriptEvent
+
 IMPROVEMENTS/ADDITIONS/CHANGES: 
 ===============================
 
 + Added striketraces for all melee weapons
 
++ Added save indicator feature, now you'll be notified of when the game saves your progress
+
++ Added jesus run indicator: Angel wings now appear on the karma indicator within the mission log if you haven't killed anyone
+
 + Added back cut shotgun pumping feature and improved functionality
 
-+ Added back the cut Sniper Rifle weapon
++ Added back the cut sniper rifle weapon
 
 + Added quickselect hotkey feature for the weapon selector to make it more intuitive
 
@@ -166,7 +176,7 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 
 + Added mauling sounds for cat snatching
 
-* Badgersaw now forces NPCs to vomit
+* Badgersaw piss now forces NPCs to vomit instead of being knocked out
 
 + Added back unused dude badgersaw pissing voice lines
 
@@ -218,6 +228,8 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 
 + Added back and improved cut player jumping
 
++ Added back beta m16 sounds
+
 * NPCs can now become ragdolled while they are getting up off the ground
 
 + Added hitgroup damage threshold multipliers for player ragdolling
@@ -229,11 +241,11 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 * Significantly improved taser secondary fire
 
 * The player and their segway angles now match "info_landmark" entities upon level transition
+(As of the time of writing this, all "info_landmark" entities have yet to be properly oriented)
 
 - Removed jarring "forward strike" attack animation for nailbat and baton
 
-* Fixed an awkward nailbat/baton animation issue
-(https://youtu.be/z2Adr_nOQmI)
+* Fixed an awkward nailbat/baton animation issue (https://youtu.be/z2Adr_nOQmI)
 
 * The player can now be ragdolled through various means
 
@@ -241,7 +253,7 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 
 + Added gamamet/fartgun back into the game and replaced the weapon selector icon with an english version
 
-+ Added back cut player save acknowledgement feature
++ Added back cut/unused player save acknowledgement feature
 
 + Added back unused hostage death out sequence
 
@@ -293,8 +305,11 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 
 * Significantly reduced ignite time for props and NPCs
 
-* Improved player weapon shoving
-(NPC detection improved, animation speed increased by 50%, player is now capped to walking speed)
+* Improved player weapon shoving:
+
+- NPC detection improved
+- Animation speed increased by 50% 
+- Player is now capped to walking speed
 
 + Added back cut player segway leaning
 
@@ -331,7 +346,7 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 BALANCING:
 ==========
 
-* Significantly improved balancing for weapons
+* Significantly improved balancing for weapons (NPC/Player)
 * Sped up player health regeneration
 
 MISSIONS:
@@ -348,9 +363,40 @@ MAPPING:
 ========
 
 * Improved the nav mesh for escort missions (PA, PWAC, SBE)
-* Added Sniper Rifle to various maps (PA, PWAC, MTZ, ZHQA, AA, AA1, AA2, PM2)
+
+* Added sniper rifle weapon to various maps (PA, PWAC, MTZ, ZHQA, AA, AA1, AA2, PM2)
+
 * Fixed a misplaced floor tile on the exterior of Porn World (Hub1 variants)
+
 + Added additional maps to free roam (Dog School, Daveland, Cashmart, City Hall, Grotto, Cosmetics Lab and Police Station)
+
++ Gave sniper rifle to venezuelan soldiers in Apocalypse Again
+
++ Added the Rhino back to the Cosmetics Lab's free roam variant
+
+- Removed the bosses from Daveland's free roam variant
+
+* Fixed a bug where entering the Grotto from Hub3 would lock the player in a loading loop
+
++ Gave the sniper rifle to a few of the snipers in Patrol Mission 2
+
++ Added cover to border gates in Homeland Insecurity, so hopefully you'll die way less if you have a brain
+
++ Added additional catnip pickup boxes around the map in Diseased Cat Roundup
+
+* Fixed misaligned house trim in all Hub1 map variants
+
+* Fixed misaligned segway store trim in all Hub2 map variants
+
+* Fixed misplaced clip wall in all Hub3 map variants
+
+* Fixed missing SUV in Hub2 freeroam map
+
+* Fixed missing roadblock in Police Academy freeroam map
+
+* Fixed floating door frames in the Gay Rodeo maps
+
+* Fixed NPC's spawning inside of the ground in the rodeo maps
 
 POSTAL3SCRIPT IMPROVEMENTS/ADDITIONS/CHANGES:
 =============================================
