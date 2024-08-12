@@ -224,6 +224,8 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 
 * Improved weemote/player piss extinguishing
 
+* NPC's get knocked out by spray weapons much faster now
+
 * Zombie acid attacks are now handled appropriately
 
 + Added back and improved cut player jumping
