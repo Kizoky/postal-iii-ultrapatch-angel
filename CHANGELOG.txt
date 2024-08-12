@@ -155,6 +155,8 @@ noticably on the main menu when it's used for dude's cigarette smoke!
 
 * Fixed an issue with InputFireFSMScriptEvent
 
+* Fixed an issue regarding shopvac save/restoration
+
 IMPROVEMENTS/ADDITIONS/CHANGES: 
 ===============================
 
