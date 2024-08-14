@@ -1,0 +1,1721 @@
+behavior
+{
+	name bh_animal
+	inherited bh_npc
+
+	States
+	{
+		st_init
+		{
+			Group Neutral
+		
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						AvoidProhibitedArea false
+					}
+				}
+			}
+		}
+		
+		st_fear
+		{
+			Group Alert
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Face false
+						
+						FreeMovementParams area_hidden,ED_MIDDLE,-1,safe,move_from_target
+						FreeMovement run,reset
+						
+						Repeat 10
+					}
+					events
+					{
+						OnTargetReach "pattern pt_lost"
+					}
+				}
+				
+				pt_lost
+				{
+					actions
+					{
+						Wait 1:1
+						CheckLOS 1
+						Wait 0.1
+						pattern pt_end
+					}
+					events
+					{
+						OnLOS "pattern pt_default"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						Relationship target,neutral
+						ResetTarget 1
+						state st_start
+					}
+				}
+				
+			}
+		}
+		
+		st_OnKicked
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions 
+					{
+						TargetCaller 1
+						Wait 5
+						Pattern pt_end
+					}
+					events
+					{
+						OnStandUpEnd "Pattern pt_end"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						State st_start
+					}
+				}
+			}
+		}
+		
+		st_OnIgnite
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Senses false
+						FreeMovementParams area_all,ED_CLOSE,ED_FAR
+						Pattern pt_loop
+					}
+				}
+				
+				pt_loop
+				{
+					actions
+					{
+						FreeMovement run,reset
+					}
+					events
+					{
+						OnTargetReach "Repeat 0"
+						OnExtinguish "Pattern pt_end"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						Senses true
+						FreeMovement false
+						State st_start
+					}
+				}
+			}
+		}
+		
+		st_OnFall
+		{
+			Group Alert
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetCaller 1
+					
+						//IfAttr "Object:target == Object:Null State st_start"
+						Wait 5
+						State st_start
+					}
+					events
+					{	
+						OnStandUpEnd "Pattern pt_react"
+					}
+				}
+				
+				pt_react
+				{
+					actions
+					{
+						State st_start
+					}
+				}
+				
+			}
+		}
+		
+		st_OnTased
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions 
+					{
+						Senses false
+						SetAttr "ea_tased 1"
+						Pattern pt_tased
+					}
+				}
+				
+				pt_tased:ignore_ext_event
+				{
+					actions
+					{	
+						Sequence seq.g_reaction_tased
+						WaitForEnd 1
+						Pattern pt_stunout
+					}
+					events
+					{
+						OnDeath "ExecutePattern st_OnDeath.pt_default"
+					}
+				}
+				
+				pt_stunout:ignore_ext_events
+				{
+					actions
+					{
+						Sequence seq.reaction_stun,10
+						Wait 3:3
+						Pattern pt_end
+					}
+					events
+					{
+						OnDeath "ExecutePattern st_OnDeath.pt_default"
+						OnIgnite	"State st_OnIgnite"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						Senses true
+						RemoveAttr ea_tased
+						State st_start
+					}
+				}
+			}
+		}
+		
+		st_OnTasing
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default:ignore_ext_events
+				{
+					actions 
+					{
+						Wait 30
+						Pattern pt_end
+					}
+					events
+					{
+						OnTasingFinish	"Pattern pt_stunout"
+						OnStandUpEnd  "Pattern pt_end"
+						OnUnstunned "Pattern pt_end"
+						OnUnconscious "State st_OnUnconscious"
+						OnDeath "ExecutePattern st_OnDeath.pt_default"
+					}
+				}
+				
+				pt_stunout:ignore_ext_events
+				{
+					actions
+					{
+						Wait 30
+						Pattern pt_end
+					}
+					events
+					{
+						OnTasingStart "Pattern pt_default"
+						OnStandUpEnd  "Pattern pt_end"
+						OnUnstunned "Pattern pt_end"
+						OnDeath "ExecutePattern st_OnDeath.pt_default"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						State st_start
+					}
+				}
+			}
+		}
+		
+	}	
+	
+}
+
+behavior
+{
+	name bh_cat
+	inherited bh_animal
+	
+	states
+	{
+		st_init
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						SetAttr "AgressionLevel 0,0,100"
+						ChangeAttr "AgressionLevel 40:60"
+					
+						//SetAttr "CatnipAddictionLevel 0,0,100"
+						//ChangeAttr "CatnipAddictionLevel 40:50"
+					
+						//SetAttr "SEX CAT,0,10"
+						
+						SetAttr "ea_takeable 0"
+					
+						TargetEntByName "mission_logic"
+						TargetToMem msGP
+					
+						ResetTarget 1
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "ea_takeable 0"
+						ExecutePattern bh_base:st_start.pt_default
+					}
+				}
+			}
+		}
+		
+		st_OnTasing
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default:ignore_ext_events
+				{
+					actions
+					{
+						SetAttr "ea_takeable 1"
+						Wait 30
+						Pattern pt_end
+					}
+					events
+					{
+						OnUseCommand "Pattern st_catched.pt_catched"
+						OnTasingFinish	"Pattern pt_stunout"
+						OnStandUpEnd  "Pattern pt_end"
+						OnUnstunned "Pattern pt_end"
+						OnUnconscious "State st_OnUnconscious"
+						OnDeath "ExecutePattern st_OnDeath.pt_default"
+					}
+				}
+				
+				pt_stunout:ignore_ext_events
+				{
+					actions
+					{
+						Wait 30
+						Pattern pt_end
+					}
+					events
+					{
+						OnTasingStart "Pattern pt_default"
+						OnUseCommand "Pattern st_catched.pt_catched"
+						OnStandUpEnd  "Pattern pt_end"
+						OnUnstunned "Pattern pt_end"
+						OnDeath "ExecutePattern st_OnDeath.pt_default"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{	
+						SetAttr "ea_takeable 0"
+						State st_start
+					}
+				}
+			}
+			
+		}
+		
+		st_OnTased
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "ea_takeable 1"
+						ExecutePattern bh_base:st_OnTased.pt_default
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{	
+						SetAttr "ea_takeable 0"
+						ExecutePattern bh_base:st_OnTased.pt_end
+					}
+				}
+			}
+			events
+			{
+				OnUseCommand "Pattern st_catched.pt_catched"
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						RemoveAttr CatThrown
+						RemoveAttr busy
+						Pattern pt_decide
+					}
+				}
+				
+				pt_decide
+				{	
+					actions
+					{
+						FreeMovement false
+						Pattern pt_move,pt_rest_decide
+					}
+				}
+				
+				pt_rest_decide
+				{
+					actions
+					{
+						Pattern pt_sit,pt_lie
+					}
+				}
+				
+				pt_sit
+				{
+					actions
+					{
+						Sequence seq.idle_sit,9000
+						Wait 10:30
+						ResetSequence 1
+						State st_start
+					}
+				}
+				
+				pt_lie
+				{
+					actions
+					{
+						Sequence seq.idle_lie,9000
+						Gesture g_cat_tail_lie,9000
+						Wait 10:30
+						ResetSequence 1
+						ResetGesture all
+						State st_start
+					}
+				}
+				
+				pt_move
+				{
+					actions
+					{
+						//IfAttr "ea_NumFear > 0 and RealtionTo:target == Relation:Fear state st_fear"
+						
+						ResetTarget 1
+						Face false
+						LookAt false
+						Effect 4,reset
+						
+						FreeMovementParams area_all,ED_MIDDLE,-1,area_group
+						FreeMovement random,reset
+						Timer tMeow,5:5,repeated
+						
+						Wait 20:20
+						
+						State st_start
+				
+						//Senses true
+						//LookAt false
+						//Repeat 10
+					}
+					events
+					{
+						OnInvalidRoute "Repeat 0"
+					}
+				}
+				
+				xpt_ItemCheck
+				{
+					actions
+					{
+						//TargetPlayer 1
+						//IfAttr "target.ea_armed == 15 State st_follow_player"
+					}
+				}
+			}
+			events
+			{
+				OnFire_PickUp "state st_fury"
+				OnFire_Scare "state st_runaway"
+				OnTimer_tMeow "EmitSound cat_meow"
+				OnFire_Interest "State so_interest"
+			}
+		}
+		
+		st_runaway
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetCaller 1
+						//Headblob 2,ReactionAngry
+						Wait 0.3
+						Relationship target,fear
+						FreeMovementParams area_hidden,256,-1,safe,move_from_target
+						FreeMovement true
+						Wait 4:3
+						FreeMovement false
+						State st_start
+					}
+					events
+					{
+						OnTargetReach "State st_start"
+					}
+				}
+			}
+		}
+		
+		st_high
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default:ignore_ext_events
+				{
+					actions
+					{
+						FreeMovement false
+						TargetCaller 1
+						//Face true
+						Senses false
+						//WaitForEnd 1
+						//Senses false
+						//SetAttr "ea_takeable 1"
+						//ResetSequence 1
+						//Timer tHighMeow,2,repeated
+						//Timer tHighMoveTo,5
+						//Headblob 3,EmoteFood
+						Gesture g_cat_tail_interest,2:2
+						Wait 0.5:0.5
+						
+						Pattern pt_high_moveto
+					}
+				}
+				
+				pt_high_moveto:ignore_ext_events
+				{
+					actions
+					{
+						IfAttr "Object:target == Object:null pattern pt_end"
+						IfAttr "DistTo:target <= 40 pattern pt_high_loop"
+						MoveToTarget walk,1
+						
+						Repeat 0.5
+					}
+					events
+					{
+						OnInvalidRoute "pattern pt_invroute"
+						OnTargetReach "pattern pt_high_loop"
+						OnTargetReset "pattern pt_high_loop"
+						OnAE_CATNIP	"ExecutePattern xpt_CheckNewCatnip"
+						OnIgnite	"ExecutePattern xpt_OnIgnite"
+						//OnTimer_tHighMoveTo "pattern pt_high_end"
+					}
+				}
+					
+				pt_high_loop:ignore_ext_events
+				{
+					actions
+					{
+						ResetGesture all
+						IfAttr "Object:target == Object:null state st_start"
+						
+						//Face false
+						SetAttr "ea_takeable 1"
+						Sequence seq.reaction_stun,10
+						Headblob 1,HappyCat
+						Wait 6:4
+						Pattern pt_end
+					}
+					events
+					{
+						//OnTimer_tHighMeow "EmitSound cat_meow"
+						OnUseCommand "Pattern st_catched.pt_catched"
+						OnIgnite	"ExecutePattern xpt_OnIgnite"
+					}
+				}
+				
+				pt_invroute
+				{
+					actions
+					{
+						IfAttr "DistTo:target <= 64 Pattern pt_high_loop"
+						Pattern pt_end
+					}
+				}
+					
+				pt_end
+				{
+					actions
+					{
+						Headblob 1,false
+						SetAttr "ea_takeable 0"
+						Timer tHighMeow,0
+						IgnoreTarget 10
+						Senses true
+						//FreeMovement true
+						State st_start
+					}
+				}
+				
+				xpt_OnIgnite
+				{
+					actions
+					{
+						Headblob 1,false
+						SetAttr "ea_takeable 0"
+						Timer tHighMeow,0
+						Senses true
+						State st_OnIgnite
+					}
+				}
+				
+				xpt_CheckNewCatnip
+				{
+					actions
+					{
+						IfAttr "Object:caller == Object:target Return 1"
+						IfAttr "DistTo:caller >= DistTo:target Return 1"
+						IgnoreTarget 10
+						TargetCaller 1
+						Pattern pt_high_moveto
+					}
+				}
+			}
+			events
+			{
+				//OnAE_CATNIP "Wait 0"
+				OnInvalidRoute "pattern pt_end"
+			}
+		}
+		
+		st_catched
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_catched:ignore_ext_events
+				{
+					actions
+					{
+						TargetFromMem msGP
+						FireEvent "CatPicked"
+						ResetTarget 1
+						Pattern pt_default
+					}
+				}
+				pt_default:ignore_ext_events
+				{
+					actions
+					{
+						Headblob 1,false
+						SetAttr "ea_status 0"
+						Senses false
+						Wait 1
+						Pattern pt_carry
+					}
+				}
+				
+				pt_carry:ignore_ext_events
+				{
+					actions
+					{
+						Wait 0
+					}
+					events
+					{
+						OnThrow "Pattern pt_throw"
+                        OnLand  "Pattern pt_throw"
+                        OnUseCommand "Pattern pt_throw"
+					}
+				}
+				
+				pt_throw:ignore_ext_events
+				{
+					actions
+					{
+						Senses true
+						TargetFromMem msGP
+						FireEvent "CatThrown"
+						SetAttr "ea_takeable 0"
+						SetAttr "CatThrown 1"
+						ResetTarget 1
+						
+						Wait 5
+						State st_dervish
+					}
+					events
+					{
+						OnLand		"State st_dervish"
+						OnSnatch	"State st_snatch"
+					}
+				}
+			}
+		}
+		
+		st_dervish
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						RemoveAttr CatThrown
+						Senses false
+						FreeMovement false
+						CatDervish true
+						ResetTarget 1
+						TargetCaller 1
+						Timer tFireDervish,2,repeated
+//						Timer tDervish,15
+						SetAttr "ea_status 3"
+						
+						IfAttr "Object:target == Object:Null ExecutePattern .xpt_retarget"
+					
+//						Hate true
+						Pattern pt_pursuit
+					}
+				}
+				
+				xpt_retarget
+				{
+					actions
+					{
+						ResetTarget 1
+						TargetEnemy 1
+						
+						IfAttr "Object:target == Object:Null Block begin"
+							//Relationship all_neutral,enemy
+							Wait 0.1
+							TargetEnemy 1
+//							Hate true
+							Pattern pt_pursuit
+						Block end
+						
+						IfAttr "target.ea_faction != Faction:Items and target.ea_faction != Faction:Animals pattern pt_pursuit"
+						
+						IgnoreTarget 5
+						ResetTarget 1
+						Wait 0.1
+						Pattern pt_pursuit
+					}
+				}
+				
+				pt_pursuit
+				{
+					actions
+					{
+						IfAttr "Object:target == Object:null ExecutePattern .xpt_retarget"
+						MoveToTarget run,1:0,0:0,to_target
+						IfAttr "DistTo:target < DERVISH_REACH pattern pt_attack"
+						Repeat 1
+					}
+					events
+					{
+						OnTargetReach "pattern pt_attack"
+						OnBumb "TargetCaller 1"
+						//OnLost "ExeucutePattern xpt_retarget"
+					}
+				}
+				
+				pt_attack //снэтчимся к цели и караем
+				{
+					actions
+					{
+						//ResetSequence 1
+						MoveToTarget run,0,0,to_target
+						//Timer tDervishHit,0.5,repeated
+						Wait 1:2
+						
+						IgnoreTarget 20
+						ResetTarget 1
+						
+						Pattern pt_pursuit
+					}
+					events
+					{
+						//OnTimer_tDervishHit "Hit 1"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						SetAttr "ea_status 0"
+						Relationship all_enemy,neutral
+						Timer tFireDervish,0
+						Timer tDervish,0
+						Timer tDervishHit,0
+						ResetSequence 1
+						Effect "4,reset"
+						Face false
+						Hate false
+						State st_start
+					}
+				}
+				
+				xpt_AddNewEnemy
+				{
+					actions
+					{
+						Relationship caller,enemy
+						IfAttr "DistTo:caller < DistTo:target Block begin"
+							TargetCaller 1
+							Pattern pt_pursuit
+						Block end
+					}
+				}
+			}
+			
+			events
+			{
+				OnAE_CATNIP "Wait 0"
+				OnEnemiesDead "pattern pt_end"
+				OnTimer_tFireDervish "AreaEvent Dervish,32"
+				OnTimer_tDervish "pattern pt_end"
+				OnBumb "TargetCaller 1"
+				OnVisible "ExecutePattern .xpt_AddNewEnemy"
+				OnTargetReset "ExecutePattern .xpt_retarget"
+				OnKicked "Wait 0"
+				OnUseCommand "ExecutePattern .xpt_AddNewEnemy"
+				OnDervishEnd "Pattern pt_end"
+			}
+		}
+		
+		st_OnIgnite
+		{
+			Group Alert
+			events
+			{
+				OnAE_Catnip	"Wait 0"
+			}
+		}
+		
+		st_OnKicked
+		{
+			Group Alert
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ResetTarget 1
+						TargetCaller 1
+						FreeMovement false
+					}
+					events
+					{
+						OnStandUpBegin "pattern pt_standup"
+					}
+				}
+				
+				pt_standup
+				{
+					actions
+					{
+					}
+					events
+					{
+						OnStandUpEnd "pattern pt_end"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						Wait 0.1
+						CheckTarget 1
+						Wait 0.2
+						State st_start
+					}
+					events 
+					{
+						OnVisible "State st_fury"
+						OnLost "State st_dervish"
+					}
+				}
+			}
+			events
+			{
+				OnHit "Wait 0"
+			}
+		}
+	
+		st_fury
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				pt_default:ignore_ext_events
+				{
+					actions
+					{
+						//Headblob 3,reset
+						ResetTarget 1
+						Face true
+						FreeMovement false
+						TargetCaller 1
+						
+						Timer tFury,8
+						
+						pattern pt_pursuit
+					}
+				}
+				
+				pt_pursuit:ignore_ext_events
+				{
+					actions
+					{
+						//Headblob 3,EmoteMad
+						
+						MoveToTarget run,0,0 //,to_target
+						IfAttr "DistTo:target < ED_VERY_CLOSE pattern pt_snatch"
+						
+						//Repeat 0.5
+					}
+					events
+					{
+						OnTargetReach "pattern pt_snatch"
+						OnTargetClose "pattern pt_snatch"
+						OnTargetReset "State st_start"
+					}
+				}
+				
+				pt_snatch:ignore_ext_events
+				{
+					actions
+					{
+						SetAttr "rnd 0,0,3"
+						ChangeAttr "rnd 0:3"
+						
+						IfAttr "rnd == 0	Snatch true,snatch0"
+						IfAttr "rnd == 1	Snatch true,snatch1"
+						IfAttr "rnd == 2	Snatch true,snatch2"
+						IfAttr "rnd == 3	Snatch true,snatch3"
+						
+						Wait 0.7
+						
+						pattern pt_pursuit
+					}
+					events
+					{
+						OnSnatch "State st_snatch"
+						OnUnsnatch "Pattern pt_end"
+						OnTargetReset "State st_start"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						state st_start
+					}
+				}
+			}
+			
+			events
+			{
+				OnTimer_tFury "pattern pt_end"
+			}
+		}
+		
+		st_snatch
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Senses false
+						Wait 3:2
+						ExecutePattern .xpt_UnsnatchDecide
+						Wait 10
+						Snatch false
+//						IfAttr "Object:target == Object:Player Effect 4,Dervish_Fx,null,0,0,-12,-1,true"
+					}
+					events
+					{
+						OnUnsnatch "pattern pt_unsnatch"
+						//OnTimer_tFury "ExecutePattern .xpt_UnsnatchDecide"
+					}
+				}
+				
+				xpt_UnsnatchDecide
+				{
+					actions
+					{
+						CheckAttr "CatThrown Block begin"
+							CheckAttr "target.flag_zombie Snatch false"
+							//дабы не плодить сущности, юзаю этот флаг т.к. он и так есть у всех боссов
+							Return 1
+						Block end
+						IfAttr "Object:target != Object:player Snatch false"
+					}
+				}
+				
+				pt_unsnatch
+				{
+					actions
+					{
+						RemoveAttr "CatThrown"
+						//Effect 4,reset
+						Snatch false
+						Senses true
+						State st_start
+					}
+				}
+			}
+			events
+			{
+				OnAE_CATNIP "Wait 0"
+			}
+		}
+		
+		so_interest
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetCaller true
+						FireEvent Response
+						Face true
+						Pattern pt_interest
+						//LookAt true
+					}
+				}
+				
+				pt_interest
+				{
+					actions
+					{
+						//Headblob 3,EmoteSmile
+						
+						Sequence seq.idle_sit,9000
+						
+						Wait 0.5
+						EmitSound cat_meow
+						
+						Wait 3:2
+						
+						Pattern pt_end
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						FireEvent Cancel
+						State st_start
+					}
+				}
+				
+				xpt_DenyCaller
+				{
+					actions
+					{
+						TargetToMem msTEMP
+						TargetCaller 1
+						FireEvent Cancel
+						TargetFromMem msTEMP
+						ClearMem msTEMP
+					}
+				}
+			}
+			events
+			{
+				OnFire_PickUp		"state st_fury"
+				OnFire_Interest "ExecutePattern .xpt_DenyCaller"
+			}
+		}
+		
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						CatDervish false
+						SetAttr "ea_takeable 0"
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+		
+	}
+	
+	events
+	{
+		OnUseCommand "State st_fury"
+		OnHit "State st_dervish"
+		OnAE_CATNIP "State st_high"
+		//OnDervishBegin "State st_dervish"
+	}
+}
+
+
+behavior
+{
+	name bh_dog
+	inherited bh_animal
+	
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						SetAttr "IsHungry 1"
+						SetAttr "AggrLevel 0,0,100"
+						ChangeAttr "AggrLevel 0:100"
+					}
+				}
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Face false
+						LookAt false
+						Pattern pt_decide
+					}
+				}
+				
+				pt_decide
+				{
+					actions
+					{
+						Pattern pt_move,pt_stay
+					}
+				}
+				
+				pt_move
+				{
+					actions
+					{
+						RemoveAttr sleeped
+						RemoveAttr scratched
+						//ResetSequence 1
+						FreeMovementParams area_all,ED_MIDDLE,-1,area_group
+						FreeMovement random,reset
+						Wait 30:30
+						State st_start
+					}
+				}
+				
+				pt_stay
+				{
+					actions
+					{
+						FreeMovement false
+						Pattern pt_fun,pt_rest
+					}
+				}
+				
+				pt_fun
+				{
+					actions
+					{
+						Sequence seq.idle_smell,seq.idle_bury,seq.idle_dig,seq.idle_look,1
+						WaitForEnd 1
+						Pattern pt_default
+					}
+				}
+				
+				pt_rest
+				{
+					actions
+					{
+						Pattern pt_lie,pt_sit
+					}
+				}
+				
+				pt_lie
+				{
+					actions
+					{
+						Sequence seq.idle_lie,30
+						Wait 10:20
+						CheckAttr "sleeped Pattern pt_default"
+						Pattern pt_default,pt_sleep
+					}
+				}
+				
+				pt_sleep
+				{
+					actions
+					{
+						Sequence seq.lie_sleep,9000
+						Wait 60:100
+						SetAttr "sleeped 1"
+						Pattern pt_default,pt_lie
+					}
+				}
+				
+				pt_sit
+				{
+					actions
+					{
+						Sequence seq.idle_sit,30
+						Wait 10:10
+						CheckAttr "scratched Pattern pt_default"
+						Pattern pt_default,pt_scratch
+					}
+				}
+				
+				pt_scratch
+				{
+					actions
+					{
+						Sequence seq.idle_scratch
+						WaitForEnd 1
+						SetAttr "scratched 1"
+						Pattern pt_sit
+					}
+				}
+				
+				xpt_OnVisible
+				{
+					actions
+					{
+						ExecutePattern st_util.xpt_CheckTarget
+					}
+				}
+			}
+			
+			events
+			{
+				OnVisible "ExecutePattern .xpt_OnVisible"
+			}
+		}
+		
+		st_bark_angry
+		{
+			Group Alert
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						FreeMovement false
+						Face true
+						Timer tBark,3
+						pattern pt_bark_loop
+					}
+				}
+				
+				pt_bark_loop
+				{
+					actions
+					{
+						ExecutePattern st_util.xpt_BarkOnce
+						
+						Repeat 0.6
+					}
+					events
+					{
+						OnTimer_tBark "pattern pt_end"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						IgnoreTarget 15
+						ResetTarget 1
+						ResetSequence 1
+						state st_start
+					}
+				}
+			}
+		}
+		
+		st_chase
+		{
+			Group Alert
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						FreeMovement false
+						ExecutePattern st_util.xpt_BarkOnce
+						FireEvent Scare
+						Wait 0.5:0.5
+						Pattern pt_chase
+					}
+				}
+				
+				pt_chase
+				{
+					actions
+					{
+						MoveToTarget run,to_target
+						Wait 1.5:3.0
+						Pattern pt_chase_end
+					}
+					events
+					{
+						OnLost "Pattern pt_chase_end"
+					}
+				}
+				
+				pt_chase_end
+				{
+					actions
+					{
+						IgnoreTarget 10
+						ResetTarget 1
+						State st_start
+					}
+				}
+			}
+		}
+		
+		st_collect
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						FreeMovement false
+						Face true
+						LookAt true
+						Headblob 1,EmoteFood
+						EmitSound champ_attack
+						ExecutePattern st_util.xpt_BarkOnce
+						MoveToTarget true,1,0,to_target
+						
+						//Wait 2
+						//CheckTarget 1
+						
+						Repeat 3
+					}
+					events
+					{
+						OnTargetReach "ExecutePattern .xpt_EatOrTake"
+						//OnLost "pattern pt_end"
+						OnTargetReset "pattern pt_end"
+						OnInvalidRoute "state st_start"
+					}
+				}
+				
+				pt_eat
+				{
+					actions
+					{
+						Sequence an_idle_eat
+						EmitSound champ_yummy
+						Wait 2
+						//Npc kill,1
+						Wait 0:2
+						
+						Headblob 1,EmoteSmile
+						
+						CheckAttr "IsHungry Timer tShit,20"
+						RemoveAttr IsHungry
+						
+						Pattern pt_end
+					}
+				}
+				
+				pt_carry
+				{
+					actions
+					{
+						Sequence an_idle_take
+						WaitForEnd 1
+						Item take,hold_plate
+						
+						FreeMovementParams area_all,128,-1,area_group
+						FreeMovement true
+					}
+					events
+					{
+						OnTargetReach "ExecutePattern .xpt_EatOrHide"
+					}
+				}
+				
+				pt_hide
+				{
+					actions
+					{
+						//Item drop
+						//анимация закапывания должна быть здесь
+						Item kill,0.5
+						pattern pt_end
+					}
+				}
+			
+			
+				pt_end
+				{
+					actions
+					{
+						Item drop
+					
+						Face false
+						LookAt false
+						IgnoreTarget 20
+						ResetTarget 1
+					
+						State st_start
+					}
+				}
+			
+			
+				xpt_EatOrTake
+				{
+					actions
+					{
+						//IfAttr "target.ea_gibs < 4 pattern pt_eat"
+					
+						//SetAttr "rnd 0,0,100"
+						//ChangeAttr "rnd 0:100"
+					
+						//IfAttr "rnd < 20 Block begin"
+							//RemoveAttr rnd
+							//pattern pt_eat
+						//Block end
+					
+						//RemoveAttr rnd
+						//pattern pt_carry
+						pattern pt_eat
+					}
+				}
+				
+				xpt_EatOrHide
+				{
+					actions
+					{
+						Item drop
+						
+						SetAttr "rnd 0,0,100"
+						ChangeAttr "rnd 0:100"
+						
+						IfAttr "rnd < 40 Block begin"
+							RemoveAttr rnd
+							pattern pt_eat
+						Block end
+						
+						RemoveAttr rnd
+						pattern pt_hide
+					}
+				}
+			}
+		}
+		
+		
+		st_poo
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Sequence seq.idle_poo
+						EmitSound champ_breathing
+						SpawnItem "item_spawner_poo,owner,bot,3.0,unfixed"
+						//WaitForEnd 1
+						Wait 4
+						ResetSequence 1
+						SetAttr "IsHungry 1"
+						
+						state st_start
+					}
+				}
+			}
+		}
+		
+		st_OnKicked
+		{
+			Group Alert
+			Patterns
+			{
+				pt_end
+				{
+					actions
+					{
+						IfAttr "Object:target == Object:player State st_fear"
+						
+						SetAttr "rnd 0"
+						ChangeAttr "rnd 0:100"
+						
+						IfAttr "rnd >  AggrLevel State st_fear"
+						IfAttr "rnd <= AggrLevel State st_attack"
+						
+						State st_start
+					}
+				}
+			}
+		}
+		
+		st_attack //взят от чампа
+		{
+			Group Combat
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "SnatchTries 0,0,3"
+						Pattern pt_moveto
+						//Timer tSnatchTime,10
+						IfAttr "DistTo:target < 32 Pattern pt_snatch"
+					}
+				}
+				
+				pt_moveto
+				{
+					actions
+					{
+						MoveToTarget run,0,0
+						Wait 10
+						Pattern pt_end
+						
+					}
+					events
+					{
+						OnTargetClose "Pattern pt_snatch"
+						OnTargetReach "Pattern pt_snatch"
+					}
+				}
+				
+				pt_snatch
+				{
+					actions
+					{
+						SetAttr "rnd 0"
+						ChangeAttr "rnd 0:3"
+						
+						IfAttr "rnd == 0	Snatch true,snatch0"
+						IfAttr "rnd == 1	Snatch true,snatch1"
+						IfAttr "rnd == 2	Snatch true,snatch2"
+						IfAttr "rnd == 3	Snatch true,snatch3"
+						
+						//ShowMessage "[Attacking target!],$P3Mission"
+						Wait 1.0
+						
+						ChangeAttr "SnatchTries +1"
+						Wait 0.1
+						Pattern pt_default
+					}
+					events
+					{
+						OnSnatch	 "Pattern pt_snatched"
+						OnAttrMax_SnatchTries "Pattern pt_end"
+					}
+				}
+				
+				pt_snatched
+				{
+					actions
+					{
+						Wait 1.5:1.5
+						Snatch false
+					}
+					events
+					{
+						OnUnsnatch "Pattern pt_end"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						RemoveAttr rnd
+						
+						ResetTarget 1
+						State st_start
+					}
+				}
+			}
+		}
+		
+		st_util
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				xpt_CheckTarget
+				{
+					actions
+					{
+						TargetCaller 1
+						
+						IfAttr "target.ea_manner == Manner:PussyCat Block begin"
+							SetAttr "rnd 0:100"
+							IfAttr "AggrLevel <= rnd Block begin"
+								RemoveAttr rnd
+								State st_bark_angry
+							Block end
+							
+							IfAttr "AggrLevel >  rnd Block begin"
+								RemoveAttr rnd
+								State st_chase
+							Block end
+							
+						Block end
+						
+						IfAttr "target.ea_status == sCORPSE state st_collect"
+						
+						IgnoreTarget 3
+						ResetTarget 1
+						//state st_start
+					}
+				}
+				
+				xpt_BarkOnce
+				{
+					actions
+					{
+						EmitSound champ_aggro
+						Sequence seq.idle_bark_1
+						//WaitForEnd 1
+					}
+				}
+				
+			}
+		}
+		
+	}
+	
+	events
+	{
+		OnTimer_tShit "State st_poo"
+	}
+	
+}
