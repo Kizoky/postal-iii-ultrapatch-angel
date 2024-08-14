@@ -343,6 +343,8 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 
 + Included SDK files for modders/developers
 
+* Improved russian localization and weapon icons (Thanks MeeMdic!)
+
 * Updated and improved pause menu UI
 
 + Added back and modified Half-Life 2 damage indicator

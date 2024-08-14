@@ -10,3 +10,7 @@ Made with love by core members of the Whackjob Interactive devteam!
 - Lena: Mapping
 - Jenny_MCII: Programming, Balancing, Testing, and Mission Improvements
 - Elwood: English Writing Improvements, Balancing, and Mission Improvements
+
+SPECIAL THANKS:
+===============
+- MeeMdic: Russian localization improvements and weapon icons!
