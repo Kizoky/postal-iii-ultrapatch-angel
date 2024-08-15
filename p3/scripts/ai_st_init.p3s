@@ -1,0 +1,754 @@
+Constants
+{
+//	Const TRUE,1
+//	Const FALSE,0
+
+// PATHES
+	Const PATH_NONE,0
+	Const PATH_GOOD,1
+	Const PATH_INSANE,2
+
+// KARMA AMOUNTS
+	Const KARMA_LOW,5
+	Const KARMA_MED,10
+	Const KARMA_HIGH,25
+	Const KARMA_HALF,50
+	Const KARMA_FULL,100
+	
+// MEM SLOTS						
+	Const msTEMP,0
+	Const msOWNER,1
+	Const msTARGET,2
+	Const msENEMY,3
+	Const msSUSPECTED,4
+	Const msLEADER,5
+//	Const msDRIVEN,6
+//	Const msINTEREST,7
+	Const msKILLER,8
+	Const msGP,9
+
+	Const WaitCycles,3
+
+// SEX
+	Const FEMALE,0
+	Const MALE,1
+	Const DOG,2
+	Const CATCONST,3
+	Const MONKEY,4
+	Const RHINO,5
+	Const BIRD,6
+
+// VARIOUS
+	Const cMoodChange,10
+	Const cStatusPeriod,4
+
+// WEAPONS
+	Const WPN_NONE,1
+	Const WPN_BADGER,2
+	Const WPN_NAILBAT,3
+	Const WPN_GRENADE,4
+	Const WPN_DEGL,5
+	Const WPN_TASER,6
+	Const WPN_SHTG,7
+	Const WPN_M60,8
+	Const WPN_M16,9
+	Const WPN_CATS,10
+	Const WPN_MACHETE,11
+	Const WPN_SHOVEL,12
+	Const WPN_MOLOTOV,13
+	Const WPN_GAS,14
+	Const WPN_CATNIP,15
+	Const WPN_BEES,17
+	Const WPN_KDOLL,19
+	Const WPN_HAMMER,20
+	Const WPN_LASER,21
+	Const WPN_MONKEY,27
+	Const WPN_SHOPVAC,30
+	Const WPN_SPRAY,31
+	Const WPN_WEEMOTE,33
+	Const WPN_LAUNCHER,34
+	Const WPN_AXE,35
+	Const WPN_GAMAMET,36
+
+// WEAPON LEVELS
+	Const WEAPON_LEVEL_SCARY,20
+//WEAPON_LEVEL_GRENADES 30
+//WEAPON_LEVEL_NONLETHAL 10
+//WEAPON_LEVEL_MELEE 0
+
+// ITEMS
+	Const iFOOD,0
+	Const iDRINK,1
+	Const iTOY,2
+	Const iTRASH,3
+	Const iPHONE,4
+
+	Const iCATNIP,5
+    Const iSEED,6
+
+// ITEM_SHAPE
+	Const BOTTLE,0
+	Const PLATE,1
+	Const BONE,2
+	Const UNDEFINED,10
+
+// NPC STATUS
+	Const sNEUTRAL,0
+	Const sPROVOKER,1
+	Const sPUNISHER,2
+	Const sMILITANT,3 
+	Const sKILLER,4
+	Const sGROSS,6
+	Const sIGNITED,7
+	Const sARRESTED,8              
+	Const sVICTIM,9
+	Const sCORPSE,10
+
+// ANIMALS SNATCH TO
+	Const HEAD,0
+	Const FOOT_L,1
+	Const FOOT_R,2
+	Const HAND_L,3
+	Const HAND_R,4
+
+// NPC WAR TASKs
+	Const WT_NONE,0
+/// prim
+	Const WT_HIDE,1
+	Const WT_MOVE,2
+	Const WT_MOVEOUT,3
+	Const WT_PRESSURE,31
+	Const WT_LEAN,4
+	Const WT_POSITION,5
+/// sec
+	Const WT_FIRE,6
+	Const WT_RELOAD,7
+	Const WT_TASED,8
+	Const WT_OUTLEAN,9
+/// mis
+	Const WT_AREA,10
+	Const WT_ATTACK,11
+	Const WT_DEFEND,12
+	
+// NPC COMBAT TASKs
+/// Tasks Combat
+	Const TC_NONE,0
+	Const TC_HIDE,1
+	Const TC_MOVE,2
+	Const TC_MOVEOUT,3
+	Const TC_PRESSURE,4
+	Const TC_LEAN,5
+	Const TC_POSITION,6
+	Const TC_SEARCH,7
+  Const TC_PURSUIT,8
+	Const TC_BOMBARD,9
+	
+/// Task Global
+	Const TG_NONE,0
+	Const TG_ATTACK,1
+	Const TG_DEFEND,2
+	
+/// Task Lean
+	Const TL_NONE,0
+	Const TL_IDLE,1
+	Const TL_ACTION,2
+
+// ENEMY DISTANCE
+	Const ED_VERY_CLOSE,32
+	Const ED_CLOSE,160
+	Const ED_MIDDLE,320
+	Const ED_FAR,768
+	Const ED_FURTHER,1280
+	Const ED_VERY_FAR,2048
+
+// NUMBER OF SHOTS HAS WIDE SPREAD
+	Const SHOTSNUM_SPREAD_WIDE,2
+
+// Player can choose side
+	Const SIDE_NONE,0
+	Const SIDE_GOOD,1
+	Const SIDE_BAD,2
+	Const SIDE_INSANE,3 
+	
+// SPREAD MOD
+	Const SPREAD_BLIND,20
+	Const SPREAD_MAX,10
+	Const SPREAD_WIDE,6
+	Const SPREAD_NORMAL,3
+	Const SPREAD_ACCURACY,1
+	
+//--------------- MISSIONs
+	//UWE
+	Const UWE_WAITFORMISSION,0
+	Const UWE_INMISSION,1
+	
+	//GUARDS
+	Const UWE_GUARD_STAY,0
+	Const UWE_GUARD_PROTECT,1
+	// ATTACKERS
+	Const UWE_ATTACKER_WAIT,0
+	Const UWE_ATTECKER_ATTACK,1
+	
+	//Const Values for cats
+	Const DERVISH_REACH,64
+	Const CATNIP_REACH,32
+	Const FURY_REACH,64
+}
+
+states
+{
+// ATTRIBUTES	
+// Mood
+	
+	st_init_laserdot
+	{
+// Faction Player
+// Manner Player
+    group Neutral
+    patterns
+    {
+			pt_default
+			{
+				actions 
+				{
+				}
+			}
+// end of patterns	
+		}
+// end of state		
+	}	
+	
+	st_laserdot
+	{
+// Faction Player
+// Manner Player
+    group Alert
+    patterns
+    {
+			pt_default
+			{
+				actions 
+				{
+					Wait 1,0
+				}
+			}
+// end of patterns	
+		}
+// end of state		
+	}	
+	
+
+	st_dummy_init
+	{
+// Faction Player
+// Manner Player
+    group Neutral
+    patterns
+    {
+			pt_default
+			{
+				actions 
+				{
+				}
+				events
+				{
+				}
+			}
+// end of patterns	
+		}
+// end of state		
+	}
+	
+	st_p3_init_male
+	{
+    group Neutral
+    patterns
+    {
+			pt_default
+			{
+				actions 
+				{
+//					SetAttr "im_on_fear1 0,0,1"
+//					Timer 9,2
+					SetAttr "ea_status sNEUTRAL,0,10"
+					SetAttr "sex MALE,0,10"
+					SetAttr "cash 0,0,10"
+					ChangeAttr "cash 0,10"
+					SetAttr "mood 50,0,100"
+//					SetAttr "ea_armed 0,0,100"
+					SetAttr "ea_status 0"
+
+					Senses true
+
+					SetAttr "npc_startup 1,0,1"
+
+//          SetActPack ACT_WALK,walk_neutral
+//          SetActPack ACT_WALK,test1
+
+//          SetActPack ACT_WALK,walk_alert,Alert
+				
+					AvoidProhibitedArea true
+    
+					FreeMovementParams hint_all,12,5200,hint_group,hint_face,use_node
+//					FreeMovementParams hint_all,12,2200,hint_group,hint_face
+
+//					FreeMovementParams hint_hidden,12,2200,hint_group,hint_face,use_node
+//					SetAttr "im_busy 0,0,1"
+
+//						IfAttr "ea_Manner == Manner:SushiNinja SpawnItem spawner_melee_weapon,owner,hand_r_bottle"
+					
+				}
+			}
+// end of patterns	
+		}
+// end of state		
+	}	
+	
+	st_p3_init_female
+	{
+    group Neutral
+    patterns
+    {
+			pt_default
+			{
+				actions 
+				{
+					
+					SetAttr "visible_counter 0,0,100" // killme
+					
+					
+					SetAttr "ea_status sNEUTRAL,0,10"
+//					SetAttr "im_on_fear1 0,0,1"
+					SetAttr "sex FEMALE,0,10"
+					SetAttr "cash 0,0,10"
+					ChangeAttr "cash 0,10"
+					SetAttr "mood 50,0,100"
+//					SetAttr "ea_armed 0,0,100"
+					SetAttr "ea_status 0"
+
+//          SetActPack ACT_WALK,walk_neutral
+//					IfAttr "ea_Manner == Manner:SoccerMom SetActPack ACT_WALK,ACT_RUN"
+//          SetActPack ACT_WALK,default_run
+
+					SetAttr "npc_startup 1,0,1" 
+					FreeMovementParams hint_all,12,5200,hint_group,hint_face,use_node
+					SetAttr "im_busy 0,0,1"
+					
+				}
+			}
+// end of patterns	
+		}
+// end of state		
+	}	
+	
+	st_p3_init
+	{
+    group Neutral
+    patterns
+    {
+			pt_default
+			{
+				actions 
+				{
+					IfAttr "sex == FEMALE SetAttr sex FEMALE,0,10"
+					IfAttr "sex == MALE SetAttr sex MALE,0,10"
+					SetAttr "cash 0,0,1000"
+					ChangeAttr "cash 0,10"
+//					SetAttr "mood 50,0,100"
+//					SetAttr "ea_armed 0,0,100"
+
+					SetAttr "npc_startup 1,0,1" 
+//					SetHintgroup wish_fun_idle
+					FreeMovementParams hint_all,12,5000,hint_group,hint_face,use_node
+					SetAttr "im_busy 0,0,1"
+				}
+				events
+				{
+				}
+			}
+// end of patterns	
+		}
+// end of state		
+	}	
+	
+	st_def_init
+	{
+    group Neutral
+    patterns
+    {
+			pt_default
+			{
+				actions 
+				{
+				}
+				events
+				{
+				}
+			}
+// end of patterns	
+		}
+// end of state		
+	}	
+		
+	st_test_init
+	{
+    group Neutral
+    patterns
+    {
+			pt_default
+			{
+				actions 
+				{
+					Actbusy false
+					SetAttr "mood 50,0,100"
+//					SetAttr "mood_progress 50"
+
+
+//					SetAttr "needs_hunger 1"
+//					SetAttr "needs_fatigue 1"
+//					SetAttr "needs_defecation 1"
+					SetAttr "npc_startup 1,0,1"
+				}
+				events
+				{
+				}
+			}
+// end of patterns	
+		}
+// end of state		
+	}	
+// end of states	
+}
+	
+///////////////////////////////////////// ANIMALS
+
+states
+{	
+
+/////// DOG	
+
+	st_p3_init_dog
+	{
+    group Neutral
+    patterns
+    {
+			pt_default
+			{
+				actions 
+				{
+					SetAttr "sex DOG,0,10"
+//					SetAttr "friend 0,0,1"
+//					SetAttr "mood 50,0,100"
+
+//					SetAttr "arms 0,0,1"
+					SetAttr "npc_startup 1,0,1" 
+//					ChangeAttr "ea_health -70,0"
+					SetHintgroup ""
+					FreeMovementParams area_all,12,5000
+					SetAttr "im_busy 0,0,1"
+				}
+			}
+// end of patterns	
+		}
+// end of state		
+	}	
+	
+	st_p3_init_champ
+	{
+    group Neutral
+    patterns
+    {
+			pt_default
+			{
+				actions 
+				{
+					SetAttr "sex DOG,0,10"
+					SetAttr "friend 1,0,1"
+					SetAttr "ImAChamp 1,0,1"
+					SetAttr "mood 50,0,100"
+
+					SetAttr "npc_startup 1,0,1" 
+					SetHintgroup ""
+					FreeMovementParams area_all,12,-1
+				}
+			}
+// end of patterns	
+		}
+// end of state		
+	}	
+	
+/////// MONKEY
+	
+	p3_monkey_init 
+	{
+	  group Neutral
+	  patterns
+	  {
+     	pt_default
+			{
+				actions
+				{
+					SetAttr "sex MONKEY,0,10"
+//					SetAttr "im_on_fear1 0,0,1"
+//					SetAttr "non_human 1,0,1"
+//					SetAttr "dog 1,0,1"
+					SetAttr "friend 0,0,1"
+					SetAttr "mood 50,0,100"
+
+//					SetAttr "arms 0,0,1"
+					SetAttr "npc_startup 1,0,1" 
+//					ChangeAttr "ea_health -70,0"
+//					SetHintgroup "wish_fun_idle"
+					SetHintgroup ""
+					FreeMovementParams area_all,12,-1
+					SetAttr "im_busy 0,0,1"
+				}
+	   	}
+	  }
+  }
+
+	st_p3_init_monkey 
+	{
+		group Neutral
+		patterns
+		{
+			pt_default
+			{
+				actions
+				{
+					Anchor true
+					SetAttr "sex MONKEY,0,10"
+					SetAttr "npc_startup 1,0,1" 
+					SetHintgroup ""
+					FreeMovementParams area_all,12,-1
+					SetAttr "im_busy 0,0,1"
+				}
+			}
+		}
+	}
+
+/////// CAT	
+
+	st_p3_init_cat
+	{
+    group Neutral
+    patterns
+    {
+			pt_default
+			{
+				actions 
+				{
+					SetAttr "sex CATCONST,0,10"
+//					SetAttr "friend 0,0,1"
+//					SetAttr "mood 50,0,100"
+
+
+//					SetAttr "arms 0,0,1"
+					SetAttr "npc_startup 1,0,1" 
+//					ChangeAttr "ea_health -70,0"
+					SetHintgroup ""
+					FreeMovementParams area_all,12,5000
+					SetAttr "im_busy 0,0,1"
+				}
+			}
+// end of patterns	
+		}
+// end of state		
+	}
+		
+
+	/////// RHINO
+	st_p3_init_rhino
+	{
+    group Neutral
+    patterns
+    {
+			pt_default
+			{
+				actions 
+				{
+					SetAttr "ea_physdmg_absorb 100"
+					SetAttr "ea_bulletdmg_absorb 90"
+					SetAttr "ea_clubdmg_absorb 90"
+					SetAttr "ea_flamedmg_absorb 90"
+//					SetHintGroup "rhino_way"
+					SetHintgroup ""
+					SetAttr "npc_startup 1,0,1" 
+//					FreeMovementParams hint_all,50,500,hint_group,from_target
+					FreeMovementParams area_all,12,5000
+					SetAttr "im_busy 0,0,1"
+				}
+			}
+// end of patterns	
+		}
+// end of state		
+	}
+
+  /////// Pigeon
+  st_p3_init_pigeon
+  {
+    group Neutral
+    patterns
+    {
+      pt_default
+      {
+        actions 
+        {
+          SetAttr "sex BIRD,0,10"
+
+          SetAttr "ea_flamedmg_absorb 98"
+          SetAttr "ea_health 15,0,15"
+
+          SetAttr "npc_startup 1,0,1" 
+
+          SetAttr "im_busy 0,0,1"
+        }
+      }
+// end of patterns	
+    }
+// end of state		
+  }
+	
+// end of states	
+}
+
+///////////////////////////////////////// ITEMS
+
+states
+{
+	st_p3_init_common
+	{
+    group Neutral
+    patterns
+    {
+			pt_default
+			{
+				actions 
+				{
+					SetAttr "shape UNDEFINED,0,10"
+				}
+			}
+// end of patterns	
+		}
+// end of state		
+	}		
+	
+	st_p3_init_bottle
+	{
+    group Neutral
+    patterns
+    {
+			pt_default
+			{
+				actions 
+				{
+					SetAttr "shape BOTTLE,0,10"
+				}
+			}
+// end of patterns	
+		}
+// end of state		
+	}	
+	
+	st_p3_init_plate
+	{
+    group Neutral
+    patterns
+    {
+			pt_default
+			{
+				actions 
+				{
+					SetAttr "shape PLATE,0,10"
+				}
+			}
+// end of patterns	
+		}
+// end of state		
+	}	
+	
+	st_p3_init_bone
+	{
+    group Neutral
+    patterns
+    {
+			pt_default
+			{
+				actions 
+				{
+					SetAttr "shape BONE,0,10"
+				}
+			}
+// end of patterns	
+		}
+// end of state		
+	}	
+// end of states	
+}
+
+///////////////////////////////////////// WEAPONS
+
+states
+{
+	
+	st_p3_init_weapon
+	{
+    group Neutral
+    patterns
+    {
+			pt_default
+			{
+				actions 
+				{
+					SetAttr "shape BOTTLE,0,10"
+				}
+			}
+// end of patterns	
+		}
+// end of state		
+	}	
+	
+// end of states	
+}
+
+///////////////////////////////////////// EFFECTS
+
+states
+{
+	
+	fx_init_flame
+	{
+    group Neutral
+    patterns
+    {
+			pt_default
+			{
+				actions 
+				{
+					SetAttr "init_state 1,0,1"
+				}
+			}
+// end of patterns	
+		}
+// end of state		
+	}	
+// end of states	
+
+	st_pl
+	{
+		group Neutral
+		patterns
+		{
+			pt_default
+			{
+				actions
+				{
+					ChangeAttr "updated +1"
+					ShowMessage "[Updated],$P3Debug"
+				}
+			}
+		}
+	}
+}
+
+

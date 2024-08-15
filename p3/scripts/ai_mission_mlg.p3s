@@ -1,0 +1,1000 @@
+Constants
+{
+	Const MLG_NUM_ANIMALS,20
+}
+
+behavior
+{
+	name bh_testlab_good_logic
+	inherited bh_mission_logic_base
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "Animalskilled 0,on_change_event"
+						SetAttr "Animalstokill MLG_NUM_ANIMALS,on_change_event"
+						SetAttr "Medicskilled 0,on_change_event"
+						SetAttr "Animalsharmed 0,on_change_event"
+						SetAttr "Totaldead 0"
+						
+						SetAttr "PlayerPath PATH_GOOD"
+					}
+				}
+			}
+		}
+		st_start
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						PlayerKarma show
+						MissionLog add_primary,main,#P3_MLG_COUNTER
+						MissionLog add_secondary,sci,#P3_MLG_MISSION3_OBJ
+					}
+					events
+					{
+						OnFire_MLGCatPicked "ChangeAttr Animalstokill -1"
+						OnFire_MLGCatThrown "ChangeAttr Animalstokill +1"
+						OnAttrChange_Animalstokill "ExecutePattern st_start.xpt_counter"
+						//если событие глобальное, то начинает сбоить логика
+					}
+				}
+				xpt_counter
+				{
+					actions
+					{
+						IfAttr "Animalstokill >= 0 Block begin"
+							MissionLog add_primary,main,#P3_MLG_COUNTER
+						Block end
+						IfAttr "Animalstokill == 0 Pattern pt_corridor"
+					}
+				}
+				pt_corridor
+				{
+					actions
+					{
+						PlayVideo mlg_2,1,1 //двери открываются
+						Wait 1.5
+						MissionLog done,main
+						MissionLog add_primary,main2,#P3_MLG_MISSION3
+						EntFireInput trigger_rhino,Enable
+						EntFireInput phys_gate_branch,ToggleTest
+						EntFireInput spawner_animals2,Enable
+						EntFireInput spawner_scientists2,Enable
+					}
+					events
+					{
+						OnLastRoom "Pattern pt_lastroom"
+					}
+				}
+				pt_lastroom
+				{
+					actions
+					{
+						EntFireInput spawner_rhino,Enable
+						//EntFireUser door_25,1
+						//EntFireUser door_24,1 
+						playvideo mlg_3,1,1
+						Wait 0.95
+						EntFireInput teleport,Teleport
+						EntFireUser ccommand,1
+						EntFireInput door_25,Close
+						EntFireInput door_24,Close
+						EntFireInput door_25,Lock
+						EntFireInput door_24,Lock
+						EntFireInput spawner_monkey,Enable
+						ShowMessage #P3_MLG_MISSION2
+						MissionLog done,main2
+						MissionLog add_primary,main3,#P3_MLG_MISSION2_OBJ
+					}
+				}
+				pt_end
+				{
+					actions
+					{
+						MissionLog done,main3
+						EntFireInput fade_out,Fade
+						Wait 1
+						EntFireUser "lpp,GiveWeapon:p3_weapon_laserpen"
+						EntFireUser "lpp,GiveWeapon:p3_weapon_motorhead"
+						TargetPlayer 1
+						IfAttr "Karma:target >  0 EntFireInput ccommand,Command:video_exitcmd mlg_4 p3_end_mission"
+						IfAttr "Karma:target == 0 EntFireInput ccommand,Command:video_exitcmd mlg_5 p3_end_mission"
+					}
+				}
+			}
+		}
+		st_fail
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_monkeyDead
+				{
+					actions
+					{
+						MissionLog fail,main3
+						Wait 1
+						EntFireInput ccommand,reload
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnScientistHurt "MissionLog fail,sci"
+		OnUser4 "Pattern st_start.pt_end"
+		
+		OnFire_MonkeyDead "Pattern st_fail.pt_monkeyDead"
+		
+		OnNewGame "ExecutePattern weaponGive.MLG"
+	}
+}
+behavior
+{
+	name bh_medic
+	inherited bh_civil
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						SetAttr "ea_dmg_absorb 80"
+						
+						SetAttr "flag_IngorePlayerAttack 1"
+						SetAttr "flag_bystander 1"
+						SetAttr "flag_protected 1"
+						//когда разберемся, почему за их тазинг выдают карму, удалить
+						//подозреваю, что виноват сквад
+						
+						SetAreaGroup AG_bigroom,AG_DEFAULT
+						SetSquad sq_medics
+						SetSquadRelation sq_zealots:fear,local
+					}
+				}
+			}
+		}
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_CheckCombat
+				{
+					actions
+					{
+						Return 1
+					}
+				}
+			}
+		}
+		st_idle
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "rnd 0"
+						ChangeAttr "rnd 0:10"
+						IfAttr "rnd > 8 Say DONTKILLME"
+						Sequence seq.reaction_shocked_2
+						WaitForEnd 1
+						ResetSequence 1
+						SetAttr "NewReaction RE_FEAR"
+						State st_start
+					}
+					events
+					{
+						OnNewEnemy "Wait 0"
+					}
+				}
+			}
+		}
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_OnDudeInsane
+				{
+					actions
+					{
+						SetAttr "rnd 0"
+						ChangeAttr "rnd 0:10"
+						IfAttr "rnd >= 4 Say MADCOP"
+						RemoveAttr rnd
+					}
+				}
+				xpt_OnCatHurt
+				{
+					actions
+					{
+						SetAttr "rnd 0"
+						ChangeAttr "rnd 0:10"
+						IfAttr "rnd >= 9 Say SEESANIMALHARMED"
+						RemoveAttr rnd
+					}
+				}
+				xpt_SayHit
+				{
+					actions
+					{
+						IfAttr "Timer:tHitSound > 0 Return 1"
+						IfAttr "Object:caller == Object:player Block begin"
+							Say FRIENDLYFIRE,HIT
+							EntFireInput proxy,Say:INJUREBYSTANDER
+						Block end
+						IfAttr "Object:caller != Object:player Say HIT"
+						Timer tHitSound,5:3
+					}
+				}
+				xpt_deprotect
+				{
+					actions
+					{
+						SetAttr "ea_dmg_absorb 0"
+						RemoveAttr flag_protected
+					}
+				}
+			}
+		}
+		st_OnDeath
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "Object:caller == Object:player Block begin"
+							EntFireInput proxy,Say:KILLBYSTANDER
+							AreaEvent MedicKilled,16
+							EntFireInput mission_logic,FireFSMScriptEvent:OnScientistHurt
+						Block end
+						ExecutePattern bh_base:st_OnDeath.pt_default
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnAE_Animalkilled	"ExecutePattern st_util.xpt_OnCatHurt"
+		OnAE_MedicKilled	"ExecutePattern st_util.xpt_OnDudeInsane"
+	}
+}
+behavior
+{
+	name bh_testlab_zealot
+	inherited bh_civil
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						
+						ExecutePattern bh_base:st_init.pt_default
+						SetSquadRelation sq_medics:enemy:3,player_squad:enemy:8
+						SetAttr "TaskCombat TC_SEARCH"
+						Timer tShout,5:10
+						
+						SetAttr "flag_IgnoreCombat 1"
+						SetAttr "flag_IgnoreWeapon 1"
+						SetAttr "flag_IgnorePlayerFear 1"
+						SetAttr "flag_VitalEnemy 1"
+						SetAttr "ReactionThreshold RE_DANGER"
+					}
+				}
+			}
+		}
+		st_idle
+		{
+			group Neutral
+			patterns
+			{
+				pt_decide
+				{
+					actions
+					{
+						Pattern pt_idle
+					}
+				}
+				xpt_SelectWeapon
+				{
+					actions
+					{
+						Weapon arm
+						SetAttr "ea_status sMILITANT"
+					}
+				}
+			}
+		}
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_OnCatHurt
+				{
+					actions
+					{
+						SetAttr "rnd 0"
+						ChangeAttr "rnd 0:10"
+						IfAttr "rnd > 7 Say SEEHURTANIMAL"
+						RemoveAttr rnd
+					}
+				}
+				xpt_shout
+				{
+					actions
+					{
+						Say TOUGH
+						Timer tShout,5:10
+					}
+				}
+			}
+		}
+		st_OnDeath
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "Object:caller == Object:Player ChangeAttr slot#msGP.Totaldead +1"
+						ExecutePattern bh_base:st_OnDeath.pt_default
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnAE_Animalkilled	"ExecutePattern st_util.xpt_OnCatHurt"
+		OnTimer_tShout		"ExecutePattern st_util.xpt_shout"
+	}
+}
+behavior
+{
+	name bh_testlab_cat
+	inherited bh_cat
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "AgressionLevel 0,0,100"
+						ChangeAttr "AgressionLevel 40:60"
+						ExecutePattern bh_base:st_init.pt_default
+						SetAttr "SEX CATCONST,0,10"
+						SetAttr "Conscious 1"
+						SetAttr "ea_takeable 0"
+						SetAttr "active 1"
+						TargetEntByName mission_logic
+						TargetToMem msGP
+					}
+				}
+			}
+		}
+		st_start
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Timer tCraze,1:30
+						State st_idle
+					}
+				}
+				pt_craze
+				{
+					actions
+					{
+						State bh_cat:st_dervish
+					}
+				}
+			}
+		}
+		st_catched
+		{
+			group neutral
+			patterns
+			{
+				pt_default:ignore_ext_events
+				{
+					actions
+					{
+						Headblob 1,false
+						SetAttr "ea_status 0"
+						TargetFromMem msGP
+						FireEvent "MLGCatPicked"
+						ResetTarget 1
+						Senses false
+						
+						Pattern pt_carry
+					}
+				}
+				pt_throw:ignore_ext_events
+				{
+					actions
+					{
+						Senses true
+						TargetFromMem msGP
+						FireEvent "MLGCatThrown"
+						SetAttr "ea_takeable 0"
+						SetAttr "CatThrown 1"
+						ResetTarget 1
+						
+						Wait 5
+						State st_dervish
+					}
+					events
+					{
+						OnLand		"State st_dervish"
+						OnSnatch	"State st_snatch"
+					}
+				}
+			}
+		}
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "Object:caller == Object:player Block begin"
+							ChangeAttr "slot#msGP.Animalstokill -1"
+						Block end
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+		st_OnUnconscious
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default:ignore_ext_events
+				{
+					actions
+					{
+						SetAttr "Conscious 0"
+						ExecutePattern bh_base:st_OnUnconscious.pt_default
+					}
+				}
+			}
+		}
+		st_OnDeath
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						AreaEvent Animalkilled,ED_FAR
+						IfAttr "Object:caller == Object:player Block begin"
+							TargetPlayer 1
+							SetAttr "slot#msGP.Animalsharmed 1"
+						Block end
+						ExecutePattern bh_base:st_OnDeath.pt_default
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnTimer_tCraze "Pattern st_start.pt_craze"
+	}
+}
+behavior
+{
+	name bh_testlab_monkey
+	inherited bh_animal
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						SetAttr "Conscious 1"
+						TargetEntByName mission_logic
+						TargetToMem msGP
+					}
+				}
+			}
+		}
+		st_start
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						FreeMovementParams area_all,0,500,area_group
+						Timer tIdle,5:20
+						ResetTarget 1
+						Pattern pt_freerun
+					}
+				}
+				pt_randomanim
+				{
+					actions
+					{
+						Sequence seq.idle_angry
+						Wait 2:2
+						ResetSequence 1
+						State st_start
+					}
+				}
+				pt_freerun
+				{
+					actions
+					{
+						FreeMovement run,reset
+					}
+				}
+			}
+			events
+			{
+				OnInvalidRoute "Pattern st_start.pt_freerun"
+				OnTimer_tIdle "Pattern st_start.pt_randomanim"
+				OnVisible "State st_attack"
+			}
+		}
+		st_attack
+		{
+			group Alert
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetCaller 1
+						IgnoreTarget 6
+						IfAttr "target.ea_Faction == Faction:Animals Pattern pt_cat"
+						IfAttr "target.ea_Faction == Faction:Citizens Pattern pt_human"
+						IfAttr "target.ea_Faction == Faction:Zealots Pattern pt_human"
+						IfAttr "target.ea_Faction == Faction:Player Pattern pt_human"
+						Pattern pt_shit
+					}
+				}
+				pt_human
+				{
+					actions
+					{
+						IfAttr "target.Status == sCORPSE Pattern pt_ignore"
+						CheckAttr "target.hostaged Pattern pt_ignore"
+						CheckAttr "target.HaveHostage Pattern pt_ignore"
+						FreeMovement false
+						Timer tMove,10
+						Pattern pt_movetofuck
+					}
+				}
+				pt_movetofuck
+				{
+					actions
+					{
+						IfAttr "Timer:tMove <= 0 State st_start"
+						MoveToTarget run,1
+						IfAttr "DistTo:target < 64 State st_snatch"
+						Repeat 1
+					}
+					events
+					{
+						OnTargetReach	"State st_snatch"
+					}
+				}
+				pt_shit:ignore_ext_events
+				{
+					actions
+					{
+						FreeMovement false
+						MoveToTarget run,1
+						Wait 10
+						State st_start
+					}
+					events
+					{
+						OnTargetReach "Pattern pt_takeshit"
+					}
+				}
+				pt_takeshit
+				{
+					actions
+					{
+						FreeMovement false
+						Item take
+						//Sequence seq.ev_item_take
+						Wait 3
+						Item throw,forward
+						//Sequence seq.env_throw
+						Wait 1
+						State st_start
+					}
+				}
+				pt_cat
+				{
+					actions
+					{
+						FreeMovement false
+						MoveToTarget run,1
+						IfAttr "DistTo:target < 64 Block begin"
+							Sequence seq.attack_cat
+							Wait 1
+							State st_start
+						Block end
+						Repeat 1
+					}
+				}
+				pt_ignore
+				{
+					actions
+					{
+						IgnoreTarget 5
+						ResetTarget 1
+						State st_start
+					}
+				}
+			}
+			events
+			{
+				OnInvalidRoute "Pattern st_start.pt_freerun"
+				OnTargetReset "State st_start"
+			}
+		}
+		st_snatch
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Snatch true,fucking_monkey
+						Wait 3
+						State st_start
+					}
+					events
+					{
+						OnSnatch	"Pattern pt_snatched"
+					}
+				}
+				
+				pt_snatched
+				{
+					actions
+					{
+						IfAttr "Object:target != Object:player Block begin"
+							Wait 5:5
+							Snatch false
+						Block end
+					}
+					events
+					{
+						OnUnsnatch	"State st_start"
+					}
+				}
+			}
+		}
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "Object:caller == Object:player Block begin"
+							ChangeAttr "slot#msGP.Animalstokill -1"
+						Block end
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+		st_OnUnconscious
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default:ignore_ext_events
+				{
+					actions
+					{
+						SetAttr "Conscious 0"
+						ExecutePattern bh_base:st_OnUnconscious.pt_default
+					}
+				}
+			}
+		}
+		st_OnDeath
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						AreaEvent Animalkilled,ED_FAR
+						IfAttr "Object:caller == Object:player Block begin"
+							TargetPlayer 1
+							SetAttr "slot#msGP.Animalsharmed 1"
+						Block end
+						ExecutePattern bh_base:st_OnDeath.pt_default
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnUnsnatch "State st_start"
+	}
+}
+behavior
+{
+	name bh_testlab_rhino
+	inherited bh_rhino
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						TargetEntByName mission_logic
+						TargetToMem msGP
+						Timer tMonkey,2,repeated
+					}
+				}
+			}
+		}
+		st_berserk
+		{
+			group Neutral
+			patterns
+			{
+				pt_freerun
+				{
+					actions
+					{
+						ResetTarget 1
+						AvoidProhibitedArea true
+						FreeMovementParams area_all,-1,-1,area_group
+						FreeMovement run
+					}
+					events
+					{
+						OnTimer_tMonkey "ExecutePattern st_start.pt_checkmonkey"
+						OnVisible "Pattern pt_gotenemy"
+						OnTasingStart "Pattern pt_hateplayer"
+						OnHit "Pattern pt_hateplayer"
+						OnNasty "Pattern pt_hateplayer"
+						OnSuperNasty "Pattern pt_hateplayer"
+					}
+				}
+			}
+		}
+		st_start
+		{
+			group Neutral
+			patterns
+			{
+				pt_death
+				{
+					actions
+					{
+						EntFireUser mission_logic,4
+					}
+				}
+				pt_targetmonkey
+				{
+					actions
+					{
+						IfAttr "target.ea_manner != Manner:MonkeyApe Pattern st_berserk.pt_gotenemy"
+						IfAttr "target.ea_manner == Manner:MonkeyApe Pattern pt_follow"
+						State st_berserk
+					}
+				}
+				pt_checkmonkey
+				{
+					actions
+					{
+						TargetEntByName mth
+						IfAttr "DistTo:target < ED_MIDDLE Pattern pt_follow"
+						ResetTarget 1
+					}
+				}
+				pt_follow
+				{
+					actions
+					{
+						Timer tMove,1:5
+						FreeMovement false
+						MoveToTarget run,1
+						IfAttr "DistTo:target < 64 Block begin"
+							//Face true
+							Hit 1
+							//Face false
+						Block end
+						Repeat 1
+					}
+					events
+					{
+						OnTimer_tMove "Pattern pt_runstraight"
+						OnTargetReset "State st_berserk"
+						OnDeath "ExecutePattern st_start.pt_death"
+						OnStunned "ExecutePattern st_util.xpt_CheckStun"
+					}
+				}
+				pt_runstraight
+				{
+					actions
+					{
+						Move run
+						Wait 3
+						Pattern pt_follow
+					}
+					events
+					{
+						OnTargetReset "State st_berserk"
+						OnDeath "ExecutePattern st_start.pt_death"
+						OnStunned "ExecutePattern st_util.xpt_CheckStun"
+					}
+				}
+			}
+		}
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_CheckStun
+				{
+					actions
+					{
+						IfAttr "DistTo:anchor <= ED_VERY_CLOSE Return 1"
+						State st_stunned
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnDeath "ExecutePattern st_start.pt_death"
+		OnVisible "Pattern st_start.pt_targetmonkey"
+		OnTasingStart "Pattern st_berserk.pt_hateplayer"
+		OnHit "Pattern st_berserk.pt_hateplayer"
+		OnNasty "Pattern st_berserk.pt_hateplayer"
+		OnSuperNasty "Pattern st_berserk.pt_hateplayer"
+	}
+}
+behavior
+{
+	name bh_testlab_laser_monkey
+	inherited bh_npc
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						SetAttr "ea_dmg_absorb 100"
+						SetAttr "controlled 0"
+						
+						TargetEntByName mission_logic
+						TargetToMem msGP
+						ResetTarget 1
+					}
+				}
+			}
+		}
+		st_start
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ResetTarget 1
+						TargetEntByName LaserDot
+						IfAttr "target.ea_faction == Faction:LaserDot and target.laserpen_on == 1 Block begin"
+							SetAttr "controlled 1"
+							MoveToTarget run,1
+						Block end
+						Repeat 0.5
+					}
+				}
+			}
+		}
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetFromMem msGP
+						FireEvent MonkeyDead
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+	}
+}

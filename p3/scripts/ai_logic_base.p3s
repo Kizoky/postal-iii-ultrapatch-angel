@@ -342,6 +342,48 @@ behavior
 						ExecutePattern weaponGive.DLG
 					}
 				}
+				
+				//Freeroam
+				//roam_arcade
+				//roam_cashmart
+				//roam_cityhall
+				//roam_daveland
+				//roam_dogschool
+				//roam_farm
+				//roam_grotto
+				//roam_hub1
+				//roam_hub2
+				//roam_hub3
+				//roam_mall
+				//roam_mexico
+				//roam_monkeylab
+				//roam_police
+				//roam_pw
+				//roam_rodeo
+				
+				Roam
+				{
+					actions
+					{
+						ExecutePattern weaponGive.AA
+						EntFireInput "pcc,Command:give p3_weapon_gamamet"
+						EntFireInput "pcc,Command:giveammo catnipcan 6"
+						EntFireInput "pcc,Command:give p3_weapon_cat"
+						EntFireInput "pcc,Command:giveammo cat 9"
+						EntFireInput "pcc,Command:giveammo gasoline 100"
+						EntFireInput "pcc,Command:giveammo DesertEagle 150"
+						EntFireInput "pcc,Command:giveammo CrotchyGrenade 10"
+						EntFireInput "pcc,Command:giveammo Molotov 10"
+						EntFireInput "pcc,Command:giveammo Beehive 10"
+						EntFireInput "pcc,Command:giveammo M136 10"
+						EntFireInput "pcc,Command:giveammo Buckshot 100"
+						EntFireInput "pcc,Command:giveammo M60 400"
+						EntFireInput "pcc,Command:giveammo grenade 10"
+						EntFireInput "pcc,Command:giveammo pepperspraycan 100"
+						EntFireInput "pcc,Command:giveammo M16 300"
+					}
+				}
+				
 			}
 		}
 		
