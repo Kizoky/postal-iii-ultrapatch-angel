@@ -20,21 +20,21 @@ WeaponData
 	"screen_shake_frequency"		"25"
 	"screen_shake_duration" 		"0.25"
 
+	"fire_rate1"			"1.75"
 	"clip_size"				"5"
 	"primary_ammo"			"M16"
 	
-	"SecondaryMinDamage"	"150"
-	"SecondaryMaxDamage"	"200"
+	"SecondaryMinDamage"	"175"
+	"SecondaryMaxDamage"	"225"
 
 	"weight"				"2"
 	"rumble"				"1"
 	"item_flags"			"0"
 
 	"fire_effect"			"Handgun_Fire_FX"
-	"fire_rate1"			"2.5"
 	
-	"PrimaryMinDamage"		"150"
-	"PrimaryMaxDamage"		"200"
+	"PrimaryMinDamage"		"175"
+	"PrimaryMaxDamage"		"225"
 	
 	"NPCMinDamage"			"35"
 	"NPCMaxDamage"			"50"
