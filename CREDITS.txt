@@ -10,8 +10,9 @@ Made with love by core members of the Whackjob Interactive devteam!
 - Lena: Mapping
 - Jenny_MCII: Programming, Balancing, Testing, and Mission Improvements
 - Elwood: English Writing Improvements, Balancing, and Mission Improvements
+- ABRAoriginal: Mapping, P3S Scripting, various other improvements
 
 SPECIAL THANKS:
 ===============
 - MeeMdic: Russian localization improvements and weapon icons!
-- Professor Skuf: Testing and bug reporting!
+- Professor Skuf: Rigorous testing and bug reporting!
