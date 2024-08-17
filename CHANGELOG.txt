@@ -314,6 +314,8 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 
 * Crosshair is now hidden when utilizing certain weapons that don't require precise aim
 
+* Free roam maps now give you maximum ammo for all weapons now
+
 * Prevented physx simulation while the game is paused
 
 + "Champ Whisperer" achievement is now implemented and obtainable
