@@ -157,6 +157,15 @@ noticably on the main menu when it's used for dude's cigarette smoke!
 
 * Fixed an issue regarding shopvac save/restoration
 
+* Fixed cat tasing sequence being broken
+
+* Fixed subtle physx jitter and smoothed out simulation
+
+* Fixed NPC's dropping badgersaw as a weapon pickup in certain circumstances
+(For instance, knocking someone out with the fartgun, like the badgersaw zealot on police mission 2)
+
+* Fixed new objective notification appearing in free roam
+
 IMPROVEMENTS/ADDITIONS/CHANGES: 
 ===============================
 
@@ -186,6 +195,8 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 
 * Replaced dude pistol firing animations with ones that exhibit reduced recoil
 
+* Weemote piss is now fully restored on level load
+
 * Significantly improved and enhanced player kicking
 
 * Catnip spray now triggers an auto-reload, regardless of player use
@@ -198,11 +209,15 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 
 + Added M136 ammo pickup, holster, and deploy sounds
 
++ Added russian localization improvements and weapon icons (Thanks MeeMdic!)
+
 * Significantly improved melee hit detection
 
 * Improved boomerang machete a ton
 
 * Improved weemote and burst fire pissing
+
+* NPC's get knocked out much faster by spray weapons (Excluding fartgun)
 
 + NPCs can now be ragdolled upon being hit by objects launched from the shopvac
 
@@ -215,6 +230,8 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 + Added back cut dude self pissing lines
 
 + Added back cut hockey mom protesting animation
+
++ Added updated soup.ttf font from Zoom patch, supporting more localizations
 
 * Improved player interaction
 
