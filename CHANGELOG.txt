@@ -217,8 +217,6 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 
 * Improved weemote and burst fire pissing
 
-* NPC's get knocked out much faster by spray weapons (Excluding fartgun)
-
 + NPCs can now be ragdolled upon being hit by objects launched from the shopvac
 
 * Snatch quicktime event progress is now reset if the player doesn't attack for a certain amount of time
@@ -373,6 +371,7 @@ BALANCING:
 
 * Significantly improved balancing for weapons (NPC/Player)
 * Sped up player health regeneration
+* NPC's get knocked out much faster by spray weapons (Excluding fartgun)
 
 MISSIONS:
 =========
