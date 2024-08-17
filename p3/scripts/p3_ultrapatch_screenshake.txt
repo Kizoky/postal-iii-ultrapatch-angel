@@ -15,4 +15,22 @@ p3_ultrapatch_screenshake
 	"player_hurt_amplitude" 	"2"
 	"player_hurt_frequency" 	"25"
 	"player_hurt_duration" 	"0.25"
+	
+	// Tank Human NPC runover gibbing
+	"tank_runover_human_shake_multiplier"		"0.08"
+	"tank_runover_human_amplitude"				"2"
+	"tank_runover_human_frequency"				"25"
+	"tank_runover_human_duration"				"0.25"
+	
+	// Tank NPC runover
+	"tank_runover_npc_shake_multiplier"			"0.08"
+	"tank_runover_npc_amplitude"				"2"
+	"tank_runover_npc_frequency"				"25"
+	"tank_runover_npc_duration"					"0.25"
+	
+	// Player runover
+	"tank_runover_player_shake_multiplier"		"0.08"
+	"tank_runover_player_amplitude"				"2"
+	"tank_runover_player_frequency"				"25"
+	"tank_runover_player_duration"				"0.25"
 }
