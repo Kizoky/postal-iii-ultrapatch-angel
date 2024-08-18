@@ -1,0 +1,10 @@
+// This number is looked for when loading save file, you can up this number everytime you make heavy changes to the codebase
+// If before and after numbers don't match, the Serializer will automatically abort when attempting to restore values
+// NOTE: This absolutely must be an integer!
+const int AS_MOD_VERSION = 0;
+
+#include "engine/engine.as"
+#include "engine/npc.as"
+#include "engine/player.as"
+
+#include "example.as"
