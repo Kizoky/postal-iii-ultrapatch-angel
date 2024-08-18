@@ -98,6 +98,8 @@ noticably on the main menu when it's used for dude's cigarette smoke!
 
 * Fixed police helicopter being able to get tased, causing it to spin uncontrollably (Very funny, almost regret patching this)
 
+* Fixed a crash that can occur while fighting hugo chavez
+
 * Fixed cats getting "stuck" when hitting the ground after being thrown in some occasions
 
 * Fixed an issue with NPC bump AI functionality

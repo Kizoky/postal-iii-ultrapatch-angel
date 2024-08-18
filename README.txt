@@ -22,6 +22,9 @@ Usage of this patch alongside these mods will result in numerous conflicts and i
 
 NEW CONSOLE COMMANDS FOR FEATURES/CHANGES:
 ==========================================
+p3_ultrapatch_sniper_scope_level
+p3_ultrapatch_sniper_bolt_time
+p3_ultrapatch_player_use_dist
 p3_ultrapatch_quicksave
 p3_ultrapatch_cam_lerp
 p3_ultrapatch_cam_lerp_factor
