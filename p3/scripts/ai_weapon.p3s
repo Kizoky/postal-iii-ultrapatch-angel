@@ -1,0 +1,39 @@
+behavior
+{
+	name itmWeapon
+	//inherited default_behavior
+	states
+	{
+		// Init state
+		itm_weapon
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions 
+					{
+						
+					}
+				}
+			}
+		}
+		
+		// Start state
+		st_default
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+					
+					}
+				}
+			}
+		}
+	}
+}
