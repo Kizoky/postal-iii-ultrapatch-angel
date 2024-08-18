@@ -1,0 +1,170 @@
+
+"vehicle"
+{
+	"wheelsperaxle"	"2"
+	"body"
+	{
+		"countertorquefactor"	"1"
+		"massCenterOverride"	"0 65 0"
+		"massoverride"		"60000"		// kg
+		"addgravity"		"0.17"
+		//"maxAngularVelocity" "25"
+	}
+	"engine"
+	{
+		"horsepower"		"500"
+		"maxrpm"		"1500"
+		"maxspeed"		"12"		// mph
+		"maxReverseSpeed"	"12"		// mph
+		"autotransmission"	"1"
+		"axleratio"		"4.56"
+		"gear"			"1.86"		// 1st gear
+		"gear"			"1.59"		// 2nd gear
+		"gear"			"1.17"		// 3rd gear
+		"gear"			"1.0"		// 4th gear
+		"gear"			"0.84"		// 5th gear
+		"shiftuprpm"		"500"
+		"shiftdownrpm"		"300"
+	
+		"boost"
+		{
+//			"force"		"1.5"	// 1.5 car body mass * gravity * inches / second ^ 2
+			"duration"	"1.0"	// 1 second of boost
+			"delay"		"15"	// 15 seconds before you can use it again
+			"torqueboost"	"1"	// enable "sprint" mode of vehicle, not	force type booster			
+			"maxspeed"	"50"	// maximum turbo speed
+			"force"		"2.5"	// use for value as a boost factor
+		}
+	}
+	"steering"
+	{
+		"degrees"		"5"
+		"fastdampen"		"0.35"
+		"slowcarspeed"		"1.2"
+		"fastcarspeed"		"1.2"
+
+		"steeringRestFactor"	"1.0"
+		"turnbrake"		"0.17"
+
+		"skidallowed"		"1"
+		"dustcloud"		"1"
+
+		// ep2 vehicle model
+		"degreesFast"		"100"
+		"degreesSlow"		"100"
+		"slowSteeringRate"	"0.45"		
+		"fastSteeringRate"	"0.45"
+		"steeringRestRateSlow"	"4.0"
+		"steeringRestRateFast"	"4.0"
+		"turnThrottleReduceSlow" "0.0"
+		"turnThrottleReduceFast" "0.0"
+
+		"brakeSteeringRateFactor"	"1"
+		"throttleSteeringRestRateFactor"	"1"
+		"boostSteeringRestRateFactor"	"0"
+		"boostSteeringRateFactor"	"0"
+		"powerSlideAccel"	"0"
+	}
+
+	// front axle
+	"axle"
+	{
+		"wheel"
+		{
+			"radius"	"30"
+			"mass"		"2000"
+			"inertia"	"0.5"		// steady the car (fixes the oscillation of the axles about z)
+			"damping"	"0"
+			"rotdamping"	"0"
+			"material"	"rubbertire"
+			"skidmaterial"	"slidingrubbertire"
+			"brakematerial" "brakingrubbertire"
+		}
+		"suspension"
+		{
+			"springConstant"		"80"
+			"springDamping"			"4"
+			"stabilizerConstant"		"110"
+			"springDampingCompression"	"4"
+			"maxBodyForce"			"250"
+		}
+
+		"torquefactor"	"0.4"
+		"brakefactor"	"0.5"
+	}
+
+	// rear axle
+	"axle"
+	{
+		"wheel"
+		{
+			"radius"	"30"
+			"mass"		"2000"
+			"inertia"	"0.5"		// steady the car (fixes the oscillation of the axles about z)
+			"damping"	"0"
+			"rotdamping"	"0"
+			"material"	"rubbertire"
+			"skidmaterial"	"slidingrubbertire"
+			"brakematerial" "brakingrubbertire"
+		}
+		"suspension"
+		{
+			"springConstant"		"80"
+			"springDamping"			"4"
+			"stabilizerConstant"		"110"
+			"springDampingCompression"	"4"
+			"maxBodyForce"			"250"
+		}
+		"torquefactor"	"0.6"
+		"brakefactor"	"0.5"
+	}
+}
+
+"vehicle_sounds"
+{
+	// List gears in order from lowest speed to highest speed
+	/*"gear"
+	{
+		"max_speed"		"1.0"
+		"speed_approach_factor" "0.1"
+	}
+	"state"
+	{
+		"name"		"SS_SHUTDOWN"
+		"sound"		"apc_engine_stop"
+	}
+	"state"
+	{
+		"name"		"SS_START_IDLE"
+		"sound"		"apc_engine_start"
+	}
+	"state"
+	{
+		"name"		"SS_IDLE"
+		"sound"		"apc_engine_idle"
+	}
+	"state"
+	{
+		"name"		"SS_GEAR_0"
+		"sound"		"apc_firstgear"
+	}
+	"state"
+	{
+		"name"		"SS_GEAR_0_RESUME"
+		"sound"		"apc_firstgear"
+	}
+	"state"
+	{
+		"name"		"SS_SLOWDOWN_HIGHSPEED"
+		"sound"		"apc_throttleoff_fastspeed"
+	}
+	"state"
+	{
+		"name"		"SS_SLOWDOWN"
+		"sound"		"apc_throttleoff_slowspeed"
+	}
+
+	"skid_lowfriction"	"ATV_skid_lowfriction"
+	"skid_normalfriction"	"ATV_skid_normalfriction"
+	"skid_highfriction"	"ATV_skid_highfriction"*/
+}
