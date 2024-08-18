@@ -161,8 +161,6 @@ noticably on the main menu when it's used for dude's cigarette smoke!
 
 * Fixed cat tasing sequence being broken
 
-* Fixed subtle physx jitter and smoothed out simulation
-
 * Fixed NPC's dropping badgersaw as a weapon pickup in certain circumstances
 (For instance, knocking someone out with the fartgun, like the badgersaw zealot on police mission 2)
 
