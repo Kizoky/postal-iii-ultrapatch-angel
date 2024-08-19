@@ -1,5 +1,5 @@
-ABOUT:
-======
+ABOUT ULTRAPATCH:
+=================
 This patch addresses a significant number of bugs and crashes that were present in Postal III, and also includes additional improvements, changes, and restored cut content. 
 Whackjob Interactive was granted access to the game's source code after several years of abandonment, and have created this patch as a result.
 The modifications are faithful to the current design of the game and were born out of the efforts of the Catharsis Reborn total conversion modding team. 
