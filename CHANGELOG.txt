@@ -155,11 +155,25 @@ noticably on the main menu when it's used for dude's cigarette smoke!
 
 * Fixed hud messages breaking on screen resolution change
 
+* Fixed NPCs using occupied hint nodes 
+(In some maps you could see a crowd of NPCs sitting on one bench for example...)
+
+* Fixed Postal3Script function `EmitSound` not being usable on non-NPC entities
+
+* Fixed Postal3Script weapon scripting, NPCs can now see and interact with weapons 
+(`active` and `dropped` P3S attributes associated)
+
+* Fixed a bug with NPCs holding dismembered limbs
+
 * Fixed an issue with InputFireFSMScriptEvent
+
+* Fixed human NPCs not being able to pick up an item anymore after level transition
 
 * Fixed an issue regarding shopvac save/restoration
 
 * Fixed cat tasing sequence being broken
+
+* Fixed the cutscene camera entity 'point_viewcontrol' not working at all, and causing crashes
 
 * Fixed NPC's dropping badgersaw as a weapon pickup in certain circumstances
 (For instance, knocking someone out with the fartgun, like the badgersaw zealot on police mission 2)
@@ -184,6 +198,8 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 + Added back cut/unused bystander freakout player voice lines
 
 + Added back unused badgersaw attack sounds
+
++ Added cvars for previous hardcoded max ammo counts for weapons
 
 + Added mauling sounds for cat snatching
 
@@ -217,6 +233,8 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 
 * Improved weemote and burst fire pissing
 
++ Added a bunch of Postal3Script identifiers (for example `ImAPlayer`, `ImAnAnimal`, `ImADog`, etc...)
+
 + NPCs can now be ragdolled upon being hit by objects launched from the shopvac
 
 * Snatch quicktime event progress is now reset if the player doesn't attack for a certain amount of time
@@ -230,6 +248,8 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 + Added back cut hockey mom protesting animation
 
 + Added updated soup.ttf font from Zoom patch, supporting more localizations
+
++ Added back unlinked 'func_monitor' entity, this makes monitors work on certain maps like PornWorld
 
 * Improved player interaction
 
@@ -288,7 +308,14 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 
 * Made spray weapons require a direct hit on NPC faces to blind them
 
++ Added Postal3Script `Weapon pickup` for NPCs
+
+* Postal3Script `TargetItem` can now also target active weapon both for players and NPCs
+
 * Improved segway movement and boost mechanic
+
+* Postal3Script Timer can now have longer declarations 
+(Previously it was locked to 30 characters)
 
 * Separated player cover from jumping
 
@@ -319,6 +346,8 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 + "Champ Whisperer" achievement is now implemented and obtainable
 
 * Free-roaming is now unlocked by default
+
+* NPCs will no longer pathfind through navigation locked areas
 
 + Added stars headblob to NPCs upon taser energyball stun
 
@@ -421,3 +450,10 @@ MAPPING:
 * Fixed floating door frames in the Gay Rodeo maps
 
 * Fixed NPC's spawning inside of the ground in the rodeo maps
+
+ANGEL CHANGES:
+==============
+* Fixed game crashing with `CPostal3Multiplayer` gamerule error if maxplayers is set above 1
++ Added Postal3Script function `AngelScript`
++ New AngelScript call `void Player::OnHostageReleased_Kicked()`
++ Added new entities: wj_trigger_angelscript, wj_logic_angelscript, wj_prop_fsmitem
