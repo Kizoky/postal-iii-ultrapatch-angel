@@ -1,0 +1,1752 @@
+Constants
+{
+	Const TI_PZ_NONE,0
+	Const TI_PZ_STAY,1
+	Const TI_PZ_STAY_TURNING,2
+	Const TI_PZ_PATROL_LONG,3
+	Const TI_PZ_PATROL_SHORT,4
+	Const TI_PZ_PATROL_CORNER,5
+	
+	Const CORNER_NONE,0
+	Const CORNER_LEFT,1
+	Const CORNER_RIGHT,2
+	
+	Const SUB_PATROL_TIME_LONG,15
+	Const SUB_PATROL_TIME_SHORT,8
+	Const SUB_PATROL_TIME_CORNER,6
+}
+
+
+behavior
+{
+	name bh_mission_sbe
+	inherited bh_mission_logic_base
+	
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "ExitReached 0"
+						SetAttr "NumShot 0,0,10"
+						SetAttr "NonLethal 1"
+						//EntFireInput "ccommand,Command:give p3_weapon_shopvac"
+						
+						SetAttr "PlayerPath PATH_INSANE"
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						PlayerKarma show
+						//EntFireInput "pcc,Command:use p3_weapon_shopvac"
+						
+						MissionLog "Add_Primary,escape,#P3_SBE_PRI1"
+						MissionLog "Add_Secondary,photos,#P3_SBE_SEC1"
+						MissionLog "Add_Secondary,lethal,#P3_SBE_SEC2"
+						ShowMessage #P3_SBE_MSG1
+						Pattern pt_loop
+					}
+				}
+				
+				pt_loop
+				{
+					actions
+					{
+						IfAttr "ExitReached == 1 ExecutePattern .xpt_OnExitReached"
+						Repeat 1
+					}
+				}
+				
+				pt_bossfight
+				{
+					actions
+					{
+						PlayVideo sbe_2,1.0,1.0
+						Wait 0.9
+						EntFireInput boss_spawner,Spawn
+						MissionLog "add_primary,boss,#P3_SBE_PRI2"
+						Pattern pt_loop
+					}
+				}
+				
+				xpt_OnSlaveShot
+				{
+					actions
+					{
+						ChangeAttr "NumShot 1"
+					}
+				}
+				
+				xpt_OnExitReached
+				{
+					actions
+					{
+						TargetEntByName npc_slave
+						FireEvent CheckDistance
+					}
+				}
+				
+				xpt_OnNPCDead
+				{
+					actions
+					{
+						//TargetPlayer 1
+						//ChangeAttr "target.ea_karma 5"
+						CheckAttr "NonLethal RemoveAttr NonLethal"
+						MissionLog fail,lethal
+					}
+				}
+				
+				xpt_OnPaparazziEscaped
+				{
+					actions
+					{
+						SetAttr "PhotoTaken 1"
+						MissionLog fail,photos
+						CheckAttr "PhotoTaken PlayerKarma -KARMA_HIGH"
+					}
+				}
+				
+			}
+			events
+			{
+				OnEntranceReached "Pattern pt_bossfight"
+			}
+		}
+		
+		st_escortfail
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						MissionLog fail,escape
+						State st_fail
+					}
+				}
+			}
+		}
+		
+		st_fail
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ShowMessage #P3_SBE_FAILMSG
+						Wait 1
+						EntFireInput "ccommand,Command:reload"
+					}
+				}
+			}
+		}
+		
+		st_end
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						//ShowMessage "[Mission Complete],$P3Mission"
+						//Wait 1
+						
+						IfAttr "NonLethal == 1 Pattern pt_good"
+						Pattern pt_bad
+					}
+				}
+				
+				pt_good
+				{
+					actions
+					{
+						PlayerKarma +KARMA_FULL
+						EntFireInput fade_in,Fade
+						Wait 1
+						EntFireInput "pcc,Command:video_exitcmd sbe_3 p3_end_mission"
+						//EndMission 1
+						//EntFireInput "ccommand,Command:changelevel mli"
+					}
+				}
+				
+				pt_bad
+				{
+					actions
+					{
+						EntFireInput fade_in,Fade
+						Wait 1
+						EntFireInput "pcc,Command:video_exitcmd sbe_4 p3_end_mission"
+						//EndMission 1
+						//EntFireInput "ccommand,Command:changelevel pa"
+					}
+				}
+			}
+		}
+		
+	}
+	events
+	{
+		OnFire_SlaveDead				"State st_escortfail"
+		OnFire_SlaveShot				"ExecutePattern st_start.xpt_OnSlaveShot"
+		OnFire_PaparazziEscaped	"ExecutePattern st_start.xpt_OnPaparazziEscaped"
+		OnExitReached						"SetAttr ExitReached 1"
+		OnExitLeft							"SetAttr ExitReached 0"
+		OnFire_EscapeOK					"State st_end"
+		OnFire_NPCDead					"ExecutePattern st_start.xpt_OnNPCDead"
+		OnFire_BossDead					"MissionLog done,boss"
+		
+		OnNewGame "ExecutePattern weaponGive.SBE"
+	}
+}
+
+
+
+behavior
+{
+	name bh_slaveboy
+	inherited bh_social
+	
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						SetAttr "SlaveBoy 1"
+						SetAreaGroup AG_DEFAULT,AG_LOBBY
+						
+						SetAttr "flag_IgnorePlayerAttack 1"
+						SetAttr "flag_IgnoreWeapon 1"
+						//SetAttr "flag_IgnorePlayerFear 1"
+						
+						Timer tNasty,0
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						AttributeProgressBar "SlaveHealthPanel,show,ea_health"
+						ExecutePattern bh_base:st_start.pt_default
+					}
+				}
+			}
+		}
+		
+		st_fear
+		{
+			Group Alert
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						FreeMovement false
+						MoveToTarget false
+						Timer tStopFear,15:10
+						Timer tSayScary,5:2
+						Say SCARED
+						Pattern pt_decide
+					}
+				}
+				
+				pt_decide
+				{
+					actions
+					{
+						Pattern pt_runout
+					}
+				}
+				
+				pt_runout
+				{
+					actions
+					{
+						//SetActPack ACT_RUN,run_panic,Alert
+						SetHintGroup hg_slave
+						FreeMovementParams hint_hidden,ED_CLOSE,-1,nearest // ,once
+						FreeMovement run,reset
+						Timer tStartScare,3:3
+					}
+					events
+					{
+						OnTimer_tStartScare "Pattern pt_scare"
+						OnTargetReach "Pattern pt_scare"
+						OnInvalidRoute "Pattern pt_scare"
+					}
+				}
+				
+				pt_scare
+				{
+					actions
+					{
+						FreeMovement false
+						Sequence seq.env_crouch,5
+						Gesture g_emote_afraid_slave
+						Wait 1.5:2.5
+						CheckLOS 1
+						Repeat 1
+					}
+					events
+					{
+						OnLOS "Pattern pt_runout"
+					}
+				}
+				
+				pt_stopfear
+				{
+					actions
+					{
+						Relationship target,neutral
+						Pattern pt_end
+					}
+				}
+				
+				xpt_SayScary
+				{
+					actions
+					{
+						Say SCARED
+						Timer tSayScary,5:2
+					}
+				}
+			}
+			events
+			{
+				OnTimer_tStopFear "Pattern pt_stopfear"
+				OnTimer_tSayScary "ExecutePattern .xpt_SayScary"
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						FreeMovement false
+						TargetPlayer 1
+						Face false
+						LookAt true
+						MoveToTarget true,1:1
+						Pattern pt_loop
+					}
+				}
+				
+				pt_loop
+				{
+					actions
+					{
+						Wait 2:2
+						//Pattern pt_default
+						Pattern pt_end
+					}
+					events
+					{
+						OnInvalidRoute "Pattern pt_TryUnstuck"
+					}
+				}
+				
+				pt_TryUnstuck
+				{
+					actions
+					{
+						FreeMovementParams area_all,0,ED_VERY_CLOSE,from_target
+						FreeMovement true
+						Wait 2:2
+						Pattern pt_end
+					}
+					events
+					{
+						OnInvalidRoute	"Pattern pt_wait"
+						OnTargetReach		"Pattern pt_default"
+					}
+				}
+				
+				pt_wait
+				{
+					actions
+					{
+						Wait 1
+						Pattern pt_end
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						State st_start
+					}
+				}
+			}
+			events
+			{
+				OnFire_ShootingYou "State st_pose"
+			}
+		}
+		
+		st_pose
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						MoveToTarget false
+						TargetCaller 1
+						Face true
+						Wait 0.3:0.5
+						Sequence seq.emotions_hi,seq.emotions_hibaby,seq.emotions_salute,seq.dialogue_yo
+						Say EXITED,HAPPY
+						WaitForEnd 1
+						Pattern pt_end
+					}
+					events
+					{
+						OnFire_ShotFailed "Pattern pt_end"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						Face false
+						ResetSequence 1
+						
+						IfAttr "reaction < RE_NASTY Block begin"
+							SetAttr "reaction RE_NONE"
+							SetAttr "NewReaction RE_NONE"
+						Block end
+						
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction >= RE_NASTY Pattern pt_end"
+					}
+				}
+			}
+		}
+		
+		st_OnNasty
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Timer tNasty,5:3
+						ExecutePattern bh_base:st_OnNasty.pt_default
+					}
+				}
+				
+				pt_react
+				{
+					actions
+					{
+						Pattern pt_comment
+					}
+				}
+				
+				pt_comment
+				{
+					actions
+					{
+						Sequence seq.dialogue_phrase3
+						Say EXITED,HAPPY
+						WaitForEnd 1
+						Pattern pt_end
+					}
+				}
+				
+			}
+		}
+		
+		st_OnKicked
+		{
+			Group Alert
+			Patterns
+			{
+				pt_blame
+				{
+					actions
+					{
+						Face true
+						Wait 0.3:0.3
+						Say ANGRY
+						Sequence seq.agitate_active,seq.agitate_agressive
+						WaitForEnd 1
+						Pattern pt_end
+					}
+				}
+			}
+		}
+		
+		st_deactivate
+		{
+			Group Alert
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetFromMem msGP
+						FireEvent SlaveDead
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+		
+		st_util
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				xpt_CheckDistance
+				{
+					actions
+					{
+						TargetPlayer 1
+						IfAttr "DistTo:target < 96 Block begin"
+							TargetFromMem msGP
+							FireEvent EscapeOK
+						Block end
+					}
+				}
+				
+				xpt_OnHit
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_util.xpt_OnHit
+						SetAttr "NewReaction RE_FEAR"
+					}
+				}
+			}
+		}
+		
+	}
+	events
+	{
+		OnFire_CheckDistance "ExecutePattern st_util.xpt_CheckDistance"
+		OnNasty			"IfAttr Timer:tNasty <= 0 SetAttr NewReaction RE_NASTY"
+		OnHit				"SetAttr NewReaction RE_FEAR"
+	}
+	
+}
+
+
+behavior
+{
+	name bh_paparazzi
+	inherited bh_civil
+	
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						SetAttr "HaveCamera 1"
+						SetAttr "ShotTaken 0"
+						SetSquad paparazzi_squad
+						
+						AvoidProhibitedArea true
+						SetAreaGroup AG_DEFAULT,AG_LOBBY
+						
+						TargetEntByName "mission_logic"
+						TargetToMem msGP
+						ResetTarget 1
+						
+						SetAttr "flag_IgnoreWeapon 1"
+						SetAttr "flag_IgnoreCombat 1"
+						SetAttr "flag_VitalEnemy 1"
+						
+						SetAttr "ReactionThreshold RE_NASTY"
+						SetAttr "TaskIdle TI_PZ_NONE"
+						SetAttr "CornerType CORNER_NONE"
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "reaction > RE_PAINT ExecutePattern st_util.xpt_DropCamera"
+						IfAttr "reaction == RE_PAINT Pattern pt_react"
+						RemoveAttr Turning
+						
+						ExecutePattern bh_base:st_start.pt_default
+					}
+				}
+				
+				pt_reaction
+				{
+					actions
+					{
+						IfAttr "reaction == RE_PAINT State st_OnPaint"
+						ExecutePattern bh_base:st_start.pt_reaction
+					}
+				}
+			
+				xpt_combat
+				{
+					actions
+					{
+						CheckAttr "runaway Block begin"
+							IfAttr "ShotTaken == 1 and HaveCamera == 1 State st_runaway"
+						Block end
+						
+						Aim false
+						IfAttr "HasWeapon:melee > 0 Weapon arm,melee"
+						IfAttr "HasWeapon:melee == 0 Weapon disarm"
+						State st_attack_melee
+					}
+				}
+			}
+		}
+		
+		st_attack_melee
+		{
+			Group Combat
+			Patterns
+			{
+				xpt_SayHit
+				{
+					actions
+					{
+						Say PZZI_POSTAL
+					}
+				}
+				xpt_SayPush
+				{
+					actions
+					{
+						Say PZZI_POSTAL
+					}
+				}
+
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "Timer:tChaseSlave <= 0 RemoveAttr SawSlave"
+						Pattern bh_base:st_idle.pt_default
+					}
+				}
+				
+				pt_decide
+				{
+					actions
+					{
+						CheckAttr "runaway Block begin"
+							IfAttr "ShotTaken == 1 and HaveCamera == 1 State st_runaway"
+						Block end
+						
+						CheckAttr "escaped Pattern pt_idle"
+						CheckAttr "SawSlave Pattern pt_chase"
+						
+						IfAttr "TaskIdle == TI_PZ_NONE Pattern pt_gotohint"
+						IfAttr "TaskIdle == TI_PZ_STAY Pattern pt_stay"
+						IfAttr "TaskIdle == TI_PZ_STAY_TURNING Pattern pt_stay"
+						IfAttr "TaskIdle == TI_PZ_PATROL_LONG State st_patrol"
+						IfAttr "TaskIdle == TI_PZ_PATROL_SHORT State st_patrol"
+						IfAttr "TaskIdle == TI_PZ_PATROL_CORNER State st_patrol"
+					}
+				}
+				
+				pt_gotohint
+				{
+					actions
+					{
+						ExecutePattern .xpt_SetHintGroup
+						FreeMovementParams hint_all,0,-1,hint_group,hint_face,use_node,nearest,once
+						FreeMovement walk,reset
+					}
+					events
+					{
+						OnInvalidRoute "Repeat 0"
+					}
+				}
+				
+				pt_idle
+				{
+					actions
+					{
+						FreeMovementParams area_all,ED_VERY_CLOSE,ED_MIDDLE,area_group
+						FreeMovement walk
+						Wait 2:2
+						State st_start
+					}
+				}
+				
+				pt_chase
+				{
+					actions
+					{
+						TargetEntByName npc_slave
+						MoveToTarget run,1
+						CheckTarget 1
+						Repeat 1
+					}
+					events
+					{
+						OnTimer_tChaseSlave "Pattern pt_stop_chase"
+					}
+				}
+				
+				pt_stop_chase
+				{
+					actions
+					{
+						RemoveAttr SawSlave
+						State st_start
+					}
+				}
+				
+				pt_stay
+				{
+					actions
+					{
+						IfAttr "TaskIdle == TI_PZ_STAY_TURNING SetAttr Turning 1"
+						SetAttr "TaskIdle TI_PZ_NONE"
+						Wait 5:2
+						CheckAttr "Turning Turn 180"
+						Repeat 0
+					}
+				}
+				
+				xpt_SetHintGroup
+				{
+					actions
+					{
+						IfAttr "Name:self == String:npc_paparazzi_01 SetHintGroup hg_paparazzi_01"
+						IfAttr "Name:self == String:npc_paparazzi_02 SetHintGroup hg_paparazzi_02"
+						IfAttr "Name:self == String:npc_paparazzi_03 SetHintGroup hg_paparazzi_03"
+						IfAttr "Name:self == String:npc_paparazzi_04 SetHintGroup hg_paparazzi_04"
+						IfAttr "Name:self == String:npc_paparazzi_05 SetHintGroup hg_paparazzi_05"
+						IfAttr "Name:self == String:npc_paparazzi_06 SetHintGroup hg_paparazzi_06"
+						IfAttr "Name:self == String:npc_paparazzi_07 SetHintGroup hg_paparazzi_07"
+						IfAttr "Name:self == String:npc_paparazzi_08 SetHintGroup hg_paparazzi_08"
+						IfAttr "Name:self == String:npc_paparazzi_09 SetHintGroup hg_paparazzi_09"
+						IfAttr "Name:self == String:npc_paparazzi_10 SetHintGroup hg_paparazzi_10"
+						IfAttr "Name:self == String:npc_paparazzi_11 SetHintGroup hg_paparazzi_11"
+						IfAttr "Name:self == String:npc_paparazzi_12 SetHintGroup hg_paparazzi_12"
+						IfAttr "Name:self == String:npc_paparazzi_13 SetHintGroup hg_paparazzi_13"
+						IfAttr "Name:self == String:npc_paparazzi_14 SetHintGroup hg_paparazzi_14"
+						IfAttr "Name:self == String:npc_paparazzi_15 SetHintGroup hg_paparazzi_15"
+					}
+				}
+				
+				xpt_SelectWeapon
+				{
+					actions
+					{
+						Aim false
+						IfAttr "HaveCamera == 1 Weapon select,ranged"
+						IfAttr "HaveCamera == 0 Weapon disarm"
+					}
+				}
+				
+				xpt_OnSlaveDetected
+				{
+					actions
+					{
+						TargetCaller 1
+						AssistTarget 1
+						
+						ExecutePattern .xpt_OnVisible
+					}
+				}
+				
+				xpt_OnVisible
+				{
+					actions
+					{
+						//TargetToMem msTARGET
+						//TargetCaller 1
+						CheckAttr "target.SlaveBoy Block begin"
+							IfAttr "HaveCamera == 1 State st_shoot"
+						Block end
+						
+						IfAttr "Object:target == Object:player Block begin"
+							SetAttr "rnd 0,0,10"
+							ChangeAttr "rnd 1:10"
+							//IfAttr "rnd <= 4 SetAttr AttackPlayer 1"
+							
+							RemoveAttr rnd
+							CheckAttr "AttackPlayer Block begin"
+								RemoveAttr AttackPlayer
+								Relationship target,enemy
+								State st_start
+							Block end
+						Block end
+						
+						//State st_shoot
+						IgnoreTarget 3
+						ResetTarget 1
+						
+						//TargetFromMem msTARGET
+					}
+				}
+				
+			}
+			events
+			{
+				OnAE_SeeSlave "ExecutePattern .xpt_OnSlaveDetected"
+			}
+		}
+		
+		st_patrol
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "TaskIdle == TI_PZ_PATROL_CORNER SetAttr PhaseNum 1,1,2"
+						Pattern pt_move
+					}
+				}
+				
+				pt_move
+				{
+					actions
+					{
+						IfAttr "TaskIdle == TI_PZ_PATROL_LONG		Move walk,0,SUB_PATROL_TIME_LONG,face_dir"
+						IfAttr "TaskIdle == TI_PZ_PATROL_SHORT	Move walk,0,SUB_PATROL_TIME_SHORT,face_dir"
+						IfAttr "TaskIdle == TI_PZ_PATROL_CORNER Move walk,0,SUB_PATROL_TIME_CORNER,face_dir"
+					}
+					events
+					{
+						OnTargetReach "Pattern pt_turn_decide"
+						OnInvalidRoute "Pattern pt_end"
+					}
+				}
+				
+				pt_turn_decide
+				{
+					actions
+					{
+						IfAttr "TaskIdle != TI_PZ_PATROL_CORNER Pattern pt_turn180"
+						
+						IfAttr "TaskIdle == TI_PZ_PATROL_CORNER Block begin"
+							IfAttr "PhaseNum == 1 Block begin"
+								SetAttr "PhaseNum 2"
+								IfAttr "CornerType == CORNER_LEFT Pattern pt_turn_left"
+								IfAttr "CornerType == CORNER_RIGHT Pattern pt_turn_right"
+							Block end
+							
+							IfAttr "PhaseNum == 2 Block begin"
+								SetAttr "PhaseNum 1"
+								Pattern pt_turn180
+							Block end
+						Block end
+					}
+				}
+				
+				pt_turn180
+				{
+					actions
+					{
+						Move false
+						Wait 3:2
+						
+						SetAttr "turn_rnd 0"
+						ChangeAttr "turn_rnd 0:1"
+						
+						IfAttr "turn_rnd == 0 Turn 180"
+						IfAttr "turn_rnd == 1 Turn -180"
+						
+						RemoveAttr turn_rnd
+						
+						Wait 2
+						Pattern pt_move
+					}
+				}
+				
+				pt_turn_left
+				{
+					actions
+					{
+						Move false
+						SetAttr "CornerType CORNER_RIGHT"
+						Turn -90
+						Wait 1
+						Pattern pt_move
+					}
+				}
+				
+				pt_turn_right
+				{
+					actions
+					{
+						Move false
+						SetAttr "CornerType CORNER_LEFT"
+						Turn 90
+						Wait 1
+						Pattern pt_move
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						SetAttr "TaskIdle TI_PZ_NONE"
+						SetAttr "CornerType CORNER_NONE"
+						RemoveAttr PhaseNum
+						Move false
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						Pattern pt_end
+					}
+				}
+			}
+			events
+			{
+				OnVisible "ExecutePattern st_idle.xpt_OnVisible"
+				OnNewEnemy "Pattern pt_end"
+				OnSawEnemy "Pattern pt_end"
+			}
+		}
+		
+		st_shoot
+		{
+			Group Alert
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						AreaEvent SeeSlave,4
+						FireInput self,InputHeadTurningOff
+						Weapon select,ranged
+						Pattern pt_face
+						//Face true
+						//FreeMovement false
+						//MoveToTarget run,8
+						//Wait 1:1
+						//ExecutePattern .xpt_SaySeeSlave
+						//Wait 1
+						//Pattern pt_shoot
+					}
+				}
+				
+				pt_face
+				{
+					actions
+					{
+						Face true
+						
+						IfAttr "AngleTo:target < 20 and Visible:target == 1 Pattern pt_shoot"
+						IfAttr "AngleTo:target < 20 and Visible:target == 0 Pattern pt_fail"
+						
+						Repeat 0.5
+					}
+				}
+				
+				pt_shoot
+				{
+					actions
+					{
+						ExecutePattern .xpt_SaySeeSlave
+						Aim true,false
+						Wait 1
+						FireEvent ShootingYou
+						Hit 1
+						IfAttr "Visible:target == 1 Block begin"
+							Wait 0.5:0.5
+							Pattern pt_success
+						Block end
+						
+						Pattern pt_fail
+					}
+				}
+				
+				pt_fail
+				{
+					actions
+					{
+						SetAttr "SawSlave 1"
+						Timer tChaseSlave,5:3
+						Pattern pt_end
+					}
+				}
+				
+				pt_success
+				{
+					actions
+					{
+						TargetFromMem msGP
+						FireEvent SlaveShot
+						ResetTarget 1
+						
+						//ShowMessage "[Oh no! He shot us!],$P3Mission"
+						//Headblob 1,EmoteSmile
+						SetAttr "ShotTaken 1"
+						SetAttr "runaway 1"
+						Pattern pt_end
+					} 
+				}
+				
+				pt_fail
+				{
+					actions
+					{
+						FireEvent ShotFailed
+						Pattern pt_end
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						RemoveAttr "SaidSeeSlave"
+						FireInput self,InputHeadTurningOn
+						Face false
+						
+						IfAttr "reaction < RE_PAINT Block begin"
+							SetAttr "reaction RE_NONE"
+							SetAttr "NewReaction RE_NONE"
+						Block end
+						State st_start
+					}
+				}
+				
+				xpt_SaySeeSlave
+				{
+					actions
+					{
+						CheckAttr "SaidSeeSlave Return 1"
+						Say PZZI_SEESLAVE
+						SetAttr "SaidSeeSlave 1"
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction >= RE_PAINT Pattern pt_fail"
+					}
+				}
+			}
+		}
+		
+		st_runaway
+		{
+			Group Alert
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Aim false
+						Face false
+						LookAt false
+						//TargetPlayer 1
+						SetHintGroup hg_escape
+						Timer tCheckLOS,2,repeated
+						Timer tEscaped,10
+						FreeMovementParams hint_all,-1,-1,hint_group
+						FreeMovement run,reset
+						//SetAttr "Spotted 1"
+						//Timer tCheckPlayer,2,repeated
+						//Pattern pt_loop
+					}
+					events
+					{
+						OnEscaped "Pattern pt_exitreached"
+						OnInvalidRoute "Repeat 1"
+					}
+				}
+				
+				pt_exitreached
+				{
+					actions
+					{
+						SetAttr "escaped 1"
+						RemoveAttr runaway
+						Pattern pt_end
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						Timer tCheckLOS,0
+						Timer tEscaped,0
+						
+						IfAttr "reaction < RE_PAINT Block begin"
+							SetAttr "reaction RE_NONE"
+							SetAttr "NewReaction RE_NONE"
+						Block end
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction >= RE_PAINT Pattern pt_end"
+					}
+				}
+				
+				xpt_CheckLOS
+				{
+					actions
+					{
+						TargetPlayer 1
+						CheckLOS 1
+					}
+				}
+				
+				xpt_ResetEscapeTimer
+				{
+					actions
+					{
+						Timer tEscaped,10
+					}
+				}
+				
+				xpt_OnEscaped
+				{
+					actions
+					{
+						TargetFromMem msGP
+						FireEvent PaparazziEscaped
+					}
+				}
+			}
+			events
+			{
+				OnTimer_tCheckLOS "ExecutePattern .xpt_CheckLOS"
+				OnLOS							"ExecutePattern .xpt_ResetEscapeTimer"
+				OnTimer_tEscaped	"ExecutePattern .xpt_OnEscaped"
+			}
+		}
+		
+		st_OnKicked
+		{
+			Group Alert
+			Patterns
+			{
+				pt_decide
+				{
+					actions
+					{
+						Pattern pt_attack
+					}
+				}
+			}
+		}
+		
+		st_OnPaint
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Aim false
+						Face false
+						Pattern pt_drop
+					}
+				}
+				
+				pt_drop
+				{
+					actions
+					{
+						Wait 0.5
+						ExecutePattern st_util.xpt_DropCamera
+						Say PZZI_LOSECAMERA,2
+						Wait 0.5:0.5
+						Pattern pt_react
+					}
+				}
+				
+				pt_react
+				{
+					actions
+					{
+						Pattern pt_attack,pt_fear
+					}
+				}
+				
+				pt_attack
+				{
+					actions
+					{
+						ExecutePattern st_util.xpt_AddTargetToEnemy
+						Pattern pt_end
+					}
+				}
+				
+				pt_fear
+				{
+					actions
+					{
+						ExecutePattern st_util.xpt_AddTargetToFear
+						SetAttr "NewReaction RE_FEAR"
+						Pattern pt_end
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						IfAttr "reaction <= RE_PAINT Block begin"
+							SetAttr "reaction RE_NONE"
+							SetAttr "NewReaction RE_NONE"
+						Block end
+						
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction > RE_PAINT Pattern pt_end"
+					}
+				}
+			}
+		}
+		
+		pz_stay
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "TaskIdle TI_PZ_STAY"
+						State st_start
+					}
+				}
+			}
+		}
+		
+		pz_stay_turning
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "TaskIdle TI_PZ_STAY_TURNING"
+						State st_start
+					}
+				}
+			}
+		}
+		
+		pz_patrol_long
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "TaskIdle TI_PZ_PATROL_LONG"
+						State st_start
+					}
+				}
+			}
+		}
+		
+		pz_patrol_short
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "TaskIdle TI_PZ_PATROL_SHORT"
+						State st_start
+					}
+				}
+			}
+		}
+		
+		pz_patrol_left
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "TaskIdle TI_PZ_PATROL_CORNER"
+						SetAttr "CornerType CORNER_LEFT"
+						State st_start
+					}
+				}
+			}
+		}
+		
+		pz_patrol_right
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "TaskIdle TI_PZ_PATROL_CORNER"
+						SetAttr "CornerType CORNER_RIGHT"
+						State st_start
+					}
+				}
+			}
+		}
+		
+		st_OnDeath
+		{
+			Group Alert
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "Object:Caller == Object:Player Block begin"
+							//ShowMessage "[Player killed me!],$P3Karma"
+							Say PZZI_DYING
+							TargetCaller 1
+							TargetToMem msTEMP
+							TargetFromMem msGP
+							FireEvent NPCDead
+							TargetFromMem msTEMP
+						Block end
+						
+						ExecutePattern bh_base:st_OnDeath.pt_default
+					}
+				}
+				
+			}
+		}
+		
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_OnAttackedByPlayer
+				{
+					actions
+					{
+						ExecutePattern st_util.xpt_AddPlayerToEnemy
+						ExecutePattern bh_base:st_util.xpt_OnAttackedByPlayer
+					}
+				}
+				
+				xpt_DropCamera
+				{
+					actions
+					{
+						IfAttr "HaveCamera == 1 and HasWeapon:ranged == 2 Weapon drop"
+						SetAttr "HaveCamera 0"
+					}
+				}
+				
+				xpt_OnHit
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_util.xpt_OnHit
+						IfAttr "Object:caller == Object:player ExecutePattern st_util.xpt_AddPlayerToEnemy"
+					}
+				}
+			}
+		}
+		
+	}
+	events
+	{
+		OnPaint "IfAttr HaveCamera == 1 SetAttr NewReaction RE_PAINT"
+	}
+	
+}
+
+
+
+behavior
+{
+	name bh_paparazzi_boss
+	inherited bh_paparazzi
+	
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						SetAttr "ea_bulletdmg_absorb RESIST_HIGH"
+						SetAttr "ea_clubdmg_absorb RESIST_HIGH"
+						SetAttr "ea_blastdmg_absorb RESIST_LOW"
+						SetAttr "ea_crit_disable 1"
+						SetAttr "HaveCamera 0"
+						
+						SetSquadRelation Player_squad:enemy:3
+						
+						SetAttr "flag_IgnorePlayerAttack 1"
+						SetAttr "flag_IgnorePlayerFear 1"
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_ChooseEnemy
+				{
+					actions
+					{
+						TargetPlayer 1
+						ExecutePattern .xpt_combat
+					}
+				}
+				xpt_idle
+				{
+					actions
+					{
+						ExecutePattern .xpt_ChooseEnemy
+					}
+				}
+				xpt_combat
+				{
+					actions
+					{
+						ExecutePattern bh_military_new:st_start.xpt_combat
+					}
+				}
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_decide
+				{
+					actions
+					{
+						Pattern pt_idle
+					}
+				}
+				pt_idle
+				{
+					actions
+					{
+						TargetPlayer 1
+						FreeMovementParams area_all,0,ED_CLOSE,from_target
+						FreeMovement run
+						Wait 5:5
+						Repeat 0
+					}
+					events
+					{
+						OnTargetReach "State st_start"
+						OnInvalidRoute "Repeat 1"
+					}
+				}
+				xpt_SelectWeapon
+				{
+					actions
+					{
+						Weapon select,ranged
+						Aim true,false
+					}
+				}
+				xpt_OnVisible
+				{
+					actions
+					{
+						IfAttr "Object:caller == Object:Player Block begin"
+							TargetCaller 1
+							State st_start
+						Block end
+						
+						IgnoreTarget 3
+						ResetTarget 1
+						//ExecutePattern bh_base:st_idle.xpt_OnVisible
+					}
+				}
+			}
+		}
+		
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						EntFireInput tg_exit,Enable
+						
+						TargetFromMem msGP
+						FireEvent BossDead
+						
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+	}
+}
+
+
+
+
+behavior
+{
+	name bh_hall_civil
+	inherited bh_civil
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						SetAttr "flag_bystander 1"
+					}
+				}
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_idle
+				{
+					actions
+					{
+						FreeMovementParams area_all,ED_CLOSE,ED_FAR,area_group
+						FreeMovement walk
+						Wait 2:6
+						ExecutePattern .xpt_CheckPhone
+					}
+				}
+			}
+		}
+		
+	}
+}
+
+
+
+behavior
+{
+	name bh_hall_worker
+	inherited bh_hall_civil
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						SetAreaGroup AG_DEFAULT
+					}
+				}
+			}
+		}
+	}
+}
+
+behavior
+{
+	name bh_hall_visitor
+	inherited bh_hall_civil
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						SetAreaGroup AG_LOBBY
+					}
+				}
+			}
+		}
+		
+		ev_chair
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_idle
+				{
+					actions
+					{
+						Say WATCH,0
+						ExecutePattern bh_base:ev_chair.xpt_idle
+					}
+				}
+			}
+		}
+	}
+}
