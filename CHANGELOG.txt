@@ -199,6 +199,8 @@ IMPROVEMENTS/ADDITIONS/CHANGES:
 
 + Added back unused badgersaw attack sounds
 
++ Added cvars for previous hardcoded max ammo counts for weapons
+
 + Added mauling sounds for cat snatching
 
 * Badgersaw piss now forces NPCs to vomit instead of being knocked out
