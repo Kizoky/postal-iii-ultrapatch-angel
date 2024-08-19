@@ -154,6 +154,8 @@ behavior
 					actions
 					{
 						EntFireInput "fade_in,Fade"
+						EntFireInput "pcc,Command:give p3_weapon_crotchy_grenade"
+						EntFireInput "pcc,Command:giveammo CrotchyGrenade 4"
 						Wait 1
 						EntFireInput "pcc,Command:video_exitcmd bdk_2 p3_end_mission"
 						//EntFireInput "player_proxy,Command:changelevel gri"
