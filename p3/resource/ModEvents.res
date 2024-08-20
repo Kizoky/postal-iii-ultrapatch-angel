@@ -158,6 +158,12 @@
 		"weapon_id"		"long"
 
 		"victim_id"		"long"
+		
+		"killer_name"	"string"
+		"victim_name"	"string"
+		
+		"killer_cop"	"bool"
+		"killer_zombie"	"bool"
 	}
 
 	"npc_hit"

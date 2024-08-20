@@ -1,5 +1,52 @@
 "Resource/HudLayout.res"
 {
+	ScorePanel
+	{
+		"fieldName" "ScorePanel"
+		"visible" "1"
+		"enabled" "1"
+		"wide"	 "640"
+		"tall"	 "480"
+	}
+	
+	"CRHudDeathNotice"
+	{
+		"fieldName" "CRHudDeathNotice"
+		"visible" "1"
+		"enabled" "1"
+		"xpos"	 "r640"
+		"ypos"	 "12"
+		"wide"	 "628"
+		"tall"	 "468"
+
+		"MaxDeathNotices" "8"
+		"LineHeight"	  "22"
+		"RightJustify"	  "1"	// If 1, draw notices from the right
+		
+		//"TextFont"				"CR_HudHintSmall"
+	}
+
+	"HudChat"
+	{
+		"ControlName"		"EditablePanel"
+		"fieldName" 		"HudChat"
+		"visible" 		"1"
+		"enabled" 		"1"
+		"xpos"			"10"
+		"ypos"			"275"
+		"wide"	 		"320"
+		"tall"	 		"120"
+		"PaintBackgroundType"	"2"
+	}
+
+	"TargetID"
+	{
+		"fieldName" "TargetID"
+		"visible" "1"
+		"enabled" "1"
+		"wide"	 "640"
+		"tall"	 "480"
+	}
 
 	HudWeaponHint
 	{

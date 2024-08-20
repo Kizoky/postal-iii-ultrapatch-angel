@@ -1,0 +1,139 @@
+"sprites/640_hud"
+{
+	TextureData
+	{
+		"health_texture"
+		{
+			"file"		"sprites\health_texture"
+			"x"		"0"
+			"y"		"0"
+			"width"		"128"
+			"height"	"128"
+		}
+		"health_texture_blank"
+		{
+			"file"		"sprites\health_texture_blank"
+			"x"		"0"
+			"y"		"0"
+			"width"		"128"
+			"height"	"128"
+		}
+		"right_arrow"
+		{
+			"file"		"sprites\right_arrow"
+			"x"		"0"
+			"y"		"0"
+			"width"		"128"
+			"height"	"128"
+		}
+		"down_arrow"
+		{
+			"file"		"sprites\down_arrow"
+			"x"		"0"
+			"y"		"0"
+			"width"		"128"
+			"height"	"128"
+		}
+		"left_arrow"
+		{
+			"file"		"sprites\left_arrow"
+			"x"		"0"
+			"y"		"0"
+			"width"		"128"
+			"height"	"128"
+		}
+        
+        "weapon_selection"
+        {
+        	"file"		"sprites\line_selection"
+			"x"		"0"
+			"y"		"0"
+			"width"		"128"
+			"height"	"128"
+        }
+        
+        "cant_use_icon"
+        {
+			"file"		"vgui\hud\cant_use_icon"
+			"x"		"0"
+			"y"		"0"
+			"width"		"64"
+			"height"	"64"
+		}
+        "no_ammo_icon"
+        {
+			"file"		"vgui\hud\no_ammo_icon"
+			"x"		"0"
+			"y"		"0"
+			"width"		"64"
+			"height"	"64"
+		}
+        
+		"monkey"
+		{
+			"file"		"sprites\monkey"
+			"x"		"0"
+			"y"		"0"
+			"width"		"128"
+			"height"	"128"
+		}
+		"pizza"
+		{
+			"file"		"sprites\pizza"
+			"x"		"0"
+			"y"		"0"
+			"width"		"128"
+			"height"	"128"
+		}
+		"bone"
+		{
+			"file"		"sprites\bone"
+			"x"		"0"
+			"y"		"0"
+			"width"		"128"
+			"height"	"128"
+		}
+		"cats"
+		{
+			"file"		"sprites\cats"
+			"x"		"0"
+			"y"		"0"
+			"width"		"128"
+			"height"	"128"
+		}
+		"killed_icon"
+        {
+			"file"		"vgui\hud\killed_icon"
+			"x"		"0"
+			"y"		"0"
+			"width"		"32"
+			"height"	"32"
+		}
+		"suicide_icon"
+        {
+			"file"		"vgui\hud\suicide_icon"
+			"x"		"0"
+			"y"		"0"
+			"width"		"32"
+			"height"	"32"
+		}
+		"knockedout_icon"
+        {
+			"file"		"vgui\hud\knockedout_icon"
+			"x"		"0"
+			"y"		"0"
+			"width"		"32"
+			"height"	"32"
+		}
+		"crawl_icon"
+        {
+			"file"		"vgui\hud\crawl_icon"
+			"x"		"0"
+			"y"		"0"
+			"width"		"32"
+			"height"	"32"
+		}
+	}
+}
+
+
