@@ -156,6 +156,7 @@
 	{
 		"killer_id"		"long"
 		"weapon_id"		"long"
+		"inflictor_name" "string"
 
 		"victim_id"		"long"
 		
@@ -398,5 +399,15 @@
 	
 	"p3_npc_player_kill"
 	{
+	}
+	
+	"p3_toggle_scoreboard"
+	{
+	}
+	
+	"p3_mp_cvar_change"
+	{
+		"cvar"		"string"
+		"value"		"long"
 	}
 }

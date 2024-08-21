@@ -450,10 +450,3 @@ MAPPING:
 * Fixed floating door frames in the Gay Rodeo maps
 
 * Fixed NPC's spawning inside of the ground in the rodeo maps
-
-ANGEL CHANGES:
-==============
-* Fixed game crashing with `CPostal3Multiplayer` gamerule error if maxplayers is set above 1
-+ Added Postal3Script function `AngelScript`
-+ New AngelScript call `void Player::OnHostageReleased_Kicked()`
-+ Added new entities: wj_trigger_angelscript, wj_logic_angelscript, wj_prop_fsmitem
