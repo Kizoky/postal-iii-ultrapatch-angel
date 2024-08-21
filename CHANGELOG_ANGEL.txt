@@ -25,3 +25,4 @@ Mission and NPC AI have to be slightly rewritten using AngelScript
 + Added Multiplayer Player targeting (Shows the name of the Player as well as their health)
 + Added Multiplayer scoreboard (Can be activated by tapping TAB multiple times, it is tied to Mission log)
 + Added primitive NextBot player (Can be added via p3_ultrapatch_add_bot, they will attack anything that attacks them first)
++ Added cvar 'p3_ultrapatch_mp_friendlyfire' which controls friendly fire vs. Players (By default it is 0, only the host can change it)
