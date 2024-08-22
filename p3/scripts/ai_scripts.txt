@@ -1,3 +1,7 @@
+Multiplayer/ai_player_mp.p3s
+Multiplayer/ai_mission_logic_base_mp.p3s
+Multiplayer/ai_mission_pw_mp.p3s
+
 ai_weapon.p3s
 
 ai_activities.p3s

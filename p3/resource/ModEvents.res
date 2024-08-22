@@ -410,4 +410,9 @@
 		"cvar"		"string"
 		"value"		"long"
 	}
+	
+	"p3_mp_chat"
+	{
+		"chat"		"string"
+	}
 }

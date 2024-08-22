@@ -8,3 +8,6 @@ const int AS_MOD_VERSION = 0;
 #include "engine/player.as"
 
 //#include "example.as"
+
+#include "Multiplayer/multiplayer_base.as"
+#include "Multiplayer/pw.as"

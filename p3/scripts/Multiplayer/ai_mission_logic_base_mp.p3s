@@ -1,0 +1,441 @@
+behavior
+{
+	name bh_mission_logic_base_mp
+	States
+	{
+		st_empty
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+				}
+			}
+		}
+		
+		//weaponGive
+		//{
+		//	Group Neutral
+		//	Patterns
+		//	{
+		//		//Pre-path
+		//		//PDB +
+		//		//PW +
+		//		//DCR +
+		//		//JWB +
+		//		//CM +
+		//		
+		//		PDB
+		//		{
+		//			actions
+		//			{
+		//				EntFireInput "lpp,RemoveAllWeapon"
+		//			}
+		//		}
+		//		
+		//		PW
+		//		{
+		//			actions
+		//			{
+		//				ExecutePattern weaponGive.PDB
+		//			}
+		//		}
+		//		
+		//		DCR
+		//		{
+		//			actions
+		//			{
+		//				ExecutePattern weaponGive.PW
+		//				EntFireInput "pcc,Command:give p3_weapon_shopvac"
+		//			}
+		//		}
+		//		
+		//		JWB
+		//		{	
+		//			actions
+		//			{
+		//				ExecutePattern weaponGive.DCR
+		//				EntFireInput "pcc,Command:give p3_weapon_catnip"
+		//				EntFireInput "pcc,Command:give p3_weapon_cat"
+		//				EntFireInput "pcc,Command:give p3_weapon_gasoline"
+		//				EntFireInput "pcc,Command:give p3_weapon_deserteagle"
+		//				EntFIreInput "pcc,Command:giveammo DesertEagle 28"
+		//				EntFireInput "pcc,Command:give p3_weapon_machete"
+		//				EntFireInput "pcc,Command:give p3_weapon_nailbat"
+		//				EntFireInput "pcc,Command:give p3_weapon_spray"
+		//				TargetPlayer 1
+		//				CheckAttr "target.wpn_HaveGamamet EntFireInput pcc,Command:give p3_weapon_gamamet"
+		//			}
+		//		}
+		//		
+		//		CM
+		//		{
+		//			actions
+		//			{
+		//				ExecutePattern weaponGive.JWB
+		//				EntFireInput "pcc,Command:give p3_weapon_m16"
+		//				EntFireInput "pcc,Command:giveammo M16 60"
+		//				EntFireInput "pcc,Command:give p3_weapon_shotgun"
+		//				EntFireInput "pcc,Command:giveammo Buckshot 8"
+		//				EntFireInput "pcc,Command:give p3_weapon_grenade"
+		//				EntFireInput "pcc,Command:giveammo Grenade 4"
+		//				EntFireInput "pcc,Command:give p3_weapon_shovel"
+		//				EntFireInput "pcc,Command:give p3_weapon_taser"
+		//			}
+		//		}
+		//		
+		//		//Insane Path
+		//		//MTZ +
+		//		//CW +
+		//		//SRM +
+		//		//SBE +
+		//		//MLI +
+		//		//KMTD +
+		//		//MVC +
+		//		//PWAC +
+		//		//BDK +
+		//		//GRI +
+		//		//CRM +
+		//		//DLI +
+		//		
+		//		MTZ
+		//		{
+		//			actions
+		//			{
+		//				ExecutePattern weaponGive.CM
+		//				PlayerKarma =0
+		//				EntFireInput "pcc,Command:give p3_weapon_wolverine"
+		//				EntFireInput "pcc,Command:give p3_weapon_molotov"
+		//				EntFireInput "pcc,Command:giveammo Molotov 4"
+		//			}
+		//		}
+		//		
+		//		CW
+		//		{
+		//			actions
+		//			{
+		//				ExecutePattern weaponGive.MTZ
+		//				EntFireInput "pcc,Command:give p3_weapon_beenest"
+		//				EntFireInput "pcc,Command:giveammo Beehive 5"
+		//				EntFireInput "pcc,Command:give p3_weapon_hammer"
+		//				EntFireInput "pcc,Command:give p3_weapon_laserpen"
+		//			}
+		//		}
+		//		
+		//		SRM
+		//		{
+		//			actions
+		//			{
+		//				ExecutePattern weaponGive.CW
+		//				EntFireInput "pcc,Command:give p3_weapon_axe"
+		//			}
+		//		}
+		//		
+		//		SBE
+		//		{
+		//			actions
+		//			{
+		//				ExecutePattern weaponGive.SRM
+		//				EntFireInput "pcc,Command:give p3_weapon_m60"
+		//			}
+		//		}
+		//		
+		//		MLI
+		//		{
+		//			actions
+		//			{
+		//				ExecutePattern weaponGive.SBE
+		//			}
+		//		}
+		//		
+		//		KMTD
+		//		{
+		//			actions
+		//			{
+		//				ExecutePattern weaponGive.MLI
+		//				EntFireInput "pcc,Command:give p3_weapon_motorhead"
+		//			}
+		//		}
+		//		
+		//		MVC
+		//		{
+		//			actions
+		//			{
+		//				ExecutePattern weaponGive.KMTD
+		//			}
+		//		}
+		//		
+		//		PWAC
+		//		{
+		//			actions
+		//			{
+		//				PlayerKarma =0
+		//				//пусто, всё в скрипте
+		//			}
+		//		}
+		//		
+		//		BDK
+		//		{
+		//			actions
+		//			{
+		//				ExecutePattern weaponGive.MVC
+		//				EntFireInput "pcc,Command:give p3_weapon_m136"
+		//				EntFireInput "pcc,Command:giveammo M136 3"
+		//			}
+		//		}
+		//		
+		//		GRI
+		//		{
+		//			actions
+		//			{
+		//				ExecutePattern weaponGive.BDK
+		//			}
+		//		}
+		//		
+		//		CRM
+		//		{
+		//			actions
+		//			{
+		//				ExecutePattern weaponGive.GRI
+		//				EntFireInput "pcc,Command:give p3_weapon_crotchy_grenade"
+		//				EntFireInput "pcc,Command:giveammo CrotchyGrenade 2"
+		//			}
+		//		}
+		//		
+		//		DLI
+		//		{
+		//			actions
+		//			{
+		//				ExecutePattern weaponGive.CRM
+		//				EntFireInput "pcc,Command:give p3_weapon_grenade"
+		//				EntFireInput "pcc,Command:giveammo Grenade 4"
+		//				EntFireInput "pcc,Command:give p3_weapon_cop_baton"
+		//			}
+		//		}
+		//		
+		//		//Good Path
+		//		//PA +
+		//		//PM1 +
+		//		//SUB +
+		//		//AS +
+		//		//HI +
+		//		//MLG +
+		//		//PM2 +
+		//		//ZHQA +
+		//		//GRG +
+		//		//MC +
+		//		//DLG +
+		//		//AA +
+		//		
+		//		PA
+		//		{
+		//			actions
+		//			{
+		//				ExecutePattern weaponGive.CM
+		//				PlayerKarma =100
+		//				EntFireInput "pcc,Command:give p3_weapon_grenade"
+		//				EntFireInput "pcc,Command:giveammo Grenade 4"
+		//				EntFireInput "pcc,Command:give p3_weapon_cop_baton"
+		//			}
+		//		}
+		//		
+		//		PM1
+		//		{
+		//			actions
+		//			{
+		//				ExecutePattern weaponGive.PA
+		//				EntFireInput "pcc,Command:give p3_weapon_fireaxe"
+		//				EntFireInput "pcc,Command:give p3_weapon_m60"
+		//			}
+		//		}
+		//		
+		//		SUB
+		//		{
+		//			actions
+		//			{
+		//				ExecutePattern weaponGive.PM1
+		//				EntFireInput "pcc,Command:give p3_weapon_hammer"
+		//			}
+		//		}
+		//		
+		//		AS
+		//		{
+		//			actions
+		//			{
+		//				ExecutePattern weaponGive.SUB
+		//			}
+		//		}
+		//		
+		//		HI
+		//		{
+		//			actions
+		//			{
+		//				ExecutePattern weaponGive.AS
+		//				EntFireInput "pcc,Command:give p3_weapon_sniper"
+		//			}
+		//		}
+		//		
+		//		MLG
+		//		{
+		//			actions
+		//			{
+		//				ExecutePattern weaponGive.HI
+		//			}
+		//		}
+		//		
+		//		PM2
+		//		{
+		//			actions
+		//			{
+		//				ExecutePattern weaponGive.MLG
+		//				EntFireInput "pcc,Command:give p3_weapon_laserpen"
+		//				EntFireInput "pcc,Command:give p3_weapon_motorhead"
+		//			}
+		//		}
+		//		
+		//		ZHQA
+		//		{
+		//			actions
+		//			{
+		//				ExecutePattern weaponGive.PM2
+		//				EntFireInput "pcc,Command:give p3_weapon_m136"
+		//				EntFireInput "pcc,Command:giveammo M136 3"
+		//			}
+		//		}
+		//		
+		//		GRG
+		//		{
+		//			actions
+		//			{
+		//				ExecutePattern weaponGive.ZHQA
+		//			}
+		//		}
+		//		
+		//		MC
+		//		{
+		//			actions
+		//			{
+		//				ExecutePattern weaponGive.GRG
+		//			}
+		//		}
+		//		
+		//		DLG
+		//		{
+		//			actions
+		//			{
+		//				ExecutePattern weaponGive.MC
+		//				EntFireInput "pcc,Command:give p3_weapon_wolverine"
+		//				EntFireInput "pcc,Command:give p3_weapon_beenest"
+		//				EntFireInput "pcc,Command:giveammo Beehive 5"
+		//				EntFireInput "pcc,Command:give p3_weapon_molotov"
+		//				EntFireInput "pcc,Command:giveammo Molotov 4"
+		//				EntFireInput "pcc,Command:give p3_weapon_crotchy_grenade"
+		//				EntFireInput "pcc,Command:giveammo CrotchyGrenade 2"
+		//			}
+		//		}
+		//		
+		//		AA
+		//		{
+		//			actions
+		//			{
+		//				ExecutePattern weaponGive.DLG
+		//			}
+		//		}
+		//		
+		//		//Freeroam
+		//		//roam_arcade
+		//		//roam_cashmart
+		//		//roam_cityhall
+		//		//roam_daveland
+		//		//roam_dogschool
+		//		//roam_farm
+		//		//roam_grotto
+		//		//roam_hub1
+		//		//roam_hub2
+		//		//roam_hub3
+		//		//roam_mall
+		//		//roam_mexico
+		//		//roam_monkeylab
+		//		//roam_police
+		//		//roam_pw
+		//		//roam_rodeo
+		//		
+		//		Roam
+		//		{
+		//			actions
+		//			{
+		//				ExecutePattern weaponGive.AA
+		//				EntFireInput "pcc,Command:give p3_weapon_gamamet"
+		//				EntFireInput "pcc,Command:giveammo catnipcan 6"
+		//				EntFireInput "pcc,Command:give p3_weapon_cat"
+		//				EntFireInput "pcc,Command:giveammo cat 9"
+		//				EntFireInput "pcc,Command:giveammo gasoline 100"
+		//				EntFireInput "pcc,Command:giveammo DesertEagle 150"
+		//				EntFireInput "pcc,Command:giveammo CrotchyGrenade 10"
+		//				EntFireInput "pcc,Command:giveammo Molotov 10"
+		//				EntFireInput "pcc,Command:giveammo Beehive 10"
+		//				EntFireInput "pcc,Command:giveammo M136 10"
+		//				EntFireInput "pcc,Command:giveammo Buckshot 100"
+		//				EntFireInput "pcc,Command:giveammo M60 400"
+		//				EntFireInput "pcc,Command:giveammo grenade 10"
+		//				EntFireInput "pcc,Command:giveammo pepperspraycan 100"
+		//				EntFireInput "pcc,Command:giveammo M16 300"
+		//			}
+		//		}
+		//		
+		//	}
+		//}
+		
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_OnPlayerKillBystander
+				{
+					actions
+					{
+						IfAttr "Karma:Player == 0 SetAttr PlayerBehaveBad 1"
+					}
+				}
+				
+				xpt_OnPlayerKillPoliceman
+				{
+					actions
+					{
+						SetAttr "PlayerBehaveBad 1"
+					}
+				}
+				
+				xpt_OnPlayerBehaveBad
+				{
+					actions
+					{
+						SetAttr "PlayerBehaveBad 1"
+					}
+				}
+				
+				xpt_ShowKarmaTutorial
+				{
+					actions
+					{
+						TargetPlayer 1
+						CheckAttr "target.NeedToShowKarmaTut Block begin"
+							//EntFireInput "pcc,Command:playvideo Karma_tut"
+							RemoveAttr target.NeedToShowKarmaTut
+						Block end
+						ResetTarget 1
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnFire_PlayerKillBystander		"Timer tCheckPlayerBehaviour,1"
+		OnTimer_tCheckPlayerBehaviour	"ExecutePattern st_util.xpt_OnPlayerKillBystander"
+		OnFire_PlayerKillPoliceman		"ExecutePattern st_util.xpt_OnPlayerKillPoliceman"
+		OnFire_PlayerBehaveBad			"ExecutePattern st_util.xpt_OnPlayerBehaveBad"
+	}
+}
