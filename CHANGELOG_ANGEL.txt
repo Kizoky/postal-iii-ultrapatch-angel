@@ -15,6 +15,9 @@ ANGEL CHANGES:
 MULTIPLAYER RELATED:
 ====================
 The following missions/maps have been made Multiplayer-compatible:
+
+Pre-path
+- pdb
 - pw
 
 * Fixed game crashing with 'CPostal3Multiplayer' gamerule error if maxplayers is set above 1

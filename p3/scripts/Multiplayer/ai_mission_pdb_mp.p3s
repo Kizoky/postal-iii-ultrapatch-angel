@@ -1,0 +1,709 @@
+behavior
+{
+	name bh_mission_pdb_mp
+	inherited bh_mission_logic_base_mp
+	
+	events
+	{
+		OnTimer_tCheckHealth "ExecutePattern st_util.xpt_CheckHealth"
+		OnTimer_tRemoveTutor02	"ExecutePattern st_util.xpt_RemoveTutor02"
+		
+		//OnTutor01_Escape	"ShowMessage #P3_PDB_T01_ESCAPE"
+		//OnTutor02_Escape	"ShowMessage #P3_PDB_T02_ESCAPE"
+		//OnTutor03_Escape	"ShowMessage #P3_PDB_T03_ESCAPE"
+		//OnTutor03_Block		"ShowMessage #P3_PDB_T03_BLOCK"
+		//OnTutor04_Escape	"ShowMessage #P3_PDB_T04_ESCAPE"
+		//OnTutor04_Block		"ShowMessage #P3_PDB_T04_BLOCK"
+		//OnTutor05_Escape	"ShowMessage #P3_PDB_T05_ESCAPE"
+		//OnTutor05_Block		"ShowMessage #P3_PDB_T05_BLOCK"
+		//OnTutor06_Escape	"ShowMessage #P3_PDB_T06_ESCAPE"
+		
+		OnTimer_tRefreshHelper "ExecutePattern st_util.xpt_RefreshHelper"
+		OnAttrMax_HelpersShown	"Timer tRefreshHelper,0"
+		
+		OnNewGame			"ExecutePattern st_init.xpt_OnNewGame"
+	}
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "HelpersShown 0,0,PDB_HELPERS_NUM"
+						SetAttr "PlayerPath PATH_NONE"
+					}
+				}
+				
+				xpt_OnNewGame
+				{
+					actions
+					{
+						AngelScript "Object:self PDB OnNewGame"
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						//TargetPlayer 1
+						//SetAttr "target.flag_Jesus 1"
+						
+						//AngelScript "Object:self PDB OnStart"
+						
+						PlayerKarma hide
+						//EntFireInput "pcc,Command:p3_player_skin coat"
+						//EntFireInput "pcc,Command:use p3_weapon_emptyhands"
+						MissionLog add_primary,follow,#P3_PDB_PRETASK
+						ExecutePattern st_util.xpt_RefreshHelper
+						//State st_tutor06
+					}
+					events
+					{
+						OnTutorial01Start "State st_tutor01"
+					}
+				}
+			}
+		}
+		
+		st_tutor01
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						//EntFireInput "fade_in_cs,Fade"
+						Wait 1
+						AngelScript "Object:self PDB ShowBriefOne"
+						EntFireInput swat01_spawner,enable
+						//EntFireInput tutor01_teleport,Teleport
+						AngelScript "Object:self PDB tutor01_teleport"
+						EntFireInput tutor01_arrow1,Enable
+
+						SetAttr "PlayerNear 0"
+						Pattern pt_tutorial
+					}
+				}
+				
+				pt_tutorial
+				{
+					actions
+					{
+						Timer tCheckLean,0.5,repeated
+						Wait 0.5
+						MissionLog "remove,follow"
+						MissionLog "add_primary,tutor01,#P3_PDB_T01_LOG"
+						//ShowMessage #P3_PDB_T01_MSG01
+					}
+					events
+					{
+						OnTimer_tCheckLean "CheckAttr LeanOK ExecutePattern .xpt_CheckLean"
+						OnPlayerLeanIn "SetAttr LeanOK 1"
+						OnPlayerLeanOut "RemoveAttr LeanOK"
+						OnPlayerNear	"SetAttr PlayerNear 1"
+						OnPlayerFar		"SetAttr PlayerNear 0"
+						//OnTutorial02Begin "ExecutePattern .xpt_KillPlayer"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						RemoveAttr LeanOK
+						RemoveAttr PlayerNear
+						Timer tCheckLean,0
+						MissionLog done,tutor01
+						//PlayVideo pdb_01,1.0,1.0
+						//Wait 1
+						State st_tutor02
+						//EntFireInput tutor01_corpse01,TurnOn
+						//EntFireInput tutor01_corpse02,TurnOn
+						//EntFireInput tutor01_corpse03,TurnOn
+						//EntFireInput eater_spawner_01,Enable
+						//EntFireInput tutor01_teleport_fin,Teleport
+						//EntFireInput tutor01_clip,enable
+						//EntFireInput tutor01_escape_tg,enable
+					}
+					events
+					{
+						OnTutorial02Begin "State st_tutor02"
+					}
+				}
+				
+				xpt_CheckLean
+				{
+					actions
+					{
+						//TargetPlayer 1
+						//IfAttr "target.ea_lean == 1  Pattern pt_end"
+						AngelScript "Object:self PDB xpt_CheckLean"
+					}
+				}
+				
+				// Why oh why TM? Why?
+				xpt_KillPlayer
+				{
+					actions
+					{
+						//TargetPlayer 1
+						//SetAttr "target.ea_health 0"
+						//RemoveAttr "target.CanRegen"
+					}
+				}
+			}
+		}
+		
+		st_tutor02
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						EntFireInput las,Save
+						SetAttr "tutor02active 1"
+						//EntFireInput "fade_in_cs,Fade"
+						Wait 1
+						AngelScript "Object:self PDB ShowBriefTwo"
+						//EntFireInput "pcc,Command:video_exitcmd pdb_01 gameui_show_p3_briefdlg #P3_PDB_T02_ONSCREEN"
+						//EntFireInput "fader_cs,Fade"
+						//PlayVideo pdb_01,1.0,1.0
+						//Wait 0.9
+						//MissionLog remove,tutor01
+						//EntFireInput swat02_spawner,Enable
+						//EntFireInput eater_spawner_02,Enable
+						//EntFireInput tutor02_teleport,teleport
+						AngelScript "Object:self PDB tutor02_teleport"
+						EntFireInput tutor02_arrow,Enable
+						//EntFireInput tutor02_corpse01,TurnOn
+						//EntFireInput tutor02_clip,Enable
+						//EntFireInput tutor02_escape_tg,Enable
+						AreaEvent Kill01,1024
+						
+						// What did TM smoke when they scripted this?
+						//TargetPlayer 1
+						//IfAttr "target.ea_health <= 20 SetAttr target.ea_health 1"
+						//IfAttr "target.ea_health > 20 ChangeAttr target.ea_health -20"
+						FireEvent Hit
+						
+						EntFireInput tutor01_arrow1,Disable
+						//EntFireInput tutor01_arrow2,Disable
+						//EntFireInput tutor01_arrow3,Disable
+						MissionLog "add_primary,tutor02,#P3_PDB_T02_LOG"
+						MissionLog "add_primary,tutor02a,#P3_PDB_T02_LOGA"
+						Timer tCheckHealth,1,repeated
+						
+						//Wait 0.5
+						//ShowMessage #P3_PDB_T02_MSG01
+						//Wait PDB_MESSAGE_DELAY
+						//ShowMessage #P3_PDB_T02_MSG02
+					}
+					events
+					{
+						OnTutorial03Start "State st_tutor03"
+						OnClimbComplete	"MissionLog done,tutor02a"
+					}
+				}
+			}
+		}
+		
+		st_tutor03
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						EntFireInput las,Save
+						//PlayVideo pdb_02,1.0,1.0
+						Wait 0.9
+						RemoveAttr "tutor02active"
+						CheckAttr "CanRemoveTutor02 Block begin"
+							RemoveAttr CanRemoveTutor02
+							//MissionLog remove,tutor02
+						Block end
+						//MissionLog remove,tutor02a
+						EntFireInput zombie01_spawner,enable
+						Wait 0.3
+						MissionLog "add_primary,tutor03_01,#P3_PDB_T03_LOG01"
+						EntFireInput tutor03_arrow,TurnOn
+						ShowMessage #P3_PDB_T03_MSG01
+					}
+					events
+					{
+						OnZombieReached "Pattern pt_tutorial"
+					}
+				}
+				
+				pt_tutorial
+				{
+					actions
+					{
+						AreaEvent Zomb02Activate,512
+						//EntFireInput zombie02_spawner,enable
+						SetAttr "Zomb01Num 4,0,4"
+						//EntFireInput zombie02eater_spawner,enable
+						
+						//EntFireInput "fade_in_cs,Fade"
+						Wait 1
+						AngelScript "Object:self PDB ShowBriefThree"
+						//EntFireInput "pcc,Command:video_exitcmd pdb_03 gameui_show_p3_briefdlg #P3_PDB_T03_ONSCREEN"
+						//EntFireInput "fader_cs,Fade"
+						//PlayVideo pdb_03,1.0,1.0
+						//Wait 0.9
+						SetAttr "Tutor03Attack 1"
+						//EntFireInput "pcc,Command:use p3_weapon_grenade"
+						EntFireInput tutor03_clip,Enable
+						EntFireInput tutor03_escape_tg,Enable
+						Wait 0.5
+						MissionLog "add_primary,tutor03_02,#P3_PDB_T03_LOG02"
+						//ShowMessage #P3_PDB_T03_MSG02
+						//Wait 5
+						//ShowMessage #P3_PDB_T03_MSG03
+						//Wait 5
+						//ShowMessage #P3_PDB_T03_MSG04
+					}
+					events
+					{
+						OnTutor03ZombiesDead	"Pattern pt_end"
+						OnAttrMin_Zomb01Num		"Pattern pt_end"
+						OnFire_Zombie01Dead		"ChangeAttr Zomb01Num -1"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						RemoveAttr "Tutor03Attack"
+						EntFireInput tutor03_block,Disable
+						EntFireInput tutor03_block_tg,Disable
+						MissionLog done,tutor03_02
+						Wait 1
+						State st_tutor05
+					}
+					events
+					{
+						OnTutorial04Start "State st_tutor05"
+					}
+				}
+				
+				xpt_OnGrenadesGain
+				{
+					actions
+					{
+						EntFireInput tutor03_clip,Enable
+						EntFireInput tutor03_escape_tg,Enable
+						EntFireInput tutor03_arrow,TurnOff
+						MissionLog done,tutor03_01
+						//ShowMessage #P3_PDB_SCROLL
+					}
+				}
+			}
+			events
+			{
+				OnGrenadesGain "ExecutePattern .xpt_OnGrenadesGain"
+			}
+		}
+		
+		// Unused, we don't care
+		st_tutor04 //не используется, оставил на всякий случай
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						//PlayVideo pdb_04,1.0,1.0
+						Wait 0.9
+						//EntFireInput tutor03_teleport,Teleport
+						AngelScript "Object:self PDB tutor03_teleport"
+						//EntFireInput "pcc,Command:use p3_weapon_emptyhands"
+						//EntFireInput "lpp,RemoveWeapon:p3_weapon_grenade"
+						//EntFireInput tutor04_clip,Enable
+						//EntFireInput tutor04_escape_tg,Enable
+						//MissionLog remove,tutor03_01
+						//MissionLog remove,tutor03_02
+						AddFluid "171,670,100,300000"
+						AddFluid "-318,931,80,300000"
+						AddFluid "150,925,100,100000"
+						AddFluid "-110,1030,80,200000"
+						EntFireInput "pcc,Command:give p3_weapon_match"
+						//EntFireInput "pcc,Command:use p3_weapon_match"
+						Wait 0.5
+						MissionLog "add_primary,tutor04,#P3_PDB_T04_LOG"
+						ShowMessage #P3_PDB_T04_MSG01
+					}
+					events
+					{
+						OnTutor04ZombiesDead	"Pattern pt_end"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						MissionLog done,tutor04
+						State st_tutor05
+						//EntFireInput tutor04_block,disable
+						//EntFireInput tutor04_block_tg,disable
+					}
+					events
+					{
+						OnTutorial05Start "State st_tutor05"
+					}
+				}
+			}
+		}
+		
+		st_tutor05
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						EntFireInput las,Save
+						SetAttr "tut05_NumZombies 3,0,3"
+						//EntFireInput "fade_in_cs,Fade"
+						Wait 1
+						AngelScript "Object:self PDB ShowBriefFive"
+						//EntFireInput "pcc,Command:video_exitcmd pdb_04 gameui_show_p3_briefdlg #P3_PDB_T05_ONSCREEN"
+						//EntFireInput "fader_cs,Fade"
+						//PlayVideo pdb_04,1.0,1.0
+						//Wait 0.9
+						
+						//EntFireInput "lpp,RemoveWeapon:p3_weapon_grenade"
+						AngelScript "Object:self PDB RemoveGrenadeMatch"
+						
+						//MissionLog remove,tutor03_01
+						//MissionLog remove,tutor03_02
+						EntFireInput tutor05_clip,Enable
+						EntFireInput tutor05_escape_tg,Enable
+						//MissionLog remove,tutor04
+						//EntFireInput tutor05_teleport,Teleport
+						AngelScript "Object:self PDB tutor05_teleport"
+						//EntFireInput "pcc,Command:use p3_weapon_emptyhands"
+						
+						//EntFireInput "lpp,RemoveWeapon:p3_weapon_match"
+						Wait 0.1
+						EntFireInput tutor05_arrow,TurnOn
+						MissionLog add_primary,tutor05_02,#P3_PDB_T05_LOG02
+						
+						//Wait 0.5
+						//ShowMessage #P3_PDB_T05_MSG01
+					}
+					events
+					{
+						OnAttrMin_tut05_NumZombies "Pattern pt_end"
+						
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						MissionLog done,tutor05_02
+						EntFireInput tutor05_block,Disable
+						EntFireInput tutor05_block_tg,Disable
+						State st_tutor06
+					}
+					events
+					{
+						OnTutorial06Start "State st_tutor06"
+					}
+				}
+				
+				xpt_LockGasCan
+				{
+					actions
+					{
+						EntFireInput tutor05_arrow,TurnOff
+						MissionLog done,tutor05_01
+						//MissionLog add_primary,tutor05_02,#P3_PDB_T05_LOG02
+						//EntFireInput "pcc,Command:use p3_weapon_gasoline"
+					}
+				}
+			}
+			events
+			{
+				OnFire_Tutor05ZombieDead	"ChangeAttr tut05_NumZombies -1"
+				OnGainGas "ExecutePattern .xpt_LockGasCan"
+			}
+		}
+		
+		st_tutor06
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{	
+					actions
+					{
+						EntFireInput las,Save
+						RemoveAttr tut05_NumZombies
+						SetAttr "SoldiersLeft PDB_SWAT03_AMOUNT,0,PDB_SWAT03_AMOUNT,on_change_event"
+						EntFireInput swat03_spawner,AddMaxChildren:PDB_SWAT03_AMOUNT
+						EntFireInput swat03_spawner,enable
+						
+						//EntFireInput "fade_in_cs,Fade"
+						Wait 1
+						AngelScript "Object:self PDB ShowBriefSix"
+						//EntFireInput "pcc,Command:video_exitcmd pdb_05 gameui_show_p3_briefdlg #P3_PDB_T06_ONSCREEN"
+						//EntFireInput "fader_cs,Fade"
+						//PlayVideo pdb_05,1.0,1.0
+						//Wait 0.9
+						//EntFireInput "pcc,Command:use p3_weapon_emptyhands"
+						//EntFireInput "lpp,RemoveWeapon:p3_weapon_gasoline"
+						//EntFireInput "lpp,GiveWeapon:p3_weapon_spray"
+						AngelScript "Object:self PDB RemoveGasoline"
+						//EntFireInput tutor05_block,Enable
+						//EntFireInput tutor06_escape_tg,Enable
+						//EntFireInput tutor06_teleport,Teleport
+						AngelScript "Object:self PDB tutor06_teleport"
+						//EntFireInput tutor06_arrow,TurnOn
+						
+						Wait 0.1
+						//MissionLog remove,tutor05_01
+						//MissionLog remove,tutor05_02
+						//MissionLog "add_primary,tutor06_01,#P3_PDB_T06_LOG01"
+						Pattern pt_battle
+					}
+				}	
+				
+				pt_battle
+				{
+					actions
+					{
+						//PlayVideo pdb_09,1.0,1.0
+						//Wait 0.9
+						//EntFireInput tutor06_teleport02,Teleport
+						Wait 0.5
+						MissionLog "add_primary,tutor06_02,#P3_PDB_T06_LOG02"
+						//ShowMessage #P3_PDB_T06_MSG01
+						//Wait 4
+						//ShowMessage #P3_PDB_T06_MSG02
+						//Wait 4
+						//ShowMessage #P3_PDB_T06_MSG03
+					}
+					events
+					{
+						//OnTutorial06Done "Pattern pt_end"
+						OnPlayerIsNear "AreaEvent EnemyIsNear,1024"
+						OnAttrChange_SoldiersLeft "MissionLog add_primary,tutor06_02,#P3_PDB_T06_LOG02"
+						OnAttrMin_SoldiersLeft "Pattern pt_end"
+					}
+				}
+				
+				pt_fail
+				{
+					actions
+					{
+						//UNREACHEABLE PATTERN !!
+						MissionLog fail,tutor06_02
+						//ShowMessage #P3_PDB_T06_FAIL
+						Wait 1
+						EntFireInput fade_in,fade
+						Wait 1
+						EntFireInput "pcc,Command:reload"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						MissionLog add_primary,tutor06_02,#P3_PDB_T06_LOG02
+						MissionLog done,tutor06_02
+						State st_button
+					}
+				}
+				
+				xpt_OnSprayGain
+				{
+					actions
+					{
+						EntFireInput tutor06_arrow,TurnOff
+						MissionLog done,tutor06_01
+						//EntFireInput "pcc,Command:use p3_weapon_spray"
+					}
+				}
+			}
+			events
+			{
+				//OnSprayGain "ExecutePattern .xpt_OnSprayGain"
+				OnNeedAttackPlayer "SetAttr Tutor06_AttackPlayer 1"
+				OnFire_SoldierDead	"ChangeAttr SoldiersLeft -1"
+			}
+		}
+		
+		st_button
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						EntFireInput las,Save
+						PlayVideo pdb_06,1.0,1.0
+						Wait 0.9
+						//MissionLog remove,tutor06_01
+						//MissionLog remove,tutor06_02
+						//EntFireInput "lpp,EnableWeaponSwitching"
+						AngelScript "Object:self PDB RemoveSpray"
+						//EntFireInput "pcc,Command:use p3_weapon_emptyhands"
+						//EntFireInput "lpp,RemoveWeapon:p3_weapon_spray"
+						//EntFireInput "button_teleport,Teleport"
+						AngelScript "Object:self PDB button_teleport"
+						Wait 0.2
+						EntFireInput las,Save
+						//MissionLog "add_primary,btn01,#P3_PDB_BTN_LOG01"
+						MissionLog "add_primary,btn02,#P3_PDB_BTN_LOG02"
+						Wait 0.5
+						ShowMessage #P3_PDB_BTN_MSG01
+						Wait 5
+						ShowMessage #P3_PDB_BTN_MSG02
+						Wait 2
+						EntFireInput "lpp,Say:PBPRESSBUTTON"
+						Timer tSayButton,10,repeated
+						
+						Wait 15
+						ShowMessage #P3_PDB_BTN_MSG03
+						Wait 5
+						ShowMessage #P3_PDB_BTN_MSG04
+						Wait 15
+						ShowMessage #P3_PDB_BTN_MSG05
+						Wait 30
+						ShowMessage #P3_PDB_BTN_MSG06
+						Wait 5
+						ShowMessage #P3_PDB_BTN_MSG07
+						Wait 5
+						ShowMessage #P3_PDB_BTN_MSG08
+					}
+					events
+					{
+						OnButtonPressed "Pattern pt_end"
+						OnTimer_tSayButton	"EntFireInput lpp,Say:PBPRESSBUTTON"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						EntFireInput "lpp,Say:PBBUTTONPRESSED"
+						Wait 0.5
+						MissionLog fail,btn01
+						MissionLog fail,btn02
+						//EntFireInput fade_in,Fade
+						Wait 1
+						PlayVideo pdb_07,1,1
+						Wait 7
+						//Wait 0.05
+						AngelScript "Object:self PDB ToNextMission"
+					}
+				}
+			}
+		}
+		
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_CheckHealth
+				{
+					actions
+					{
+						//TargetPlayer 1
+						//IfAttr "target.ea_health == 100 Block begin"
+						//	Timer tCheckHealth,0
+						//	MissionLog done,tutor02
+						//	Timer tRemoveTutor02,5
+						//Block end
+						AngelScript "Object:self PDB xpt_CheckHealth"
+					}
+				}
+				
+				xpt_asCheckHealth
+				{
+					actions
+					{
+						Timer tCheckHealth,0
+						MissionLog done,tutor02
+						Timer tRemoveTutor02,5
+					}
+				}
+				
+				xpt_RemoveTutor02
+				{
+					actions
+					{
+						CheckAttr "tutor02active Block begin"
+							SetAttr "CanRemoveTutor02 1"
+							Return 1
+						Block end
+						
+						//MissionLog remove,tutor02
+					}
+				}
+				
+				xpt_RefreshHelper
+				{
+					actions
+					{
+						Timer tRefreshHelper,10
+						ChangeAttr "HelpersShown 1"
+						
+						IfAttr "HelpersShown ==  1 ShowMessage #P3_PDB_HELPER01"
+						IfAttr "HelpersShown ==  2 ShowMessage #P3_PDB_HELPER02"
+						IfAttr "HelpersShown ==  3 ShowMessage #P3_PDB_HELPER03"
+						IfAttr "HelpersShown ==  4 ShowMessage #P3_PDB_HELPER04"
+						//IfAttr "HelpersShown ==  5 ShowMessage #P3_PDB_HELPER05"
+						//IfAttr "HelpersShown ==  6 ShowMessage #P3_PDB_HELPER06"
+						//IfAttr "HelpersShown ==  7 ShowMessage #P3_PDB_HELPER07"
+						//IfAttr "HelpersShown ==  8 ShowMessage #P3_PDB_HELPER08"
+						//IfAttr "HelpersShown ==  9 ShowMessage #P3_PDB_HELPER09"
+						//IfAttr "HelpersShown == 10 ShowMessage #P3_PDB_HELPER10"
+						//IfAttr "HelpersShown == 11 ShowMessage #P3_PDB_HELPER11"
+						//IfAttr "HelpersShown == 12 ShowMessage #P3_PDB_HELPER12"
+						//IfAttr "HelpersShown == 13 ShowMessage #P3_PDB_HELPER13"
+						//IfAttr "HelpersShown == 14 ShowMessage #P3_PDB_HELPER14"
+						//IfAttr "HelpersShown == 15 ShowMessage #P3_PDB_HELPER15"
+						//IfAttr "HelpersShown == 16 ShowMessage #P3_PDB_HELPER16"
+					}
+				}
+			}
+		}
+		
+	}
+}

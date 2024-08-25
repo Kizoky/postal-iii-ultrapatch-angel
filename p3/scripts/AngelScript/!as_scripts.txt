@@ -10,4 +10,7 @@ const int AS_MOD_VERSION = 0;
 //#include "example.as"
 
 #include "Multiplayer/multiplayer_base.as"
+
+// Pre-path
 #include "Multiplayer/pw.as"
+#include "Multiplayer/pdb.as"

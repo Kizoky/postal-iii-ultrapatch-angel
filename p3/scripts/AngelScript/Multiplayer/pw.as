@@ -14,7 +14,7 @@ class PW : MissionBase
 		plr.Weapon_Switch(cast<CP3Weapon@>(wep));
 		
 		
-		// Don't forget to call into mp_base::OnSpawn lastly
+		// Don't forget to call into MissionBase::OnSpawn lastly
 		MissionBase::OnSpawn(player);
 	}
 }

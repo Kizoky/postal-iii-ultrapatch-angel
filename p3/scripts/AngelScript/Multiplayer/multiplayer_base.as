@@ -113,4 +113,88 @@ class MissionBase : IPostal3Script
 	{
 		player.SetAttr("HasSpawned", 1);
 	}
+	
+	// Some missions will remove all weapons from the player
+	void RemoveAllWeapons(CP3SObj@ player)
+	{
+		array<CP3SObj@> arr = engine.GetArrayOfWeapons(player);
+		for (uint i = 0; i < arr.length(); i++)
+		{
+			if (@arr[i] == null)
+				continue;
+				
+			CP3Weapon@ wpn = arr[i].GetWeaponPtr(); //GetBaseEntity().GetP3WeaponPtr();
+			if (@wpn == null)
+				continue;
+				
+			// Remove all weapons, and store them... except these
+			CP3Weapon@ empty_hands = player.GetPlayerPtr().Weapon_OwnsThisType("p3_weapon_emptyhands");
+			CP3Weapon@ weemote = player.GetPlayerPtr().Weapon_OwnsThisType("p3_weapon_weemote");
+			CP3Weapon@ match = player.GetPlayerPtr().Weapon_OwnsThisType("p3_weapon_match");
+			
+			// do not do not do not do not
+			if (@wpn != empty_hands &&
+				@wpn != weemote &&
+				@wpn != match)
+			{
+				player.GetPlayerPtr().Weapon_Detach(wpn);
+			}
+		}
+	}
+	
+	void RemoveWeapon(string sWeapon)
+	{
+		array<CP3SObj@> arr = engine.GetArrayOfPlayers();
+		for (uint i = 0; i < arr.length(); i++)
+		{
+			if (@arr[i] == null)
+				continue;
+				
+			if (@arr[i].GetPlayerPtr() == null)
+				continue;
+				
+			// Maybe someone didn't pick it up?
+			CP3Weapon@ pWeapon = arr[i].GetPlayerPtr().Weapon_OwnsThisType(sWeapon);
+			if (@pWeapon == null)
+				continue;
+				
+			arr[i].GetPlayerPtr().Weapon_Detach(pWeapon);
+		}
+	}
+	
+	// Forces everyone to use a specific weapon... if it exists
+	void UseWeapon(string sWeapon)
+	{
+		array<CP3SObj@> arr = engine.GetArrayOfPlayers();
+		for (uint i = 0; i < arr.length(); i++)
+		{
+			if (@arr[i] == null)
+				continue;
+				
+			if (@arr[i].GetPlayerPtr() == null)
+				continue;
+				
+			// Maybe someone didn't pick it up?
+			CP3Weapon@ pWeapon = arr[i].GetPlayerPtr().Weapon_OwnsThisType(sWeapon);
+			if (@pWeapon == null)
+				continue;
+				
+			arr[i].GetPlayerPtr().Weapon_Switch(pWeapon);
+		}
+	}
+	
+	void GiveWeapon(string sWeapon)
+	{
+		array<CP3SObj@> arr = engine.GetArrayOfPlayers();
+		for (uint i = 0; i < arr.length(); i++)
+		{
+			if (@arr[i] == null)
+				continue;
+				
+			if (@arr[i].GetPlayerPtr() == null)
+				continue;
+				
+			arr[i].GetPlayerPtr().GiveNamedItem(sWeapon);
+		}
+	}
 }
