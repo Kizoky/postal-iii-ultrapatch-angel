@@ -1,0 +1,32 @@
+"FurSimple"
+{
+	"$pixelMode" 1         // ������� ������ � ��. �����������
+
+	// �������� �����
+	"$basetexture" "models/characters/cat/cat_04_white"
+
+	// �������� ������� ���� � ���������� �� ����������
+	"$noiseTexture" "models/Weapons/Wolwerine/badger_fur_noise.vtf"
+	"$noiseScale"   5
+
+	// �������� ����� ���� � ������������ �����
+	"$lengthTexture" "models/characters/cat/cat_Fur_Lenght"  
+	"$lengthScale"   0.8
+
+//	"$uvOffsetTexture" "models/Weapons/Wolwerine/badger_fur_uvoffset"
+//	"$uvOffsetScale" 0.1
+//	"$uvOffsetMode" 1
+	
+	"$numShells" 12        // ���������� ����� (������ ���� �������� ��� �����)	
+
+	"$startColor" "[1.75 1.75 1.75 1]"          // ����� ������� ����
+	"$endColor"   "[1 0.9 0.8 1]"        // ����� �������� ����
+	"$alphaTestGt" 0.1     // ������� � ������� a����� �������������
+
+	"$nocull" 1            // �������� ������������
+	"$writeZ" 1            // z-write ����� (z-test ������ �������)
+
+	"$lightScale" 0.8
+}
+
+//	base "materials/models/burned_flesh.vmt"
