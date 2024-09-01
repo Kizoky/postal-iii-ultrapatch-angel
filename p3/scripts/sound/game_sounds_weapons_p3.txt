@@ -195,6 +195,19 @@
 
 	"rndwave"
 	{
+		"wave"		"weapons/pistol/pistol_fire_01.wav"
+		"wave"		"weapons/pistol/pistol_fire_02.wav"
+	}
+}
+
+"Weapon_Colt.Single"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_GUNFIRE"
+
+	"rndwave"
+	{
 		"wave"		"weapons/pistol/pistol_shot_01.wav"
 		"wave"		"weapons/pistol/pistol_shot_01a.wav"
 		"wave"		"weapons/pistol/pistol_shot_02.wav"
@@ -504,6 +517,18 @@
 }
 
 "Weapon_M60.Single"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_GUNFIRE"
+
+	"rndwave"
+	{
+		"wave"		"weapons/m60/m60_fire1.wav"
+	}
+}
+
+"Weapon_M249.Single"
 {
 	"channel"		"CHAN_WEAPON"
 	"volume"		"VOL_NORM"
