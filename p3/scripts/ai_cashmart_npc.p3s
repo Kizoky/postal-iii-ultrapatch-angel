@@ -600,6 +600,7 @@ behavior
 						SetAttr "ea_dmg_absorb 95"
 						TargetPlayer 1
 						FireInput self,StartHunt
+						FireInput self,SetNormalBBox
 						AttributeProgressBar "HeliHealthPanel,show,ea_health"
 						Timer tShout,5:2
 					}
