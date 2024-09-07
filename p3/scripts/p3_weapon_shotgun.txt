@@ -9,7 +9,7 @@ WeaponData
 	"playermodel"			"models/weapons/shotgun/shotgun_uni.mdl"
 	"anim_prefix"			"deagle"
 	"bucket"				"3"
-	"bucket_position"		"1"
+	"bucket_position"		"2"
 	"bucket_360"			"3"
 	"bucket_position_360"	"1"
 	"recoil"				"4"
