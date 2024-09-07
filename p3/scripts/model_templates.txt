@@ -243,6 +243,9 @@
 	"pf_M_Old_W"
 	{		"Prefab"	"pants_w_*"	}
 	
+	"pf_F_Old_Man"
+	{		"Prefab" "pants_*"	}
+	
 //////////////////////////////////////////////// F_Fat PREFABS
 //Black
 	"pf_F_Fat_B_Pants"
