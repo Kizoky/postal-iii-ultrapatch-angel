@@ -61,8 +61,6 @@ behavior
 						//TargetPlayer 1
 						//SetAttr "target.flag_Jesus 1"
 						
-						//AngelScript "Object:self PDB OnStart"
-						
 						PlayerKarma hide
 						//EntFireInput "pcc,Command:p3_player_skin coat"
 						//EntFireInput "pcc,Command:use p3_weapon_emptyhands"
@@ -89,10 +87,10 @@ behavior
 					{
 						//EntFireInput "fade_in_cs,Fade"
 						Wait 1
-						AngelScript "Object:self PDB ShowBriefOne"
+						AngelScript "Object:self PDB ShowBrief 1"
 						EntFireInput swat01_spawner,enable
 						//EntFireInput tutor01_teleport,Teleport
-						AngelScript "Object:self PDB tutor01_teleport"
+						AngelScript "Object:self PDB tutor_teleport 1"
 						EntFireInput tutor01_arrow1,Enable
 
 						SetAttr "PlayerNear 0"
@@ -182,7 +180,7 @@ behavior
 						SetAttr "tutor02active 1"
 						//EntFireInput "fade_in_cs,Fade"
 						Wait 1
-						AngelScript "Object:self PDB ShowBriefTwo"
+						AngelScript "Object:self PDB ShowBrief 2"
 						//EntFireInput "pcc,Command:video_exitcmd pdb_01 gameui_show_p3_briefdlg #P3_PDB_T02_ONSCREEN"
 						//EntFireInput "fader_cs,Fade"
 						//PlayVideo pdb_01,1.0,1.0
@@ -191,7 +189,7 @@ behavior
 						//EntFireInput swat02_spawner,Enable
 						//EntFireInput eater_spawner_02,Enable
 						//EntFireInput tutor02_teleport,teleport
-						AngelScript "Object:self PDB tutor02_teleport"
+						AngelScript "Object:self PDB tutor_teleport 2"
 						EntFireInput tutor02_arrow,Enable
 						//EntFireInput tutor02_corpse01,TurnOn
 						//EntFireInput tutor02_clip,Enable
@@ -266,7 +264,7 @@ behavior
 						
 						//EntFireInput "fade_in_cs,Fade"
 						Wait 1
-						AngelScript "Object:self PDB ShowBriefThree"
+						AngelScript "Object:self PDB ShowBrief 3"
 						//EntFireInput "pcc,Command:video_exitcmd pdb_03 gameui_show_p3_briefdlg #P3_PDB_T03_ONSCREEN"
 						//EntFireInput "fader_cs,Fade"
 						//PlayVideo pdb_03,1.0,1.0
@@ -339,7 +337,7 @@ behavior
 						//PlayVideo pdb_04,1.0,1.0
 						Wait 0.9
 						//EntFireInput tutor03_teleport,Teleport
-						AngelScript "Object:self PDB tutor03_teleport"
+						AngelScript "Object:self PDB tutor_teleport 3"
 						//EntFireInput "pcc,Command:use p3_weapon_emptyhands"
 						//EntFireInput "lpp,RemoveWeapon:p3_weapon_grenade"
 						//EntFireInput tutor04_clip,Enable
@@ -392,7 +390,7 @@ behavior
 						SetAttr "tut05_NumZombies 3,0,3"
 						//EntFireInput "fade_in_cs,Fade"
 						Wait 1
-						AngelScript "Object:self PDB ShowBriefFive"
+						AngelScript "Object:self PDB ShowBrief 5"
 						//EntFireInput "pcc,Command:video_exitcmd pdb_04 gameui_show_p3_briefdlg #P3_PDB_T05_ONSCREEN"
 						//EntFireInput "fader_cs,Fade"
 						//PlayVideo pdb_04,1.0,1.0
@@ -407,7 +405,7 @@ behavior
 						EntFireInput tutor05_escape_tg,Enable
 						//MissionLog remove,tutor04
 						//EntFireInput tutor05_teleport,Teleport
-						AngelScript "Object:self PDB tutor05_teleport"
+						AngelScript "Object:self PDB tutor_teleport 5"
 						//EntFireInput "pcc,Command:use p3_weapon_emptyhands"
 						
 						//EntFireInput "lpp,RemoveWeapon:p3_weapon_match"
@@ -475,7 +473,7 @@ behavior
 						
 						//EntFireInput "fade_in_cs,Fade"
 						Wait 1
-						AngelScript "Object:self PDB ShowBriefSix"
+						AngelScript "Object:self PDB ShowBrief 6"
 						//EntFireInput "pcc,Command:video_exitcmd pdb_05 gameui_show_p3_briefdlg #P3_PDB_T06_ONSCREEN"
 						//EntFireInput "fader_cs,Fade"
 						//PlayVideo pdb_05,1.0,1.0
@@ -487,7 +485,7 @@ behavior
 						//EntFireInput tutor05_block,Enable
 						//EntFireInput tutor06_escape_tg,Enable
 						//EntFireInput tutor06_teleport,Teleport
-						AngelScript "Object:self PDB tutor06_teleport"
+						AngelScript "Object:self PDB tutor_teleport 6"
 						//EntFireInput tutor06_arrow,TurnOn
 						
 						Wait 0.1

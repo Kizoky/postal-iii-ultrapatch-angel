@@ -1,6 +1,6 @@
-class pdb : MissionBase
+class PDB : MissionBase
 {
-	pdb(CP3SObj@ obj) { super(obj); }
+	PDB(CP3SObj@ obj) { super(obj); }
 
 	// PDB removes all the weapons from the player despite being the very first map to load
 	// wtf?
@@ -31,33 +31,13 @@ class pdb : MissionBase
 		engine.ClientCommand("p3_player_skin coat");
 	}
 	
-	// TODO: Surely there's a way to pass arguments from P3S to AS....
-	// st_tutor01
-	void ShowBriefOne()
+	// From 01, 02, 03, 05, 06
+	void ShowBrief(int num)
 	{
-		engine.ClientCommand("gameui_show_p3_briefdlg #P3_PDB_T01_ONSCREEN");
-	}
-	
-	// st_tutor02
-	void ShowBriefTwo()
-	{
-		engine.ClientCommand("gameui_show_p3_briefdlg #P3_PDB_T02_ONSCREEN");
-	}
-	
-	void ShowBriefThree()
-	{
-		engine.ClientCommand("gameui_show_p3_briefdlg #P3_PDB_T03_ONSCREEN");
-	}
-	
-	// 4th is unused
-	void ShowBriefFive()
-	{
-		engine.ClientCommand("gameui_show_p3_briefdlg #P3_PDB_T05_ONSCREEN");
-	}
-	
-	void ShowBriefSix()
-	{
-		engine.ClientCommand("gameui_show_p3_briefdlg #P3_PDB_T06_ONSCREEN");
+		string s;
+		s.format("gameui_show_p3_briefdlg #P3_PDB_T0%d_ONSCREEN", num);
+		
+		engine.ClientCommand(s);
 	}
 	
 	// xpt_CheckLean
@@ -140,29 +120,13 @@ class pdb : MissionBase
 		tele.FireInput("Teleport", "player");
 	}
 	
-	void tutor01_teleport()
+	// 01 to 06
+	void tutor_teleport(int num)
 	{
-		Teleport("tutor01_teleport");
-	}
-	
-	void tutor02_teleport()
-	{
-		Teleport("tutor02_teleport");
-	}
-	
-	void tutor03_teleport()
-	{
-		Teleport("tutor03_teleport");
-	}
-	
-	void tutor05_teleport()
-	{
-		Teleport("tutor05_teleport");
-	}
-	
-	void tutor06_teleport()
-	{
-		Teleport("tutor06_teleport");
+		string s;
+		s.format("tutor0%d_teleport", num);
+		
+		Teleport(s);
 	}
 	
 	void button_teleport()

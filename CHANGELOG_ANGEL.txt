@@ -1,8 +1,6 @@
 ANGEL CHANGES:
 ==============
-+ Added Postal3Script function 'AngelScript'
-+ New AngelScript call 'void Player::OnHostageReleased_Kicked()'
-+ Added new entities: wj_trigger_angelscript, wj_logic_angelscript, wj_prop_fsmitem
+v1.x.x: (Initial Multiplayer 'patch')
 + New AngelScript call 'void CAngelScriptVM::ServerCommand(string&in cmd)'
 * Fixed CreateEvent causing crash
 + New AngelScript call 'CBaseEntity@ CP3Player::GiveNamedItem(string&in szName, int iSubType = 0)'
@@ -10,17 +8,35 @@ ANGEL CHANGES:
 + New AngelScript call 'CP3Weapon@ CP3Player::Weapon_OwnsThisType(string&in pszWeapon, int iSubType = 0)'
 + New AngelScript call 'bool CP3Player::Weapon_Switch(CP3Weapon@ pWeapon)'
 + New AngelScript call 'bool CP3Player::Weapon_Detach(CP3Weapon@ pWeapon)'
+* Re-added p3_npc_pigeon and p3_npc_cop
+Several interactable prop (wj_prop_fsmitem) fixes/additions from Catharsis Reborn:
+	* Fixed StartDisabled, DisableItem and EnableItem input functions
+	* Fixed fake weapon attachment not being saved
+	* Fixed being able to use/interact with currently held interactable prop
+	* Fixed prop with no P3S AI crashing the game
+	* Fixed melee type (for ex. bulky) not being applied correctly
 
+* Made AngelScript P3S function ignore P3S constants as it was causing issues, as a consequence using 
+constants are no longer possible or supported with this function
+* Fixed a rare AngelScript crash where context calls could release cached script objects
++ AngelScript P3S function now supports 4th arguments, either 'int' or 'string' param functions can now be called
+
+
+v1.0.0: (Initial Ultrapatch port)
+* Fixed game crashing with 'CPostal3Multiplayer' gamerule error if maxplayers is set above 1
++ Added Postal3Script function 'AngelScript'
++ New AngelScript call 'void Player::OnHostageReleased_Kicked()'
++ Added new entities: wj_trigger_angelscript, wj_logic_angelscript, wj_prop_fsmitem
 
 MULTIPLAYER RELATED:
 ====================
+v1.x.x: (Initial Multiplayer 'patch')
 The following missions/maps have been made Multiplayer-compatible:
 
 Pre-path
 - pdb
 - pw
 
-* Fixed game crashing with 'CPostal3Multiplayer' gamerule error if maxplayers is set above 1
 * Made Multiplayer less crashaholic (it is still prone to crashing!)
 * Fixed NPCs not targeting Players other than the host 
 Under certain circumstances the game will still attempt targeting Player 1
@@ -38,7 +54,8 @@ Mission and NPC AI have to be slightly rewritten using AngelScript
 + Added Multiplayer scoreboard (Can be activated by tapping TAB multiple times, it is tied to Mission log)
 + Added primitive NextBot player (Can be added via p3_ultrapatch_add_bot, they will attack anything that attacks them first)
 + Added cvar 'p3_ultrapatch_mp_friendlyfire' which controls friendly fire vs. Players (By default it is 0, only the host can change it)
-* Mission logic entities Postal3Script behavior will now automatically have the '_mp' suffix (for example, a behavior with the name 'bh_pw_logic' will turn into 'bh_pw_logic_mp'
+* Mission logic entities' Postal3Script behavior will now automatically have the '_mp' suffix (for example, a behavior with the name 'bh_pw_logic' will turn into 'bh_pw_logic_mp'
 * Players will now use 'bh_player_mp' behavior
 + Added cvar 'kickall' which kicks all players and bots excluding the host
 * Mission briefing and intro will no longer play on spawn (due to technical difficulties)
+* Fixed Player footstep sound not working
