@@ -1,0 +1,235 @@
+// Made with XBLAH's Modding tool.
+// Download it at https://modding-assets.net/items/source/tools/modding/xblah-modding-tool
+// Recreation by ABRAoriginal
+// park_grass would've appeared in DaveLand but was removed before release
+// hub_grass would've appeared in Hub1 but was removed before release
+// Several areas of the decompiled maps themselves need touched up with "paint alpha" in the displacement tool. Namely areas like the skybox in the Zealot Farm maps but some other ares like the city_aut_grass in the park of hub1 also need touching up to match.
+// This recreation isn't perfect but its vastly better than having nothing. Desert_grass_bg (used in the zealot farm skybox) could still use more fine tuning but the rest aren't too far off.
+
+detail
+{
+	city_aut_grass
+	{
+		density	"3750"
+		Group1
+		{
+			alpha	"1"
+			Model1
+			{
+				sprite	"125 0 132 257 512"
+				spritesize	"0.5 0 34 36"
+				spriterandomscale	"0"
+				detailorientation	"2"
+				amount	"0.525"
+			}
+			Model1
+			{
+				sprite	"257 0 127 257 512"
+				spritesize	"0.5 0 35 55"
+				spriterandomscale	"0.05"
+				detailorientation	"2"
+				amount	"0.01"
+			}
+			Model1
+			{
+				sprite	"0 0 123 140 512"
+				spritesize	"0.5 0 30 30"
+				spriterandomscale	"0"
+				detailorientation	"2"
+				amount	"0.45"
+			}
+		}
+		Group1
+		{
+			alpha	"0"
+		}
+	}
+	hub_1_grass
+	{
+		density	"1600"
+		Group1
+		{
+			alpha	"1"
+			Model1
+			{
+				sprite	"0 0 128 128 512"
+				spritesize	"0 0 16 16"
+				spriterandomscale	"0.05"
+				detailorientation	"2"
+				amount	"3"
+			}
+		}
+		Group1
+		{
+			alpha	"0"
+		}
+	}
+	desert_grass_bg
+	{
+		density	"15000"
+		Group1
+		{
+			alpha	"1"
+			Model1
+			{
+				sprite	"0 380 138 131 512"
+				spritesize	"0 0 3 3"
+				spriterandomscale	"0.5"
+				detailorientation	"2"
+				amount	"3"
+			}
+			Model1
+			{
+				sprite	"149 348 44 163 512"
+				spritesize	"0 0 3 6"
+				spriterandomscale	"0.5"
+				detailorientation	"2"
+				amount	"1"
+			}
+			Model1
+			{
+				sprite	"97 259 77 61 512"
+				spritesize	"0 0 2 2"
+				spriterandomscale	"0.3"
+				detailorientation	"2"
+				amount	"2"
+			}
+		}
+		Group1
+		{
+			alpha	"0"
+		}
+	}
+	desert_grass2
+	{
+		density	"1000"
+		Group1
+		{
+			alpha	"1"
+			Model1
+			{
+				sprite	"0 0 128 128 512"
+				spritesize	"0 0 12 12"
+				spriterandomscale	"0"
+				detailorientation	"2"
+				amount	"1"
+			}
+			Model1
+			{
+				sprite	"383 2 128 76 512"
+				spritesize	"0 0 28 14"
+				spriterandomscale	"0"
+				detailorientation	"2"
+				amount	"1.5"
+			}
+		}
+		Group1
+		{
+			alpha	"0"
+		}
+	}
+	leaves_wall
+	{
+		density	"20000"
+		Group1
+		{
+			alpha	"0"
+			Model1
+			{
+				sprite	"0 142 87 123 512"
+				spritesize	"0 0 18 36"
+				spriterandomscale	"0"
+				detailorientation	"1"
+				amount	"1"
+			}
+			Model1
+			{
+				sprite	"0 142 87 123 512"
+				spritesize	"0 0 18 36"
+				spriterandomscale	"0"
+				detailorientation	"2"
+				amount	"1"
+			}
+		}
+		Group1
+		{
+			alpha	"1"
+		}
+	}
+	desert_grass
+	{
+		density	"85"
+		Group1
+		{
+			alpha	"1"
+			Model1
+			{
+				sprite	"0 0 128 128 512"
+				spritesize	"0 0 18 18"
+				spriterandomscale	"0"
+				detailorientation	"2"
+				amount	"1"
+			}
+			Model1
+			{
+				sprite	"382 1 130 78 512"
+				spritesize	"0 0 36 18"
+				spriterandomscale	"0"
+				detailorientation	"2"
+				amount	"2"
+			}
+		}
+		Group1
+		{
+			alpha	"0"
+		}
+	}
+	rodeo
+	{
+		density	"200"
+		Group1
+		{
+			alpha	"1"
+			Model1
+			{
+				sprite	"0 0 128 128 512"
+				spritesize	"0 0 24 30"
+				spriterandomscale	"0.1"
+				detailorientation	"2"
+				amount	"1"
+			}
+			Model1
+			{
+				sprite	"124 0 133 257 512"
+				spritesize	"0 0 26 32"
+				spriterandomscale	"0.1"
+				detailorientation	"2"
+				amount	"1.5"
+			}
+		}
+		Group1
+		{
+			alpha	"0"
+		}
+	}
+	leaves_wall_01
+	{
+		density	"5000"
+		Group1
+		{
+			alpha	"0"
+			Model1
+			{
+				sprite	"5 269 83 49 512"
+				spritesize	"0 0 16 10"
+				spriterandomscale	"0"
+				detailorientation	"0"
+				amount	"1"
+			}
+		}
+		Group1
+		{
+			alpha	"1"
+		}
+	}
+}
