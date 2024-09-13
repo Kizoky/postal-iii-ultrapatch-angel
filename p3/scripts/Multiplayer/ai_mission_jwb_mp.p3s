@@ -1,0 +1,384 @@
+// JEN MISSION
+
+behavior
+{
+	name bh_mis_jen_mp
+	inherited bh_mission_logic_base_mp
+	
+	events
+	{
+		OnFire_CopSpawned 			"ExecutePattern st_util.xpt_OnCopSpawn"
+		
+		OnFire_MomDead	  				"ExecutePattern st_util.xpt_OnMomDeath"
+		OnFire_MomDeadByPlayer	  "ExecutePattern st_util.xpt_OnMomDeathByPlayer"
+		OnFire_MomSpawned			"ExecutePattern st_util.xpt_OnMomSpawn"
+		OnFire_CopDead	  "ExecutePattern st_util.xpt_OnCopDeath"
+
+		OnFire_HearWar		"ExecutePattern st_util.xpt_OnHearWar"
+		OnFire_PlayerKills	"ExecutePattern st_util.xpt_OnHearWar"
+		OnFire_JenDead 		"Pattern st_util.pt_OnMissionFailed"
+		//OnMissionStart 		"ExecutePattern st_util.xpt_ShowMissionDesc"
+		
+		OnFire_PrespawnMomDeath		"ExecutePattern st_spawncontrol.xpt_RiseMaxChildren"
+		
+		//soccer mom tasks
+		OnFire_WantToAttackDude	"ExecutePattern st_util.xpt_CheckDudeAttackers"
+		OnFire_WantToAttackJen	"ExecutePattern st_util.xpt_CheckJenAttackers"
+		//OnAllMomsDead "ShowMessage [No more moms!],$P3Debug"
+		
+		OnNewGame "ExecutePattern st_init.xpt_OnNewGame"
+	}
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns 
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "SoccerMomTotal JWB_MOM_TOTAL"
+						SetAttr "SoccerMomLeft SoccerMomTotal"
+						SetAttr "SoccerMomOnline 0"
+						
+						SetAttr "MomsAttackJen 0,0,JWB_JEN_ATTACKERS_MAX"
+						SetAttr "MomsAttackDude 0,0,JWB_DUDE_ATTACKERS_MAX"
+
+						//SetAttr "SoccerMomMaxNumber JWB_MOM_MAX"
+						
+						SetAttr "CopSpawned 0"
+						SetAttr "CopMaxNumber JWB_COPS_TOTAL"
+						SetAttr "CopsLeft CopMaxNumber"
+						SetAttr "MustSpawnCop 0"
+						SetAttr "PoliceIsHere 0"
+						
+						SetAttr "PlayerKillSoccerMom 0"
+						
+						//EntFireInput "npc_spawner_mom,SetMaxLiveChildren:0"
+						//EntFireInput "npc_spawner_mom,SetMaxChildren:10"
+						
+						SetAttr "PlayerPath PATH_NONE"
+					}
+				}
+				
+				xpt_OnNewGame
+				{
+					actions
+					{
+						AngelScript "Object:self JWB OnNewGame"
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			group Neutral
+			patterns 
+			{
+				pt_default
+				{
+					actions
+					{
+						PlayerKarma hide
+						
+						//EntFireInput "lpp,GiveWeapon:p3_weapon_taser"
+						//EntFireInput "pcc,Command:use p3_weapon_taser"
+						
+						ExecutePattern .xpt_show_momleft
+						ExecutePattern st_util.xpt_ShowMissionDesc
+						MissionLog add_primary,JenSurvive,#P3_JWB_PRIMARY_JEN
+						ExecutePattern .xpt_secondary
+						ShowMessage #P3_JWB_START
+						ShowMessage #P3_JWB_HELPER01
+						
+						Pattern pt_loop
+					}
+				}
+				
+				pt_loop
+				{
+					actions
+					{
+						IfAttr "SoccerMomToSpawn > 0 Pattern pt_mom_spawn"
+						IfAttr "MustSpawnCop == 1 and CopSpawned < CopMaxNumber Pattern pt_cop_spawn"
+
+						IfAttr "SoccerMomLeft == 0 Block begin"
+							Wait 1
+							IfAttr "PoliceIsHere == 0 Pattern pt_end"
+							IfAttr "PoliceIsHere == 1 Block begin"
+								IfAttr "CopsLeft == 0 Pattern pt_end"
+							Block end
+						Block end
+						Repeat 1
+					}
+				}
+				
+				pt_mom_spawn
+				{
+					actions
+					{
+						IfAttr "SoccerMomToSpawn == 0 Pattern pt_loop"
+						EntFireInput "npc_spawner_mom,Spawn"
+						//ChangeAttr "SoccerMomToSpawn -1"
+						//ChangeAttr "SoccerMomOnline +1"
+						Repeat 0.1
+					}
+				}
+				
+				pt_cop_spawn
+				{
+					actions
+					{
+						IfAttr "CopSpawned >= CopMaxNumber Block begin"
+							IfAttr "SoccerMomLeft <= 0 SetAttr MustSpawnCop 0"
+							Pattern pt_loop
+						Block end
+						EntFireInput "CopSpawner,Spawn"
+						Repeat 0.1
+					}
+				}				
+				pt_end
+				{
+					actions
+					{
+						MissionLog done,MomsLeft
+						MissionLog done,JenSurvive
+						
+						SetAttr "NonLethalDone 1"
+						IfAttr "PoliceIsHere == 1 RemoveAttr NonLethalDone"
+						CheckAttr "NonLethalDone MissionLog done,NonLethal"
+						
+						//EntFireInput fade_in,fade
+						Wait 2
+						//EntFireInput "pcc,Command:video_exitcmd jwb_3 p3_end_mission"
+						AngelScript "Object:self JWB ToNextMission"
+					}
+				}
+				xpt_show_momleft
+				{
+					actions
+					{
+						IfAttr "SoccerMomLeft >= 0 Block begin" 
+							MissionLog add_primary,MomsLeft,#P3_JWB_PRIMARY_MOMS
+						Block end
+						IfAttr "SoccerMomLeft == 0 and CopSpawned >= 0 Block begin"
+							MissionLog done,MomsLeft
+							IfAttr "PoliceIsHere == 1 MissionLog add_primary,CopsLeft,#P3_JWB_PRIMARY_COPS"
+							IfAttr "CopSpawned == 0 and MustSpawnCops == 0 Block begin"
+								IfAttr "PoliceIsHere == 1 MissionLog done,CopsLeft"
+							Block end
+						Block end
+					}
+				}
+				xpt_secondary
+				{
+					actions
+					{
+						MissionLog add_secondary,NonLethal,#P3_JWB_SECONDARY_LETHAL
+					}
+				}
+			}
+		}
+		st_util
+		{
+			group Neutral
+			patterns
+			{
+				xpt_OnCopSpawn
+				{
+					actions
+					{
+						ChangeAttr "CopSpawned +1"
+					}
+				}
+				xpt_OnMomSpawn
+				{
+					actions
+					{
+						ChangeAttr "SoccerMomOnline +1"
+						ChangeAttr "SoccerMomToSpawn -1"
+					}
+				}
+				xpt_OnMomDeath
+				{
+					actions
+					{
+						ChangeAttr "SoccerMomOnline -1"
+						IfAttr "SoccerMomOnline <= 2 Block begin"
+							SetAttr "tmp_sm_num SoccerMomLeft"
+							ChangeAttr "tmp_sm_num -SoccerMomOnline"
+							
+							IfAttr "tmp_sm_num >  JWB_MOM_MAX SetAttr SoccerMomToSpawn JWB_MOM_MAX"
+							IfAttr "tmp_sm_num <= JWB_MOM_MAX SetAttr SoccerMomToSpawn tmp_sm_num"
+							
+							RemoveAttr tmp_sm_num
+						Block end
+						//EntFireInput "npc_spawner_mom,AddMaxChildren:1"
+						//EntFireInput "npc_spawner_mom,Enable"
+						//ShowMessage "[Someone kills a soccer mom!],$P3Mission"
+					}
+				}
+				xpt_OnMomDeathByPlayer
+				{
+					actions
+					{
+						ChangeAttr "SoccerMomLeft -1"
+						ExecutePattern st_start.xpt_show_momleft
+						//IfAttr "SoccerMomLeft <= 0 SetAttr MustSpawnCop 0"
+						IfAttr "PlayerKillSoccerMom == 0 Block begin"
+							AreaEvent HatePlayer,100000,SoccerMom 
+							SetAttr "PlayerKillSoccerMom 1"
+						Block end
+						ExecutePattern st_util.xpt_OnMomDeath
+					}
+				}
+				xpt_OnCopDeath
+				{
+					actions
+					{
+						ChangeAttr "CopSpawned -1"
+						IfAttr "SoccerMomLeft == 0 Block begin"
+							ChangeAttr "CopsLeft -1"
+							ExecutePattern st_start.xpt_show_momleft
+						Block end
+					}
+				}
+				xpt_OnHearWar
+				{
+					actions
+					{
+						IfAttr "PoliceIsHere == 0 Block begin"
+							IfAttr "MustSpawnCop == 0 Block begin"
+								SetAttr "MustSpawnCop 1"
+								SetAttr "PoliceIsHere 1"
+								//PlayVideo "JWB_2,1,1"
+								//Wait 1.2
+								MissionLog fail,NonLethal
+								ShowMessage #P3_JWB_SECONDARY_LETHAL_FAILED
+							Block end
+						Block end
+					}
+				}
+				pt_OnMissionFailed
+				{
+					actions
+					{
+						ShowMessage #P3_JWB_MISSION_FAILED
+						//EntFireInput "fade_out,Fade"
+						Wait 3
+						//EntFireInput "pcc,Command:reload"
+						AngelScript "Object:self JWB OnMissionFailed"
+					}
+				}
+				xpt_ShowMissionDesc
+				{
+					actions
+					{
+						ShowMessage #P3_JWB_DESC
+					}
+				}
+				
+				xpt_CheckJenAttackers
+				{
+					actions
+					{
+						TargetCaller 1
+						IfAttr "MomsAttackJen >= JWB_JEN_ATTACKERS_MAX Block begin"
+							FireEvent Deny
+							Return 1
+						Block end
+						
+						IfAttr "MomsAttackJen <  JWB_JEN_ATTACKERS_MAX Block begin"
+							ChangeAttr "MomsAttackJen +1"
+							FireEvent Accept
+						Block end
+					}
+				}
+				
+				xpt_CheckDudeAttackers
+				{
+					actions
+					{
+						TargetCaller 1
+						IfAttr "MomsAttackDude >= JWB_DUDE_ATTACKERS_MAX Block begin"
+							FireEvent Deny
+							Return 1
+						Block end
+						
+						IfAttr "MomsAttackDude <  JWB_DUDE_ATTACKERS_MAX Block begin"
+							ChangeAttr "MomsAttackDude +1"
+							FireEvent Accept
+						Block end
+					}
+				}
+			}
+		}
+		
+		st_spawncontrol
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				xpt_RiseMaxChildren
+				{
+					actions
+					{
+						//ChangeAttr "SoccerMomMaxNumber 1"
+						
+						//IfAttr "SoccerMomMaxNumber == 1 ExecutePattern st_spawncontrol.xpt_SetMax1"
+						//IfAttr "SoccerMomMaxNumber == 2 ExecutePattern st_spawncontrol.xpt_SetMax2"
+						//IfAttr "SoccerMomMaxNumber == 3 ExecutePattern st_spawncontrol.xpt_SetMax3"
+						//IfAttr "SoccerMomMaxNumber == 4 ExecutePattern st_spawncontrol.xpt_SetMax4"
+						//IfAttr "SoccerMomMaxNumber == 5 ExecutePattern st_spawncontrol.xpt_SetMax5"
+					}
+				}
+				
+				xpt_SetMax1
+				{
+					actions
+					{
+						EntFireInput "npc_spawner_mom,SetMaxLiveChildren:1"
+						//EntFireInput "npc_spawner_mom,Enable"
+						//ShowMessage "[Max 1],$P3Mission"
+					}
+				}
+				xpt_SetMax2
+				{
+					actions
+					{
+						EntFireInput "npc_spawner_mom,SetMaxLiveChildren:2"
+						//ShowMessage "[Max 2],$P3Mission"
+					}
+				}
+				xpt_SetMax3
+				{
+					actions
+					{
+						EntFireInput "npc_spawner_mom,SetMaxLiveChildren:3"
+						//ShowMessage "[Max 3],$P3Mission"
+					}
+				}
+				xpt_SetMax4
+				{
+					actions
+					{
+						EntFireInput "npc_spawner_mom,SetMaxLiveChildren:4"
+						//ShowMessage "[Max 4],$P3Mission"
+					}
+				}
+				xpt_SetMax5
+				{
+					actions
+					{
+						EntFireInput "npc_spawner_mom,SetMaxLiveChildren:5"
+						//ShowMessage "[Max 5],$P3Mission"
+					}
+				}
+			}
+		}
+	}
+}

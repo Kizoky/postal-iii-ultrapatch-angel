@@ -15,3 +15,4 @@ const int AS_MOD_VERSION = 0;
 #include "Multiplayer/pw.as"
 #include "Multiplayer/pdb.as"
 #include "Multiplayer/dcr.as"
+#include "Multiplayer/jwb.as"
