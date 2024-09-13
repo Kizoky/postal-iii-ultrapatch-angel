@@ -3,6 +3,7 @@ Multiplayer/ai_mission_logic_base_mp.p3s
 
 Multiplayer/ai_mission_pdb_mp.p3s
 Multiplayer/ai_mission_pw_mp.p3s
+Multiplayer/ai_mission_dcr_mp.p3s
 
 ai_weapon.p3s
 

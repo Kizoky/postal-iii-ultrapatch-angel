@@ -1,0 +1,193 @@
+behavior
+{
+	name bh_cats_mission_mp
+	inherited bh_mission_logic_base_mp
+	
+	events
+	{
+		OnNewGame "ExecutePattern st_init.xpt_OnNewGame"
+	}
+	states
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "CatsCollected 0,0,DCR_CATS_MAX,on_change_event"
+						SetAttr "PlayerPath PATH_NONE"
+					}
+				}
+				
+				xpt_OnNewGame
+				{
+					actions
+					{
+						AngelScript "Object:self DCR OnNewGame"
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						PlayerKarma hide
+						//EntFireInput "pcc,Command:p3_dude_is_good 0"
+						//EntFireInput "lpp,GiveWeapon:p3_weapon_catnip"
+						//EntFireInput "pcc,Command:use p3_weapon_catnip"
+						//TargetPlayer 1
+						//CheckAttr "target.wpn_HaveGamamet EntFireInput lpp,GiveWeapon:p3_weapon_gamamet"
+						EntFireInput "npc_spawner_dogs,Enable"
+						
+						//PlayVideo "cr_1,0,1"
+						//EntFireInput "npc_spawner_cats,Enable"
+						//EntFireInput "npc_spawner_cats,SetMaxLiveChildren:10"
+						
+						State st_mission
+					}
+				}
+			}
+		}
+		
+		st_mission
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default // Pre-sushi
+				{
+					actions
+					{
+						ExecutePattern st_util.xpt_RefreshTask
+						Wait 2
+						ShowMessage #P3_DCR_START
+					}
+				}
+				
+				pt_sushi
+				{
+					actions
+					{
+						SetAttr "SushiSpawned 1"
+						//PlayVideo "dcr_2,1,1"
+						
+						Wait 0.9
+						EntFireInput "npc_spawner_sushi_m,enable"
+						EntFireInput "npc_spawner_sushi_r,enable"
+						EntFireInput "npc_spawner_cats,SetMaxLiveChildren:25"
+						EntFireInput "spawner_police,SetMaxLiveChildren:10"
+						EntFireUser muzak.ambient,1
+						EntFireInput muzak.battle,PlaySound
+						Wait 0.2
+						MissionLog add_primary,SurviveSushi,#P3_DCR_SUSHI_TASK
+						Wait 1.5
+						
+						ShowMessage #P3_DCR_SUSHI_ASSAULT
+					}
+				}
+				
+				xpt_CatsCollectedChange
+				{
+					actions
+					{
+						ExecutePattern st_util.xpt_RefreshTask
+					
+						IfAttr "CatsCollected == DCR_CATS_MAX state st_end"
+					
+						IfAttr "CatsCollected >= DCR_CATS_SUSHI Block begin"
+							CheckAttr "SushiSpawned Return 1"
+							Pattern pt_sushi
+						Block end
+					}
+				}
+			}
+			events
+			{
+				OnFire_CatPicked	"ChangeAttr CatsCollected 1"
+				OnFire_CatThrown	"ChangeAttr CatsCollected -1"
+				OnAttrChange_CatsCollected "ExecutePattern .xpt_CatsCollectedChange"
+				OnPlayerIn				"SetAttr PlayerUnderground 1"
+				OnPlayerOut				"RemoveAttr PlayerUnderground"
+				
+				OnPlayerEnter_Garage	"SetAttr PlayerInGarage 1"
+				OnPlayerLeave_Garage	"RemoveAttr PlayerInGarage"
+				OnPlayerEnter_HouseA	"SetAttr PlayerInHouseA 1"
+				OnPlayerLeave_HouseA	"RemoveAttr PlayerInHouseA"
+				OnPlayerEnter_HouseB	"SetAttr PlayerInHouseB 1"
+				OnPlayerLeave_HouseB	"RemoveAttr PlayerInHouseB"
+				OnPlayerEnter_Shop		"SetAttr PlayerInShop 1"
+				OnPlayerLeave_Shop		"RemoveAttr PlayerInShop"
+			}
+		}
+		
+		st_end
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						MissionLog done,CollectCats
+						MissionLog done,SurviveSushi
+						
+						//EntFireInput fade_in,fade
+						Wait 2
+						AngelScript "Object:self DCR ToNextMission"
+						//EntFireInput	"pcc,Command:video_exitcmd dcr_3 p3_end_mission"
+						
+						//EntFireInput "npc_spawner_cats,disable"
+						//EntFireInput "npc_spawner_sushi,KillHierarhy"
+						//EntFireInput "nps_spawner_cop,disable"
+						
+						//Wait 2
+						
+						//EndMission 1
+						//EntFireInput "pcc,Command:changelevel mall_cut"
+					}
+				}
+			}
+		}
+		
+		st_util
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				xpt_StartSpawnCops
+				{
+					actions
+					{
+						CheckAttr "CopsSpawned Return 1"
+						
+						SetAttr "CopsSpawned 1"
+						EntFireInput "npc_spawner_cop,enable"
+					}
+				}
+				
+				xpt_RefreshTask
+				{
+					actions
+					{
+						MissionLog add_primary,CollectCats,#P3_DCR_MAIN_TASK
+					}
+				}
+			}
+		}
+	}
+}
