@@ -20,6 +20,9 @@ Several interactable prop (wj_prop_fsmitem) fixes/additions from Catharsis Rebor
 constants are no longer possible or supported with this function
 * Fixed a rare AngelScript crash where context calls could release cached script objects
 + AngelScript P3S function now supports 4th arguments, either 'int' or 'string' param functions can now be called
++ New AngelScript call 'int CP3Player::GetAmmoCount(string&in szAmmo)'
++ New AngelScript call 'int CP3Weapon::Clip1()'
++ New AngelScript call 'int CP3Weapon::Clip2()'
 
 
 v1.0.0: (Initial Ultrapatch port)
@@ -37,6 +40,7 @@ Pre-path
 - pdb
 - pw
 - dcr
+- jwb
 
 * Made Multiplayer less crashaholic (it is still prone to crashing!)
 * Fixed NPCs not targeting Players other than the host 
