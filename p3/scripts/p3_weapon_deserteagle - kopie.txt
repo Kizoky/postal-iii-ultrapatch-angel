@@ -5,17 +5,17 @@ WeaponData
 	// Weapon data is loaded by both the Game and Client DLLs.
 	"ID"				"deserteagle"
 	"printname"				""
-	"viewmodel"				"models/weapons/deagle/Colt.mdl"
-	"playermodel"			"models/weapons/deagle/Colt.mdl"
+	"viewmodel"				"models/weapons/deagle/dEagle.mdl"
+	"playermodel"			"models/weapons/deagle/dEagle.mdl"
 	"anim_prefix"			"deagle"
 	"bucket"				"3"
-	"bucket_position"		"0"
+	"bucket_position"		"1"
 	"bucket_360"			"3"
 	"bucket_position_360"	"0"
 
-	"recoil"				"5"
+	"recoil"				"15"
 
-	"clip_size"				"14"
+	"clip_size"				"7"
 	"primary_ammo"			"DesertEagle"
 	"secondary_ammo"		"None"
 
@@ -25,19 +25,19 @@ WeaponData
 
 	"fire_effect"			"Small_Handgun_Fire_Fx"
 
-	"fire_rate1"			"0.2"
-	"fire_rate2"			"0.1"
+	"fire_rate1"			"0.4"
+	"fire_rate2"			"0.4"
 	
-	"PrimaryMinDamage"	"40"
-	"PrimaryMaxDamage"	"45"
+	"PrimaryMinDamage"	"70"
+	"PrimaryMaxDamage"	"75"
 	
 	"shake_screen"	"1"
-	"screen_shake_amplitude"	"3"
+	"screen_shake_amplitude"	"4"
 	"screen_shake_frequency"	"25"
-	"screen_shake_duration"	"0.2"
+	"screen_shake_duration"	"0.3"
 	
-	"NPCMinDamage"			"31"
-	"NPCMaxDamage"			"31"
+	"NPCMinDamage"			"35"
+	"NPCMaxDamage"			"40"
 
 // weapon types
 // none							0
@@ -55,8 +55,8 @@ WeaponData
 	SoundData
 	{
 		"empty"				"Weapon_DesertEagle.Empty"
-		"single_shot"		"Weapon_Colt.Single"
-		"single_shot_npc"	"Weapon_Colt.Single"
+		"single_shot"		"Weapon_DesertEagle.Single"
+		"single_shot_npc"	"Weapon_DesertEagle.Single"
 		//"double_shot"
 		//"double_shot_npc"
 		//"burst"
@@ -78,7 +78,7 @@ WeaponData
 	{
 		"weapon"
 		{
-				"file"		"sprites/coltssp"
+				"file"		"sprites/pistol"
 				"width"		"128"
 				"height"	"128"
 		}
@@ -90,7 +90,7 @@ WeaponData
 		}
 		"weapon_small"
 		{
-				"file"		"sprites/weapon_small_icons/coltssp"
+				"file"		"sprites/weapon_small_icons/pistol"
 				"width"		"128"
 				"height"	"128"
 		}

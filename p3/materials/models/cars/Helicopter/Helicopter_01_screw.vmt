@@ -1,0 +1,7 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Cars/Helicopter/Helicopter_01_screw"
+	"$translucent" "1"
+	"$nocull" 1
+	"$nodecal" 1
+}

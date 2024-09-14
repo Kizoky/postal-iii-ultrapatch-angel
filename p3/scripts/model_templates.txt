@@ -1,0 +1,791 @@
+//
+// 
+
+"model_templates.txt"
+{
+	
+// available bolt-ons
+//Hair 
+//Hat 
+//Glasses 
+//Cigarette 
+//Earring 1 
+//Earring 2 
+//Bag 
+//Chain 
+//Pin1 
+//Pin2 
+//Bracelet1 
+//Bracelet2 
+//Ring1 
+//Ring2
+
+//////////////////////////////////////////////// PREFABS ///////////////////////////////////////////////
+
+//////////////////////////////////////////////// Universal prefabs
+	"pf_uni_suit"
+	{		"Prefab"	"suit_*"	}
+	
+	"pf_uni_largemart"
+	{		"Prefab"	"largemart_*"	}
+	
+	"pf_uni_cop"
+	{		"Prefab"	"cop_w_*, cop_m_*, cop_b_*"	}
+	
+	"pf_uni_prisoner"
+	{		"Prefab"	"prisoner_*"	}
+
+//////////////////////////////////////////////// M_Big PREFABS
+	
+	"pf_M_Big_Worker"
+	{		"Prefab" "pants_*"	}
+	
+//////////////////////////////////////////////// M_Thin PREFABS
+	
+	"pf_M_Thin_Chico"
+	{		"Prefab" "shorts_*"	}
+
+//////////////////////////////////////////////// M_Fat PREFABS
+//Black
+	"pf_M_Fat_B_Pants"
+	{		"Prefab" "pants_b_*"	}
+//Mex
+	"pf_M_Fat_M_Suit"
+	{		"Prefab"	"suit_m_*"	}
+//White
+	"pf_M_Fat_W_Pants"
+	{		"Prefab"	"pants_w_thug,pants_w_jogger,pants_w_comicbook"	}
+	"pf_M_Fat_W_Suit"
+	{		"Prefab"	"suit_w_*"	}
+	"pf_M_Fat_W"
+	{		"Prefab"	"pants_w_thug,pants_w_jogger,pants_w_comicbook,suit_w_*"	}
+
+	"pf_M_Fat_Pub"
+	{		"Prefab" "pants_w_thug,pants_w_jogger,pants_w_comicbook,pants_gc_*,pants_b_thug"	}
+	
+	"pf_M_Fat_Mall"
+	{		"Prefab"	"pants_w_fastfood,pants_w_jogger,pants_w_comicbook"	}
+	
+	"pf_M_Fat_Jacket"
+	{		"Prefab" "suit_*"	}
+	
+	"pf_M_Fat_Cop"
+	{		"Prefab" "cop_w_01"	}
+	
+	"pf_M_Fat_blacksuit"
+	{		"Prefab"	"suit_w_black" }
+
+  "pf_M_Fat_Chavez"
+	{		"Prefab" "Chavez"	}
+	
+	"pf_M_Fat_nerd"
+	{		"Prefab" "pants_w_nerb_*"	}
+	"pf_M_Fat_zealot"
+	{		"Prefab" "pants_w_zealot*"	}
+	
+	
+	"pf_M_Fat_normal"
+	{		"Prefab"	"pants_w_fastfood,pants_w_thug,pants_w_jogger,pants_w_comicbook*"	}
+
+//////////////////////////////////////////////// M_Avg PREFABS
+//Black
+	"pf_M_Avg_B_Bro"
+	{		"Prefab" "pants_b_*,shorts_b_*,shorts_2_b_*"	}
+	"pf_M_Avg_B_Suit"
+	{		"Prefab"	"suit_b_*"	}
+//Mexican
+	"pf_M_Avg_M_Bro"
+	{		"Prefab" "pants_m_0*,pants_m_1*,shorts_m_*,shorts_2_m_*"	}
+	"pf_M_Avg_M_Suit"
+	{		"Prefab" "suit_m_*"	}
+	"pf_M_Avg_M_Mex"
+	{		"Prefab" "*_mex_*"	}
+//White
+	"pf_M_Avg_W_Bro"
+	{		"Prefab" "pants_w_0*,pants_w_1*,shorts_w_*,shorts_2_w_*"	}
+	"pf_M_Avg_W_Suit"
+	{		"Prefab"	"suit_01,suit_01*,suit_02,suit_03"	}
+	
+	"pf_M_Avg_Zea"
+	{		"Prefab" "zealot_m_*,zealot_w_*"	}
+	
+	"pf_M_Avg_Zealot"
+	{		"Prefab" "zealot_mask_w_pants_*,zealot_mask_m_pants_*"	}
+	
+	"pf_M_Avg_Bro"
+	{		"Prefab" "shorts_*,pants_m_0*,pants_m_1*,pants_w_0*,pants_w_1*,pants_b_*"	}
+	
+	"pf_M_Avg_Worker"
+	{		"Prefab" "pants_w_largemart_*,pants_m_apron_01"	}
+	
+	"pf_M_Avg_Jacket"
+	{		"Prefab" "suit_*"	}
+	
+	"pf_M_Avg_Cop"
+	{		"Prefab" "cop_w_01,cop_w_02,cop_m_01"	}
+	
+	"pf_M_Avg_Dea"
+	{		"Prefab" "cop_dea_*"	}
+	
+	"pf_M_Avg_Security"
+	{		"Prefab" "cop_security_*"	}
+	
+	"pf_M_Avg_SWAT"
+	{		"Prefab" "SWAT_01,SWAT_02"	}
+
+	"pf_M_Avg_Taliban"
+	{		"Prefab" "taliban_01,taliban_02,taliban_03,taliban_04"	}
+	
+	"pf_M_Avg_MexiTaliban"
+	{		"Prefab" "taliban_05,taliban_06,taliban_07,taliban_08"	}
+	
+	"pf_M_Avg_Medic"
+	{		"Prefab" "medic_*"	}
+	
+	"pf_M_Avg_Sushi"
+	{		"Prefab" "sushi_*"	}
+
+	"pf_M_Avg_Gay"
+	{		"Prefab" "gimp,cowboy_*,gay_*"	}
+	
+	"pf_M_Avg_Gimp"
+	{		"Prefab" "gimp" }
+	
+	"pf_M_Avg_blacksuit"
+	{		"Prefab"	"suit_01"	} //вместо suit_02 грузится сватовец почему-то
+	
+	"pf_M_Avg_nerd"
+	{		"Prefab" "nerd_*,asian_*"	}
+	
+	"pf_M_Avg_asian"
+	{		"Prefab" "asian_*"	}
+	
+	"pf_M_Avg_paparazzi"
+	{		"Prefab" "paparazzi_pants_*" }
+	
+	"pf_M_Avg_prisoner"
+	{		"Prefab" "prisoner_w_*"	}
+	
+	"pf_M_Avg_venezuela"
+	{		"Prefab"	"venezuela_*" }
+	
+	"pf_M_Zombie"
+	{		"Prefab"	"zombie_*" }
+	"pf_Maniak"
+	{		"Prefab"	"Maniak" }
+	"pf_Albert"
+	{		"Prefab"	"Albert" }
+	/////////////////////////////////////////////	M_Avg_Thieves PREFABS
+	"pf_M_Avg_Thieves"
+	{		"Prefab"	"thieve_*"}
+//////////////////////////////////////////////// M_Avg_Bums PREFABS
+	"pf_M_Avg_Bums"
+	{		"Prefab" "bum_*"	}
+	
+//////////////////////////////////////////////// F_Avg PREFABS
+//Black
+	"pf_F_Avg_B_Girl"
+	{		"Prefab" "pants_b_*,shorts_b_*"	}
+//Mexican
+	"pf_F_Avg_M_Girl"
+	{		"Prefab" "pants_m_0*,shorts_m_0*"	}
+	"pf_F_Avg_M_Suit"
+	{		"Prefab"	"suit_m_*"	}
+//White
+	"pf_F_Avg_W_Girl"
+	{		"Prefab" "pants_w_0*,shorts_w_0*"	}
+	"pf_F_Avg_W_Suit"
+	{		"Prefab"	"suit_w_*"	}
+
+	"pf_F_Avg_Bitch"
+	{		"Prefab" "bitch_*"	}
+	
+	"pf_F_Avg_Lesbian"
+	{		"Prefab" "lesbian_*"	}
+	
+	"pf_F_Avg_Zea"
+	{		"Prefab" "zealot_w_*,zealot_b_*"	}
+	
+	"pf_F_Avg_Zealot"
+	{		"Prefab" "zealot_mask_*"	}
+	
+	"pf_F_Avg_Girl"
+	{		"Prefab" "shorts_*,pants_*"	}
+	
+	"pf_F_Avg_Suit"
+	{		"Prefab"	"suit_*"	}
+	
+	"pf_F_Avg_Worker"
+	{		"Prefab" "largemart_*"	}
+
+	"pf_F_Avg_Stripper"
+	{		"Prefab" "f_nude_*"	}
+	
+	"pf_F_Avg_Cop"
+	{		"Prefab" "cop_w_01,cop_w_02,cop_b_01"	}
+	
+	"pf_F_Avg_Medic"
+	{		"Prefab" "medic_*"	}
+	
+	"pf_F_Avg_Hockey"
+	{		"Prefab" "hockey_mom_*"	}
+	
+//////////////////////////////////////////////// F_Old PREFABS
+//White
+	"pf_F_Old_W"
+	{		"Prefab" "pants_w_*"	}
+	
+	"pf_F_Old_Lady"
+	{		"Prefab" "pants_*"	}
+	
+//////////////////////////////////////////////// M_Old PREFABS
+//White
+	"pf_M_Old_W"
+	{		"Prefab"	"pants_w_*"	}
+	
+	"pf_M_Old_Man"
+	{		"Prefab" "pants_*"	}
+	
+//////////////////////////////////////////////// F_Fat PREFABS
+//Black
+	"pf_F_Fat_B_Pants"
+	{		"Prefab"	"pants_black_*"	}
+//Mex
+	"pf_F_Fat_M_Pants"
+	{		"Prefab"	"pants_mex_*"	}
+	"pf_F_Fat_M_Suit"
+	{		"Prefab"	"suit_mex_*"	}
+//White
+	"pf_F_Fat_W_Pants"
+	{		"Prefab"	"pants_white_*"	}
+	"pf_F_Fat_W_Suit"
+	{		"Prefab"	"suit_white_*"	}
+	"pf_F_Fat_W"
+	{		"Prefab"	"pants_white_*,suit_white_*"	}
+
+	"pf_F_Fat_Mom"
+	{		"Prefab" "pants_*,suit_*"	}
+	
+	"pf_F_Avg_Hockey"
+	{		"Prefab" "hockey_mom_*"	}
+	
+	"pf_F_Fat_Hockey"
+	{		"Prefab" "hockey_mom_fat_*"	}
+	
+	"pf_F_Fat_pants"
+	{		"Prefab" "pants_*" }
+	
+	"pf_F_Fat_suit"
+	{		"Prefab" "suit_*" }
+	
+//////////////////////////////////////////////// Dog PREFABS
+
+	"pf_Dog_Common"
+	{		"Prefab" "pitbull_*" }
+
+	"pf_Champ"
+	{		"Prefab" "champ" }
+//////////////////////////////////////////////// Cat PREFABS
+
+	"pf_Cat"
+	{		"Prefab" "cat_gray,cat_black,cat_red,cat_white"}
+	
+	"pf_Cat_Common"
+	{		"Prefab" "cat_gray,cat_black,cat_red,cat_white" }
+
+	"pf_Cat_HIV"
+	{		"Prefab" "cat_red,cat_black,cat_gray,cat_white" }
+	
+//////////////////////////////////////////////// Pigeon PREFABS
+
+  "pf_Pigeon_Common"
+  {   "Prefab" "pigeon_*" }
+
+//////////////////////////////////////////////// Monkey PREFABS
+
+	"pf_Monkey_MotorHead"
+	{		"Prefab" "monkey_pet" }
+	
+	"pf_Monkey_Wild"
+	{		"Prefab" "monkey_wild*"}
+	
+//////////////////////////////////////////////// Unic PREFABS
+
+	"pf_Ron_Jeremy_PW"
+	{		"Prefab" "ron_pornworld" }
+	
+	"pf_Ron_Jeremy_M"
+	{		"Prefab" "ron_mayor" }
+
+	"pf_Ron_Jeremy_Gay"
+	{		"Prefab" "ron" }
+	
+		"pf_Randy_Jones"
+	{		"Prefab" "Randy_Jones" }
+//////////////////////////////////////////////// TEMPLATES ///////////////////////////////////////////////
+
+///////////////////////////////////////////////////////// M_Big
+
+	"M_Big_common"
+	{
+ 	//"Body"  0
+ 	 	"Skin" "*"
+		"Head" "*"
+		"Chain" "*"
+	 	"Hair"  "hair_short_01_m_big"
+  //"Glasses" "BigGlasses, 3423"
+		"Pin1" "pin_round_01"
+		"Pin2" "pin_square_02"
+	}
+	
+	"M_Big_color"
+	{
+ 	//"Body"  0
+ 	 	"Skin" 1,2,3,4,5,6
+		"Head" "*"
+		"Chain" "*"
+	 	"Hair"  "hair_short_01_m_big"
+  //"Glasses" "BigGlasses, 3423"
+		"Pin1" "pin_round_01"
+		"Pin2" "pin_square_02"
+	}
+	
+	"M_Big_black"
+	{
+ 	//"Body"  0
+ 	 	"Skin" 7,8,9,10,11,12
+		"Head" "*"
+		"Chain" "*"
+	 	"Hair"  "hair_short_01_m_big"
+  //"Glasses" "BigGlasses, 3423"
+		"Pin1" "pin_round_01"
+		"Pin2" "pin_square_02"
+	}
+	
+	"M_Big_white"
+	{
+ 	//"Body"  0
+ 	 	"Skin" 13,14,15,16,17,18
+		"Head" "*"
+		"Chain" "*"
+	 	"Hair"  "hair_short_01_m_big"
+  //"Glasses" "BigGlasses, 3423"
+		"Pin1" "pin_round_01"
+		"Pin2" "pin_square_02"
+	}
+	
+	
+	///////////////////////////////////////////////////////// M_Avg
+
+	"M_Avg_Counter"
+	{
+ 		"Body" 2
+ 	 	"Skin" 23
+		"Head" 0
+//		"Chain" "*"
+//	 	"Hair"  "hair_short_01_m_avg"
+  //"Glasses" "BigGlasses, 3423"
+		// "Pin1" "pin_round_01"
+		// "Pin2" "pin_square_02"
+	}
+
+	"M_Avg_Millan"
+	{
+ 		"Body" 0
+ 	 	"Skin" 1
+		"Head" 0
+//		"Chain" "*"
+//	 	"Hair"  "hair_short_01_m_avg"
+  //"Glasses" "BigGlasses, 3423"
+		// "Pin1" "pin_round_01"
+		// "Pin2" "pin_square_02"
+	}
+//
+	"M_Avg_RonJ"
+	{
+ 		"Body" 0
+ 	 	"Skin" 1
+		"Head" 0
+//		"Chain" "*"
+//	 	"Hair"  "hair_short_01_m_avg"
+  //"Glasses" "BigGlasses, 3423"
+		// "Pin1" "pin_round_01"
+		// "Pin2" "pin_square_02"
+	}
+	
+	"M_Avg_common"
+	{
+ 		"Body"  0
+ 	 	"Skin" 1,2,3,4,5,6,7,8
+		"Head"  0
+		"Chain" "*"
+//	 	"Hair"  "hair_short_02_m_avg"
+  //"Glasses" "BigGlasses, 3423"
+//		"Pin1" "pin_round_01"
+//		"Pin2" "pin_square_02"
+	}
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	"M_Avg_black"
+	{
+ 		"Body"  0
+ 	 	"Skin" 1,2,3,4
+		"Head"  0
+		"Chain" "*"
+	 	"Hair"  "hair_short_01_m_avg"
+  //"Glasses" "BigGlasses, 3423"
+//		"Pin1" "pin_round_01"
+//		"Pin2" "pin_square_02"
+	}
+	
+	"M_Avg_white"
+	{
+ 		"Body"  0
+ 	 	"Skin" 5,6,7,8
+		"Head"  0
+		"Chain" "*"
+//	 	"Hair"  "hair_short_02_m_avg"
+  //"Glasses" "BigGlasses, 3423"
+//		"Pin1" "pin_round_01"
+//		"Pin2" "pin_square_02"
+	}
+	
+	"M_Avg_pants_black"
+	{
+ 		"Body"  1
+ 	 	"Skin" 9,10,11,12,13,14,15,16,17
+		"Head"  0
+		"Chain" "*"
+//	 	"Hair"  "hair_short_02_m_avg"
+  //"Glasses" "BigGlasses, 3423"
+//		"Pin1" "pin_round_01"
+//		"Pin2" "pin_square_02"
+	}
+	
+	"M_Avg_pants_white"
+	{
+ 		"Body"  1
+ 	 	"Skin" 18,19,20,21,22,23,24,25,26
+		"Head"  0
+		"Chain" "*"
+//	 	"Hair"  "hair_short_02_m_avg"
+  //"Glasses" "BigGlasses, 3423"
+//		"Pin1" "pin_round_01"
+//		"Pin2" "pin_square_02"
+	}
+	
+	
+	"M_Cop_common"
+	{
+ 		"Body"  2
+ 	 	"Skin" 27,28,29,30,31,32
+		"Head"  0
+		"Belt" 1
+//		"Chain" "*"
+//	 	"Hair"  "hair_short_01_m_avg"
+//		"Glasses" "BigGlasses, 3423"
+//		"Pin1" "pin_round_01"
+//		"Pin2" "pin_square_02"
+	}	
+	
+	"M_Cop_blue"
+	{
+ 		"Body"  2
+ 	 	"Skin" 27,30
+		"Head"  0
+		"Belt" 1
+//		"Chain" "*"
+//	 	"Hair"  "hair_short_01_m_avg"
+//		"Glasses" "BigGlasses, 3423"
+//		"Pin1" "pin_round_01"
+//		"Pin2" "pin_square_02"
+	}
+	
+	"M_Cop_black"
+	{
+ 		"Body"  2
+ 	 	"Skin" 28,31
+		"Head"  0
+		"Belt" 1
+//		"Chain" "*"
+//	 	"Hair"  "hair_short_02_m_avg"
+  //"Glasses" "BigGlasses, 3423"
+//		"Pin1" "pin_round_01"
+//		"Pin2" "pin_square_02"
+	}
+		
+ "M_Cop_brown"
+	{
+ 		"Body"  2
+ 	 	"Skin" 29,32
+		"Head"  0
+		"Belt" 1
+//		"Chain" "*"
+//	 	"Hair"  "hair_short_02_m_avg"
+  //"Glasses" "BigGlasses, 3423"
+//		"Pin1" "pin_round_01"
+//		"Pin2" "pin_square_02"
+	}
+	
+	"M_SWAT"
+	{
+ 		"Body"  3
+ 	 	"Skin" 46
+		"Head"  1
+//		"Chain" "*"
+//	 	"Hair"  "hair_short_02_m_avg"
+  //"Glasses" "BigGlasses, 3423"
+//		"Pin1" "pin_round_01"
+//		"Pin2" "pin_square_02"
+	}
+	
+	
+	
+	////////////////////////////////////////////////////////// M_Avg_Bums
+	"M_Avg_Bums_common"
+	{
+		"Body" 0
+		"Skin" "*"
+		"Head" "*"
+		"Chain" "*"
+	}
+	
+	
+	
+	///////////////////////////////////////////////////////// M_Thin
+
+
+	"M_Thin_common"
+  {
+  	"Body" 0
+		"Skin" 1
+	  "Head" 0
+//	  "Chain" 0
+//	"Hair"  "Hair1,Hair2"
+//	"Glasses" "BigGlasses, 3423"
+  } 
+ 
+  "M_Thin_mexican"
+  {
+  	"Body" 0
+		"Skin" 2
+	  "Head" 0
+//	  "Chain" 0
+//	"Hair"  "Hair1,Hair2"
+//	"Glasses" "BigGlasses, 3423"
+  } 
+  
+// end of templates  
+	
+	
+	
+///////////////////////////////////////////////////////// F_Avg
+
+	"F_Avg_pants_white"
+	{
+ 	  "Body"  0
+ 	 	"Skin" 1,2,3,4,5,6
+	  "Head" 0
+	  "Chain" 0
+	
+  "Hair"  "hair_short_01_f_avg"
+  //"Glasses" "BigGlasses, 3423"
+	//"Pin1" "pin_round_01"
+	//"Pin2" "pin_square_02"
+	}
+	 
+ 	"F_Avg_pants_black"
+	{
+ 	  "Body"  0
+ 	 	"Skin" 7,8,9,10,11,12
+	  "Head" 0
+	  "Chain" 0
+	
+  "Hair"  "hair_short_01_f_avg"
+  //"Glasses" "BigGlasses, 3423"
+	//"Pin1" "pin_round_01"
+	//"Pin2" "pin_square_02"
+	} 
+	
+	"F_Avg_shorts"
+	{
+		"Prefab" BlackCop01,WhiteCop01
+ 	  "Body"  1
+ 	 	"Skin" 13,14,15,16,17,18,19,20
+	  "Head" 0
+	  "Chain" 0
+	
+  "Hair"  "hair_short_01_f_avg"
+//	"Glasses" "BigGlasses, 3423"
+//	"Pin1" "pin_round_01"
+//	"Pin2" "pin_square_02"
+	}
+
+	"F_Avg_cop"
+	{
+ 	  "Body"  2
+ 	 	"Skin" 21,22
+	  "Head" 0
+	  "Chain" 0
+	
+  "Hair"  "hair_short_01_f_avg"
+//	"Glasses" "BigGlasses, 3423"
+//	"Pin1" "pin_round_01"
+//	"Pin2" "pin_square_02"
+	}
+	"F_Avg_whore"
+	{
+ 	  "Body"  3
+ 	 	"Skin" 23,24,25
+	  "Head" 0
+	  "Chain" 0
+	
+  "Hair"  "hair_short_01_f_avg"
+//	"Glasses" "BigGlasses, 3423"
+//	"Pin1" "pin_round_01"
+//	"Pin2" "pin_square_02"
+	}
+///////////////////////////////////////////////////////// F_Fat
+
+	"F_Fat_suit"
+	{
+ 	  "Body"  1
+ 	 	"Skin" 2
+	  "Head" 0
+	  "Chain" 0
+	
+  "Hair"  "hair_middle_01_f_fat"
+  //"Glasses" "BigGlasses, 3423"
+	//"Pin1" "pin_round_01"
+	//"Pin2" "pin_square_02"
+	} 
+ 
+	"F_Fat_pants"
+	{
+ 	  "Body"  0
+ 	 	"Skin" 1
+	  "Head" 0
+	  "Chain" 0
+	
+  "Hair"  "hair_middle_01_f_fat"
+//	"Glasses" "BigGlasses, 3423"
+//	"Pin1" "pin_round_01"
+//	"Pin2" "pin_square_02"
+	}  
+
+///////////////////////////////////////////////////////// F_Old
+
+	"F_Old"
+	{
+ 	  "Body"  0
+ 	 	"Skin" 1
+	  "Head" 0
+	  "Chain" 0
+	
+//  "Hair"  "hair_middle_01_f_fat"
+  //"Glasses" "BigGlasses, 3423"
+	//"Pin1" "pin_round_01"
+	//"Pin2" "pin_square_02"
+	} 
+ 
+ 
+
+///////////////////////////////////////////////////////// F_Old
+
+	"Champ"
+	{
+ 	  "Body"  0
+ 	 	"Skin" 1
+	  "Head" 0
+	  "Chain" 0
+	
+	//  "Hair"  "hair_middle_01_f_fat"
+  //"Glasses" "BigGlasses, 3423"
+	//"Pin1" "pin_round_01"
+	//"Pin2" "pin_square_02"
+	} 
+  
+  "Champ_Cop"
+	{
+ 	  "Body"  0
+ 	 	"Skin" 2
+	  "Head" 0
+	  "Chain" 0
+	
+	//  "Hair"  "hair_middle_01_f_fat"
+  //"Glasses" "BigGlasses, 3423"
+	//"Pin1" "pin_round_01"
+	//"Pin2" "pin_square_02"
+	} 
+	
+	  "Champ_Spotted"
+	{
+ 	  "Body"  0
+ 	 	"Skin" 3
+	  "Head" 0
+	  "Chain" 0
+	
+	//  "Hair"  "hair_middle_01_f_fat"
+  //"Glasses" "BigGlasses, 3423"
+	//"Pin1" "pin_round_01"
+	//"Pin2" "pin_square_02"
+	}
+	
+	
+/////////////////////////////////////////////////////// Phoenix test characters
+
+	"M_Big_PhoenixTest_Speaker"
+	{
+ 	 	"Skin" 13,14,15,16,17,18
+		"Head" 1
+		"Chain" "*"
+	 	"Hair"  "hair_short_01_m_big"
+		"Pin1" "pin_round_01"
+		"Pin2" "pin_square_02"
+	}
+
+    "Monkey"
+    {
+		"Hair"  "rotor"
+    }
+	}
+
+///////////////////////////////////////////////////////// TEMP
+
+
+	"TEMP_M_Avg_Pants"
+  {
+  	"Body" 0
+		"Skin" 0
+	  "Head" 0
+	  "Chain" 0
+//	"Hair"  "Hair1,Hair2"
+//	"Glasses" "BigGlasses, 3423"
+  } 
+ 
+	"TEMP_M_Avg_Suit"
+  {
+  	"Body" 0
+		"Skin" 0
+	  "Head" 0
+	  "Chain" 0
+//	"Hair"  "Hair1,Hair2"
+//	"Glasses" "BigGlasses, 3423"
+  } 
+ 
+ 
+// end of templates  
+
+
+//    "Monkey"
+//    {
+//		"Hair"  "rotor"
+//    }
