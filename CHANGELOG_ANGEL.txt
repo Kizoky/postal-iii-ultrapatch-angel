@@ -3,9 +3,9 @@ ANGEL CHANGES:
 v1.x.x: (Initial Multiplayer 'patch')
 + New AngelScript call 'void CAngelScriptVM::ServerCommand(string&in cmd)'
 * Fixed CreateEvent causing crash
-+ New AngelScript call 'CBaseEntity@ CP3Player::GiveNamedItem(string&in szName, int iSubType = 0)'
++ New AngelScript call 'CBaseEntity@ CP3Player::GiveNamedItem(string_t szName, int iSubType = 0)'
 + New AngelScript call 'int CP3Player::GiveAmmo(int nCount, int nAmmoIndex, bool bSuppressSound = false)'
-+ New AngelScript call 'CP3Weapon@ CP3Player::Weapon_OwnsThisType(string&in pszWeapon, int iSubType = 0)'
++ New AngelScript call 'CP3Weapon@ CP3Player::Weapon_OwnsThisType(string_t pszWeapon, int iSubType = 0)'
 + New AngelScript call 'bool CP3Player::Weapon_Switch(CP3Weapon@ pWeapon)'
 + New AngelScript call 'bool CP3Player::Weapon_Detach(CP3Weapon@ pWeapon)'
 * Re-added p3_npc_pigeon and p3_npc_cop
@@ -20,9 +20,16 @@ Several interactable prop (wj_prop_fsmitem) fixes/additions from Catharsis Rebor
 constants are no longer possible or supported with this function
 * Fixed a rare AngelScript crash where context calls could release cached script objects
 + AngelScript P3S function now supports 4th arguments, either 'int' or 'string' param functions can now be called
-+ New AngelScript call 'int CP3Player::GetAmmoCount(string&in szAmmo)'
++ New AngelScript call 'int CP3Player::GetAmmoCount(string_t szAmmo)'
 + New AngelScript call 'int CP3Weapon::Clip1()'
 + New AngelScript call 'int CP3Weapon::Clip2()'
++ Added mod/addon loader support, with ZOOM mod loader compatibility:
+	The mod loader now behaves the same as ZOOM's with some extras: 
+	+ Requires an addoninfo.txt file inside each directory/addon to be loaded, otherwise it won't be loaded
+	+ ZOOM mod loader bugs are gone, maps can now be loaded, models, sounds etc. can now load without issues
+	+ Added Postal3Script support, each addon can now have it's own main p3s loader, it can also override P3S AI
+	(first addon always takes priority)
+	+ Added AngelScript support, first addon always takes priority, but duplicate classes/code cannot co-exist
 
 
 v1.0.0: (Initial Ultrapatch port)
