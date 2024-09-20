@@ -112,6 +112,9 @@ class MissionBase : IPostal3Script
 	void OnSpawn(CP3SObj@ player)
 	{
 		player.SetAttr("HasSpawned", 1);
+		
+		// Automatically execute voice fix
+		engine.ClientCommand("p3_ultrapatch_mp_voice_fix", player);
 	}
 	
 	// Some missions will remove all weapons from the player

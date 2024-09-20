@@ -53,6 +53,7 @@ Pre-path
 * Fixed NPCs not targeting Players other than the host 
 Under certain circumstances the game will still attempt targeting Player 1
 Mission and NPC AI have to be slightly rewritten using AngelScript
+* Fixed Voice chat (you need to bind "+voicerecord" to a key)
 
 + Added primitive NextBot player bot
 + Added 'p3_ultrapatch_bot_add' console command
