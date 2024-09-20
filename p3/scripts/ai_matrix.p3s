@@ -13,7 +13,40 @@ factions
 	9 Items
 	10 Taliban
 	11 Venezuela
-	90 Anchor
+	12 ZombieBoss
+	13 Anchor
+}
+
+//////////////////////// manners
+manners
+{
+	0	NullManner
+	1	Player
+	2	StreetBro
+	3	JusticeMan
+	4	StGranny
+	5	LameWanker
+	6	SoccerMom
+	7	CuteGirl
+	8	Vendor
+	9	RedNeck
+	10	SushiNinja
+	11	Girl
+	12	MedicDoc
+	13	StrayDog
+	14	MonkeyApe
+	15	PussyCat
+	16  JihadBeard
+	17	RhinoCow
+	18  LaserDot
+	19	Mission
+	20	Pigeon
+	21 	GayGuy
+	22	NerdyNerd
+	23	Bystander
+	24	Lowlife
+	25	Anchor
+	26	itmWeapon
 }
 
 state_matrices
@@ -132,39 +165,6 @@ vision_modes
  sPROVOKER	 	"vm_Optimal   vm_Full		    vm_Full    		vm_Full    		vm_Full    		vm_Full    		vm_Full"
  sPUNISHER	 	"vm_Optimal   vm_Full		    vm_Full    		vm_Full    		vm_Full    		vm_Full    		vm_Full" 
  }
-}
-
-
-
-
-
-//////////////////////// manners
-manners
-{
-	0	NullManner
-	1	Player
-	2	StreetBro
-	3	JusticeMan
-	4	StGranny
-	5	LameWanker
-	6	SoccerMom
-	7	CuteGirl
-	8	Vendor
-	9	RedNeck
-	10	SushiNinja
-	11	Girl
-	12	MedicDoc
-	13	StrayDog
-	14	MonkeyApe
-	15	PussyCat
-	16  JihadBeard
-	17	RhinoCow
-	18  LaserDot
-	19	Mission
-	20 	GayGuy
-	21	NerdyNerd
-	22	Lowlife
-	90	Anchor
 }
 
 social_matrix
