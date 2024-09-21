@@ -53,12 +53,13 @@ Pre-path
 * Fixed NPCs not targeting Players other than the host 
 Under certain circumstances the game will still attempt targeting Player 1
 Mission and NPC AI have to be slightly rewritten using AngelScript
-* Fixed Voice chat (you need to bind "+voicerecord" to a key)
+* Fixed Voice chat (you need to bind "+voicerecord" to a key, and use 'p3_ultrapatch_mp_voice_fix' console command)
 
 + Added primitive NextBot player bot
 + Added 'p3_ultrapatch_bot_add' console command
 + Added 'p3_ultrapatch_bot_target_self' console command
 + Added 'p3_ultrapatch_bot_target' console command
++ Added 'p3_ultrapatch_mp_voice_fix' console command, fixes the voice chat not working in Multiplayer (can't be automated)
 * Modified 'Object:player' in Postal3Script to always get the closest player if possible, otherwise it will always be the host (Player 1)
 * Fixed NPC/Item/Prefab Spawners not working
 * Fixed Mission log HUD not working
@@ -69,6 +70,7 @@ Mission and NPC AI have to be slightly rewritten using AngelScript
 + Added Multiplayer kill feed/death notice (like the ones from TF2, CS:S, CS:GO, etc..)
 + Added Multiplayer Player targeting (Shows the name of the Player as well as their health)
 + Added Multiplayer scoreboard (Can be activated by tapping TAB multiple times, it is tied to Mission log)
++ Added Multiplayer voice status
 + Added cvar 'p3_ultrapatch_mp_friendlyfire' which controls friendly fire vs. Players (By default it is 0, only the host can change it)
 * Mission logic entities' Postal3Script behavior will now automatically have the '_mp' suffix (for example, a behavior with the name 'bh_pw_logic' will turn into 'bh_pw_logic_mp')
 * Players will now use 'bh_player_mp' behavior
