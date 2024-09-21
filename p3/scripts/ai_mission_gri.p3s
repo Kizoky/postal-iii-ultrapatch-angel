@@ -891,7 +891,7 @@ behavior
 				{
 					actions
 					{
-						IfAttr "Object:caller == Object:player and goodpath == 1 EntFireInput proxy,Say:INJUREBYSTANDER"
+						IfAttr "Object:caller == Object:Player and slot#msGP.PlayerPath == PATH_GOOD EntFireInput proxy,Say:INJUREBYSTANDER"
 						ExecutePattern bh_base:st_util.xpt_OnHit
 					}
 				}
@@ -908,7 +908,7 @@ behavior
 					{
 						IfAttr "Object:caller == Object:player Block begin"
 							//TargetPlayer 1
-							IfAttr "goodpath == 1 EntFireInput proxy,Say:KILLBYSTANDER"
+							IfAttr "slot#msGP.PlayerPath == PATH_GOOD EntFireInput proxy,Say:KILLBYSTANDER"
 							IfAttr "slot#msGP.poopcollected >= 5 Block begin"
 								IfAttr "slot#msGP.PlayerSide == SIDE_NONE SetAttr slot#msGP.PlayerSide SIDE_BAD"
 								IfAttr "slot#msGP.PlayerSide == SIDE_GOOD SetAttr slot#msGP.PlayerSide SIDE_INSANE"
