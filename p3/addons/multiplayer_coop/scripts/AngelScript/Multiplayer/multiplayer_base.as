@@ -24,7 +24,7 @@ class MissionBase : IPostal3Script
 		string map = engine.GetCurMapName();
 		
 		// Fallback
-		string next = "roam_hub1";
+		string next = "pdb";
 		
 		if (map == "pdb")
 			next = "pw";
@@ -37,6 +37,22 @@ class MissionBase : IPostal3Script
 		else if (map == "cm")
 			next = "pdb";
 			
+		/*
+		if (map == "cm")
+		{
+			if (self.GetCurPattern() == "pt_good")
+			{
+			}
+			else if (self.GetCurPattern() == "pt_bad")
+			{
+				// badger badger badger mushroom
+			}
+			else if (self.GetCurPattern() == "pt_insane")
+			{
+			}
+		}
+		*/
+			
 		// TODO: Bad or good path?
 		
 		return next;
@@ -48,6 +64,7 @@ class MissionBase : IPostal3Script
 		SayChat("Server is changing to the next mission");
 		SayChat("All players will be kicked in 3 seconds");
 		SayChat("You will need to reconnect to the server!");
+		SayChat("NOTE: The server might crash");
 		SayChat("======================================");
 		Wait(3.0);
 		SayChat("3..");
@@ -113,8 +130,10 @@ class MissionBase : IPostal3Script
 	{
 		player.SetAttr("HasSpawned", 1);
 		
+		Wait(0.17);
+		
 		// Automatically execute voice fix
-		engine.ClientCommand("p3_ultrapatch_mp_voice_fix", player);
+		engine.ClientCommand("p3_ultrapatch_mp_voice_fix", player.GetPlayerPtr());
 	}
 	
 	// Some missions will remove all weapons from the player

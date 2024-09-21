@@ -30,6 +30,10 @@ constants are no longer possible or supported with this function
 	+ Added Postal3Script support, each addon can now have it's own main p3s loader, it can also override P3S AI
 	(first addon always takes priority)
 	+ Added AngelScript support, first addon always takes priority, but duplicate classes/code cannot co-exist
+	
+* Fixed Transition bugs/crashes
+* Fixed 'Unknown bolton type index' crash error
++ New Postal3Script event calls for Helicopter: 'OnHit' ; 'OnDeath'
 
 
 v1.0.0: (Initial Ultrapatch port)

@@ -1,0 +1,8 @@
+scripts/Postal3Script/ai_player_mp.p3s
+scripts/Postal3Script/ai_mission_logic_base_mp.p3s
+
+scripts/Postal3Script/ai_mission_pdb_mp.p3s
+scripts/Postal3Script/ai_mission_pw_mp.p3s
+scripts/Postal3Script/ai_mission_dcr_mp.p3s
+scripts/Postal3Script/ai_mission_jwb_mp.p3s
+scripts/Postal3Script/ai_mission_cm_mp.p3s

@@ -1,0 +1,4 @@
+"AddonList"
+{
+	"multiplayer_coop" "1"
+}
