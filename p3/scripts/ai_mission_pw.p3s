@@ -412,6 +412,21 @@ behavior //bh_pw_logic
                         PlayVideo pw_2,1,1
                         Wait 1
                         EntFireUser "moms_spwn,1"
+						
+						EntFireInput pw_01_inner,Unlock
+						EntFireInput pw_02_inner,Unlock
+						EntFireInput pw_01_outer,Unlock
+						EntFireInput pw_02_outer,Unlock
+						
+						EntFireInput pw_01_inner,Open
+						EntFireInput pw_02_inner,Open
+						EntFireInput pw_01_outer,Open
+						EntFireInput pw_02_outer,Open
+						
+						EntFireInput pw_01_inner,Lock
+						EntFireInput pw_02_inner,Lock
+						EntFireInput pw_01_outer,Lock
+						EntFireInput pw_02_outer,Lock
 
                         MissionLog add_primary,moms,#P3_MPW_MOMS_LEFT
                         AttributeProgressBar "PWHealthPanel,show,shop_HP,show_value"
@@ -1095,7 +1110,7 @@ behavior
                 	actions
                 	{
                 		TargetEntByName pw_logic
-                    ChangeAttr "target.moms_left -1"
+						ChangeAttr "target.moms_left -1"
                 	}
                 }
                 pt_KillMe
