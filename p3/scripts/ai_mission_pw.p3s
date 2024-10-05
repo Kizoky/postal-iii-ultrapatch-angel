@@ -1168,6 +1168,22 @@ behavior
 				}
 			}
 		}
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetEntByName pw_logic
+						ChangeAttr "target.moms_left -1"
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
 	}
 	events
 	{
