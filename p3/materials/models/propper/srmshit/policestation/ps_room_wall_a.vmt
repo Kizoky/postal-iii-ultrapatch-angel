@@ -1,0 +1,10 @@
+"VertexLitGeneric"
+{
+	"$basetexture"		"PoliceStation/ps_room_wall_a"
+	"$envmap"		"#walls_01"
+	"$envmaptint"		"[0.3 0.3 0.3]"
+	"$normalmapalphaenvmapmask"		"1"
+	"$specularlightmappower"		"1.500000"
+	"%keywords"		"PoliceStation"
+	"$model"		"1"
+}

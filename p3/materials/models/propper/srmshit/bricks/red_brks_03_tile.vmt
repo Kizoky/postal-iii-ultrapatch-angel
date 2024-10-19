@@ -1,0 +1,9 @@
+"VertexLitGeneric"
+{
+	"$basetexture"		"bricks/red_brks_03_tile"
+	"$detail"		"Ground/asphalt_01_dirt"
+	"$detailscale"		"0.250000"
+	"$detailblendfactor"		"0.800000"
+	"$detailblendmode"		"1"
+	"$model"		"1"
+}

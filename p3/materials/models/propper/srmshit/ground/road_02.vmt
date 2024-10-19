@@ -1,0 +1,12 @@
+"VertexLitGeneric"
+{
+	"$basetexture"		"ground\road_02"
+	"$basetexture2"		"ground\road_b02"
+	"$bumpscale"		"8"
+	"$detail"		"city\road_city_tile02"
+	"$detailscale"		"0.300000"
+	"$detailblendfactor"		"1.900000"
+	"$detailblendmode"		"0"
+	"$detailtint"		"[1.4 1.3 1.3]"
+	"$model"		"1"
+}
