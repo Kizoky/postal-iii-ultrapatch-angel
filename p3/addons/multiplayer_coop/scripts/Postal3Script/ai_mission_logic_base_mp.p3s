@@ -1,6 +1,6 @@
 behavior
 {
-	name bh_mission_logic_base_mp
+	name bh_mission_logic_base
 	States
 	{
 		st_empty

@@ -1,3 +1,5 @@
+#ifdef SERVER
+
 #include "Multiplayer/multiplayer_base.as"
 
 // Pre-path
@@ -11,3 +13,5 @@
 
 
 // Insane path
+
+#endif

@@ -1,7 +1,7 @@
 behavior
 {
-	name bh_cats_mission_mp
-	inherited bh_mission_logic_base_mp
+	name bh_cats_mission
+	inherited bh_mission_logic_base
 	
 	events
 	{

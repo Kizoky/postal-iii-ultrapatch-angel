@@ -1,7 +1,7 @@
 behavior
 {
-	name bh_cashmart_logic_mp
-	inherited bh_mission_logic_base_mp
+	name bh_cashmart_logic
+	inherited bh_mission_logic_base
 	events
 	{
 		OnAttrChange_PlayerSide "ExecutePattern st_logic.xpt_sidechange"

@@ -2,8 +2,8 @@
 
 behavior
 {
-	name bh_mis_jen_mp
-	inherited bh_mission_logic_base_mp
+	name bh_mis_jen
+	inherited bh_mission_logic_base
 	
 	events
 	{

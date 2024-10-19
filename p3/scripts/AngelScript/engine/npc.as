@@ -7,11 +7,13 @@ class NPC : IPostal3Script
 		@self = @obj;
 	}
 	
+	[HOOK NPC Event_Killed]
 	void Event_Killed(CTakeDamageInfo@ info)
 	{
 		
 	}
 	
+	[HOOK NPC OnTakeDamage]
 	void OnTakeDamage(CTakeDamageInfo@ info)
 	{
 		// I'm leaving this here as an example, you're welcome! - Kizoky
@@ -25,18 +27,21 @@ class NPC : IPostal3Script
 		*/
 	}
 	
+	[HOOK NPC OnTakeDamage_Alive]
 	void OnTakeDamage_Alive(CTakeDamageInfo@ info)
 	{
 		OnTakeDamage(info);
 		//Printf("OnTakeDamage_Alive()\n");
 	}
 	
+	[HOOK NPC OnTakeDamage_Dying]
 	void OnTakeDamage_Dying(CTakeDamageInfo@ info)
 	{
 		OnTakeDamage(info);
 		//Printf("OnTakeDamage_Dying()\n");
 	}
 	
+	[HOOK NPC Event_Unconscious]
 	void Event_Unconscious(CTakeDamageInfo@ info)
 	{
 		

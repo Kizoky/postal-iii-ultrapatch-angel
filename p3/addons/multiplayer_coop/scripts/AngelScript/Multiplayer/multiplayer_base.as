@@ -21,7 +21,7 @@ class MissionBase : IPostal3Script
 	// TODO: Get data from SLC, or from the source code somehow - Kizoky
 	string GetNextMission()
 	{
-		string map = engine.GetCurMapName();
+		string map = server.GetCurMapName();
 		
 		// Fallback
 		string next = "pdb";
@@ -73,13 +73,13 @@ class MissionBase : IPostal3Script
 		Wait(2.0);
 		SayChat("1..");
 		Wait(2.0);
-		engine.ClientCommand("kickall");
+		server.ClientCommand("kickall");
 		Wait(0.75);
 		
 		//string nextmission;
 		//nextmission.format("map %s", GetNextMission());
 		
-		engine.ClientCommand("p3_end_mission");
+		server.ClientCommand("p3_end_mission");
 	}
 	
 	void OnMissionFailed()
@@ -96,15 +96,15 @@ class MissionBase : IPostal3Script
 		Wait(2.0);
 		SayChat("1..");
 		Wait(2.0);
-		engine.ClientCommand("kickall");
+		server.ClientCommand("kickall");
 		Wait(0.75);
 		
-		string map = engine.GetCurMapName();
+		string map = server.GetCurMapName();
 		
 		string cl;
 		cl.format("map %s", map);
 		
-		engine.ClientCommand(cl);
+		server.ClientCommand(cl);
 	}
 	
 	// Detect "new" players joining
@@ -113,7 +113,7 @@ class MissionBase : IPostal3Script
 		// Wait till server fully loads in
 		Wait(0.07);
 		
-		array<CP3SObj@> arr = engine.GetArrayOfPlayers();
+		array<CP3SObj@> arr = server.GetArrayOfPlayers();
 		for (uint i = 0; i < arr.length(); i++)
 		{
 			if (@arr[i] == null)
@@ -133,13 +133,13 @@ class MissionBase : IPostal3Script
 		Wait(0.17);
 		
 		// Automatically execute voice fix
-		engine.ClientCommand("p3_ultrapatch_mp_voice_fix", player.GetPlayerPtr());
+		server.ClientCommand("p3_ultrapatch_mp_voice_fix", player.GetPlayerPtr());
 	}
 	
 	// Some missions will remove all weapons from the player
 	void RemoveAllWeapons(CP3SObj@ player)
 	{
-		array<CP3SObj@> arr = engine.GetArrayOfWeapons(player);
+		array<CP3SObj@> arr = server.GetArrayOfWeapons(player);
 		for (uint i = 0; i < arr.length(); i++)
 		{
 			if (@arr[i] == null)
@@ -166,7 +166,7 @@ class MissionBase : IPostal3Script
 	
 	void RemoveWeapon(string sWeapon)
 	{
-		array<CP3SObj@> arr = engine.GetArrayOfPlayers();
+		array<CP3SObj@> arr = server.GetArrayOfPlayers();
 		for (uint i = 0; i < arr.length(); i++)
 		{
 			if (@arr[i] == null)
@@ -187,7 +187,7 @@ class MissionBase : IPostal3Script
 	// Forces everyone to use a specific weapon... if it exists
 	void UseWeapon(string sWeapon)
 	{
-		array<CP3SObj@> arr = engine.GetArrayOfPlayers();
+		array<CP3SObj@> arr = server.GetArrayOfPlayers();
 		for (uint i = 0; i < arr.length(); i++)
 		{
 			if (@arr[i] == null)
@@ -207,7 +207,7 @@ class MissionBase : IPostal3Script
 	
 	void GiveWeapon(string sWeapon)
 	{
-		array<CP3SObj@> arr = engine.GetArrayOfPlayers();
+		array<CP3SObj@> arr = server.GetArrayOfPlayers();
 		for (uint i = 0; i < arr.length(); i++)
 		{
 			if (@arr[i] == null)

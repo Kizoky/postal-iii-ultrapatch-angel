@@ -27,8 +27,7 @@ class PDB : MissionBase
 		player.GetPlayerPtr().Weapon_Switch(emptyhands);
 		
 		// Probably a bad idea?
-		// TODO: player pointer version
-		engine.ClientCommand("p3_player_skin coat");
+		server.ClientCommand("p3_player_skin coat", plr);
 	}
 	
 	// From 01, 02, 03, 05, 06
@@ -37,7 +36,7 @@ class PDB : MissionBase
 		string s;
 		s.format("gameui_show_p3_briefdlg #P3_PDB_T0%d_ONSCREEN", num);
 		
-		engine.ClientCommand(s);
+		server.ClientCommand(s);
 	}
 	
 	// xpt_CheckLean
@@ -46,7 +45,7 @@ class PDB : MissionBase
 		bool bResult = false;
 		
 		// Surely one player is already covering...
-		array<CP3SObj@> arr = engine.GetArrayOfPlayers();
+		array<CP3SObj@> arr = server.GetArrayOfPlayers();
 		for (uint i = 0; i < arr.length(); i++)
 		{
 			if (@arr[i] == null)
@@ -93,7 +92,7 @@ class PDB : MissionBase
 		bool bResult = false;
 		
 		// Surely one player is already covering...
-		array<CP3SObj@> arr = engine.GetArrayOfPlayers();
+		array<CP3SObj@> arr = server.GetArrayOfPlayers();
 		for (uint i = 0; i < arr.length(); i++)
 		{
 			if (@arr[i] == null)

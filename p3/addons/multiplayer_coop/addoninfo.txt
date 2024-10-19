@@ -7,4 +7,5 @@
     addonlink			"https://www.moddb.com/mods/postal-iii-ultrapatch"
     postal3script		"scripts/Postal3Script/ai_scripts.txt"
 	angelscript			"scripts/AngelScript/!as_scripts.txt"
+	addonminimum		"Angelv1.1.0"
 }

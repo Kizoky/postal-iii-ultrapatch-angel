@@ -1,6 +1,6 @@
 behavior
 {
-	name bh_player_mp
+	name bh_player
 	//inherited default_behavior
 	states
 	{
