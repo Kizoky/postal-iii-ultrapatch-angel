@@ -1,9 +1,8 @@
 "GameInfo"
 {
-	Game 			"Postal 3 Ultrapatch"
-	Title 			""
-	Title2			""
-	Type			singleplayer_only
+	Game 			"Postal 3 Ultrapatch Angel"
+	Title 			"Ultrapatch Angel"
+	Title2			"UP+Angel"
 	Icon			"resource/game"	
 	Nodifficulty    1
 	GameLogo		1
