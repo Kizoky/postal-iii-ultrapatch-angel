@@ -56,6 +56,12 @@ constants are no longer possible or supported with this function
 
 - Disabled auto-movement/bypass system, movement should now feel a lot more like HL2's
 * Fixed AngelScript info/warn/error path, it will now correctly show the path to the correspending file
+* Fixed AngelScript class and function in P3S always getting strings from allocated string pools
+	This caused problems with strings (from the game itself) having similar declarations to AS classes and functions
+* Gibs from headshots now fade out and delete themselves after 4-8 seconds randomly
+* Fixed corpses not catching on fire near gasoline
+* Fixed cars not exploding when gasoline was lit
+
 
 v1.0.0: (Initial Ultrapatch port)
 * Fixed game crashing with `CPostal3Multiplayer` gamerule error if maxplayers is set above 1
@@ -65,7 +71,7 @@ v1.0.0: (Initial Ultrapatch port)
 
 MULTIPLAYER RELATED:
 ====================
-v1.x.x: (Initial Multiplayer `patch`)
+v1.1.0: (Initial Multiplayer `patch`)
 The following missions/maps have been made Multiplayer-compatible:
 
 Pre-path
@@ -100,4 +106,6 @@ Mission and NPC AI have to be slightly rewritten using AngelScript
 + Added cvar `kickall` which kicks all players and bots excluding the host
 * Mission briefing and intro will no longer play on spawn (due to technical difficulties)
 * Fixed Player footstep sound not working
-* Disabled Auto Movement/Bypass system, as it was buggy with 3+ players
+* Fixed going through a transition transfers ALL (props) entities from previous map to the next map
+* Fixed Multiplayer spray (bind `impulse 201` to any key)
++ Added Multiplayer options (from HL2DM), gameplay settings (upon server creation) doesn't work
