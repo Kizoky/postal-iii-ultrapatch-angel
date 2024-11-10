@@ -1,0 +1,97 @@
+// Когда обезьяна сидит на спине дуда, тогда текущие активити дуда
+// преобразуются в активити обезьяны по этой таблице
+
+// В "MoveBackTranslate" и "PostTranslateSequence" надо заменять
+// на какие-нибудь неиспользуемые дудом активити. Можно придумать
+// новую активитю, но тогда ее надо будет прописать в коде в p3_npc_monkey.cpp
+// А можно заюзать неиспользуюмую существующую:
+// http://developer.valvesoftware.com/wiki/Activity_List
+// В кусишнике использовать эти новые активити
+
+"p3_monkey_table.txt"
+{
+	// шаг 0: это когда дуд движется назад
+	"MoveBackTranslate"
+	{
+		ACT_RUN						ACT_MONKEY_EMPTYHANDS_RUN_BACK
+		ACT_WOLVERINE_RUN			ACT_MONKEY_WOLVERINE_RUN_BACK
+		ACT_M16_RUN					ACT_MONKEY_M16_RUN_BACK
+		ACT_M16_RUN_AIM				ACT_MONKEY_M16_RUN_BACK
+		ACT_M60_RUN					ACT_MONKEY_M16_RUN_BACK
+		ACT_M60_RUN_AIM				ACT_MONKEY_M16_RUN_BACK
+		ACT_M60_WALK				ACT_MONKEY_M16_WALK_BACK
+		ACT_M60_WALK_AIM			ACT_MONKEY_M16_WALK_BACK
+		ACT_M16_WALK				ACT_MONKEY_M16_WALK_BACK
+		ACT_M16_WALK_AIM			ACT_MONKEY_M16_WALK_BACK
+		ACT_M16_WALK_ZOOM_AIM		ACT_MONKEY_M16_WALK_ZOOM_AIM_BACK
+	}
+	
+	// шаг 1: преобразует активитю дуда в активитю обезьяны
+	"PostTranslateActivity"
+	{
+		// npc-активити обезьяны
+		ACT_RUN						ACT_WPN_RUN
+		ACT_WALK					ACT_VM_IDLE
+		ACT_IDLE					ACT_VM_IDLE
+		ACT_JUMP					ACT_VM_IDLE
+		ACT_GLIDE					ACT_VM_IDLE
+
+		ACT_NAILBAT_BURST			ACT_BURST
+		ACT_DESERTEAGLE_BURST		ACT_BURST
+		ACT_NAILBAT_BURST			ACT_BURST
+		ACT_GASOLINE_BURST			ACT_BURST
+
+		// пылесос		
+		ACT_SHOPVAC_WALK_AIM		ACT_SHOPVAC_IDLE_AIM
+		ACT_SHOPVAC_ATTACK			ACT_SHOPVAC_IDLE_AIM
+		ACT_SHOPVAC_BURST			ACT_SHOPVAC_RUN_AIM
+
+		// барсук
+		ACT_WOLVERINE_WALK			ACT_WOLVERINE_IDLE
+		ACT_WOLVERINE_IDLE_SPECIAL	ACT_WOLVERINE_IDLE
+		ACT_WOLVERINE_JUMP			ACT_WOLVERINE_IDLE
+		ACT_WOLVERINE_BURST			ACT_BURST
+
+		// m16/m60
+		ACT_M16_IDLE_ZOOM_AIM		ACT_M16_IDLE_AIM
+		ACT_M16_RUN_AIM				ACT_M16_RUN		
+		ACT_M16_WALK_AIM			ACT_M16_WALK
+		ACT_M60_IDLE				ACT_M16_IDLE_AIM
+		ACT_M60_IDLE_AIM			ACT_M16_IDLE_AIM
+		ACT_M60_IDLE_ZOOM_AIM		ACT_M16_IDLE_AIM
+		ACT_M60_RUN					ACT_M16_RUN
+		ACT_M60_RUN_AIM				ACT_M16_RUN
+		ACT_M60_WALK				ACT_M16_WALK
+		ACT_M60_WALK_AIM			ACT_M16_WALK
+		ACT_M60_BURST				ACT_M16_BURST
+		ACT_M60_WALK_ZOOM_AIM		ACT_M16_WALK_ZOOM_AIM
+	}
+
+	// шаг 2: преобразует гесчю дуда в активитю обезьяны
+	"PostTranslateGesture"
+	{
+		ACT_WOLVERINE_ATTACK_BEGIN	ACT_WOLVERINE_ATTACK_BEGIN		
+		ACT_WOLVERINE_ATTACK_END	ACT_WOLVERINE_ATTACK_END
+		ACT_WOLVERINE_ATTACK_IDLE	ACT_WOLVERINE_ATTACK_IDLE
+		
+		ACT_M16_RELOAD				ACT_M16_RELOAD
+		ACT_M60_RELOAD				ACT_M60_RELOAD
+	}
+
+	// шаг 3: преобразует имя сиквенса дуда в активитю обезьяны
+	"PostTranslateSequence"
+	{
+		EH_idle_special1			ACT_MONKEY_ON_EMPTYHANDS_IDLE_SPECIAL1
+		EH_idle_special2			ACT_MONKEY_ON_EMPTYHANDS_IDLE_SPECIAL2
+		
+		wolverine_idle_Special1		ACT_MONKEY_ON_WOLVERINE_IDLE_SPECIAL1
+		wolverine_idle_Special2		ACT_MONKEY_ON_WOLVERINE_IDLE_SPECIAL2
+		wolverine_idle_Special3		ACT_MONKEY_ON_WOLVERINE_IDLE_SPECIAL3
+	}
+
+	// шаг 4: если обезьяна была долго в этой активити, то проиграть спецанимацию
+	"PostTranslateIdle"
+	{
+		ACT_WOLVERINE_IDLE			ACT_MONKEY_WOLWERINE_IDLE_SPECIAL
+	}
+}
