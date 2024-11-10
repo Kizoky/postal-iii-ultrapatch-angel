@@ -1,0 +1,1280 @@
+Constants
+{
+    Const S_LASER_DOT,8
+    Const S_VISIBLE_ENTITY,2
+    Const S_TMP,5
+    Const S_SELECTED_ENT,3
+    
+    Const res_item,1
+    Const res_npc,2
+    Const res_player,3
+    Const res_shit,4
+    Const res_cat,5
+    Const res_dog,6
+    Const res_ld,7
+    Const res_dude,8
+	Const res_ignore,98
+    Const res_none,99
+    
+    Const lpt_itm2dude,1
+    Const lpt_search2throw,2
+    Const lpt_go2fuck,3
+    Const lpt_explore,4
+    Const lpt_error,0
+}
+
+behavior
+{
+	name bh_motorhead
+   // inherited bh_animal
+	states
+	{	
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions 
+					{
+						//SetSquad "player_squad"						
+                        Timer tUpdateMonkeyLP,5,repeated
+                        Timer tUpdateET,1,repeated
+                        Timer tMoveToItemTime,1
+                        Timer tUnlockTarget,2,repeated
+                        
+                        SetAttr "UnderLaserControl 0"
+                        SetAttr "ai_ave_res 0,0,100"
+                        SetAttr "can_fuck 1"
+                        SetAttr "forced_mount 0"
+                        SetAttr "ea_flamedmg_absorb 100"
+					}
+				}
+			}
+		}		
+		
+		st_like_weapon
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions 
+					{
+						AttributeProgressBar "MotorheadHealthPanel,hide,ea_health"
+					}
+				}
+			}
+		}
+		
+        st_like_item
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions 
+					{
+						AttributeProgressBar "MotorheadHealthPanel,hide,ea_health"
+					}
+				}
+			}
+		}
+        
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions 
+					{
+						AttributeProgressBar "MotorheadHealthPanel,show,ea_health"
+                        
+                        SetAttr "want_explore 0"
+                        SetAttr "want_mount 0"
+                        
+                        Wait 1:5
+                        
+                        State st_follow
+					}
+				}
+			}
+		}
+        
+        st_fly
+        {
+            Group Neutral
+           	Patterns
+			{
+				pt_default
+				{
+					actions 
+					{
+                    }
+                }
+            }
+		}
+        
+        st_mounted
+        {
+            Group Neutral
+			Patterns
+			{
+				pt_default:ignore_ext_events
+				{
+					actions 
+					{
+                        SetAttr "want_mount 0"
+                        Freemovement false
+                        //Wait 10
+                        Pattern pt_idle
+                 	}
+				}
+                
+                pt_idle:ignore_ext_events
+                {
+					actions 
+					{
+                        
+                        SetAttr "rnd 0"
+                        ChangeAttr "rnd 0:100"
+                        
+                        IfAttr "rnd < 3 and forced_mount == 0 SetAttr want_explore 1"
+                        
+                        Repeat 3
+					}
+                    
+                    events
+                    {
+                        OnAE_LaserpenOn "Pattern pt_force_explore"
+                    }
+				}
+                
+                pt_force_explore:ignore_ext_events
+                {
+                    actions
+                    {
+                        ExecutePattern st_OnLaserDot.xpt_on
+                        SetAttr "want_explore 1"
+                    }
+                }
+			}
+        }
+        
+        
+/////////////////////////////////////////////////////////////////////////
+//////////// FOLLOW DUDE ////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
+        
+        st_follow
+        {
+            Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions 
+					{
+                        TargetPlayer 1
+                        IfAttr "DistTo:player > 120 Pattern pt_ForceMove2Trg"
+                        
+			            FreeMovementParams area_all,ED_VERY_CLOSE,120,from_target
+                        
+                        Freemovement run,reset
+                        LookAt 1,3
+                        SetAttr "dude_stay_time 0"
+                        Pattern pt_can_explore?
+					}
+				}
+                
+                pt_force_follow
+                {
+                    actions 
+					{  
+                        SetAttr "forced_mount 1"
+                        Pattern pt_wantmount
+                 	}
+                    
+                    events
+                    {
+                    }
+                }
+                
+                pt_ForceMove2Trg
+                {
+                    actions 
+					{
+                        Freemovement false
+                        MoveToTarget run,1:5,0:360
+                        //Timer tFollow
+                        //Repeat 5
+					}
+                    
+                    events
+                    {
+                        OnTargetReach "Pattern pt_default"
+                        OnTargetClose "Pattern pt_default"
+                        OnInvalidRoute "Repeat 1"
+                    }
+                }
+                
+                pt_can_explore?
+                {
+					actions 
+					{
+                        IfAttr "player.distToAnchor < 150 ChangeAttr dude_stay_time +1"
+                        IfAttr "player.distToAnchor >= 150 SetAttr dude_stay_time 0"
+                        
+                        IfAttr "dude_stay_time > 3 State st_explore"
+                        
+                        Repeat 5
+					}
+                    
+                    events
+                    {
+                        OnTargetReach "Pattern pt_someidle"
+                    }
+				}
+                
+                pt_failed_mount
+                {
+					actions 
+					{
+                        Sequence seq.idle_angry
+                        WaitForEnd 1
+                        
+                        Pattern "pt_default"
+					}
+				}
+                
+                pt_wantmount
+                {
+					actions 
+					{
+                        //MoveToTarget run,0.5:1.5,45:270
+                        
+                        //IfAttr "DistTo:player < 50 SetAttr want_mount 1"
+                        //IfAttr "DistTo:player >= 50 SetAttr want_mount 0"
+                        SetAttr "want_mount 1"
+                        //Repeat 5
+					}
+                    
+                    events
+                    {
+                        OnTargetReach "SetAttr want_mount 1"
+                        //OnTargetClose "SetAttr want_mount 1"
+                    }
+				}
+                
+                
+                pt_someidle
+                {
+                    actions 
+					{
+                        SetAttr "rnd 0"
+                        ChangeAttr "rnd 0:100"
+                
+                        IfAttr "rnd < 10 Block begin"
+                            Freemovement false
+                            Sequence mth_idle_actions
+                            WaitForEnd 1
+                            TargetPlayer 1
+                            Pattern pt_wantmount
+                        Block end
+                        
+                        IfAttr "rnd >= 10 and rnd < 50 Block begin"
+                            Freemovement false
+                            Sequence mth_idle_actions
+                            WaitForEnd 1
+                            Freemovement run
+                        Block end
+                        
+                        IfAttr "rnd >= 50 and rnd < 80 Block begin"
+                            Freemovement false
+                            LookAt 5:10
+                            Wait 1:5
+                            Freemovement run
+                        Block end
+                        
+                        SetAttr "rnd 0"
+                        ChangeAttr "rnd 0:100"
+                
+                        IfAttr "rnd < 10 Repeat 0"
+                        
+                        Pattern pt_can_explore?
+                    }
+                }
+                
+			}
+        }
+        
+        
+        
+        
+/////////////////////////////////////////////////////////////////////////
+//////////// LASER DOT HANDLE ///////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
+        st_OnLaserDot
+        {
+            Group Neutral
+			Patterns
+			{
+            
+                xpt_check
+                {
+                	actions 
+					{
+                        
+                        IfAttr "TargetLocked == 1 Return 0"
+                        
+                        TargetToMem S_TMP
+                        ExecutePattern st_OnLaserDot.pt_targetLD
+                        
+                        IfAttr "Object:target != Object:null and Name:target == String:LaserDot Block begin" 
+                            IfAttr "target.laserpen_on == 1 Block begin"
+                                IfAttr "UnderLaserControl == 1 Block begin"
+                                    IfAttr "slot#S_LASER_DOT.Object:slot#S_LASER_TARGET == Object:slot#S_SELECTED_ENT Block begin"
+                                        ResetTarget 1
+                                        TargetFromMem S_TMP
+                                        ClearMem S_TMP
+                                        Return 0
+                                    Block end
+                                Block end
+                                Pattern pt_start_follow
+                            Block end
+                        Block end
+                        
+                      //  че-то гдето конденсат..
+                      //  обезьяна не правильно понимает таргет лазера или его отсутствие...
+                        
+                        ResetTarget 1
+                        TargetFromMem S_TMP
+                        ClearMem S_TMP
+                        
+                        Return 0
+                    }
+                }
+                
+                xpt_off
+                {
+                	actions 
+					{
+                        IfAttr "Name:target == String:LaserDot ResetTarget 1"
+                        Timer tCheckLaserDot,0
+                        RemoveAttr TargetLocked
+                        ClearMem S_LASER_DOT
+                    }
+                }
+            
+                xpt_on
+                {
+                	actions 
+					{
+                        Timer tCheckLaserDot,0.5,repeated
+                    }
+                }
+            
+                pt_start_follow
+                {
+                	actions 
+					{
+                        SetAttr "UnderLaserControl 1"
+                        IfAttr "Object:slot#S_LASER_TARGET != Object:null Block begin"
+                            Pattern pt_default
+                        Block end
+                        
+                        
+                       // ResetTarget 1
+                        //ExecutePattern pt_targetLD
+                        
+                        IfAttr "DistTo:slot#S_LASER_DOT > 100 Block begin"
+                            SetAttr "folow_ld 1"
+                        Block end
+                        
+                        Pattern pt_default
+                    }
+                }
+            
+                
+                
+                pt_targetLD
+                {
+                    actions
+                    {
+                        TargetEntByName LaserDot
+                        IfAttr "target.laserpen_on == 1 TargetToMem S_LASER_DOT"
+                        
+                        Return 0
+                    }
+                }
+            
+            
+				pt_default
+				{
+					actions 
+					{
+                        Face false
+                        Freemovement false
+                        MoveToTarget false
+                        ResetGesture all
+                        ResetSequence 1
+                        //TargetFromMem S_VISIBLE_ENTITY
+                        
+                        //ClearMem S_VISIBLE_ENTITY
+                        
+                        IfAttr "folow_ld == 1 Pattern pt_come_closer"
+                        
+                        
+                        Pattern pt_yep_im_here
+                    }
+                }
+                
+                pt_come_closer:ignore_ext_events
+                {
+					actions 
+					{
+                        IfAttr "Object:slot#S_LASER_DOT == Object:null Pattern st_OnLaserDot.pt_disableLP"
+                        IfAttr "slot#S_LASER_DOT.Object:slot#S_LASER_TARGET != Object:null Pattern pt_yep_im_here"
+                        
+                        ExecutePattern st_OnLaserDot.pt_targetLD
+                        
+                        MoveToTarget run,1.5:4.5
+                        ExecutePattern st_ai.xpt_UpdateHoldGesture
+                        Repeat 3
+					}
+                    
+                    events
+                    {
+                        OnTargetReach "Pattern pt_yep_im_here"
+                        OnAE_LaserpenOn "ExecutePattern st_OnLaserDot.xpt_on"
+                        OnAE_LaserpenOff "ExecutePattern st_OnLaserDot.xpt_off"
+                    }
+				}
+                
+                pt_yep_im_here:ignore_ext_events
+                {
+					actions 
+					{
+                        ResetTarget 1
+                        ExecutePattern st_OnLaserDot.pt_targetLD
+                        
+                        IfAttr "Object:slot#S_LASER_DOT == Object:null Pattern st_OnLaserDot.pt_disableLP"
+                        
+                        IfAttr "slot#S_LASER_DOT.Object:slot#S_LASER_TARGET == Object:null Block begin"
+                            IfAttr "DistTo:slot#S_LASER_DOT > 150 Pattern pt_come_closer"
+                        Block end
+                        
+                        //IfAttr "Object:slot#S_LASER_DOT == Object:null Pattern st_explore.pt_default"
+                        IfAttr "slot#S_LASER_DOT.Object:slot#S_LASER_TARGET == Object:null Repeat 0.1"
+                        
+                        SetTarget "Object:self,slot#S_LASER_DOT.Object:slot#S_LASER_TARGET"
+                        
+                        //ResetTarget 1
+                        Pattern st_OnLaserDot.pt_DoSmthngWithLaserTarget
+                        
+                        Repeat 1
+					}
+                    
+                    events
+                    {
+                        OnAE_LaserpenOn "ExecutePattern st_OnLaserDot.xpt_on"
+                        OnAE_LaserpenOff "ExecutePattern st_OnLaserDot.xpt_off"
+                    }
+				}
+                
+                pt_disableLP
+                {
+                    actions
+                    {
+                        IfAttr "Object:item == Object:null Pattern st_explore.pt_default"
+                        
+                        IfAttr "laser_pen_task == lpt_itm2dude Block begin"
+                            FreeMovement false
+                            RemoveAttr "laser_pen_task"
+                            TargetPlayer 1
+                            Pattern st_explore.pt_bring_item_to_dude
+                        Block end
+                        
+                        IfAttr "laser_pen_task == lpt_search2throw Block begin"
+                            FreeMovement false
+                            RemoveAttr "laser_pen_task"
+                            State st_SearchAndAttackTarget
+                        Block end
+                        
+                        IfAttr "laser_pen_task == lpt_go2fuck Block begin"
+                            FreeMovement false
+                            RemoveAttr "laser_pen_task"
+                            IfAttr "Object:slot#S_FUCK_TARGET != Object:null Block begin"
+                                TargetFromMem S_FUCK_TARGET
+                                ClearMem S_FUCK_TARGET
+                                Pattern st_explore.pt_selectNPCAction
+                            Block end
+                            Pattern st_explore.pt_default
+                        Block end
+
+                        RemoveAttr "laser_pen_task"
+                        Pattern st_explore.pt_default
+                    }
+                }
+                   
+                
+                pt_DoSmthngWithLaserTarget:ignore_ext_events
+                {
+                    actions
+                    {
+                    
+                    //    Const lpt_itm2dude,1
+                    //    Const lpt_search2throw,2
+                    //    Const lpt_go2fuck,3
+                    //    Const lpt_explore,4
+                    //    Const lpt_error,0
+                        
+                        TargetToMem S_TMP
+                        ResetTarget 1
+                        SetTarget "Object:self,slot#S_LASER_DOT.Object:slot#S_LASER_TARGET"
+                        ExecutePattern st_ai.pt_FilterVisEntity
+                        
+                        IfAttr "ai_ave_ElapsedTime < 2 and ai_ave_res == res_item Block begin"
+                            FreeMovement false
+                            SetAttr "dude_want_this 1"
+                            SetAttr "TargetLocked 1"
+                            SetAttr "laser_pen_task lpt_itm2dude"
+                            TargetToMem S_SELECTED_ENT
+                            Pattern st_explore.pt_MoveToItem
+                        Block end
+                        
+                        IfAttr "ai_ave_ElapsedTime < 2 and ai_ave_res == res_shit Block begin"
+                            FreeMovement false
+                            SetAttr "here_is_shit 1"
+                            SetAttr "TargetLocked 1"
+                            SetAttr "laser_pen_task lpt_search2throw"
+                            TargetToMem S_SELECTED_ENT
+                            Pattern st_explore.pt_MoveToItem
+                        Block end
+
+                        IfAttr "ai_ave_ElapsedTime < 2 and ai_ave_res == res_npc Block begin"
+                            FreeMovement false
+                            SetAttr "TargetLocked 1"
+                            SetAttr "laser_pen_task lpt_go2fuck"
+                            TargetToMem S_SELECTED_ENT
+                            Pattern st_explore.pt_selectNPCAction
+                        Block end
+                        
+                        ClearMem S_SELECTED_ENT
+                        TargetFromMem S_TMP
+                        ClearMem S_TMP
+                        Pattern st_OnLaserDot.pt_yep_im_here
+                    }
+                }
+
+            }
+        }
+        
+        
+/////////////////////////////////////////////////////////////////////////
+//////////// EXPLORE ////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////
+        
+        
+        st_explore
+        {
+            Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions 
+					{
+                        SetAttr "UnderLaserControl 0"
+                        SetAttr "want_explore 0"
+                        SetAttr "want_mount 0"
+                        SetAttr "forced_mount 0"
+                        
+                        IfAttr "force_fuck == 1 Block begin"
+                            SetAttr "force_fuck 0"
+                            Freemovement false
+                            Pattern pt_fuck_target
+                        Block end
+                        
+                        Face false
+                        
+                        //IfAttr "Object:slot#S_LASER_DOT != Object:null ExecutePattern st_OnLaserDot.xpt_check"
+                        
+                        TargetAnchor 1
+                        FreeMovementParams area_all,ED_CLOSE,ED_FAR,move_from_target
+                        ResetTarget 1
+                        
+                        Freemovement run,reset
+                        
+                        ExecutePattern st_ai.xpt_UpdateHoldGesture
+                        
+                        Pattern pt_explore
+					}
+				}
+                
+                pt_explore
+                {
+					actions 
+					{
+                        ResetTarget 1
+                        SetAttr "UnderLaserControl 0"
+                        
+                        //IfAttr "Object:slot#S_LASER_DOT != Object:null ExecutePattern st_OnLaserDot.xpt_check"
+                        IfAttr "player.distToAnchor < 50 ChangeAttr dude_move_time -1"
+                        IfAttr "DistTo:player <= 150 SetAttr dude_move_time 0"
+                        
+                        IfAttr "player.distToAnchor >= 50 and DistTo:player > 150 ChangeAttr dude_move_time +1"
+                        
+                        IfAttr "dude_move_time > 2 State st_follow"
+                        
+                        //CheckTarget 1
+                        
+                        Repeat 3
+					}
+                    
+                    events
+                    {
+                       // OnVisible "ExecutePattern .pt_IsInteresting"
+                        OnFire_NewTarget "Pattern .pt_IsInteresting"
+                        OnTargetReach "Pattern pt_someidle"
+                        OnTimer_tUpdateMonkeyLP "Anchor true,self"
+                        OnTimer_tWalkTime "Freemovement run,reset"
+                    }
+				}
+                
+                pt_IsInteresting
+                {
+					actions 
+					{
+                        TargetFromMem S_VISIBLE_ENTITY
+                        ClearMem S_VISIBLE_ENTITY
+                        IfAttr "ai_ave_ElapsedTime < 10 and ai_ave_res == res_item Block begin"
+                            IfAttr "target.DistTo:player < 96 Block begin"
+                                IgnoreTarget 30
+                                Pattern pt_explore
+                            Block end
+                            FreeMovement false
+                            Pattern pt_MoveToItem
+                        Block end
+                        
+                        IfAttr "ai_ave_ElapsedTime < 10 and ai_ave_res == res_shit Block begin"
+                            FreeMovement false
+                            SetAttr "here_is_shit 1"
+                            Pattern pt_MoveToItem
+                        Block end
+
+                        IfAttr "ai_ave_ElapsedTime < 10 and ai_ave_res == res_npc Block begin"
+                            FreeMovement false
+                            Pattern pt_selectNPCAction
+                        Block end
+
+                        
+                        
+                        IgnoreTarget 5
+                        Pattern pt_explore
+                        
+                        
+                        
+                        //IfAttr "caller.ea_Manner == Manner:PussyCat Block begin"
+                        //    IfAttr "DistTo:caller < 264 Block begin"
+                        //        State st_attack_cat
+                        //    Block end
+                        //    IgnoreTarget 30
+                        //    Return 0
+                        //Block end
+                        
+					}
+				}
+                
+                pt_MoveToItem
+                {
+					actions 
+					{
+                        MoveToTarget run,0.5
+                        //WaitForEnd 1
+                        //Pattern pt_takeItem
+                        //Repeat 3
+					}
+                    
+                    events
+                    {
+                        OnTargetReach "Pattern pt_takeItem"
+                        OnInvalidRoute "Pattern xpt_MoveToItemFail"
+                        OnTimer_tMoveToItemTime "Pattern pt_default"
+                    }
+				}
+                
+                xpt_MoveToItemFail
+                {
+					actions 
+					{
+                        IfAttr "Timer:tMoveToItemTime == 0 Timer tMoveToItemTime,10"
+                        Pattern pt_MoveToItem
+					}
+				}
+                
+                
+                pt_takeItem
+                {
+					actions 
+					{
+                        ResetGesture g_env_holding
+                        Sequence seq.ev_item_take
+                        WaitForEnd 1
+                        ResetTarget 1
+                        Pattern pt_selectItemAction
+                        //Pattern st_SearchAndAttackTarget.pt_looking_for
+                        
+					}
+				}
+                
+                pt_selectItemAction
+                {
+					actions 
+					{
+                        // if monkey already has selected target - throw item 
+                        IfAttr "Object:slot#ENEMY <> 0 Block begin" 
+                            TargetFromMem ENEMY
+                            ClearMem ENEMY
+                            Pattern pt_throw_item_to_target
+                        Block end
+                
+                        // it's a shit - have to throw it at someone
+                        IfAttr "here_is_shit == 1 Block begin"
+                            State st_SearchAndAttackTarget
+                        Block end
+                
+                        IfAttr "dude_want_this == 1 Block begin"
+                            Pattern pt_bring_item_to_dude
+                        Block end
+                        
+                
+                        SetAttr "rnd 0"
+                        ChangeAttr "rnd 0:100"
+                        
+                        // bring item to dude
+                        IfAttr "rnd < 20 Block begin"  
+                            Pattern pt_bring_item_to_dude
+                        Block end
+                        
+                        
+                        // looking for some target to hit it by the item 
+                        IfAttr "rnd >= 20 and rnd < 50 Block begin"
+                            State st_SearchAndAttackTarget
+                        Block end
+                        
+                        // just drop item
+                        IfAttr "rnd >= 50 and rnd < 70 Block begin"
+                            ResetGesture g_env_holding
+                            TargetItem 1
+                            IgnoreTarget 15
+                            ResetTarget 1
+                            Sequence seq.env_drop
+                            WaitForEnd 1
+                            Pattern pt_default
+                        Block end
+                        
+                        // now it's a bad monkey and it's want to throw something at Dude
+                        IfAttr "rnd >= 97 Block begin"
+                            TargetPlayer 1
+                            Pattern pt_throw_item_to_target
+                        Block end
+                        
+                        
+                        // nothing want to do - hold item
+                        
+                        
+                        Pattern pt_default
+                        
+					}
+                    
+                    events
+                    {
+                        
+                    }
+				}
+                
+                pt_selectNPCAction
+                {
+					actions 
+					{
+                        // if monkey already has selected target - throw item 
+                
+                        SetAttr "rnd 0"
+                        ChangeAttr "rnd 0:100"
+                        
+                        CheckAttr "laser_pen_task Block begin"
+                            SetAttr "can_fuck 1"
+                        Block end
+                        
+                        // attack target
+                        // -------- now do this always
+                        IfAttr "rnd < 100 and can_fuck == 1 Block begin"  
+                            IfAttr "Object:item != Object:null Block begin" 
+                                SetAttr "rnd 0"
+                                ChangeAttr "rnd 0:100"
+                                /////// now fuck always after throw
+                                IfAttr "rnd < 200 SetAttr force_fuck 1"  
+                                Pattern pt_throw_item_to_target
+                            Block end
+                            Freemovement false
+                            Pattern pt_fuck_target
+                        Block end
+                        
+                        IgnoreTarget 15
+                        Pattern pt_default
+					}
+                    
+                    events
+                    {
+                        
+                    }
+				}
+                
+                pt_fuck_target
+                {
+                	actions 
+					{
+                        SetAttr "fuck_state 99"
+                        MoveTotarget run,0.5
+                        
+                        IfAttr "DistTo:target > 80 Repeat 2"
+                        
+                        Pattern pt_wait_for_fuck
+					}
+                    
+                    events
+                    {
+                        OnTargetReach "Pattern pt_wait_for_fuck"
+                        OnTargetClose "Pattern pt_wait_for_fuck"
+                    }
+				}
+                
+                pt_wait_for_fuck:ignore_ext_events
+                {
+                    actions 
+					{
+                        IfAttr "Timer:tFuckWait > 0 Repeat 1"
+                        IfAttr "fuck_state == 99 SetAttr want_fuck 1"
+                        
+                        
+                        IfAttr "fuck_state == 1 Timer tFuckWait,5"
+                        IfAttr "fuck_state == 0 Pattern st_explore.pt_fuck_target"
+                        
+                        Repeat 1
+					}
+                    
+                    events
+                    {
+                        OnTimer_tFuckWait "Pattern st_explore.pt_default"
+                        OnUnsnatch "Pattern pt_glory_dance"
+                    }
+                }
+                
+                pt_glory_dance
+                {
+                    actions
+                    {
+                        RemoveAttr fuck_state
+                        IfAttr "TargetLocked == 1 Block begin"
+                            RemoveAttr TargetLocked
+                        Block end
+                        
+                        SetAttr "can_fuck 0"
+                        Timer   "tCanFuckAgain,20:30"
+                        Sequence seq.dance
+                        WaitForEnd 1
+                        Pattern pt_default
+                    }
+                }
+                
+                
+           //  теперь надо прикручиывать
+            //    1) лазер
+            //    2) наличие врагов у дуда
+            //    3) пистолет
+                     
+                
+                pt_throw_item_to_target
+                {
+					actions 
+					{
+                        IfAttr "DistTo:target < 92 Block begin"
+                           // Wait 1:3
+                            Pattern pt_throw
+                        Block end
+                            
+                        //FreeMovementParams area_all,0,60,from_target
+                        //Freemovement run,reset
+                        //Freemovement false
+                        Wait 0.5
+                        MoveToTarget run,1.5:3.5,0:360
+                        ExecutePattern st_ai.xpt_UpdateHoldGesture
+                        Repeat 1
+                        
+					}
+                    
+                    events
+                    {
+                        OnTargetReach "Pattern pt_throw"
+                        OnTargetClose "Pattern pt_throw"
+                    }
+				}
+                
+                pt_throw
+                {
+                    actions 
+					{
+                        IfAttr "here_is_shit == 1 Block begin"
+                            RemoveAttr here_is_shit
+                        Block end
+                        
+                        IfAttr "dude_want_this == 1 Block begin"
+                            RemoveAttr dude_want_this
+                        Block end
+                        
+                        IfAttr "TargetLocked == 1 Block begin"
+                            RemoveAttr TargetLocked
+                        Block end
+
+                        ResetGesture g_env_holding
+                        Freemovement false
+                        Face true
+                       // Wait 1:3
+                        
+                        Sequence seq.env_throw
+                        WaitForEnd 1
+                        
+                        
+                        Sequence mth_agro_actions
+                        WaitForEnd 1
+                        
+                        Face false
+                        
+                        Pattern pt_default
+					}
+                }
+                
+                pt_bring_item_to_dude
+                {
+					actions 
+					{
+
+                        //1) эта хуета не работает - немогу пока заставить айтем, который уже несут бросить в таргет указки
+                        
+                        //2) так же переодически завистает в стейте кам_клосе с выключенной указкой
+                        
+                        //3) когда взял гавно или айтем и начинает искать цель - надо чтобы воспринимал цель указки сразу же.
+
+                       // IfAttr "Object:slot#S_LASER_DOT != Object:null Block begin"
+                         //   TargetEntByName LaserDot
+                          //  IfAttr "target.Object:target != Object:null Block begin"
+                          //      ExecutePattern st_OnLaserDot.pt_DoSmthngWithLaserTarget
+                          //  Block end
+                        //Block end
+                        TargetPlayer 1
+                        
+                        MoveToTarget run,0.5:1.5,-45:45
+                        ExecutePattern st_ai.xpt_UpdateHoldGesture
+                        Repeat 3
+                        //IfAttr "DistTo:player < 50 SetAttr want_mount 1"
+                        //IfAttr "DistTo:player >= 50 SetAttr want_mount 0"
+                        
+                        //Repeat 5
+					}
+                    
+                    events
+                    {
+                        OnTargetReach "Pattern pt_drop_item_for_dude"
+                        //OnTargetClose "SetAttr want_mount 1"
+                        //OnAE_LaserpenOn "ExecutePattern st_OnLaserDot.pt_targetLD"
+                    }
+				}
+                
+                pt_drop_item_for_dude
+                {
+					actions 
+					{
+                        
+                        IfAttr "dude_want_this == 1 Block begin"
+                            RemoveAttr dude_want_this
+                        Block end
+                        
+                        IfAttr "TargetLocked == 1 Block begin"
+                            RemoveAttr TargetLocked
+                        Block end
+                        
+                        //SetAttr "item.ForDude 1"
+                        Sequence seq.env_drop
+                        WaitForEnd 1
+                        ResetGesture g_env_holding
+                        Sequence mth_idle_actions
+                        WaitForEnd 1
+                  //      TargetItem 1
+                   //     IgnoreTarget 30
+                        
+                        Pattern pt_default
+                        //IfAttr "DistTo:player < 50 SetAttr want_mount 1"
+                        //IfAttr "DistTo:player >= 50 SetAttr want_mount 0"
+                        
+                        //Repeat 5
+					}
+                    
+				}
+                
+                
+                pt_someidle
+                {
+                    actions 
+					{
+                        SetAttr "rnd 0"
+                        ChangeAttr "rnd 0:100"
+                
+                        IfAttr "rnd < 40 Block begin"
+                            Freemovement false
+                            ResetGesture g_env_holding
+                            Sequence mth_idle_actions
+                            WaitForEnd 1
+                            ExecutePattern st_ai.xpt_UpdateHoldGesture
+                            Freemovement run
+                        Block end
+                        
+                        IfAttr "rnd >= 40 and rnd < 70 Block begin"
+                            Freemovement false
+                            Wait 1:5
+                            Freemovement run
+                        Block end
+                        
+                        IfAttr "rnd >= 70 and rnd < 80 Block begin"
+                            Freemovement false
+                            LookAt 5:10
+                            Wait 1:5
+                            Freemovement walk
+                            Timer tWalkTime,5:10
+                        Block end
+                        
+                        SetAttr "rnd 0"
+                        ChangeAttr "rnd 0:100"
+                
+                        IfAttr "rnd < 10 Repeat 0"
+                        
+                        
+                        Pattern pt_explore
+                    }
+                    
+                    events
+                    {
+                        OnFire_NewTarget "ExecutePattern .pt_IsInteresting"
+                        OnTimer_tWalkTime "Freemovement run,reset"
+                    }
+                }
+                
+                
+			}
+        }
+        
+//////// search and attack somebody 
+        st_SearchAndAttackTarget
+        {
+            Group Neutral
+            Patterns
+            {
+                pt_default
+                {
+                    actions 
+					{
+                        
+                        Pattern pt_looking_for
+					}
+                }
+                
+                pt_change_position
+                {
+                    actions 
+					{
+                        
+                        TargetAnchor 1
+                        FreeMovementParams area_all,100,220,move_from_target
+                        Freemovement run,reset
+                        ResetTarget 1
+                        ExecutePattern st_ai.xpt_UpdateHoldGesture
+					}
+                    
+                    events
+                    {
+                        //OnVisible "ExecutePattern st_ai.pt_FilterVisEntity"
+                        OnFire_NewTarget "Pattern pt_hasvis"
+                        OnTargetReach "Pattern pt_looking_for"
+                    }
+                }
+                
+                pt_looking_for
+                {
+                    actions 
+                    {
+                        
+                        ResetTarget 1
+                        FreeMovement false
+                        Sequence seq.looking_for,20
+                        Wait 0.3
+                        ResetGesture g_env_holding
+                        Wait 5:5
+                        ExecutePattern st_ai.xpt_UpdateHoldGesture
+                        Pattern pt_change_position
+                    }
+                    
+                    events
+                    {
+                        //OnVisible "ExecutePattern st_ai.pt_FilterVisEntity"
+                        OnFire_NewTarget "Pattern pt_hasvis"
+                    }
+                }
+                    
+                pt_hasvis
+                {
+                    actions
+                    {
+                        IfAttr "here_is_shit == 1 and ai_ave_res == res_dude Block begin"
+                            TargetFromMem S_VISIBLE_ENTITY
+                            IgnoreTarget 45
+                            ResetTarget 1
+                            ClearMem S_VISIBLE_ENTITY
+                            Pattern pt_change_position
+                        Block end
+                        // looking for some target to hit it by the item 
+                        IfAttr "Object:item != Object:null and ai_ave_ElapsedTime < 10 and ai_ave_res > 0 Block begin"
+                            IfAttr "ai_ave_res < res_none and ai_ave_res != res_item and ai_ave_res != res_shit Block begin"
+                                TargetFromMem S_VISIBLE_ENTITY
+                                ClearMem S_VISIBLE_ENTITY
+                                FreeMovement false
+                                Pattern st_explore.pt_throw_item_to_target
+                            Block end
+                        Block end
+                        
+                        TargetFromMem S_VISIBLE_ENTITY
+                        IgnoreTarget 15
+                        ResetTarget 1
+                        ClearMem S_VISIBLE_ENTITY
+                        Pattern pt_change_position
+                    }
+                }
+            }
+        }
+        
+//////// some util ai        
+        
+        st_ai
+        {
+            Group Neutral
+            Patterns
+            {
+                pt_FilterVisEntity
+                {
+                    actions
+                    {
+                        TargetToMem S_VISIBLE_ENTITY
+                        //SetAttr "ai_ave_res res_none"
+                        SetAttr "ai_ave_res 0"
+                        IfAttr "Object:slot#S_VISIBLE_ENTITY == 0 Return 0"
+                        
+                        SetAttr "ai_ave_ElapsedTime 0"
+						
+						IfAttr "slot#S_VISIBLE_ENTITY.ea_Faction == Faction:Taliban		SetAttr ai_ave_res res_npc"
+						IfAttr "slot#S_VISIBLE_ENTITY.ea_Faction == Faction:Venezuela	SetAttr ai_ave_res res_npc"
+						IfAttr "slot#S_VISIBLE_ENTITY.ea_Faction == Faction:Hobos		SetAttr ai_ave_res res_npc"
+						IfAttr "slot#S_VISIBLE_ENTITY.ea_Faction == Faction:Police		SetAttr ai_ave_res res_npc"
+						IfAttr "slot#S_VISIBLE_ENTITY.ea_Faction == Faction:Zealots		SetAttr ai_ave_res res_npc"
+                        IfAttr "slot#S_VISIBLE_ENTITY.ea_Faction == Faction:Citizens	SetAttr ai_ave_res res_npc"
+						IfAttr "slot#S_VISIBLE_ENTITY.ea_Manner == Manner:PussyCat		SetAttr ai_ave_res res_cat"
+						IfAttr "slot#S_VISIBLE_ENTITY.ea_Manner == ItemType:itmShit		SetAttr ai_ave_res res_shit"
+						IfAttr "slot#S_VISIBLE_ENTITY.ea_Manner == Manner:LaserDot		SetAttr ai_ave_res res_ld"
+                        IfAttr "slot#S_VISIBLE_ENTITY.ea_Faction == Faction:Items		SetAttr ai_ave_res res_item"
+                        IfAttr "Object:slot#S_VISIBLE_ENTITY == Object:player			SetAttr ai_ave_res res_dude"
+                        
+						
+						IfAttr "ai_ave_res == res_shit Block begin"
+							FireEvent "NewTarget,self"
+                            Return 0
+						Block end
+						
+						IfAttr "ai_ave_res == res_item Block begin"
+							FireEvent "NewTarget,self"
+							Return 0
+						Block end
+						
+						IfAttr "ai_ave_res == res_cat Block begin"
+							IfAttr "slot#S_VISIBLE_ENTITY.ea_status == sCORPSE SetAttr ai_ave_res res_ignore"
+							IfAttr "slot#S_VISIBLE_ENTITY.ea_status != sCORPSE Block begin"
+								FireEvent "NewTarget,self"
+								Return 0
+							Block end
+						Block end
+						
+						IfAttr "ai_ave_res == res_ld Block begin"
+							FireEvent "LaserDotDetected,self"
+                            Return 0
+						Block end
+						
+						IfAttr "ai_ave_res == res_dude Block begin"
+							FireEvent "NewTarget,self"
+                            Return 0
+						Block end
+						
+						IfAttr "ai_ave_res == res_npc Block begin"
+							CheckAttr "slot#S_VISIBLE_ENTITY.hostaged SetAttr ai_ave_res res_ignore"
+							IfAttr "slot#s_VISIBLE_ENTITY.ea_status == sCORPSE SetAttr ai_ave_res res_ignore"
+						Block end
+						IfAttr "ai_ave_res == res_npc Block begin"
+                            FireEvent "NewTarget,self"
+							Return 0
+						Block end
+						
+						IfAttr "ai_ave_res == res_ignore Block begin"
+							IgnoreTarget 10
+							ResetTarget 1
+							Return 0
+						Block end
+                        
+                        SetAttr "ai_ave_res res_none"
+                        FireEvent "NewTarget,self"
+                    }
+                    
+                }
+                
+                pt_Update
+                {
+                    actions
+                    {
+                        ChangeAttr "ai_ave_ElapsedTime +1"
+                    }
+                }
+                
+                xpt_UpdateHoldGesture
+                {
+                    actions
+                    {
+                        IfAttr "Object:item != Object:null Gesture g_env_holding,10000"
+                    }
+                }
+            }
+        }
+	}
+    
+    events
+    {
+        OnTimer_tUpdateET "ExecutePattern st_ai.pt_Update"
+        OnVisible "ExecutePattern st_ai.pt_FilterVisEntity"
+        OnTimer_tCanFuckAgain "SetAttr can_fuck 1"
+        OnTimer_tUnlockTarget "RemoveAttr TargetLocked"
+        OnTimer_tCheckLaserDot "ExecutePattern st_OnLaserDot.xpt_check"
+   //     OnFire_LaserDotDetected "ExecutePattern st_OnLaserDot.xpt_check"
+        OnAE_LaserpenOn "ExecutePattern st_OnLaserDot.xpt_on"
+        OnAE_LaserpenOff "ExecutePattern st_OnLaserDot.xpt_off"
+        OnAE_Whistle "Pattern st_follow.pt_force_follow"
+    }
+}
