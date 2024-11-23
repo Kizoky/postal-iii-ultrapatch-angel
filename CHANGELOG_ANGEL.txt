@@ -25,7 +25,7 @@ constants are no longer possible or supported with this function
 + New AngelScript call `int CP3Weapon::Clip2()`
 + Added mod/addon loader support, with ZOOM mod loader compatibility:
 	The mod loader now behaves the same as ZOOM`s with some extras: 
-	+ Requires an addoninfo.txt file inside each directory/addon to be loaded, otherwise it won`t be loaded
+	+ Requires an addoninfo.txt file inside each directory/addon to be added, otherwise it won`t be loaded
 	+ ZOOM mod loader bugs are gone, maps can now be loaded, models, sounds etc. can now load without issues
 	+ Added Postal3Script support, each addon can now have it`s own main p3s loader, it can also override P3S AI
 	(first addon always takes priority)
@@ -60,7 +60,32 @@ constants are no longer possible or supported with this function
 	This caused problems with strings (from the game itself) having similar declarations to AS classes and functions
 * Gibs from headshots now fade out and delete themselves after 4-8 seconds randomly
 * Fixed corpses not catching on fire near gasoline
-* Fixed cars not exploding when gasoline was lit
+* Fixed cars not exploding when gasoline was lit near them
+* Fixed nav mesh blocker not working (only for idling NPCs)
+* Door kicking should now be much more consistent and satisfying
++ Doors are now destructible (closed/essential ones are not)
++ Locked doors now block nav meshes on spawn (and unblock if they are unlocked or destroyed)
++ New AngelScript call `CP3SObj::FreeMovement`
++ New Postal3Script function `AngelScriptWait`
+	Use it with `WaitForEnd 1`
+	Must do `EndAction()` method on the owner's pointer in AS
+* Methods for CP3SObj@ which start with Is.. (ex.: IsPlayer()) now check for ImA P3S attributes instead if they exist (AS)
++ Added ImAnItemProp (P3S)
++ Added ImAWeapon (P3S)
++ Added ImACorpse (P3S)
++ Added ImACatnip (P3S)
++ Added ImAKrotchyNade (P3S)
++ Added ImASeed (P3S)
++ Added ImAnAnchor (P3S)
++ Added ImAFlame (P3S)
++ Added ImALaserDot (P3S)
++ Added ImACatnipMark (P3S)
++ Added ImATaserBeam (P3S)
++ Added ImALogic (P3S) (p3_fsm_logic_entity)
++ Added ImADummy (P3S)
++ Added ImATrafficLight (P3S)
++ Added ImAnNPC (P3S)
+* Fixed `-tools` not working (included enginetools.txt)
 
 
 v1.0.0: (Initial Ultrapatch port)
@@ -79,6 +104,7 @@ Pre-path
 - pw
 - dcr
 - jwb
+- cm
 
 * Made Multiplayer less crashaholic (it is still prone to crashing!)
 * Fixed NPCs not targeting Players other than the host 
@@ -109,3 +135,7 @@ Mission and NPC AI have to be slightly rewritten using AngelScript
 * Fixed going through a transition transfers ALL (props) entities from previous map to the next map
 * Fixed Multiplayer spray (bind `impulse 201` to any key)
 + Added Multiplayer options (from HL2DM), gameplay settings (upon server creation) doesn't work
+* Fixed Player's P3S getting reset everytime they respawned
+* Fixed Player corpse state bugs (NPCs potentially not targeting player) when respawned
++ Players driving segways will now always ragdoll other Players
+* Fixed Players getting stuck if they spawned at the same time (uses TF2 spawn logic)

@@ -87,6 +87,17 @@
 		"time"			"float"
 		"duration"		"float"
 	}
+	
+	"entity_firedup"
+	{
+		"entityindex" "long"
+	}
+	
+	// Needed to preserve roasted entities from server to client properly
+	"entity_firedup_sv_cl"
+	{
+		"entityindex" "long"
+	}
 
 	"headblob"
 	{
