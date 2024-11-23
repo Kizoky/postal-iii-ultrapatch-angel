@@ -1,0 +1,6 @@
+"VertexLitGeneric"
+{
+	"$basetexture"		"concrete/corridor_wall_b"
+	"%keywords"		"concrete"
+	"$model"		"1"
+}
