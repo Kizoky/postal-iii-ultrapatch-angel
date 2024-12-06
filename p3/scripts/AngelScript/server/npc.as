@@ -16,6 +16,8 @@ class NPC : IPostal3Script
 	[HOOK NPC OnTakeDamage]
 	void OnTakeDamage(CTakeDamageInfo@ info)
 	{
+		//Printf("yeah, this hurts\n");
+		
 		// I'm leaving this here as an example, you're welcome! - Kizoky
 		/*
 		if (@self == null)
@@ -30,14 +32,14 @@ class NPC : IPostal3Script
 	[HOOK NPC OnTakeDamage_Alive]
 	void OnTakeDamage_Alive(CTakeDamageInfo@ info)
 	{
-		OnTakeDamage(info);
+		//OnTakeDamage(info);
 		//Printf("OnTakeDamage_Alive()\n");
 	}
 	
 	[HOOK NPC OnTakeDamage_Dying]
 	void OnTakeDamage_Dying(CTakeDamageInfo@ info)
 	{
-		OnTakeDamage(info);
+		//OnTakeDamage(info);
 		//Printf("OnTakeDamage_Dying()\n");
 	}
 	

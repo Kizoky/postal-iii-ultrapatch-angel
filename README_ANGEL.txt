@@ -4,6 +4,11 @@ Postal III Angel implements the AngelScript scripting language on top of Postal 
 It allows modders to create complex and fast execution code inside Postal3Script, and greatly manipulate the game using the available functions and classes. (over 500+ if also counting methods)
 Originally made for Catharsis Reborn, turned into standalone, and now ported onto Ultrapatch!
 
+IMPORTANT:
+==========
+PhysX in Ultrapatch Angel is broken, we do not plan fixing it.
+You can disable it with the '-nophysx' launch parameter (recommended), or via the 'physx_enabled' console command.
+For anything Multiplayer-related please check out 'README_MULTIPLAYER.txt'
 
 MULTIPLAYER NOTE:
 =================

@@ -24,8 +24,8 @@ class Player : IPostal3Script
 	[HOOK Player OnTakeDamage]
 	void OnTakeDamage(CTakeDamageInfo@ info)
 	{
-		float dmg = info.GetDamage();
-		Printf("AS: Taken Damage: %f\n", dmg);
+		//float dmg = info.GetDamage();
+		//Printf("AS: Taken Damage: %f\n", dmg);
 	}
 	
 	// Killed
@@ -59,6 +59,13 @@ class Player : IPostal3Script
 	// Whenever ammo was successfully picked up
 	[HOOK Player OnAmmoPickup]
 	void OnAmmoPickup()
+	{
+	
+	}
+	
+	// Called in Multiplayer only
+	[HOOK Player Respawn]
+	void Respawn()
 	{
 	
 	}

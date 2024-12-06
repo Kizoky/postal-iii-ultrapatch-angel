@@ -1,6 +1,9 @@
 ANGEL CHANGES:
 ==============
 v1.1.0: (Initial Multiplayer `patch`)
+
+Massive thanks to ABRAOriginal, Tristan885 and bt for helping me out, and thanks to Elwood, Jenny_MCII, Hoon, and everyone else who were involved in multiplayer testing sessions
+
 + New AngelScript call `void CAngelScriptVM::ServerCommand(string&in cmd)`
 * Fixed CreateEvent causing crash
 + New AngelScript call `CBaseEntity@ CP3Player::GiveNamedItem(string_t szName, int iSubType = 0)`
@@ -27,9 +30,10 @@ constants are no longer possible or supported with this function
 	The mod loader now behaves the same as ZOOM`s with some extras: 
 	+ Requires an addoninfo.txt file inside each directory/addon to be added, otherwise it won`t be loaded
 	+ ZOOM mod loader bugs are gone, maps can now be loaded, models, sounds etc. can now load without issues
-	+ Added Postal3Script support, each addon can now have it`s own main p3s loader, it can also override P3S AI
+	+ Added Postal3Script support, each addon can now have its own main p3s loader, it can also override P3S AI
 	(first addon always takes priority)
 	+ Added AngelScript support, first addon always takes priority, but duplicate classes/code cannot co-exist
+	+ Added manual VPK loading support "addonvpks"
 	
 * Fixed Transition bugs/crashes
 * Made `Unknown bolton type index` error not force quit the game anymore
@@ -39,7 +43,7 @@ constants are no longer possible or supported with this function
 	For the `func` param the function's param must exactly be `const CCommand&in args`
 	The function must be declared outside of a class
 
-+ All NPCs now have randomized voice pitch
++ All NPCs now have randomized voice pitch like in POSTAL2
 	Boss NPCs are unaffected
 	
 * Camera collision is now affected by player clip brushes
@@ -63,7 +67,7 @@ constants are no longer possible or supported with this function
 * Fixed cars not exploding when gasoline was lit near them
 * Fixed nav mesh blocker not working (only for idling NPCs)
 * Door kicking should now be much more consistent and satisfying
-+ Doors are now destructible (closed/essential ones are not)
++ Doors are now destructible, a feature from Catharsis Reborn
 + Locked doors now block nav meshes on spawn (and unblock if they are unlocked or destroyed)
 + New AngelScript call `CP3SObj::FreeMovement`
 + New Postal3Script function `AngelScriptWait`
@@ -139,3 +143,4 @@ Mission and NPC AI have to be slightly rewritten using AngelScript
 * Fixed Player corpse state bugs (NPCs potentially not targeting player) when respawned
 + Players driving segways will now always ragdoll other Players
 * Fixed Players getting stuck if they spawned at the same time (uses TF2 spawn logic)
+* Fixed HUD disappearing after respawn

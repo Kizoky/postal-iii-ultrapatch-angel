@@ -4,6 +4,9 @@ class SEngine : IPostal3Script
 	[HOOK SEngine LevelInitPostEntity]
 	void LevelInitPostEntity()
 	{
+		// For Multiplayer
+		PrecacheScriptSound("SprayCan.Paint");
+		
 		// Spawn in pcc if it doesn't exist already
 		CBaseEntity@ pcc = FindEntByName("pcc");
 		if ( @pcc == null )
