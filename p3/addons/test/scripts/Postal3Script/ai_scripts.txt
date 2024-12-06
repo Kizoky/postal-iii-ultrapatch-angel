@@ -1,1 +1,0 @@
-scripts/Postal3Script/ai_player_mp.p3s
