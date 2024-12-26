@@ -1,5 +1,32 @@
 ANGEL CHANGES:
 ==============
+v1.1.1:
+
+* Fixed Door's parent entities not disappearing when destroyed
+* AngelScript global function "Teleport" now uses the same spot check like Multiplayer spawn spot checking
+* Added a bunch of null checks for the Fluids Manager to prevent crashes (Gasoline)
+* Fixed black screen flashing whenever something spawned (sv_forcepreload 0)
+* Fixed a bug where the save/restore system of AngelScript would be broken if you recompiled the scripts on the fly
+* Fixed potential memory leaks in AngelScript
++ Added `ImAThrowableWeapon` P3S attribute
++ Added `ImASprayWeapon` P3S attribute
++ Added `ImAMeleeWeapon` P3S attribute
++ Added `ImAMetaWeapon` P3S attribute
++ Added `extend` P3S section, behaves like `behavior` but it can only add new states or events for an already existing behavior
+
+v1.1.1 (Multiplayer):
+
++ Added teams (Team Dude, Team Krotchy)
++ Added proper team handling for the scoreboard
++ Added spectator mode
+* Bots will now properly face enemies or players
+* Bots will no longer attempt going inside players
++ Added 100+ new randomized names for the bots
++ Added `info_player_deathmatch` spawn spot
++ Added `info_player_coop` spawn spot
++ Added `info_player_mp_dude` spawn spot, Team Dude
++ Added `info_player_mp_krotchy` spawn spot, Team Krotchy
+
 v1.1.0: (Initial Multiplayer `patch`)
 
 Massive thanks to ABRAOriginal, Tristan885 and bt for helping me out, and thanks to Elwood, Jenny_MCII, Hoon, and everyone else who were involved in multiplayer testing sessions
