@@ -13,19 +13,25 @@ v1.1.1:
 + Added `ImAMeleeWeapon` P3S attribute
 + Added `ImAMetaWeapon` P3S attribute
 + Added `extend` P3S section, behaves like `behavior` but it can only add new states or events for an already existing behavior
+* Fixed `OnTargetKilled` p3s event not working properly for NPCs
++ Added `OnTargetKilled` p3s event to work with Player death
 
-v1.1.1 (Multiplayer):
+v1.1.1 (Multiplayer changes):
 
-+ Added teams (Team Dude, Team Krotchy)
++ Added 8 new teams the mappers/scripters can now choose from (only in Teamplay)
+(Dude, Agent, Cop, Security, Prisoner, SWAT, Krotchy, Janitor, Patrol)
 + Added proper team handling for the scoreboard
 + Added spectator mode
 * Bots will now properly face enemies or players
 * Bots will no longer attempt going inside players
-+ Added 100+ new randomized names for the bots
-+ Added `info_player_deathmatch` spawn spot
-+ Added `info_player_coop` spawn spot
-+ Added `info_player_mp_dude` spawn spot, Team Dude
-+ Added `info_player_mp_krotchy` spawn spot, Team Krotchy
+* Bots can now automatically respawn on their own
+* Players joining a server will now force them to be in spectator mode by default
+* Fixed Scoreboard not updating its values instantly until you toggled it on or off 2 times
++ Added `p3_ultrapatch_mp_autobalance` convar, by default it is on
++ Added `p3_ultrapatch_mp_deathmatch` convar, by default it is off
++ Added `p3_ultrapatch_mp_teamplay` convar, by default it is off
++ Added `p3_ultrapatch_mp_coop` convar, by default it is on
++ Added `p3_ultrapatch_mp_coll` convar, disables Player collision between other Players, it is off by default in coop, otherwise on
 
 v1.1.0: (Initial Multiplayer `patch`)
 
