@@ -2,12 +2,13 @@ ANGEL CHANGES:
 ==============
 v1.1.1:
 
+* Fixed possible AS crash on server-side
 * Fixed Door's parent entities not disappearing when destroyed
 * AngelScript global function "Teleport" now uses the same spot check like Multiplayer spawn spot checking
 * Added a bunch of null checks for the Fluids Manager to prevent crashes (Gasoline)
 * Fixed black screen flashing whenever something spawned (sv_forcepreload 0)
 * Fixed a bug where the save/restore system of AngelScript would be broken if you recompiled the scripts on the fly
-* Fixed potential memory leaks in AngelScript
+* Fixed memory leaks in AngelScript
 + Added `ImAThrowableWeapon` P3S attribute
 + Added `ImASprayWeapon` P3S attribute
 + Added `ImAMeleeWeapon` P3S attribute
@@ -15,13 +16,20 @@ v1.1.1:
 + Added `extend` P3S section, behaves like `behavior` but it can only add new states or events for an already existing behavior
 * Fixed `OnTargetKilled` p3s event not working properly for NPCs
 + Added `OnTargetKilled` p3s event to work with Player death
+* Active weapon no longer gets holstered when jumping
+* You can now fire with any weapon while jumping/in air
+* You can now kick while jumping/in air
++ Made the HUD's color customizable via scripting
 
 v1.1.1 (Multiplayer changes):
 
+* Fixed various crashes
+* Respawn lines are no longer being spammed
 + Added 8 new teams the mappers/scripters can now choose from (only in Teamplay)
 (Dude, Agent, Cop, Security, Prisoner, SWAT, Krotchy, Janitor, Patrol)
 + Added proper team handling for the scoreboard
 + Added spectator mode
+(spectator menu is tied to cover button)
 * Bots will now properly face enemies or players
 * Bots will no longer attempt going inside players
 * Bots can now automatically respawn on their own
@@ -32,6 +40,8 @@ v1.1.1 (Multiplayer changes):
 + Added `p3_ultrapatch_mp_teamplay` convar, by default it is off
 + Added `p3_ultrapatch_mp_coop` convar, by default it is on
 + Added `p3_ultrapatch_mp_coll` convar, disables Player collision between other Players, it is off by default in coop, otherwise on
+* Fixed covering not working
+* "Fixed" black textures issue (band aid solution)
 
 v1.1.0: (Initial Multiplayer `patch`)
 

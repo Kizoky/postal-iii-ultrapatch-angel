@@ -3,7 +3,6 @@
 // This number is looked for when loading save file, you can up this number everytime you make heavy changes to the codebase
 // If before and after numbers don't match, the Serializer will automatically abort when attempting to restore values
 // NOTE: This absolutely must be an integer!
-// TODO: this probably was a bad idea
 const int AS_MOD_VERSION = 0;
 
 #include "server/engine.as"
@@ -12,11 +11,14 @@ const int AS_MOD_VERSION = 0;
 
 //#include "example.as"
 
+#include "shared/team.as"
+
 #endif
 
 // Code will only compile for client-side
 #ifdef CLIENT
 
 #include "client/engine.as"
+#include "shared/team.as"
 
 #endif

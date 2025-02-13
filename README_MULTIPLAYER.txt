@@ -12,7 +12,9 @@ KNOWN ISSUES (AND POSSIBLE FIX) AND RANDOM QUESTIONS:
 =====================================================
 
 - Players/Clients have black textures on the map
-=| Make sure the players/clients have the same copy of Postal 3, addons or mods installed, we don't know what really causes it.
+=| There are 2 ways to fix this bug:
+1.) Changing the resolution of the game
+2.) Executing 'mat_reloadallmaterials' console command
 
 - Server host/creator stuck in an endless loading loop, players/clients can connect fine
 =| We don't know what causes this or how to fix it. Some maps sometimes will just refuse to load for the host.
