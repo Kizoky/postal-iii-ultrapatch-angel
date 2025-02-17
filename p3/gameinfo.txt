@@ -34,6 +34,7 @@
 		SearchPaths
 		{
 			game				|gameinfo_path|.
+			game				core
 			game				|all_source_engine_paths|p3
 			platform			|all_source_engine_paths|platform
 		}
