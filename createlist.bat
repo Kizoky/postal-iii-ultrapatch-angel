@@ -1,0 +1,1 @@
+dir /b /s | findstr "\." > filelist.txt
