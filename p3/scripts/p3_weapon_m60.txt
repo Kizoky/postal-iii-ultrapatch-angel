@@ -5,11 +5,12 @@ WeaponData
 	// Weapon data is loaded by both the Game and Client DLLs.
 	"ID"				"m60"
 	"printname"				""
-	"viewmodel"				"models/weapons/m249/m249_uni.mdl"
-	"playermodel"			"models/weapons/m249/m249_uni.mdl"
+	"viewmodel"				"models/weapons/m60/m60_uni.mdl"
+	"playermodel"			"models/weapons/m60/m60_uni.mdl"
+	"playermodel_lhand"		"models/weapons/m60/m60_left.mdl"
 	"anim_prefix"			"deagle"
 	"bucket"				"3"
-	"bucket_position"		"4"
+	"bucket_position"		"6"
 	"bucket_360"			"3"
 	"bucket_position_360"	"2"
 	"recoil"				"5"
@@ -23,18 +24,18 @@ WeaponData
 	"item_flags"			"0"
 
 	"fire_effect"			"M60_Fire_Fx"
-	"fire_rate1"			"0.1"
+	"fire_rate1"			"0.15"
 	
-	"PrimaryMinDamage"		"25"
-	"PrimaryMaxDamage"		"30"
+	"PrimaryMinDamage"		"45"
+	"PrimaryMaxDamage"		"48"
 	
 	"shake_screen"	"1"
 	"screen_shake_amplitude"	"3"
 	"screen_shake_frequency"	"25"
 	"screen_shake_duration"	"0.2"
 	
-	"NPCMinDamage"			"3"
-	"NPCMaxDamage"			"3"
+	"NPCMinDamage"			"5"
+	"NPCMaxDamage"			"10"
 
 	"weapon_type"			"big_gun"
 
@@ -42,11 +43,11 @@ WeaponData
 	SoundData
 	{
 		"empty"				"Weapon_M60.Empty"
-		"single_shot"		"Weapon_M249.Single"
-		"single_shot_npc"	"Weapon_M249.Single"
+		"single_shot"		"Weapon_M60.Single"
+		"single_shot_npc"	"Weapon_M60.Single"
 		//"double_shot"
 		//"double_shot_npc"
-		//"burst"				"Weapon_M60.Burst"
+		"burst"				"Weapon_M60.Burst"
 		"reload"			"Weapon_M60.Reload"
 		"reload_npc"		"Weapon_M60.Reload"
 		//"melee_miss"
@@ -65,13 +66,13 @@ WeaponData
 	{
 		"weapon"
 		{
-				"file"		"sprites/m_gun"
+				"file"		"sprites/m60"
 				"width"		"128"
 				"height"	"128"
 		}
 		"weapon_small"
 		{
-				"file"		"sprites/weapon_small_icons/m_gun"
+				"file"		"sprites/weapon_small_icons/m60"
 				"width"		"128"
 				"height"	"128"
 		}

@@ -9,9 +9,9 @@ WeaponData
 	"playermodel"			"models/weapons/m16/m16_uni.mdl"
 	"anim_prefix"			"m16"
 	"bucket"				"3"
-	"bucket_position"		"3"
+	"bucket_position"		"4"
 	"bucket_360"			"3"
-	"bucket_position_360"	"3"
+	"bucket_position_360"	"4"
 	"recoil"				"5"
 
 	"clip_size"				"30"
