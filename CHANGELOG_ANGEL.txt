@@ -20,7 +20,20 @@ v1.1.1:
 * You can now fire with any weapon while jumping/in air
 * You can now kick while jumping/in air
 + Made the HUD's color customizable via scripting
++ Ultrapatch (Angel) is now compatible with all copies of Postal 3
+* Fixed Player camera in Demo playback not working
++ Added Colt
++ Added Autoshotgun
++ Added M249
++ Added Tear Gas
+* Fixed a crash when looking at an entity while they were being removed from the game
+* Fixed a crash when running into lots of physics props (Could be replicated in shops)
++ Shovel can now get bloody like the Machete
++ Added "ea_transition" Postal3Script attribute, forces entities to travel with the Player(s)
++ Added "OnInsideTransition" and "OnOutsideTransition" Postal3Script events, need "ea_transition" attribute for them to work
 
+MULTIPLAYER RELATED:
+====================
 v1.1.1 (Multiplayer changes):
 
 * Fixed various crashes
@@ -42,7 +55,10 @@ v1.1.1 (Multiplayer changes):
 + Added `p3_ultrapatch_mp_coll` convar, disables Player collision between other Players, it is off by default in coop, otherwise on
 * Fixed covering not working
 * "Fixed" black textures issue (band aid solution)
++ Added limited Dedicated server support, it is still recommended to host in-game
 
+ANGEL CHANGES:
+==============
 v1.1.0: (Initial Multiplayer `patch`)
 
 Massive thanks to ABRAOriginal, Tristan885 and bt for helping me out, and thanks to Elwood, Jenny_MCII, Hoon, and everyone else who were involved in multiplayer testing sessions
@@ -134,13 +150,6 @@ constants are no longer possible or supported with this function
 + Added ImAnNPC (P3S)
 * Fixed `-tools` not working (included enginetools.txt)
 
-
-v1.0.0: (Initial Ultrapatch port)
-* Fixed game crashing with `CPostal3Multiplayer` gamerule error if maxplayers is set above 1
-+ Added Postal3Script function `AngelScript`
-+ New AngelScript call `void Player::OnHostageReleased_Kicked()`
-+ Added new entities: wj_trigger_angelscript, wj_logic_angelscript, wj_prop_fsmitem
-
 MULTIPLAYER RELATED:
 ====================
 v1.1.0: (Initial Multiplayer `patch`)
@@ -187,3 +196,9 @@ Mission and NPC AI have to be slightly rewritten using AngelScript
 + Players driving segways will now always ragdoll other Players
 * Fixed Players getting stuck if they spawned at the same time (uses TF2 spawn logic)
 * Fixed HUD disappearing after respawn
+
+v1.0.0: (Initial Ultrapatch port)
+* Fixed game crashing with `CPostal3Multiplayer` gamerule error if maxplayers is set above 1
++ Added Postal3Script function `AngelScript`
++ New AngelScript call `void Player::OnHostageReleased_Kicked()`
++ Added new entities: wj_trigger_angelscript, wj_logic_angelscript, wj_prop_fsmitem
