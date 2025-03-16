@@ -1,0 +1,86 @@
+// Pistol
+
+WeaponData
+{
+	// Weapon data is loaded by both the Game and Client DLLs.
+	"ID"				"shotgun"
+	"printname"				""
+	"viewmodel"				"models/weapons/shotgun/shotgun_uni.mdl"
+	"playermodel"			"models/weapons/shotgun/shotgun_uni.mdl"
+	"anim_prefix"			"deagle"
+	"bucket"				"3"
+	"bucket_position"		"3"
+	"bucket_360"			"3"
+	"bucket_position_360"	"1"
+	"recoil"				"4"
+
+	"clip_size"				"8"
+	"primary_ammo"			"Buckshot"
+	"secondary_ammo"		"None"
+
+	"weight"				"2"
+	"rumble"				"1"
+	"item_flags"			"0"
+
+	"fire_effect"			"Shotgun_Fire_Fx"
+	"fire_rate1"			"1.1"
+	
+	"shake_screen"	"1"
+	"screen_shake_amplitude"	"3"
+	"screen_shake_frequency"	"25"
+	"screen_shake_duration"	"0.2"
+
+	"weapon_type"			"ranged"
+	
+	"PrimaryMinDamage"	"60"
+	"PrimaryMaxDamage"	"80"
+	
+	"NPCMinDamage"			"7"
+	"NPCMaxDamage"			"7"
+
+
+	// Sounds for the weapon. There is a max of 16 sounds per category (i.e. max 16 "single_shot" sounds)
+	SoundData
+	{
+		"empty"				"Weapon_Shotgun.Empty"
+		"single_shot"		"Weapon_Shotgun.Single"
+		"single_shot_npc"	"Weapon_Shotgun.Single"
+		//"double_shot"
+		//"double_shot_npc"
+		//"burst"
+		"reload"			"Weapon_Shotgun.Reload"
+		"reload_npc"		"Weapon_Shotgun.Reload"
+		//"melee_miss"
+		//"melee_hit"
+		//"melee_hit_world"
+		"special1"			"Weapon_Shotgun.Pump"
+		//"special2"
+		//"special3"
+		//"taunt"
+		"holster"			"Weapon_Shotgun.Holster"
+		"deploy"			"Weapon_Shotgun.Deploy"
+	}
+
+	// Weapon Sprite data is loaded by the Client DLL.
+	TextureData
+	{
+		"weapon"
+		{
+				"file"		"sprites/Boomstek"
+				"width"		"128"
+				"height"	"128"
+		}
+		"weapon_small"
+		{
+				"file"		"sprites/weapon_small_icons/boomstek"
+				"width"		"128"
+				"height"	"128"
+		}
+		"ammo"
+		{
+				"file"		"sprites/weapon_small_icons/ammo_boomstek"
+				"width"		"128"
+				"height"	"128"
+		}
+	}
+}

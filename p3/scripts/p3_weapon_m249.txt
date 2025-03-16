@@ -5,8 +5,8 @@ WeaponData
 	// Weapon data is loaded by both the Game and Client DLLs.
 	"ID"				"m60"
 	"printname"				""
-	"viewmodel"				"models/weapons/m60/m60_uni.mdl"
-	"playermodel"			"models/weapons/m60/m60_uni.mdl"
+	"viewmodel"				"models/weapons/m249/m249_uni.mdl"
+	"playermodel"			"models/weapons/m249/m249_uni.mdl"
 	"anim_prefix"			"deagle"
 	"bucket"				"3"
 	"bucket_position"		"5"
@@ -23,18 +23,18 @@ WeaponData
 	"item_flags"			"0"
 
 	"fire_effect"			"M60_Fire_Fx"
-	"fire_rate1"			"0.15"
+	"fire_rate1"			"0.1"
 	
-	"PrimaryMinDamage"		"45"
-	"PrimaryMaxDamage"		"48"
+	"PrimaryMinDamage"		"25"
+	"PrimaryMaxDamage"		"30"
 	
 	"shake_screen"	"1"
 	"screen_shake_amplitude"	"3"
 	"screen_shake_frequency"	"25"
 	"screen_shake_duration"	"0.2"
 	
-	"NPCMinDamage"			"5"
-	"NPCMaxDamage"			"10"
+	"NPCMinDamage"			"3"
+	"NPCMaxDamage"			"3"
 
 	"weapon_type"			"big_gun"
 
@@ -42,11 +42,11 @@ WeaponData
 	SoundData
 	{
 		"empty"				"Weapon_M60.Empty"
-		"single_shot"		"Weapon_M60.Single"
-		"single_shot_npc"	"Weapon_M60.Single"
+		"single_shot"		"Weapon_M249.Single"
+		"single_shot_npc"	"Weapon_M249.Single"
 		//"double_shot"
 		//"double_shot_npc"
-		"burst"				"Weapon_M60.Burst"
+		//"burst"				"Weapon_M60.Burst"
 		"reload"			"Weapon_M60.Reload"
 		"reload_npc"		"Weapon_M60.Reload"
 		//"melee_miss"
@@ -65,13 +65,13 @@ WeaponData
 	{
 		"weapon"
 		{
-				"file"		"sprites/m60"
+				"file"		"sprites/m_gun"
 				"width"		"128"
 				"height"	"128"
 		}
 		"weapon_small"
 		{
-				"file"		"sprites/weapon_small_icons/m60"
+				"file"		"sprites/weapon_small_icons/m_gun"
 				"width"		"128"
 				"height"	"128"
 		}

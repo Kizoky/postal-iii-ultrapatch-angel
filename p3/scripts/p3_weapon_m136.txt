@@ -9,7 +9,7 @@ WeaponData
 	"playermodel"			"models/weapons/M136/m136.mdl"
 	"anim_prefix"			"m136"
 	"bucket"				"3"
-	"bucket_position"		"8"
+	"bucket_position"		"9"
 	"bucket_360"			"3"
 	"bucket_position_360"	"4"
 	"recoil"				"2"
