@@ -29,8 +29,15 @@ v1.1.1:
 * Fixed a crash when looking at an entity while they were being removed from the game
 * Fixed a crash when running into lots of physics props (Could be replicated in shops)
 + Shovel can now get bloody like the Machete
-+ Added "ea_transition" Postal3Script attribute, forces entities to travel with the Player(s)
-+ Added "OnInsideTransition" and "OnOutsideTransition" Postal3Script events, need "ea_transition" attribute for them to work
++ Added `ea_transition` Postal3Script attribute, forces entities to travel with the Player(s) even without a single trigger_transition present
++ Added `OnInsideTransition` and `OnOutsideTransition` Postal3Script events, need `ea_transition` attribute for them to work
++ Added `ea_NoTargetSenses` for NPCs, when set the NPCs will no longer set the FSM target automatically when choosing a target for seeing, instead it will be set as the FSM Caller  
+this will not work as is and will require slightly rewriting the NPCs AI (the one Akella/TM wrote)
+
+- Added `bool CP3SObj::IsDeleted()`, checks if a Postal3Script object has been already destroyed/deleted/destructed (it is recommended to use this if you encounter frequent crashes)
+- Added `bool CP3SObj::IsValid()`, calls `IsDeleted()` and checks if the object has been marked as destroyed (acts as a combination of `bool CBaseEntity::IsDeleted()` and `bool CP3SObj::IsDeleted()`)
+* Fixed AngelScript serialization (saving script state to save file) being utterly broken
+* Fixed EHANDLE object inside AngelScript crashing the game if game has been saved
 
 MULTIPLAYER RELATED:
 ====================
