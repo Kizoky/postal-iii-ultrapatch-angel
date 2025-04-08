@@ -38,6 +38,9 @@ this will not work as is and will require slightly rewriting the NPCs AI (the on
 - Added `bool CP3SObj::IsValid()`, calls `IsDeleted()` and checks if the object has been marked as destroyed (acts as a combination of `bool CBaseEntity::IsDeleted()` and `bool CP3SObj::IsDeleted()`)
 * Fixed AngelScript serialization (saving script state to save file) being utterly broken
 * Fixed EHANDLE object inside AngelScript crashing the game if game has been saved
+* Fixed several Addon System crashes/issues
++ Added FPS camera, use `p3_ultrapatch_cam_fps_toggle` to toggle between TPS and FPS
+- PhysX no longer loads under Angel
 
 MULTIPLAYER RELATED:
 ====================
