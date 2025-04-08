@@ -130,6 +130,15 @@ behavior
 						Timer tIgnoreNasty,0
 					}
 				}
+				
+				pt_kavorkian
+				{
+					actions
+					{
+						SetAttr "IsOld 1"
+						RemoveAttr "Flag_bystander"
+					}
+				}
 			}
 		}
 		
@@ -4902,7 +4911,7 @@ behavior
 		//model-related attributes
 		OnImAMan			"SetAttr ImAMan 1"
 		OnIHaveCell			"SetAttr IHaveCell 1"
-		OnImOld				"SetAttr ImOld 1"
+		OnImOld				"ExecutePattern bh_base:st_init.pt_kavorkian"
 		OnImWalker			"SetAttr ImWalker 1"
 		OnICanLean			"SetAttr ICanLean 1"
 	}
