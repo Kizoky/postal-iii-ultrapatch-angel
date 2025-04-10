@@ -1,0 +1,486 @@
+#include "compound_objects_cars.txt"
+
+//While not completely documented, heres some stuff we know about compound props
+//They're basically a single entity that "constructs" an object in a map out of physics props
+//The first value (tv_02, Entrance, watercooler_01) is what you use in Hammer to say what object you want to construct
+//The "body" is the prop used as the base
+//The "door" or "screen" are additional props and their origin relative to the "body" or compound prop entity
+//The "constraints" isn't fully understood and seems to handle how props are connected
+//Additional parameters can be used for a few effects like "lock", "sleep", "class, "disableshadows", and "overridescript"
+//"lock" isn't very well understood. It does something odd with welding and constraints.
+//"sleep" sets the sleep flag on a physics prop. This will disable the prop from being able to move until a physics interaction "wakes it up"
+//"class" seems to be exclusively used to define if a prop is meant to be replaced for a static prop in a map. An example of this is "Boss_set_01e" which is used in city hall. A static prop of the same model should be placed in Hammer where your prop defined should be. Upon loading the map the physics prop is removed leaving the other props seemingly attached to the static prop.
+//"disableshadows" is self-explanatory. seems to disable shadows and is usually used on cabinet doors it looks like.
+//"Overridescript" seems to only be used to change the mass of a selected prop. Might have other uses but hasn't been tested.
+//Ultrapatch and UP+Angel specifically add a parameter called "motion" that can be used to disable motion of a prop. Used on "saguaro_01" to prevent the cacti from "running away" while retaining their breakability.
+//Also important to note is that this file+entity is tempermental. If any MDL file in any object is missing, every object after it will become invalid and crash the game upon trying to be loaded.
+
+"compound_objects.txt"
+{
+
+//////////////////////////////////////////////////////////////////////////////
+	"tv_02"
+	{
+		"Body"
+		{
+			"model"		"models/Electrical_devices/tv_02.mdl"
+		}
+		
+		"Screen"
+		{
+			"model"		"models/Electrical_devices/tv_screen_02.mdl"
+		}
+		
+		"Constraints"
+		{
+
+			"Parent"
+			{
+				"reference_object"	"Body"
+				"attached_object"	"Screen"
+				
+			}
+		}
+	}
+	//////////////////////////////////////////////////////////////////////////////
+
+	//////////////////////////////////////////////////////////////////////////////
+	"tv_01"
+	{
+		"Body"
+		{
+			"model"		"models/Electrical_devices/tv_01.mdl"
+		}
+		
+		"Screen"
+		{
+			"model"		"models/Electrical_devices/tv_screen.mdl"
+		}
+		
+		"Constraints"
+		{
+
+			"Parent"
+			{
+				"reference_object"	"Body"
+				"attached_object"	"Screen"
+				
+			}
+		}
+	}
+
+	//////////////////////////////////////////////////////////////////////////////
+	"Entrance"
+	{
+		"Body"
+		{
+			"model"		"models/architecture_interior/hotel_entrance.mdl"
+		}
+
+		"DoorLeft"
+		{
+			"model"		"models/architecture_interior/hotel_entrance_a.mdl"
+			"origin"	"0 -18 0"
+			"angles"	"0 90 0"
+			"overridescript" "mass,10,base,Pottery.Small"
+		}
+
+		"DoorRight"
+		{
+			"model"		"models/architecture_interior/hotel_entrance_b.mdl"
+			"origin"	"0 -18 0"
+			"angles"	"0 90 0"
+			"overridescript" "mass,10"
+		}
+
+		"Constraints"
+		{
+			"Hinge"
+			{
+				"reference_object"	"Body"
+				"attached_object"	"DoorLeft"
+
+				"axis_position"		"0 -18 0"
+				"axis_direction"	"0 0 1"
+				
+				"rotation_min"		"0"
+				"rotation_max"		"90"
+			}
+
+			"Hinge"
+			{
+				"reference_object"	"Body"
+				"attached_object"	"DoorRight"
+
+				"axis_position"		"0 -18 0"
+				"axis_direction"	"0 0 1"
+				
+				"rotation_min"		"-90"
+				"rotation_max"		"0"
+			}
+		}
+	}
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+	
+	"watercooler_01"
+	{
+		"Body"
+		{
+			"model"		"Models/Electrical_devices/watercooler_01.mdl"
+		}
+	
+		"Door1"
+		{
+			"model"		"Models/Electrical_devices/watercooler_01_a.mdl"
+			"overridescript" "mass,5"
+			"lock"		0
+		}
+		
+		"Constraints"
+		{
+			"Attach"
+			{
+				"reference_object"	"Body"
+				"attached_object"	"Door1"
+				"force_limit"		1
+				"torque_limit"		1
+			}
+
+
+		}
+
+	}
+
+	//////////////////////////////////////////////////////////////////////////////
+
+	"saguaro_01"
+	{
+		"Body"
+		{
+			"model"		"Models/nature/saguaro_01_trunk.mdl"
+			"lock"		1
+			"sleep"		1
+			"motion"	0
+		}
+		
+		"Door1"
+		{
+			"model"		"Models/nature/saguaro_01_brunch_01.mdl"
+			"overridescript" "mass,10"
+			"lock"		1
+			"sleep"		1
+		}
+		
+		"Door2"
+		{
+			"model"		"Models/nature/saguaro_01_brunch_02.mdl"
+			"overridescript" "mass,10"
+			"lock"		1
+			"sleep"		1
+		}
+		"Door3"
+		{
+			"model"		"Models/nature/saguaro_01_brunch_03.mdl"
+			"overridescript" "mass,10"
+			"lock"		1
+			"sleep"		1
+		}
+
+
+
+		
+		"Constraints"
+		{
+
+			"Hinge"
+			{
+				"reference_object"	"Body"
+				"attached_object"	"Door1"
+
+				"axis_position"		"0 120 0"
+				"axis_direction"	"0 0 1"
+				
+				"rotation_min"		"0"
+				"rotation_max"		"0"
+			}
+
+			"Hinge"
+			{
+				"reference_object"	"Body"
+				"attached_object"	"Door2"
+
+				"axis_position"		"0 120 0 "
+				"axis_direction"	"0 0 1"
+				
+				"rotation_min"		"0"
+				"rotation_max"		"0"
+			}
+				"Hinge"
+			{
+				"reference_object"	"Body"
+				"attached_object"	"Door3"
+
+				"axis_position"		"0 120 0"
+				"axis_direction"	"0 0 1"
+				
+				"rotation_min"		"0"
+				"rotation_max"		"0"
+			}
+
+
+		}
+
+	}
+//////////////////////////////////////////////////////////////////////////////
+	"Boss_set_01e"
+	{
+		"Body"
+		{	"class"		"prop_static"
+			"model"		"Models/Furniture/boss_set_01e.mdl"
+			"lock"		1
+			"sleep"		1
+		}
+		
+		"Door1"
+		{
+			"model"		"Models/Furniture/boss_set_01e_d1.mdl"
+			"overridescript" "mass,10"
+			"lock"		1
+			"disableshadows"	1
+		}
+		
+		"Door2"
+		{
+			"model"		"Models/Furniture/boss_set_01e_d2.mdl"
+			"overridescript" "mass,10"
+			"lock"		1
+			"disableshadows"	1
+		}
+
+
+
+		"Constraints"
+		{
+
+			"Hinge"
+			{
+				//"reference_object"	"Body"
+				"attached_object"	"Door1"
+
+				"axis_position"		"18.28 -12.22 38.13"
+				"axis_direction"	"0 0 1"
+				
+				"rotation_min"		"0"
+				"rotation_max"		"90"
+			}
+
+			"Hinge"
+			{
+				//"reference_object"	"Body"
+				"attached_object"	"Door2"
+
+				"axis_position"		"18.29 -12.55 4.91"
+				"axis_direction"	"0 0 1"
+				
+				"rotation_min"		"0"
+				"rotation_max"		"90"
+			}
+
+			
+		}
+
+	}
+	
+//////////////////////////////////////////////////////////////////////////////
+	"Boss_set_01d"
+	{
+		"Body"
+		{   "class"		"prop_static"
+			"model"		"Models/Furniture/boss_set_01d.mdl"
+			"lock"		1
+			"sleep"		1
+		}
+		
+		"Door1"
+		{
+			"model"		"Models/Furniture/boss_set_01d_d1.mdl"
+			"overridescript" "mass,10"
+			"lock"		1
+			"disableshadows"	1
+		}
+		
+		"Door2"
+		{
+			"model"		"Models/Furniture/boss_set_01d_d2.mdl"
+			"overridescript" "mass,10"
+			"lock"		1
+			"disableshadows"	1
+		}
+
+		"Door3"
+		{
+			"model"		"Models/Furniture/boss_set_01d_d3.mdl"
+			"overridescript" "mass,10"
+			"lock"		1
+			"disableshadows"	1
+		}
+		
+		"Door4"
+		{
+			"model"		"Models/Furniture/boss_set_01d_d4.mdl"
+			"overridescript" "mass,10"
+			"lock"		1
+			"disableshadows"	1
+		}
+
+
+		"Constraints"
+		{
+
+			"Hinge"
+			{
+				//"reference_object"	"Body"
+				"attached_object"	"Door1"
+
+				"axis_position"		"18.3 -24.5 38.9"
+				"axis_direction"	"0 0 1"
+				
+				"rotation_min"		"0"
+				"rotation_max"		"90"
+			}
+
+			"Hinge"
+			{
+				//"reference_object"	"Body"
+				"attached_object"	"Door2"
+
+				"axis_position"		"18.3 24.4 38.9"
+				"axis_direction"	"0 0 1"
+				
+				"rotation_min"		"-90"
+				"rotation_max"		"0"
+			}
+
+			
+			"Hinge"
+			{
+				//"reference_object"	"Body"
+				"attached_object"	"Door3"
+
+				"axis_position"		"18.3 -24.3 4.9"
+				"axis_direction"	"0 0 1"
+				
+				"rotation_min"		"0"
+				"rotation_max"		"90"
+				
+			}	
+			"Hinge"
+			{
+				//"reference_object"	"Body"
+				"attached_object"	"Door4"
+
+				"axis_position"		"18.3 24.3 4.9"
+				"axis_direction"	"0 0 1"
+				
+				"rotation_min"		"-90"
+				"rotation_max"		"0"
+			}
+		}
+
+	}
+
+	"Boss_set_01d_StaticPropTest"
+	{
+		"Body"
+		{
+			"class"		"prop_static"
+			"model"		"Models/Furniture/boss_set_01d.mdl"
+		}
+
+		"Door1"
+		{
+			"model"		"Models/Furniture/boss_set_01d_d1.mdl"
+			"overridescript" "mass,10"
+			"lock"		1
+			"disableshadows"	1
+		}
+		
+		"Door2"
+		{
+			"model"		"Models/Furniture/boss_set_01d_d2.mdl"
+			"overridescript" "mass,10"
+			"lock"		1
+			"disableshadows"	1
+		}
+
+		"Door3"
+		{
+			"model"		"Models/Furniture/boss_set_01d_d3.mdl"
+			"overridescript" "mass,10"
+			"lock"		1
+			"disableshadows"	1
+		}
+		
+		"Door4"
+		{
+			"model"		"Models/Furniture/boss_set_01d_d4.mdl"
+			"overridescript" "mass,10"
+			"lock"		1
+			"disableshadows"	1
+		}
+
+
+		"Constraints"
+		{
+
+			"Hinge"
+			{
+				"attached_object"	"Door1"
+
+				"axis_position"		"18.3 -24.5 38.9"
+				"axis_direction"	"0 0 1"
+				
+				"rotation_min"		"0"
+				"rotation_max"		"90"
+			}
+
+			"Hinge"
+			{
+				"attached_object"	"Door2"
+
+				"axis_position"		"18.3 24.4 38.9"
+				"axis_direction"	"0 0 1"
+				
+				"rotation_min"		"-90"
+				"rotation_max"		"0"
+			}
+
+			
+			"Hinge"
+			{
+				"attached_object"	"Door3"
+
+				"axis_position"		"18.3 -24.3 4.9"
+				"axis_direction"	"0 0 1"
+				
+				"rotation_min"		"0"
+				"rotation_max"		"90"				
+			}
+
+			"Hinge"
+			{
+				"attached_object"	"Door4"
+
+				"axis_position"		"18.3 24.3 4.9"
+				"axis_direction"	"0 0 1"
+				
+				"rotation_min"		"-90"
+				"rotation_max"		"0"
+			}
+		}
+	}
+	
+	
+}
