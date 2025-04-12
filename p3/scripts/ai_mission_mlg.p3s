@@ -611,6 +611,7 @@ behavior
 						IfAttr "target.ea_Faction == Faction:Citizens Pattern pt_human"
 						IfAttr "target.ea_Faction == Faction:Zealots Pattern pt_human"
 						IfAttr "target.ea_Faction == Faction:Player Pattern pt_human"
+						IfAttr "target.ea_Faction == Faction:Hobos Pattern pt_human"
 						Pattern pt_shit
 					}
 				}
