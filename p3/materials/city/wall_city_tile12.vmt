@@ -1,0 +1,10 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "city/wall_city_tile12"
+	"$bumpmap" "city/wall_city_tile12_normal"
+	"$envmap" "env_cubemap"
+	"$normalmapalphaenvmapmask" 1
+	"$envmaptint" "[.3 .3 .3]"
+	"%keywords" "city"
+	"$surfaceprop" "metal_box"
+}

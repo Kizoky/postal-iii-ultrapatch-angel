@@ -1,0 +1,5 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Objects_interior/vr_flag_01"
+	"$nocull" 1
+}

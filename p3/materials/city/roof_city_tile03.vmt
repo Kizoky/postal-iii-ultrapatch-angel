@@ -1,0 +1,6 @@
+"LightmappedGeneric"
+{
+    "$basetexture" "city/roof_city_tile03"
+	"$surfaceprop" "concrete"
+}
+

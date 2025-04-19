@@ -1,0 +1,16 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "cosmetic_lab\cosmetic_lab_floor_02"
+	"$bumpmap" "cosmetic_lab\cosmetic_lab_floor_02_normal"
+	"$envmap" "#walls_01"
+	"$normalmapalphaenvmapmask" 1
+	"$specularlightmappower" 1
+	"$envmaptint" "[1.0 1.0 1.0]"
+	"$detail" "detail\noise_detail_01"
+	"$detailscale" "7.345"
+	"$detailblendfactor" .6
+	"$detailblendmode" 0
+	"%keywords" "cosmetic"
+	"$surfaceprop" "concrete"
+}
+     

@@ -1,0 +1,5 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "policestation/ps_gate_00"
+	"$surfaceprop" "metal"
+}

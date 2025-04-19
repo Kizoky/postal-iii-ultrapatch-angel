@@ -1,0 +1,11 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "PoliceStation/ps_grid_a"
+//	"$bumpmap" "PoliceStation/ps_corridor_floor_a_normal"
+	"$AlphaTestReference " .45
+	"$AllowAlphaToCoverage" 1
+	"$AlphaTest" 1
+	//"$translucent" 1
+	"%keywords" "PoliceStation"
+	"$surfaceprop" "chainlink"
+}

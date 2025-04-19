@@ -1,0 +1,5 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/nature/hills_01"
+	"$bumpmap" "models/nature/hills_01_normal"
+}

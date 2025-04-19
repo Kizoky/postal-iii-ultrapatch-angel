@@ -1,0 +1,10 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "city/road_city_tw01"
+	"$bumpmap" "city/road_city_tw01_normal"
+	"$envmap" "env_cubemap"
+	"$normalmapalphaenvmapmask" 1
+	"$envmaptint" "[.2 .2 .2]"
+	"%keywords" "city"
+	"$surfaceprop" "ground"
+}

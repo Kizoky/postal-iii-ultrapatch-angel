@@ -1,0 +1,6 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Characters/Bolt-on/Dress/apron_01"
+	"$bumpmap" "models/Characters/Bolt-on/Dress/apron_01_normal"
+}
+#base "materials/models/burned_fabric.vmt"

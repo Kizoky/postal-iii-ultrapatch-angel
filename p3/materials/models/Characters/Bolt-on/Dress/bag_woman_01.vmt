@@ -1,0 +1,6 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Characters/Bolt-on/Dress/bag_woman_01"
+	//"$color2" "[0 0 0]"
+}
+#base "materials/models/burned_fabric.vmt"

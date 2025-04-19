@@ -1,0 +1,32 @@
+"LightmappedGeneric"
+{
+	"$baseTexture" "city\road_city_tile02"
+	"$basetexturetransform" "center .5 .5 scale .25 .25 rotate 0 translate 0 0"
+	
+	//"$basetexture2" "ground\road_b02"
+	
+	"$bumpmap" "ground\road_01_normal"
+	"$bumpscale" 8
+	"$surfaceprop" "ground"
+	"$detail" "ground\road_01_detail"
+	"$detailscale" 6
+	//"$detailblendfactor" 0.8
+    "$detailblendmode" 0
+		
+	"$envmap" "cube_maps\specular_01_cubemap"
+	"$envmaptint" "[0.6 0.6 0.6]"
+
+//_________2ÊÎÑÒß: ÍÀÄÎ, ×ÒÎÁÛ ĞÀÁÎÒÀËÎ!!!_________________________________
+	"$envmapmask" "ground\road_01_envmask"
+	"$envmapmasktransform" "center .5 .5 scale 1 1 rotate 0 translate 0 0"
+	// ×òî-òî òèïà "$envmapmaskscale" èëè "$envmapmasktransform"
+//______________________________________________________________________
+
+
+	//"$basealphaenvmapmask" 1
+	//"$normalmapalphaenvmapmask" 1
+
+	"$specularlightmappower" 1.5
+}
+
+

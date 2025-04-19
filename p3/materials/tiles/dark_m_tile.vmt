@@ -1,0 +1,7 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "tiles/dark_m_tile"
+//	"$bumpmap" "tiles/roof_tile_01_normal"
+	"$surfaceprop" "metal"
+}
+

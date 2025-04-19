@@ -1,0 +1,6 @@
+"LightmappedGeneric"
+{
+    "$basetexture" "grotto/floor_tile_01"
+	"$surfaceprop" "concrete"
+}
+

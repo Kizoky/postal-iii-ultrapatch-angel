@@ -1,0 +1,9 @@
+"LightmappedGeneric"
+{
+	"$baseTexture" "ground\road_03"
+	"$color" "[0.7 0.6 0.6]"
+	"$surfaceprop" "ground"
+
+}
+
+

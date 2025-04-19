@@ -1,0 +1,9 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "PoliceStation/ps_lift_wall_a"
+	"$envmap" "env_cubemap"
+	"$envmapmask" "PoliceStation/ps_lift_wall_a_mask"
+	"$envmaptint" "[.5 .5 .5]"
+	"%keywords" "PoliceStation"
+	"$surfaceprop" "metalbox"
+}

@@ -1,0 +1,13 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/pornworld/f_nude_nazi"
+	"$bumpmap" "models/pornworld/f_nude_normal"
+	"$nocull" "1"
+	"$alphatest" "1"
+	"$alphatestreference"	0.7
+	"$allowalphatocoverage" 1
+	"$phong" "1"
+	"$phongexponent" 3
+	"$phongboost"	"1"
+	"$phongfresnelranges"	"[0.01 0.2 0.7]"
+}

@@ -1,0 +1,20 @@
+"Teeth"
+{
+	"$basetexture" "models\Characters\Eyes\Jaw"
+	"$clientshader" "MouthShader"
+	"$model" 1
+	"$halflambert" 1
+	"$nodecal" "1"
+
+// If you specify a bump map, you'll get specular
+	"$bumpmap" "models\Characters\Eyes\Jaw_01_normal"
+//    "$normalmapalphaphongmask" "1"
+	
+	"$phong" "1"
+	"$phongboost"	"1"
+//	"$phongexponenttexture" "models/Characters/F_Avg/F_Avg_ss_pants_phong"
+	"$phongfresnelranges"	"[0.1 0.5 1.0]"
+// This parameter overrides the alpha channel of the normal map (if any) to provide a phong exponent
+	"$phongexponent" "100"
+}
+#base "materials/models/burned_flesh.vmt"

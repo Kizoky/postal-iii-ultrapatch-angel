@@ -1,0 +1,10 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "bricks/white_brks_01"
+	"$bumpmap" "bricks/yellow_brks_01_normal"
+	"$surfaceprop" "brick"
+	"$detail" "detail\noise_detail_01"
+	"$detailscale" "7.740"
+	"$detailblendfactor" .8
+	"$detailblendmode" 0
+}

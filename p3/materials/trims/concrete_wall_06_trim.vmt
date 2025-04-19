@@ -1,0 +1,7 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "trims\concrete_wall_06_trim"
+    "%keywords" "concrete"
+    "$color2" "[0.3 0.2 0.2 ]"
+	"$surfaceprop" "concrete"
+}

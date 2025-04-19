@@ -1,0 +1,22 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "mall/mall_tiles_01"
+//	"$bumpmap" "mall/mall_kaf_01_normal"
+
+//	"$envmap" "cube_maps/maps/walls_01"
+//	"$normalmapalphaenvmapmask" 1
+//	"$envmaptint" "[0.3 0.3 0.3]"
+//	"$specularlightmappower" 1
+	
+	//"$envmapcontrast" "0.2"
+	//"$envmapsaturation" 0
+	
+//	"$phong" "1"
+//	"$phongboost"	"10"
+//	"$phongfresnelranges"	"[0.1 0.5 1]"
+//	"$phongtint" "[1 1 1]"
+//	"$phongexponent"	"10"	
+
+	"$surfaceprop" "concrete"
+	"%keywords" "mall"
+}

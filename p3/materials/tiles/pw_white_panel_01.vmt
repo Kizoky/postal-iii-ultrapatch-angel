@@ -1,0 +1,10 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "tiles/pw_white_panel_01"
+	"$bumpmap" "tiles/pw_white_panel_01_normal"
+	"$envmap" "env_cubemap"
+	"$normalmapalphaenvmapmask" 1
+	"$envmaptint" "[.3 .3 .3]"
+	"%keywords" "tiles"
+	"$surfaceprop" "ceiling_tile"
+}

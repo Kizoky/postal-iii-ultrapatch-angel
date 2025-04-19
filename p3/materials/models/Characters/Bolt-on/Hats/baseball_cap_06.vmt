@@ -1,0 +1,8 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Characters/Bolt-on/Hats/baseball_cap_06"
+	"$alphatest" 1
+	"$alphatestreference"	0.5
+	"$allowalphatocoverage" 1
+	"$nocull" 1
+}

@@ -1,0 +1,14 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "city/wall_city_tile11_wnd02"
+	"$bumpmap" "city/wall_city_tile11_wnd02_normal"
+	"$envmap" "cube_maps/winglass_01"
+	"$basealphaenvmapmask" 1
+	
+	"$normalmapalphaenvmapmask" 1
+	"$envmaptint" "[.2 .2 .2]"
+	"%keywords" "city"
+	
+	"$specularlightmappower" 1.5
+	"$surfaceprop" "glass"
+}

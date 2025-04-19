@@ -1,0 +1,14 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "PoliceStation/PS_muralpainted"
+    
+	// "$basemapalphaphongmask" "1"	
+	// "$phong" "1"
+	// "$phongexponent" 50
+	// "$phongboost"	"1"
+	// "$phongfresnelranges"	"[1.5 1.5 1.5]"
+	
+	"$detail" "concrete/concrete_01_relief"
+	"$detailscale" 3
+	"$surfaceprop" "concrete"
+}

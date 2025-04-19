@@ -1,0 +1,10 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "composite/red_storefront_wall_01"
+//	"$bumpmap" "composite/shop_inner_wall_01_normal"
+//	"$envmap" "env_cubemap"
+//	"$normalmapalphaenvmapmask" 1
+//	"$envmaptint" "[.3 .3 .3]"
+	"$surfaceprop" "concrete"
+}
+

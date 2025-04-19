@@ -1,0 +1,15 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "bricks/mall_brks_01"
+	"$bumpmap" "bricks/mall_brks_01_normal"
+	"$envmap" "cube_maps/maps/walls_01"
+	"$normalmapalphaenvmapmask" 1
+	"$envmaptint" "[0.3 0.3 0.3]"
+	"$specularlightmappower" 1
+	"$detail" "detail\noise_detail_01"
+	"$detailscale" "7.740"
+	"$detailblendfactor" .8
+	"$detailblendmode" 0
+	"$surfaceprop" "brick"
+	"%keywords" "mall"
+}

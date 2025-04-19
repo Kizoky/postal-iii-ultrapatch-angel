@@ -1,0 +1,7 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Characters/Bolt-on/Hairs/Jen_hair_2"
+	"$alphatest" "1"
+//	"$translucent" "1"
+}
+#base "materials/models/burned_flesh.vmt"

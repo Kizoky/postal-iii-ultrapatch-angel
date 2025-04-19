@@ -1,0 +1,12 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "trims/pw_trim_01"
+	"$bumpmap" "trims/pw_trim_01_normal"
+	"$envmap" "env_cubemap"
+	"$normalmapalphaenvmapmask" 1
+	"$envmaptint" "[.2 .2 .2]"
+	"%keywords" "city"
+	"$surfaceprop" "metal"
+
+}
+

@@ -1,0 +1,8 @@
+"LightmappedGeneric"
+{
+    "$basetexture" "wood/pw_scene_wood_tile_01"
+//	"$bumpmap" "wood/wood_tile_05_normal"
+//	"%keywords" "city"
+	"$surfaceprop" "wood"
+}
+

@@ -1,0 +1,19 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Characters/F_Avg/f_avg_ss_pants_15"
+	"$bumpmap" "models/Characters/F_Avg/f_avg_ss_pants_normal"
+//	"$normalmapalphaenvmapmask" "1"
+//	"$envmaptint" "[.4 .4 .4]"
+
+	"$phong" "1"
+	"$phongexponent" 3
+	"$phongboost"	"1"
+	"$phongfresnelranges"	"[0.01 0.2 0.7]"
+
+	"$rimlight" "1"
+	"$rimlightboost" "1"
+//	"$rimlightexponent" "models/Characters/F_Avg/f_avg_ss_pants_02"
+//	"$lightwarptexture" "models/tmp_pers/lightwarptexture"
+	"$halflambert" "1"
+}
+#base "materials/models/burned_fabric.vmt"

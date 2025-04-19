@@ -1,0 +1,7 @@
+"LightmappedGeneric"
+{
+    "$basetexture" "city/city_brikes_sh_tile01"
+    "%keywords" "city"
+	"$surfaceprop" "brick"
+}
+

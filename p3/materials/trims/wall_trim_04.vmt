@@ -1,0 +1,16 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "trims/wall_trim_04"
+	"$bumpmap" "trims/wall_trim_04_normal"
+	
+	"$envmap" "cube_maps/maps/walls_01"
+	"$specularlightmappower" 1.7
+//	"$envmap" "env_cubemap"
+	"$normalmapalphaenvmapmask" 1
+//	"$envmaptint" "[.2 .2 .2]"
+
+	"%keywords" "CityHall"
+	"%keywords" "trim"
+	"$surfaceprop" "wood"
+}
+

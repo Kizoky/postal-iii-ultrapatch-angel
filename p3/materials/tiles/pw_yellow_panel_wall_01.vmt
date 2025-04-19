@@ -1,0 +1,6 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "tiles/pw_yellow_panel_wall_01"
+	"%keywords" "tiles"
+	"$surfaceprop" "concrete"
+}

@@ -1,0 +1,5 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "composite/white_plastic_tile_01"
+	"$surfaceprop" "Metal_Box"
+}

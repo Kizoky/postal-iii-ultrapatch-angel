@@ -1,0 +1,16 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Characters/Bolt-on/Masks/gary_mask"
+
+	"$bumpmap" "models/Characters/Bolt-on/Masks/gary_mask_normal"
+
+
+	"$phong" "1"
+	"$phongexponent" "7"
+	"$phongboost"	"3"
+	"$phongfresnelranges"	"[0.1 0.3 0.5]"
+
+	"$nocull" 1
+
+}
+#base "materials/models/burned_fabric.vmt"

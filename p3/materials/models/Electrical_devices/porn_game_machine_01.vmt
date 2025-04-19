@@ -1,0 +1,13 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Electrical_devices/porn_game_machine_01"
+	"$basemapalphaphongmask" "1"
+	"$phong" "1"
+	"$phongexponent" 5
+	"$phongboost"	"2"
+	"$phongfresnelranges"	"[0.5 0.5 0.5]"
+	
+	"$selfillum" 1
+	"$selfillummask" "models/arcade/arcade_game_02_self"
+
+}

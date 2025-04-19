@@ -1,0 +1,7 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "city/city_park_gr02"	
+        "%detailtype" "city_aut_grass"
+	"%keywords" "city"
+	"$surfaceprop" "grass"
+}

@@ -1,0 +1,9 @@
+"LightmappedGeneric"
+{
+	//"$basetexture" "nature/leaves_wall_01a"
+	"$basetexture" "nature/test_leaveswall"
+	"$alphatest" 1
+	"%detailtype" "leaves_wall"
+	//"$translucent" "1"
+	"$surfaceprop" "grass"
+}

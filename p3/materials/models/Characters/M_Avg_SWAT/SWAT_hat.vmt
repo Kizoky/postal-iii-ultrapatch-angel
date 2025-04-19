@@ -1,0 +1,23 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Characters/M_Avg_SWAT/SWAT_hat"
+	"$bumpmap" "models/Characters/M_Avg_SWAT/SWAT_hat_normal"
+	"$normalmapalphaenvmapmask" "1"
+//	"$basealphaenvmapmask" "1"
+//    "$envmapmask"  "models/Characters/M_Avg/m_avg_ss_pants_Gimp_head_env"
+	"$envmap" "env_cubemap"
+	"$envmaptint" "[0.4 0.4 0.4]"
+
+//	"$phong" "1"
+//	"$phongexponent" 5
+//	"$phongboost"	"3"
+//	"$phongexponenttexture" "models/Characters/F_Avg/F_Avg_ss_pants_phong"
+//	"$phongfresnelranges"	"[0.1 0.5 1.0]"
+
+	//"$rimlight" "1"
+	"$rimlightboost" "1"
+//	"$rimlightexponent" "models/Characters/F_Avg/F_Avg_ss_pants_phong"
+//	"$lightwarptexture" "models/tmp_pers/lightwarptexture"
+	"$halflambert" "1"
+}
+#base "materials/models/burned_fabric.vmt"

@@ -1,0 +1,26 @@
+//"LightmappedGeneric"
+"UnlitGeneric"
+{
+	"$basetexture" "effects/Ron_screen/ron_screen"
+	
+	"$detail" "effects/Ron_screen/scr_detail"
+	"$detailscale" 8
+	"$detailblendmode" 0
+	//"$detailtint" "[0.7 0.6 0.6]"
+	
+	//"$selfillum" 1
+	
+	"Proxies"
+        {
+                "AnimatedTexture"
+                {
+                         "animatedtexturevar" "$basetexture"
+                         "animatedtextureframenumvar" "$frame"
+                         "animatedtextureframerate" 0.1
+                }
+
+        }
+	//"$additive" "1"
+	//"$translucent" 1		
+	"$surfaceprop" "glass"
+}

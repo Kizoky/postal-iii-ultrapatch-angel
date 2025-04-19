@@ -1,0 +1,21 @@
+"LightmappedGeneric"
+//"VertexLitGeneric"
+
+{
+	"$basetexture" "concrete/mall_white_01"
+	"$bumpmap" "cosmetic_lab/cosmetic_lab_wall_02_normal"
+	
+	"$normalmapalphaenvmapmask" 1
+	"$envmap" "#walls_01"
+	"$envmaptint" "[0.2 0.2 0.2]"
+	"$specularlightmappower" 1
+
+	"$color" "[0.6 0.9 0.8]"
+	
+	"$detail" "mall/mall_noise_01"
+	"$detailscale" 2
+
+	"%keywords" "mall"
+	
+	"$surfaceprop" "concrete"
+}

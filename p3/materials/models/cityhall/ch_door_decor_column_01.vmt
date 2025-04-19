@@ -1,0 +1,11 @@
+"VertexLitGeneric"
+
+{
+	"$basetexture" "models/cityhall/ch_door_decor_column_01"
+	"$bumpmap" "models/cityhall/ch_door_decor_column_01_normal"
+	"$basemapalphaphongmask" 1
+	"$phong" "1"
+	"$phongexponent" 10
+	"$phongboost"	"1"
+	"$phongfresnelranges"	"[0.2 0.2 0.2]"
+}

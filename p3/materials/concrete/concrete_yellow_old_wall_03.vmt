@@ -1,0 +1,10 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "concrete/concrete_yellow_old_wall_03"
+	"$bumpmap" "concrete/concrete_yellow_old_wall_03_normal"
+	"$detail" "detail\noise_detail_01"
+	"$detailscale" "7.345"
+	"$detailblendfactor" .2
+	"$detailblendmode" 0
+	"$surfaceprop" "concrete"
+}

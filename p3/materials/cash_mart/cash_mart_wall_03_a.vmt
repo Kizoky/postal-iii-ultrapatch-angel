@@ -1,0 +1,20 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "cash_mart/cash_mart_wall_03_a"
+	"$bumpmap" "cash_mart/cash_mart_wall_03_a_normal"
+	"$envmap" "#walls_01"
+    "$envmaptint" "[0.6 0.6 0.6]"
+	"$normalmapalphaenvmapmask" 1
+	
+	"%keywords" "cash_mart"
+	
+	"$specularlightmappower" 1
+
+	//"$phong" "1"
+	//"$phongboost"	"1"
+	//"$phongfresnelranges"	"[1.0 0.8 5]"
+	//"$phongtint" "[1 1 1]"
+	//"$phongcolorfromlightmap" 1.0
+	"$surfaceprop" "concrete"
+}
+

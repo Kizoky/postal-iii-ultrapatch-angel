@@ -1,0 +1,23 @@
+//"LightmappedGeneric"
+//{
+//	"$basetexture" "city/road_city_tile02"
+//	"$bumpmap" "city/road_city_tile02_normal"
+//	"$envmap" "env_cubemap"
+//	"$normalmapalphaenvmapmask" 1
+//	"$envmaptint" "[.3 .3 .3]"
+//	"%keywords" "city"
+//}
+
+
+"LightmappedGeneric"
+{
+	"$basetexture" "city/road_city_tile02"
+	"$bumpmap" "city/road_city_tile02_normal"
+	"$phong" "1"
+	"$phongexponent" 33
+	//"$phongexponenttexture" "models/Alyx/alyx_head_exponent"
+	"$phongboost"	"25"
+	"$phongfresnelranges"	"[0.05 0.5 1]"
+	"%keywords" "city"
+	"$surfaceprop" "ground"
+}

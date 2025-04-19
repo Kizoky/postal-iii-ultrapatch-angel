@@ -1,0 +1,15 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "cosmetic_lab\cosmetic_lab_floor_07"
+	"$bumpmap" "cosmetic_lab\cosmetic_lab_floor_07_normal"
+	"$envmap" "#walls_01"
+	"$normalmapalphaenvmapmask" 1
+	"$specularlightmappower" 1
+	"$envmaptint" "[0.6 0.6 0.6 ]"
+	"$nocull" 1
+	"$AlphaTest" 1
+	"$AlphaTestReference " .45
+	"$AllowAlphaToCoverage" 1
+	"$surfaceprop" "metalgrate" 
+	"%keywords" "cosmetic"
+}

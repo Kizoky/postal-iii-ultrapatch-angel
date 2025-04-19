@@ -1,0 +1,9 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "daveland/MetalBase_tex_01"
+	"$surfaceprop" "metal"
+	"$detail" "detail\metal_detail_01"
+	"$detailscale" "4.283"
+	"$detailblendfactor" .8
+	"$detailblendmode" "0"
+}

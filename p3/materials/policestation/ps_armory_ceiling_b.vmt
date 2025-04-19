@@ -1,0 +1,14 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "PoliceStation/ps_armory_ceiling_b"
+	"$bumpmap" "PoliceStation/ps_armory_ceiling_b_normal"
+	"$translucent" 0
+	"$alphatest" 1
+	$AlphaTestReference ".45"
+	$AllowAlphaToCoverage 1
+	"$envmap" "env_cubemap"
+	"$envmaptint" "[0.3 0.3 0.3]"
+	"$normalmapalphaenvmapmask" 1
+	"%keywords" "PoliceStation"
+	"$surfaceprop" "metalgrate"
+}

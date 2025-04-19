@@ -1,0 +1,9 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/nature/employment_agency_pot_01_leaves"
+	"$alphatest" 1
+	"$nocull" 1
+	"$model" 1
+	"$alphatestreference"	0.8
+	"$allowalphatocoverage" 1
+}

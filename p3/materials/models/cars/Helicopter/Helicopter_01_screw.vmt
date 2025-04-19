@@ -4,4 +4,12 @@
 	"$translucent" "1"
 	"$nocull" 1
 	"$nodecal" 1
+	"Proxies"
+	{
+		"P3_HeliBlade"
+		{
+			"$alpha"		"1"
+			"$fadeout"		"1"
+		}
+	}
 }

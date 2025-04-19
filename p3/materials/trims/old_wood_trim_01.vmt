@@ -1,0 +1,11 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "trims/old_wood_trim_01"
+//	"$bumpmap" "trims/roof_comp_trim_01_normal"
+//	"$envmap" "env_cubemap"
+//	"$normalmapalphaenvmapmask" 1
+//	"$envmaptint" "[.2 .2 .2]"
+//	"%keywords" "city"
+	"$surfaceprop" "wood"
+}
+

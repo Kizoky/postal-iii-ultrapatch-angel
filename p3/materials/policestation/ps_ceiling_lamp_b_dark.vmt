@@ -1,0 +1,11 @@
+"LightmappedGeneric"
+//"UnlitGeneric"
+{
+	"$basetexture" "PoliceStation/ps_ceiling_lamp_b"
+//	"$additive" 1
+	"$bumpmap" "PoliceStation/ps_ceiling_lamp_b_normal"
+	"$envmap" "env_cubemap"
+	"$normalmapalphaenvmapmask" 1
+	"%keywords" "PoliceStation"
+	"$surfaceprop" "glass"
+}

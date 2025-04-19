@@ -1,0 +1,10 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "bricks/red_brks_03_tile"
+	"$color" "[0.3 0.3 0.2]"
+	"$detail" "detail\noise_detail_01"
+	"$detailscale" "7.740"
+	"$detailblendfactor" .8
+	"$detailblendmode" 0
+	"$surfaceprop" "brick"
+}

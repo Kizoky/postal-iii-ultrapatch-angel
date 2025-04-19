@@ -1,0 +1,9 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "hub/subway_wall_01"
+	"$bumpmap" "hub/subway_wall_01_normal"
+	"$envmap" "env_cubemap"
+	"$normalmapalphaenvmapmask" 1
+	"%keywords" "subway"
+	"$surfaceprop" "tile"
+}
