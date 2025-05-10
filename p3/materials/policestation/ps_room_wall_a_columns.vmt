@@ -1,0 +1,7 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "PoliceStation/ps_room_wall_a_columns"
+	"$bumpmap" "PoliceStation/ps_room_wall_a_columns_normal"
+	"%keywords" "PoliceStation"
+	"$surfaceprop" "concrete"
+}

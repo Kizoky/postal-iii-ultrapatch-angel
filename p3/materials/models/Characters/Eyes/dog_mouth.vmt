@@ -1,0 +1,5 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Characters/Eyes/dog_mouth"
+}
+#base "materials/models/burned_flesh.vmt"

@@ -1,0 +1,13 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "PornWorld/shelf_tile_01"
+	"$envmap" "env_cubemap"
+	"$envmaptint" "[.2 .2 .2]"
+	"$basealphaenvmapmask" "1"
+	"$specularlightmappower" 1
+	
+	"%keywords" "tiles"
+	"%keywords" "shelf"
+	"$surfaceprop" "metal_box"
+}
+

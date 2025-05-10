@@ -1,0 +1,22 @@
+"LightmappedGeneric"
+{
+	"$baseTexture" "ground\ground_grotto_01"
+	"$baseTexture2" "ground\road_02"
+//	"$bumpmap" "ground\road_01_normal"
+//	"$bumpscale" 4
+	
+	"$detail" "city\road_city_tile02"
+	"$detailscale" 0.3
+	"$detailblendfactor" 1.9
+	"$detailblendmode" 0
+	"$detailtint" "[1.4 1.3 1.3]"
+
+	"%keywords" "ground"
+	"$surfaceprop" "ground"
+	"$envmap" "cube_maps\specular_01_cubemap"
+	"$envmaptint" "[0.1 0.1 0.1]"
+	"$envmapmask" "ground\road_01_envmask"
+	"$envmapmasktransform" "center .5 .5 scale 1 1 rotate 0 translate 0 0"
+
+	"$specularlightmappower" 2
+}

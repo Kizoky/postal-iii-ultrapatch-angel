@@ -1,0 +1,19 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Characters/F_Nude/f_nude_head_01"
+	"$bumpmap" "models/Characters/F_Nude/f_nude_head_01_normal"
+//	"$normalmapalphaenvmapmask" "1"
+//	"$envmaptint" "[.5 .5 .5]"
+
+	"$phong" "1"
+//	"$phongexponent" 10
+	"$phongboost"	"1.2"
+//	"$phongexponenttexture" "models/Characters/F_Nude/f_avg_head_phong"
+	"$phongfresnelranges"	"[0.1 0.5 1]"
+
+	"$rimlight" "1"
+	"$rimlightboost" "1"
+//	"$lightwarptexture" "models/tmp_pers/lightwarptexture"
+	"$halflambert" "1"
+}
+#base "materials/models/burned_flesh.vmt"

@@ -1,0 +1,11 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "trims/met_roof_trim_01"
+	//"$bumpmap" "trims/met_vent_trim_01_normal"
+//	"$envmap" "env_cubemap"
+//	"$normalmapalphaenvmapmask" 1
+//	"$envmaptint" "[.3 .3 .3]"
+	"%keywords" "city"
+	"$surfaceprop" "metal"
+}
+

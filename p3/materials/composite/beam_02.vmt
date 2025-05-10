@@ -1,0 +1,9 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "composite/beam_02"
+	"$bumpmap" "composite/beam_02_normal"
+	"$envmap" "env_cubemap"
+	"$normalmapalphaenvmapmask" 1
+	"$surfaceprop" "metal_box"
+}
+

@@ -1,0 +1,10 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "PoliceStation/ps_woodplates_00"
+//	"$bumpmap" "PoliceStation/ps_ventilation_b_cap_normal"
+//	"$envmap" "env_cubemap"
+//	"$normalmapalphaenvmapmask" 1
+//	"$envmaptint" "[.5 .5 .5]"
+//	"%keywords" "PoliceStation"
+	"$surfaceprop" "wood" 
+}

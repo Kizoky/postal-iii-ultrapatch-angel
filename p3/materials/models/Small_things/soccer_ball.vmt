@@ -1,0 +1,15 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Small_things/soccer_ball"
+	
+	"$phong" "1"
+	"$phongexponent" 40
+	"$phongboost"	"1"
+	"$phongfresnelranges"	"[0.2 0.3 0.2]"
+	
+	"$basemapalphaphongmask" "1"
+	
+
+	"$envmap" "cube_maps/maps/walls_01"
+	"$envmaptint" "[0.005 0.005 0.005]"
+}

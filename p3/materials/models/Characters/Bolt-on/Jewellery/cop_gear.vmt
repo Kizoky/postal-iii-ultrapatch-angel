@@ -1,0 +1,6 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Characters/Bolt-on/Jewellery/cop_gear"
+//	"$bumpmap" "models/Characters/Bolt-on/Jewellery/cop_gear_normal"
+}
+#base "materials/models/burned_fabric.vmt"

@@ -1,0 +1,10 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "floors/floor_parq_01"
+//	"$bumpmap" "floors/floor_parq_01_normal"
+//	"$envmap" "env_cubemap"
+//	"$normalmapalphaenvmapmask" 1
+//	"$envmaptint" "[.5 .5 .5]"
+	"%keywords" "floor"
+	"$surfaceprop" "carpet"
+}

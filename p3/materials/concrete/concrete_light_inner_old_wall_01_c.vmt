@@ -2,7 +2,9 @@
 {
 	"$basetexture" "concrete/concrete_light_inner_old_wall_01_c"
 	"$selfillum" "1"
-	//"$bumpmap" "concrete/concrete_yellow_old_wall_01_normal" 
-
+	"$detail" "detail\noise_detail_01"
+	"$detailscale" "7.345"
+	"$detailblendfactor" .2
+	"$detailblendmode" 0
+	"$surfaceprop" "concrete"
 }
-

@@ -1,0 +1,16 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "paradise_bridge\pb_barbed_wire"
+
+
+	//"$nocull" 1
+	"$AlphaTest" 1
+	"$AlphaTestReference " .45
+	"$AllowAlphaToCoverage" 1
+	
+	
+	
+	"$surfaceprop" "Chainlink" 
+	
+}
+    

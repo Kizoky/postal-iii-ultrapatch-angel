@@ -1,0 +1,10 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Doors_Windows/grotto_door_01"
+	"$basemapalphaphongmask" "1"
+	"$phong" "1"
+	"$phongexponent" 20
+	"$phongboost"	"1"
+	"$phongfresnelranges"	"[0.5 0.5 1]"
+	"$surfaceprop" "metal"
+}

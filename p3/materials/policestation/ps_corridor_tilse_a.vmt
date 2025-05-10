@@ -1,0 +1,10 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "PoliceStation/ps_corridor_tilse_a"
+//	"$bumpmap" "PoliceStation/ps_corridor_tilse_a_normal"
+//	"$envmap" "env_cubemap"
+//	"$normalmapalphaenvmapmask" 1
+//	"$envmaptint" "[.3 .3 .3]"
+	"%keywords" "PoliceStation"
+	"$surfaceprop" "metal"
+}

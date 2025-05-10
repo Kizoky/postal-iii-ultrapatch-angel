@@ -1,0 +1,10 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "tiles/wall_dalle_tile_01"
+	"$bumpmap" "tiles/wall_dalle_tile_01_normal"
+	"$envmap" "env_cubemap"
+	"$normalmapalphaenvmapmask" 1
+	"$envmaptint" "[.3 .3 .3]"
+	"%keywords" "city"
+	"$surfaceprop" "tile"
+}

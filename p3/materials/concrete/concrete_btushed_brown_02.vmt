@@ -1,0 +1,10 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "concrete/concrete_btushed_brown_01"
+	"$detail" "detail\noise_detail_01"
+	"$detailscale" "7.345"
+	"$detailblendfactor" .2
+	"$detailblendmode" 0
+	"$color" "[0.3 2.5 0.3]"
+	"$surfaceprop" "concrete"
+}

@@ -1,0 +1,11 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "concrete/sewer_concrete_01"
+	"$bumpmap" "concrete/sewer_concrete_01_normal"
+	"%keywords" "concrete"
+	"$surfaceprop" "concrete"
+	"$detail" "detail\noise_detail_01"
+	"$detailscale" "7.345"
+	"$detailblendfactor" .2
+	"$detailblendmode" 0
+}

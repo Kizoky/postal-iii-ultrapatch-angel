@@ -1,0 +1,7 @@
+"LightmappedGeneric"
+{
+    "$basetexture" "city/city_tunnel_wall01"
+    "%keywords" "city"
+	"$surfaceprop" "concrete"
+}
+

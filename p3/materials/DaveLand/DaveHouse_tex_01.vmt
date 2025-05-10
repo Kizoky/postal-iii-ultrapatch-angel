@@ -1,0 +1,9 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "daveland/DaveHouse_tex_01"
+	"$surfaceprop" "wood"
+	"$detail" "detail\wood_detail_01"
+	"$detailscale" 2.563
+	"$detailblendfactor" .2
+	"$detailblendmode" 0
+}

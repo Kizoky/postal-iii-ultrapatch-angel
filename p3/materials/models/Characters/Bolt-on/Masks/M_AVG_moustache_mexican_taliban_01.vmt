@@ -1,0 +1,21 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Characters/Bolt-on/Masks/M_AVG_moustache_mexican_taliban_01"
+	"$bumpmap" "models/Characters/Bolt-on/Masks/M_AVG_moustache_mexican_taliban_01_normal"
+	"$normalmapalphaphongmask" "1"
+//	"$normalmapalphaenvmapmask" "1"
+//	"$envmaptint" "[.5 .5 .5]"
+
+	"$phong" "1"
+	"$phongexponent" 5
+	"$phongboost"	"3"
+//	"$phongexponenttexture" "models/Characters/F_Avg/F_Avg_ss_pants_phong"
+	"$phongfresnelranges"	"[0.1 0.5 1.0]"
+
+	//"$rimlight" "1"
+	"$rimlightboost" "1"
+//	"$rimlightexponent" "models/Characters/F_Avg/F_Avg_ss_pants_phong"
+//	"$lightwarptexture" "models/tmp_pers/lightwarptexture"
+	"$halflambert" "1"
+}
+#base "materials/models/burned_fabric.vmt"

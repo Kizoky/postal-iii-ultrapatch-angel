@@ -1,0 +1,6 @@
+"LightmappedGeneric"
+{
+    "$basetexture" "composite/warning_tile_01"
+	"$surfaceprop" "concrete"
+}
+

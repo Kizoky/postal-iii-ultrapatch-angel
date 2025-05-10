@@ -1,0 +1,8 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "PoliceStation/ps_hall_ceiling_a"
+	"$bumpmap" "PoliceStation/ps_hall_ceiling_a_normal"
+	"%keywords" "PoliceStation"
+	"$color" "[1.25 1.4 1.2]"
+	"$surfaceprop" "ceiling_tile"
+}

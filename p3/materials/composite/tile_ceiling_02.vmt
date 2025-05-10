@@ -1,0 +1,10 @@
+"LightmappedGeneric"
+{
+    "$basetexture" "composite/tile_ceiling_02"
+	"$bumpmap" "composite/tile_ceiling_02_normal"
+	"$envmap" "env_cubemap"
+	"$normalmapalphaenvmapmask" 1
+	"$envmaptint" "[0.2 0.2 0.2 ]"
+	"$surfaceprop" "Ceiling_tile"
+}
+

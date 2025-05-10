@@ -1,0 +1,11 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "daveland/Stone_wall_00"
+	"$color" "[0.4 0.2 0.3]"
+	"$surfaceprop" "brick"
+	"%keywords" "daveland"
+	"$detail" "detail\noise_detail_01"
+	"$detailscale" "7.740"
+	"$detailblendfactor" .8
+	"$detailblendmode" 0
+}

@@ -1,0 +1,17 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "PornWorld/shelf_lightbox_02"
+	//"$selfillum" 1
+	
+	"$envmap" "env_cubemap"
+	"$envmaptint" "[.5 .5 .5]"
+	//"$basealphaenvmapmask" "1"
+	//"$specularlightmappower" 1
+	
+	"$specularlightmappower" 0.7
+	
+	"%keywords" "lightbox,shelf"
+	"$surfaceprop" "glass"
+
+}
+

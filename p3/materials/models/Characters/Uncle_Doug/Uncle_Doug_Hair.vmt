@@ -1,0 +1,26 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Characters/Uncle_Doug/Uncle_Doug_Hair"
+	//"$basetexture" "models/gray"
+	"$bumpmap" "models/Characters/Uncle_Doug/Uncle_Doug_Hair_normal"
+	//"$normalmapalphaenvmapmask" "1"
+	//"$envmaptint" "[.5 .5 .5]"
+	"$nocull" "1"
+	//"$model" "1"
+	"$translucent" "0"
+	"$alphatest" 1
+
+	"$phong" "1"
+	"$phongexponent" "6"
+	"$phongboost"	"3"
+	//"$phongexponenttexture" "models/Characters/M_Avg_Postal_Dude/Postal_Dude_head_exponent"
+	"$phongfresnelranges"	"[0.2 0.5 1]"
+
+//	"$rimlight" "1"
+//	"$rimlightboost" "0.01"
+//	"$rimlightexponent" "models/Characters/M_Avg_Postal_Dude/Postal_Dude_head_mask"
+//	"$lightwarptexture" "models/tmp_pers/lightwarptexture"
+	//"$halflambert" "1"
+
+}
+#base "materials/models/burned_flesh.vmt"

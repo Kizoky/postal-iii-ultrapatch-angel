@@ -1,0 +1,9 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "ground/blox_01"
+//	"$bumpmap" "hub/blox_01_normal"
+//	"$envmap" "env_cubemap"
+//	"$normalmapalphaenvmapmask" 1
+	"%keywords" "Hub"
+	"$surfaceprop" "brick"
+}

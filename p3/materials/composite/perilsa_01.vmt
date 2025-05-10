@@ -1,0 +1,12 @@
+//"DecalModulate"
+"LightmappedGeneric"
+
+{
+   	"$basetexture" "composite/perilsa_01"
+ 	"$translucent" 1
+	"$nocull" 1
+// 	"$alphatest" 1
+	"%keywords" "town"
+	"$surfaceprop" "metal"
+}
+

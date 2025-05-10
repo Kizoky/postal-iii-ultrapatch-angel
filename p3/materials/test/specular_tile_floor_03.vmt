@@ -1,0 +1,15 @@
+"LightmappedGeneric"
+{
+    "$basetexture" "floors/tile_floor_03"
+	"$bumpmap" "floors/tile_floor_03_normal"
+	"$envmap" "env_cubemap"
+	//"$normalmapalphaenvmapmask" 1
+
+	"$phong" "1"
+	"$phongboost"	"1"
+	"$phongfresnelranges"	"[1 0.8 0.5]"
+	"$phongtint" "[1.0 1.0 1.0]"
+	"$specularlightmappower" 1
+	"$surfaceprop" "tile"
+}
+

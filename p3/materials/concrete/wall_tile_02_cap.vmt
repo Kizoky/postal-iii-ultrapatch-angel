@@ -1,0 +1,14 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "concrete/wall_tile_02_cap"
+	"$bumpmap" "concrete/wall_tile_02_cap_normal"
+	"$envmap" "env_cubemap"
+	"$normalmapalphaenvmapmask" 1
+	"$envmaptint" "[.1 .1 .1]"
+	"%keywords" "city"
+	"$surfaceprop" "concrete"
+	"$detail" "detail\noise_detail_01"
+	"$detailscale" "7.345"
+	"$detailblendfactor" .2
+	"$detailblendmode" 0
+}

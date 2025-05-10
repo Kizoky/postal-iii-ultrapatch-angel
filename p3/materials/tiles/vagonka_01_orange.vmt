@@ -1,0 +1,16 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "tiles/vagonka_01"
+	"$bumpmap" "tiles/vagonka_01_normal"
+	"$envmap" "cube_maps/maps/walls_01"
+	"$color2" "[0.9 0.6	0.5]"
+	"$normalmapalphaenvmapmask" 1
+	"$envmaptint" "[.9 .9 .9]"
+	"$surfaceprop" "metal"
+	"$specularlightmappower" 1.7
+	"%keywords" "tile"
+	"$detail" "detail\metal_detail_01"
+	"$detailscale" "4.283"
+	"$detailblendfactor" .8
+	"$detailblendmode" "0"
+}

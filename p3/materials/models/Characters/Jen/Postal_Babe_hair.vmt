@@ -1,0 +1,8 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Characters/Bolt-on/Hairs/Postal_Babe_hair"
+		"$alphatest" "1"
+			"$nocull" "1"
+//	"$translucent" "1"
+}
+#base "materials/models/burned_flesh.vmt"

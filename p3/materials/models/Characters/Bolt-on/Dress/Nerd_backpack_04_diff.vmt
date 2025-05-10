@@ -1,0 +1,10 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Characters/Bolt-on/Dress/Nerd_backpack_04_diff"
+	"$bumpmap" "models/Characters/Bolt-on/Dress/Nerd_backpack_2_normal"
+	//"$translucent" 1
+	//"$alphatest" 1
+	//"$model" 1
+	"$nocull" 1
+}
+#base "materials/models/burned_fabric.vmt"

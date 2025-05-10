@@ -1,0 +1,9 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Architecture_interior/upstair_01"
+	"$bumpmap" "models/Architecture_interior/upstair_01_normal"
+	"$envmap" "env_cubemap"
+	"$normalmapalphaenvmapmask" 1
+	"$envmaptint" "[.8 .8 .8]"
+	"%keywords" "city"
+}

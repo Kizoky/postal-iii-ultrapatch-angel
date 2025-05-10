@@ -1,0 +1,15 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "PoliceStation/ps_concrete_00"
+	"$bumpmap" "PoliceStation/ps_concrete_00_normal"
+	
+	"$envmap" "#walls_01"
+    "$envmaptint" "[0.01 0.01 0.01]"
+	"$normalmapalphaenvmapmask" 1
+	
+	"$phong" "1"
+	"$phongexponent" 50
+	"$phongboost"	"1"
+	"$phongfresnelranges"	"[1 1 1]"
+	"$surfaceprop" "concrete"
+}

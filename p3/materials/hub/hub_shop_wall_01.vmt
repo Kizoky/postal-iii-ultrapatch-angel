@@ -1,0 +1,7 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "hub/hub_shop_wall_01"
+	"$bumpmap" "hub/hub_shop_wall_01_normal"
+	"%keywords" "Hub"
+	"$surfaceprop" "brick"
+}

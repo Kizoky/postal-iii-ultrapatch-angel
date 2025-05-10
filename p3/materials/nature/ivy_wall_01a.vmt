@@ -1,0 +1,9 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "nature/Ivy_wall_01"
+	"$basetexture2" "nature/Ivy_wall_02"
+
+	"%detailtype" "leaves_wall_01"
+	"$detailscale" 2
+	"$surfaceprop" "grass"
+}

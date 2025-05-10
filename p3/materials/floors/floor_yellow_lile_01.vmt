@@ -1,0 +1,13 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "floors/floor_yellow_tile_01"
+	//"$bumpmap" "floors/floor_yellow_tile_01_normal"
+	//"$envmap" "env_cubemap"
+	//"$envmaptint" "[.6 .6 .6]"
+	"%keywords" "floor"
+	"$surfaceprop" "concrete"
+	"$detail" "detail\noise_detail_01"
+	"$detailscale" "7.345"
+	"$detailblendfactor" .2
+	"$detailblendmode" 0
+}

@@ -1,0 +1,9 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "hub/house03_wall_01"
+//	"$bumpmap" "hub/house03_wall_01_normal"
+//	"$envmap" "env_cubemap"
+//	"$normalmapalphaenvmapmask" 1
+	"%keywords" "Hub"
+	"$surfaceprop" "concrete"
+}

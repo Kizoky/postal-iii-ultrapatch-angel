@@ -1,0 +1,8 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "daveland/fencing_00"
+	"$AlphaTest" "1"
+	"$alphatestreference"	0.7
+	"$allowalphatocoverage" 1
+	"$surfaceprop" "metal"
+}

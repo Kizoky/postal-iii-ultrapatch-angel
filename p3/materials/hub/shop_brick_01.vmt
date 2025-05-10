@@ -1,0 +1,13 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "hub/shop_brick_01"
+	"$bumpmap" "hub/shop_brick_01_normal"
+//	"$envmap" "env_cubemap"
+//	"$normalmapalphaenvmapmask" 1
+	"%keywords" "Hub"
+	"$phong" "1"
+	"$phongexponent" 10
+	"$phongboost"	"1"
+	"$phongfresnelranges"	"[1.0 0.5 1]"
+	"$surfaceprop" "brick"
+}

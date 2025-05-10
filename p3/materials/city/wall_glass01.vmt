@@ -1,0 +1,7 @@
+"vertexlitgeneric"
+{
+	"$basetexture" "city/city_glass01_d"
+	"$translucent" 1
+	"$surfaceprop" "glass"
+	"%keywords" "city"
+}

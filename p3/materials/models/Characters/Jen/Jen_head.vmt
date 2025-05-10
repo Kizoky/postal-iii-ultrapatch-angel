@@ -1,0 +1,22 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Characters/Jen/Jen_head"
+	//"$basetexture" "models/gray"
+	"$bumpmap" "models/Characters/Jen/Jen_head_normal"
+//	"$normalmapalphaenvmapmask" "1"
+//	"$envmaptint" "[.5 .5 .5]"
+
+	"$phong" "1"
+	"$phongexponent" 5
+	"$phongboost"	"2.5"
+	//"$phongexponenttexture" "models/test/f_avg_head_phong"
+	//"$phongexponenttexture" "models/Characters/M_Avg_Postal_Dude/Postal_Dude_head_exponent"
+	"$phongfresnelranges"	"[0.1 0.5 1]"
+
+	//"$rimlight" "1"
+	//"$rimlightboost" "1"
+//	"$lightwarptexture" "models/tmp_pers/lightwarptexture"
+	"$halflambert" "1"
+	
+}
+#base "materials/models/burned_flesh.vmt"

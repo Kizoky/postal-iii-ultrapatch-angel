@@ -1,0 +1,14 @@
+"LightmappedGeneric"
+{
+	"$baseTexture" "ground\sand_01"
+	"$baseTexture2" "ground\sand_01_drk"
+
+
+	"$surfaceprop" "sand"
+
+	"$detail" "ground/Zealot_grnd_bg_detail"
+	"$detailscale" 0.3
+	"$detailblendfactor" .5
+	"$detailblendmode" 0
+	"$detailtint" "[.7 .7 .7]"
+}

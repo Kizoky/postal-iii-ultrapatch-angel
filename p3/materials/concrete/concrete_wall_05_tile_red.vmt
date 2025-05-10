@@ -1,0 +1,11 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "concrete\concrete_wall_05_tile"
+	"$color2" "[0.7 0.1 0.20]"
+	"$detail" "detail\noise_detail_01"
+	"$detailscale" "7.345"
+	"$detailblendfactor" .2
+	"$detailblendmode" 0
+	"%keywords" "CityHall"
+	"$surfaceprop" "concrete"
+}

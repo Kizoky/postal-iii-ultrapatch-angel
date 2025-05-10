@@ -1,0 +1,15 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "paradise_bridge\pb_metal_wall_01"
+	"$bumpmap" "paradise_bridge\pb_metal_wall_01_normal"
+	"$envmap" "#walls_01"
+	"$normalmapalphaenvmapmask" 1
+	
+	"$specularlightmappower" 1
+	"$envmaptint" "[0.5 0.5 0.5 ]"
+	
+	 //"%keywords" "concrete"
+	// "%keywords" "cosmetic"
+	"$surfaceprop" "metal" 
+}
+    

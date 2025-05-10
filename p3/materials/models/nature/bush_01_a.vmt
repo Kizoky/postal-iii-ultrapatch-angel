@@ -1,0 +1,8 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/nature/bush_01"
+	"$nocull" 1
+	"$alphatest" 1
+	"$alphatestreference"	0.8
+	"$allowalphatocoverage" 1
+}

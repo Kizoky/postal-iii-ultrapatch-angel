@@ -1,0 +1,8 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "tiles/wall_tile_15"
+	"$bumpmap" "tiles/wall_tile_15_normal"
+	"%keywords" "tiles"
+	"$surfaceprop" "concrete"
+}
+

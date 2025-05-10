@@ -1,0 +1,19 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Characters/M_Avg_SWAT/SWAT_gear"
+//	"$bumpmap" "models/Characters/M_Avg_SWAT/SWAT_body_normal"
+	"$basemapalphaphongmask" "1"
+//	"$envmaptint" "[.4 .4 .4]"
+
+	"$phong" "1"
+	"$phongexponent" 4
+	"$phongboost"	"3"
+
+	"$phongfresnelranges"	"[0.1 0.5 1]"
+
+//	"$rimlight" "1"
+//	"$rimlightboost" "1"
+//	"$lightwarptexture" "models/tmp_pers/lightwarptexture"
+	"$halflambert" "1"
+}
+#base "materials/models/burned_fabric.vmt"

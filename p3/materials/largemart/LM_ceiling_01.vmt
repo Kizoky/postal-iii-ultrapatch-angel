@@ -1,0 +1,6 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "largemart/LM_ceiling_01"
+	"$bumpmap" "largemart/LM_ceiling_01_normal"
+	"$surfaceprop" "Ceiling_tile"
+}

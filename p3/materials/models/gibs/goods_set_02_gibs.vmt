@@ -1,0 +1,5 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Small_things/goods_set02_gibs"
+	"$nocull" 1
+}

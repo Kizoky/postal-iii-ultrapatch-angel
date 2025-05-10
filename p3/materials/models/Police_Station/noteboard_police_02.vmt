@@ -1,0 +1,5 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Police_Station/noteboard_police_02"
+	"$nocull" 1
+}

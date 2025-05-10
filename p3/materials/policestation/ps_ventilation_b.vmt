@@ -1,0 +1,15 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "PoliceStation/ps_ventilation_b"
+	"$bumpmap" "PoliceStation/ps_ventilation_b_normal"
+	
+	"$envmap" "env_cubemap"
+	"$specularlightmappower" 1.7
+	"$normalmapalphaenvmapmask" 1
+	
+	"$surfaceprop" "metalvent"
+		
+	"$envmaptint" "[.4 .4 .4]"
+	
+	"%keywords" "PoliceStation"
+}

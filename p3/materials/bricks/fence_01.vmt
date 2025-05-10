@@ -1,0 +1,10 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "bricks/fence_01"
+	"$detail" "detail\noise_detail_01"
+	"$detailscale" "7.740"
+	"$detailblendfactor" .8
+	"$detailblendmode" 0
+	"%keywords" "fence"
+	"$surfaceprop" "brick"
+}

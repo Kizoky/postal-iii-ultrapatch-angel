@@ -1,0 +1,6 @@
+"LightmappedGeneric"
+{
+    "$basetexture" "city/wall_city_tile08_wnd"
+	"$surfaceprop" "concrete"
+}
+

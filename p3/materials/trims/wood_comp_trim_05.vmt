@@ -1,0 +1,14 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "trims\wood_comp_trim_05"
+	
+	"$basemapalphaphongmask" "1"
+	
+	"$phong" "1"
+	"$phongexponent" 20
+	"$phongboost"	"2"
+	"$phongfresnelranges"	"[0.5 0.5 1]"
+    "$phongtint" "[1.0 1.0 1.0]"
+	"$specularlightmappower" 1
+	"$surfaceprop" "wood"
+}

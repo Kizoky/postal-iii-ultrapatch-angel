@@ -1,0 +1,16 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "hub/subway_wall_01"
+	"$bumpmap" "hub/subway_wall_01_normal"
+	"$envmap" "env_cubemap"
+	//"$normalmapalphaenvmapmask" 1
+	"%keywords" "subway"
+
+	"$phong" "1"
+	"$phongboost"	"1"
+	"$phongfresnelranges"	"[0.5 0.5 0.5]"
+	"$phongtint" "[1.0 1.0 1.0]"
+	"$specularlightmappower" 1
+	"$surfaceprop" "tile"
+	
+}

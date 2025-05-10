@@ -1,0 +1,8 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "trims\concrete_celing_01_trim"
+//	"$bumpmap" "concrete\concrete_wall_03_normal"
+//	"$envmap" "env_cubemap"
+//	"$normalmapalphaenvmapmask" 1
+	"$surfaceprop" "concrete"
+}

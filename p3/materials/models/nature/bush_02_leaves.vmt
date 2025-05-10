@@ -1,0 +1,9 @@
+"UnlitGeneric"
+{
+	"$basetexture" "models/nature/bush_02_leaves"
+	"$nocull" 1
+	"$model" 1
+	"$alphatest" 1
+	"$alphatestreference"	0.8
+	"$allowalphatocoverage" 1
+}

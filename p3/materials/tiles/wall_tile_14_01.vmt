@@ -1,0 +1,8 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "tiles/wall_tile_14"
+	"$bumpmap" "tiles/wall_tile_14_normal"
+    "$color" "[.2 .2 .05]"
+	"$surfaceprop" "concrete"
+}
+
