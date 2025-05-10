@@ -1,3 +1,5 @@
+
+[HIDDEN]
 class SEngine : IClient
 {
 	// entities are created / spawned / precached here

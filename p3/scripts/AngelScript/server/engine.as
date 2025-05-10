@@ -1,3 +1,5 @@
+
+[HIDDEN]
 class SEngine : IPostal3Script
 {
 	// entities are created / spawned / precached here

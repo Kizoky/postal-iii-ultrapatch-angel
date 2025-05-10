@@ -1,6 +1,6 @@
 ANGEL CHANGES:
 ==============
-v1.1.1:
+v1.2.0:
 
 * Fixed possible AS crash on server-side
 * Fixed Door's parent entities not disappearing when destroyed
@@ -34,17 +34,24 @@ v1.1.1:
 + Added `ea_NoTargetSenses` for NPCs, when set the NPCs will no longer set the FSM target automatically when choosing a target for seeing, instead it will be set as the FSM Caller  
 this will not work as is and will require slightly rewriting the NPCs AI (the one Akella/TM wrote)
 
-- Added `bool CP3SObj::IsDeleted()`, checks if a Postal3Script object has been already destroyed/deleted/destructed (it is recommended to use this if you encounter frequent crashes)
-- Added `bool CP3SObj::IsValid()`, calls `IsDeleted()` and checks if the object has been marked as destroyed (acts as a combination of `bool CBaseEntity::IsDeleted()` and `bool CP3SObj::IsDeleted()`)
++ Added `bool CP3SObj::IsDeleted()`, checks if a Postal3Script object has been already destroyed/deleted/destructed (it is recommended to use this if you encounter frequent crashes)
++ Added `bool CP3SObj::IsValid()`, calls `IsDeleted()` and checks if the object has been marked as destroyed (acts as a combination of `bool CBaseEntity::IsDeleted()` and `bool CP3SObj::IsDeleted()`)
 * Fixed AngelScript serialization (saving script state to save file) being utterly broken
 * Fixed EHANDLE object inside AngelScript crashing the game if game has been saved
 * Fixed several Addon System crashes/issues
 + Added FPS camera, use `p3_ultrapatch_cam_fps_toggle` to toggle between TPS and FPS
-- PhysX no longer loads under Angel
+- PhysX is no longer functional, and thus has been removed (There are no plans bringing it back)
++ Replaced the Main Menu with a custom implementation, the TV main menu (map main_menu) is unaffected
++ Added `-novid` startup parameter, completely skips intro videos playing on main menu
++ Intro/credits videos can now be skipped
+* `p3_cam_shake` will no longer disable quake effects
++ Added `[HIDDEN]` metadata for AngelScript, allows certain methods or classes to be completely hidden from autocompletion
++ Added `[EXECUTABLE]` metadata for AngelScript, allows methods to be executable even if cheats is not on
++ Added Discord RPC, shows current map, current mission, current karma, and so on...
 
 MULTIPLAYER RELATED:
 ====================
-v1.1.1 (Multiplayer changes):
+v1.2.0 (Multiplayer changes):
 
 * Fixed various crashes
 * Respawn lines are no longer being spammed

@@ -42,7 +42,7 @@ void AddTeams()
 	CreateAndAddTeam(TEAM_AGENT, "Agent", "agent", "info_player_mp_agent", Color(0,0,0,255), Color(0,0,0,200), Color(0,0,0,120), Color(0,15,15,240));
 }
 
-
+[HIDDEN]
 class CTeamHandler
 {
 	[HOOK SEngine GameRulesInit]

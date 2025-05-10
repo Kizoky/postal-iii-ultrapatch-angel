@@ -1,4 +1,5 @@
 // Player
+[HIDDEN]
 class Player : IPostal3Script
 {
 	CP3SObj@ self;

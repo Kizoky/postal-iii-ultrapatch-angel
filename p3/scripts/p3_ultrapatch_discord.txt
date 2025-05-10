@@ -1,0 +1,92 @@
+//// Discord Rich Presence
+
+// Displaying Maps
+// Usage: filename -> text to display
+// Note: Maps that don't have text set to them will use hardcoded randomized states
+"p3_discord"
+{
+	"mapname"
+	{
+		"Main_Menu"					"" // intentionally blank
+		
+		// Pre-path
+		"pdb"						"Paradise Bridge(pdb)"
+		"pw"						"Porn World(pw)"
+		"dcr"						"Diseased Cat Roundup(dcr)"
+		"jwb"						"Jen Walcott's Bodyguard(jwb)"
+		"cm"						"Cash Mart Robbery(cm)"
+		
+		// Good path
+		"pa"						"Police Academy(pa)"
+		"pm1"						"Patrol Mission #1(pm1)"
+		"sub"						"Save Uwe Boll's Career(sub)"
+		"as"						"Arcade Shootout(as)"
+		"hi"						"Homeland Insecurity(hi)"
+		"mlg"						"Monkey Test Lab Assault(mlg)"
+		"pm2"						"Patrol Mission #2(pm2)"
+		"zhqa"						"Eco Zealot HQ Assault(zhqa)"
+		"grg"						"Gay Rodeo(grg)"
+		"mc"						"The “Motorcade”(mc)"
+		"dlg"						"DaveLand(dlg)"
+		"aa"						"Apocalpyse, Again(aa)"
+		"aa1"						"Apocalpyse, Again Part 2(aa1)"
+		"aa2"						"Apocalpyse, Again Part 3(aa2)"
+		
+		// Evil/Insane path
+		"mtz"						"Meet the Zealots(mtz)"
+		"cw"						"The Champ Whisperer(cw)"
+		"srm"						"Segway Repo Man(srm)"
+		"sbe"						"Malaysian “Slave Boy” Escort(sbe)"
+		"mli"						"Monkey Test Lab Assault(mli)"
+		"kmtd"						"Krotchy Meal Toy Delivery(kmtd)"
+		"mvc"						"Mexican Viagra Courier(mvc)"
+		"pwac"						"Prisoner without a clue(pwac)"
+		"bdk"						"Battle Damage Krotchy(bdk)"
+		"gri"						"Gay Rodeo(gri)"
+		"crm"						"Champ's Rescue(crm)"
+		"dli"						"DaveLand(dli)"
+	}
+	
+	// Displaying images depending on where the Player is
+	"mapimage"
+	{
+		"Main_Menu"					"" // intentionally blank
+		
+		// Pre-path
+		"pdb"						""
+		"pw"						""
+		"dcr"						""
+		"jwb"						""
+		"cm"						""
+		
+		// Good path
+		"pa"						""
+		"pm1"						""
+		"sub"						""
+		"as"						""
+		"hi"						""
+		"mlg"						""
+		"pm2"						""
+		"zhqa"						""
+		"grg"						""
+		"mc"						""
+		"dlg"						""
+		"aa"						""
+		"aa1"						"aa"
+		"aa2"						"aa"
+		
+		// Evil/Insane path
+		"mtz"						""
+		"cw"						""
+		"srm"						""
+		"sbe"						""
+		"mli"						""
+		"kmtd"						""
+		"mvc"						""
+		"pwac"						""
+		"bdk"						""
+		"gri"						""
+		"crm"						""
+		"dli"						""
+	}
+}

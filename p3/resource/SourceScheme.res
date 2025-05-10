@@ -240,7 +240,7 @@ Scheme
 		// fonts listed later in the order will only be used if they fulfill a range not already filled
 		// if a font fails to load then the subsequent fonts will replace
 		// fonts are used in order that they are listed
-
+		
 		"P3LoadingTipFont"
 		{
 			"1"
@@ -282,8 +282,8 @@ Scheme
 		{
 			"1"
 			{
-				"name"		 "Lucida Console" [$WINDOWS]
-				"name"		 "Lucida Console" [$X360]
+				"name"		 "inconsolata" [$WINDOWS]
+				"name"		 "inconsolata" [$X360]
 				"name"		 "Verdana" [$POSIX]
 				"tall"		"11" [$POSIX]
 				"tall"		 "10"
@@ -562,45 +562,48 @@ Scheme
 		{
 			"1"
 			{
-				"name"		 "Lucida Console" [$WINDOWS]
+				"name"		 "inconsolata" [$WINDOWS]
 				//"name"		 "soup" [$WINDOWS]
-				"name"		 "Lucida Console" [$X360]
-				"name"		 "Verdana" [$POSIX]
-				"tall"		"11" [$POSIX]
-				"tall"		"10"
-				"weight"	"500"
+				"name"		 "inconsolata" [$X360]
+				"name"		 "inconsolata" [$POSIX]
+				"tall"		"14" [$POSIX]
+				"tall"		"14"
+				"weight"	"250"
 				"antialias" "1"
 				"custom"	"1"
+				"dropshadow" "1"
 			}
 		}
 		"ConsoleEntryText"
 		{
 			"1"
 			{
-				"name"		 "Lucida Console" [$WINDOWS]
+				"name"		 "inconsolata" [$WINDOWS]
 				//"name"		 "soup" [$WINDOWS]
-				"name"		 "Lucida Console" [$X360]
-				"name"		 "Verdana" [$POSIX]
-				"tall"		"11" [$POSIX]
-				"tall"		"10"
-				"weight"	"500"
+				"name"		 "inconsolata" [$X360]
+				"name"		 "inconsolata" [$POSIX]
+				"tall"		"13" [$POSIX]
+				"tall"		"13"
+				"weight"	"250"
 				"antialias" "1"
 				"custom"	"1"
+				"dropshadow" "1"
 			}
 		}
 		"ConsoleCompletion"
 		{
 			"1"
 			{
-				"name"		 "Lucida Console" [$WINDOWS]
+				"name"		 "inconsolata" [$WINDOWS]
 				//"name"		 "soup" [$WINDOWS]
-				"name"		 "Lucida Console" [$X360]
-				"name"		 "Verdana" [$POSIX]
-				"tall"		"11" [$POSIX]
-				"tall"		"9"
-				"weight"	"500"
+				"name"		 "inconsolata" [$X360]
+				"name"		 "inconsolata" [$POSIX]
+				"tall"		"12" [$POSIX]
+				"tall"		"12"
+				"weight"	"250"
 				"antialias" "1"
 				"custom"	"1"
+				"dropshadow" "1"
 			}
 		}
 		
@@ -708,12 +711,13 @@ Scheme
 		{
 			"1"
 			{
-				"name"		 "Lucida Console" [$WINDOWS]
-				"name"		 "Lucida Console" [$X360]
-				"name"		 "Verdana" [$POSIX]
-				"tall"		"11" [$POSIX]
-				"tall"		"10"
+				"name"		 "inconsolata" [$WINDOWS]
+				"name"		 "inconsolata" [$X360]
+				"name"		 "inconsolata" [$POSIX]
+				"tall"		"13" [$POSIX]
+				"tall"		"13"
 				"weight"	"0"
+				"dropshadow" "1"
 			}
 //			"1"
 //			{
@@ -727,11 +731,11 @@ Scheme
 		{
 			"1"
 			{
-				"name"		 "Lucida Console" [$WINDOWS]
-				"name"		 "Lucida Console" [$X360]
-				"name"		 "Verdana" [$POSIX]
-				"tall"		"11" [$POSIX]
-				"tall"		"10"
+				"name"		 "inconsolata" [$WINDOWS]
+				"name"		 "inconsolata" [$X360]
+				"name"		 "inconsolata" [$POSIX]
+				"tall"		"13" [$POSIX]
+				"tall"		"13"
 				"weight"	"0"
 				"dropshadow" "1"
 			}
@@ -748,7 +752,7 @@ Scheme
 			"1"
 			{
 				"name"		"soup" [!$OSX]
-				"name"		"Verdana" [$OSX]
+				"name"		"inconsolata" [$OSX]
 				"tall"		"19"
 				"weight"	"500"
 				"antialias" "1"
@@ -760,7 +764,7 @@ Scheme
 			"1"
 			{
 				"name"		"soup" [!$OSX]
-				"name"		"Verdana Italic" [$OSX]
+				"name"		"inconsolata" [$OSX]
 				"tall"		"19"
 				"weight"	"500"
 				"italic"	"1"
@@ -773,7 +777,7 @@ Scheme
 			"1"
 			{
 				"name"		"soup" [!$OSX]
-				"name"		"Verdana Bold" [$OSX]
+				"name"		"inconsolata" [$OSX]
 				"tall"		"19"
 				"weight"	"900"
 				"antialias" "1"
@@ -785,7 +789,7 @@ Scheme
 			"1"
 			{
 				"name"		"soup" [!$OSX]
-				"name"		"Verdana Bold Italic" [$OSX]
+				"name"		"inconsolata" [$OSX]
 				"tall"		"19"
 				"weight"	"900"
 				"italic"	"1"
@@ -1587,5 +1591,6 @@ Scheme
 		"2"		"resource/HL2EP2.ttf"	
 		"3"		"resource/marlett.ttf"
 		"4"		"resource/soup.ttf"
+		"5"		"resource/inconsolata.ttf"
 	}
 }

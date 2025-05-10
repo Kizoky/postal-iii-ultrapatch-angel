@@ -1,4 +1,5 @@
 // All NPCs
+[HIDDEN]
 class NPC : IPostal3Script
 {
 	CP3SObj@ self;

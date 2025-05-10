@@ -6,14 +6,13 @@ Originally made for Catharsis Reborn, turned into standalone, and now ported ont
 
 IMPORTANT:
 ==========
-PhysX in Ultrapatch Angel is broken, we do not plan fixing it.
-You can disable it with the '-nophysx' launch parameter (recommended), or via the 'physx_enabled' console command.
+Access to PhysX in Ultrapatch Angel is completely removed starting from v1.2.0.
 For anything Multiplayer-related please check out 'README_MULTIPLAYER.txt'
 
 MULTIPLAYER NOTE:
 =================
 Postal III Angel attempts to fix most of the issues the vanilla game had with it's Multiplayer hack, it **CANNOT** fix **ALL** issues with Multiplayer.
-We recommend to only play Multiplayer with people you know and trust, we also recommend using 'ultrapatch_mp.cfg' found in the cfg folder for Multiplayer.
+We recommend playing Multiplayer with people you know and trust only, we also recommend using 'ultrapatch_mp.cfg' found in the cfg folder for Multiplayer.
 
 
 POSTAL III ANGEL CONSOLE COMMANDS:
