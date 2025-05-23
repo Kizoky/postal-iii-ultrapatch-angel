@@ -48,6 +48,16 @@ this will not work as is and will require slightly rewriting the NPCs AI (the on
 + Added `[HIDDEN]` metadata for AngelScript, allows certain methods or classes to be completely hidden from autocompletion
 + Added `[EXECUTABLE]` metadata for AngelScript, allows methods to be executable even if cheats is not on
 + Added Discord RPC, shows current map, current mission, current karma, and so on...
++ Made `CTakeDamageInfo` a proper value type, rather than a pointer/ref type in AngelScript
++ Hurt function hooks now require `(const CTakeDamageInfo& <name>)` to work
++ Hurt functions can now override the Damage Info by simply having the function *return* the variable  
+they will still call into hardcoded damage functions, they'll soon be scriptified
++ Added console command `wj_angelscript_exec_owner`, same as `wj_angelscript_exec` but the console executioner will be the script owner
++ The following entities now also have base entity functions: `CParticleSystem`, `CP3Weapon`, `CWJProp`, `CP3Player` - eliminating the need to manually cast
+* Optimized a little bit the class+function execution code of AngelScript
++ Added `-disablevideo` param to completely disable playing videos (intro, cutscenes, etc.), like during demos
+* Fixed camera entities being broken like for example `func_monitor`
++ Added `SEngine OnEntitySpawn` hook, calls before the entity is being spawned (giving a chance to modify/or even delete entities/or etc.)
 
 MULTIPLAYER RELATED:
 ====================
