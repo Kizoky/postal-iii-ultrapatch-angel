@@ -9,6 +9,8 @@ const int AS_MOD_VERSION = 0;
 #include "server/npc.as"
 #include "server/player.as"
 
+#include "server/entities/teargas.as"
+
 //#include "example.as"
 
 #include "shared/team.as"

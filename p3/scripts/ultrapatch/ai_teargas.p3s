@@ -1,0 +1,54 @@
+behavior
+{
+	name bh_item_teargas
+	States
+	{
+		st_default
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						State itm_teargas
+					}
+				}
+			}
+		}
+		
+		itm_teargas
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions 
+					{
+						AngelScript "Object:self CTearGas OnSpawn"
+					}
+					events
+					{
+						OnDetonate "Pattern pt_detonated"
+					}
+				}
+				
+				pt_detonated
+				{
+					actions
+					{
+						AngelScript "Object:self CTearGas OnInterval"
+						Wait 0.55
+						Repeat 0
+					}
+					events
+					{
+						OnVanish "AngelScript Object:self CTearGas OnVanish"
+					}
+				}
+			}
+		}
+	}
+}
