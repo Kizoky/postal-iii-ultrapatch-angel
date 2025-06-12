@@ -115,6 +115,7 @@ behavior
 						
 						Headblob 1,false
 						SetAttr "Crazy 1"
+						SetAttr "ea_dmg_absorb 100"
 						AttributeProgressBar "RhinoHealthPanel,show,ea_health"
 						Timer tCraze,25:5
 						Pattern pt_freerun
@@ -331,6 +332,7 @@ behavior
 //						EntFireInput aqua_01,kill,100
 						Face false
 						ChangeAttr "ea_health RHINO_DAMAGE"
+						SetAttr "ea_dmg_absorb 99"
 						IfAttr "ea_health <= 0 Block begin"
 							EntFireUser gri_logic,4
 							EntFireUser mission_logic,4

@@ -1,0 +1,5 @@
+"VertexLitGeneric"
+{
+	// Original shader: VertexLitTexture
+	"$basetexture" "models/Weapons/Box_Grenade/Box_Grenade_TearGas"
+}

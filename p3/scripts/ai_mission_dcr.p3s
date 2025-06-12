@@ -3,6 +3,7 @@ Constants
 	Const DCR_NPC_SHOP_CHANSE,10
 	Const DCR_CATS_SUSHI,3
 	Const DCR_CATS_MAX,10
+	Const DCR_SUSHI_TOTAL,10
 }
 
 behavior
@@ -22,6 +23,7 @@ behavior
 					actions
 					{
 						SetAttr "CatsCollected 0,0,DCR_CATS_MAX,on_change_event"
+						SetAttr "SushiLeft DCR_SUSHI_TOTAL,0,DCR_SUSHI_TOTAL,on_change_event"
 						SetAttr "PlayerPath PATH_NONE"
 					}
 				}
@@ -86,6 +88,7 @@ behavior
 						EntFireUser muzak.ambient,1
 						EntFireInput muzak.battle,PlaySound
 						Wait 0.2
+						//MissionLog add_primary,SushiLeft,#P3_DCR_SUSHI_LEFT
 						MissionLog add_primary,SurviveSushi,#P3_DCR_SUSHI_TASK
 						Wait 1.5
 						
@@ -107,12 +110,22 @@ behavior
 						Block end
 					}
 				}
+				
+				xpt_SushiDead
+				{
+					actions
+					{
+					ChangeAttr "SushiLeft -1"
+					ExecutePattern st_util.xpt_RefreshTask
+					}
+				}
 			}
 			events
 			{
 				OnFire_CatPicked	"ChangeAttr CatsCollected 1"
 				OnFire_CatThrown	"ChangeAttr CatsCollected -1"
 				OnAttrChange_CatsCollected "ExecutePattern .xpt_CatsCollectedChange"
+				OnFire_SushiDead	"ExecutePattern .xpt_SushiDead"
 				OnPlayerIn				"SetAttr PlayerUnderground 1"
 				OnPlayerOut				"RemoveAttr PlayerUnderground"
 				
@@ -179,6 +192,20 @@ behavior
 					actions
 					{
 						MissionLog add_primary,CollectCats,#P3_DCR_MAIN_TASK
+						IfAttr "SushiSpawned == 1 Block begin"
+							MissionLog add_primary,SushiLeft,#P3_DCR_SUSHI_LEFT
+							
+							IfAttr "SushiLeft <= 0 Block Begin"
+								EntFireInput "npc_spawner_sushi_m,disable"
+								EntFireInput "npc_spawner_sushi_r,disable"
+								MissionLog done,SushiLeft
+								MissionLog done,SurviveSushi
+								EntFireInput muzak.battle,FadeOut:2
+								EntFireUser muzak.ambient,2
+								TargetPlayer 1
+								SetAttr "UP_CHECKPOINT 1"
+							Block End
+						Block End
 					}
 				}
 			}
@@ -797,6 +824,18 @@ behavior
 						ExecutePattern bh_base:st_start.xpt_combat
 					}
 				}
+				xpt_FirstRun
+				{
+					actions
+					{
+						SpawnItem "spawner_melee_weapon_jen,owner,hand_right"
+						TargetItem 1
+						FireEvent ImOwner
+						TargetToMem 7
+						ResetTarget 1
+						ExecutePattern bh_base:st_start.xpt_FirstRun
+					}
+				}
 			}
 		}
 		
@@ -894,6 +933,23 @@ behavior
 						IfAttr "Timer:tCanSay > 0 Return 1"
 						Say POSTAL,SEECATPOACHER
 						Timer tCanSay,5:3
+					}
+				}
+			}
+		}
+		
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetFromMem msGP
+						FireEvent SushiDead
+						ExecutePattern bh_base:st_deactivate.pt_default
 					}
 				}
 			}
