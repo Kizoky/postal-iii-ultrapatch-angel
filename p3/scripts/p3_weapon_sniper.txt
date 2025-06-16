@@ -22,7 +22,7 @@ WeaponData
 
 	"fire_rate1"			"1.75"
 	"clip_size"				"5"
-	"primary_ammo"			"M16"
+	"primary_ammo"			"Sniper"
 	
 	"SecondaryMinDamage"	"175"
 	"SecondaryMaxDamage"	"225"

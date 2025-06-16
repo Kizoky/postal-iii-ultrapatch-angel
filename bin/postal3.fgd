@@ -784,6 +784,24 @@
 			AmmoAmount:"8"
             GiveWeapon:""
 		]
+		12 : "Sniper" = 
+		[
+			model: "models/weapons/box_grenade/ammo_Sniper.mdl"
+			item_prefab: 0
+			Type: 0
+			Ammo: "Sniper"
+			AmmoAmount:"20"
+            GiveWeapon:""
+		]
+		13 : "TearGas" = 
+		[
+			model: "models/weapons/box_grenade/ammo_teargas.mdl"
+			item_prefab: 0
+			Type: 0
+			Ammo: "TearGas"
+			AmmoAmount:"8"
+			GiveWeapon:"p3_weapon_teargas"
+		]
 	]
 	//Ammo(string) : "Ammo" : "DesertEagle" : "M16" : "M60" : "Taser" 
 	Ammo(choices) : "Ammo" : "DesertEagle" =
@@ -2158,6 +2176,7 @@
 		1 : "Grenade" = 
 		[
 			model: "models/weapons/box_grenade/box_grenade.mdl"
+			Skin: 0
 			AmmoName: "Grenade"
 			GiveWeapon:"p3_weapon_grenade"
 			AmmoAmount:5
@@ -2183,10 +2202,18 @@
 			GiveWeapon:"p3_weapon_catnip"
 			AmmoAmount:99
 		]
+		5 : "TearGas" = 
+		[
+			model: "models/weapons/box_grenade/box_grenade.mdl"
+			Skin: 1
+			AmmoName: "TearGas"
+			GiveWeapon:"p3_weapon_teargas"
+			AmmoAmount:5
+		]
 	]
 
     model(studio) : "Model"
-	
+	skin(integer) : "Skin" : 0 : "Some models have multiple versions of their textures, called skins. Set this to a number other than 0 to use that skin instead of the default."
 	AmmoName(string) : "AmmoName" : "Grenade"	
 	GiveWeapon(string) : "GiveWeapon" : ""
 	AmmoAmount(integer) : "AmmoAmount" : 5
