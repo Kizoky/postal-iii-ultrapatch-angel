@@ -26,6 +26,9 @@
         2: "M16"
         3: "M60"
 		4: "Shotgun"
+		5: "Colt"
+        6: "M249"
+		7: "Sniper"
 	]
 
     FireBursts(choices) : "Fire Bursts" : 0 : "If 'No' shooting will be proceed continuously" =
@@ -301,6 +304,9 @@
 			"p3_weapon_photocam" : "Ranged: PhotoCamera"
 			"p3_weapon_tvcam" : "Ranged: TVCamera"
 			"p3_weapon_gasoline" : "Ranged: Gasoline"	
+			"p3_weapon_colt" : "Ranged: Colt"
+			"p3_weapon_m249" : "Ranged: M249"
+			"p3_weapon_sniper" : "Ranged: Sniper"
  		"0"  : "Nothing"
  	]
  	
@@ -1625,6 +1631,10 @@
 @PointClass base(Weapon) studio("models/weapons/beenest/beenest.mdl") = p3_weapon_beenest : "Beenest" []
 @PointClass base(Weapon) studio("models/weapons/grenade/grenade_krotchi.mdl") = p3_weapon_crotchy_grenade : "CrotchyGrenade" []
 @PointClass base(Weapon) studio("models/weapons/Pepperspray/Pepperspray_01.mdl") = p3_weapon_spray : "Pepperspray" []
+@PointClass base(Weapon) studio("models/weapons/deagle/Colt.mdl") = p3_weapon_colt : "Colt" []
+@PointClass base(Weapon) studio("models/weapons/m249/m249_uni.mdl") = p3_weapon_m249 : "M249" []
+@PointClass base(Weapon) studio("models/weapons/sniper/sniper.mdl") = p3_weapon_sniper : "Sniper" []
+@PointClass base(Weapon) studio("models/weapons/grenade/tear_gas.mdl") = p3_weapon_teargas : "TearGas" []
 @PointClass base(Weapon) studio("models/weapons/grenade/grenade_01.mdl") = p3_weapon_flashbang_projectile : "Flashbang"
 [
 	Timer(float) : "Detonation timer" : -1
