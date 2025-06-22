@@ -20,7 +20,7 @@ v1.2.0:
 * You can now fire with any weapon while jumping/in air
 * You can now kick while jumping/in air
 + Made the HUD's color customizable via scripting
-+ Ultrapatch (Angel) is now compatible with all copies of Postal 3
++ Ultrapatch Angel is now compatible with all copies of Postal 3
 * Fixed Player camera in Demo playback not working
 + Added Colt
 + Added Autoshotgun
@@ -45,7 +45,7 @@ this will not work as is and will require slightly rewriting the NPCs AI (the on
 + Added `-novid` startup parameter, completely skips intro videos playing on main menu
 + Intro/credits videos can now be skipped
 * `p3_cam_shake` will no longer disable quake effects
-+ Added `[HIDDEN]` metadata for AngelScript, allows certain methods or classes to be completely hidden from autocompletion
++ Added `[HIDDEN]` metadata for AngelScript, allows certain methods or classes to be completely hidden from console autocompletion
 + Added `[EXECUTABLE]` metadata for AngelScript, allows methods to be executable even if cheats is not on
 + Added Discord RPC, shows current map, current mission, current karma, and so on...
 + Made `CTakeDamageInfo` a proper value type, rather than a pointer/ref type in AngelScript
@@ -58,6 +58,7 @@ they will still call into hardcoded damage functions, they'll soon be scriptifie
 + Added `-disablevideo` param to completely disable playing videos (intro, cutscenes, etc.), like during demos
 * Fixed camera entities being broken like for example `func_monitor`
 + Added `SEngine OnEntitySpawn` hook, calls before the entity is being spawned (giving a chance to modify/or even delete entities/or etc.)
+* Fixed Ultrapatch Angel not working on non-Windows operating systems (like Linux or other Unix OSes, making it compatible with devices like Steam Deck)
 
 MULTIPLAYER RELATED:
 ====================
