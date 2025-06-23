@@ -1,6 +1,6 @@
 ANGEL CHANGES:
 ==============
-v1.2.0:
+v1.3.0: (Note: skipped version v1.2.0 on purpose)
 
 * Fixed possible AS crash on server-side
 * Fixed Door's parent entities not disappearing when destroyed
@@ -62,7 +62,7 @@ they will still call into hardcoded damage functions, they'll soon be scriptifie
 
 MULTIPLAYER RELATED:
 ====================
-v1.2.0 (Multiplayer changes):
+v1.3.0 (Multiplayer changes):
 
 * Fixed various crashes
 * Respawn lines are no longer being spammed
