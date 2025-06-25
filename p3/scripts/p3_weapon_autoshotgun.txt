@@ -5,8 +5,8 @@ WeaponData
 	// Weapon data is loaded by both the Game and Client DLLs.
 	"ID"				"shotgun"
 	"printname"				""
-	"viewmodel"				"models/weapons/shotgun/shotgun_uni.mdl"
-	"playermodel"			"models/weapons/shotgun/shotgun_uni.mdl"
+	"viewmodel"				"models/weapons/streetsweeper/streetsweeper_uni.mdl"
+	"playermodel"			"models/weapons/streetsweeper/streetsweeper_uni.mdl"
 	"anim_prefix"			"deagle"
 	"bucket"				"3"
 	"bucket_position"		"3"
@@ -14,7 +14,7 @@ WeaponData
 	"bucket_position_360"	"1"
 	"recoil"				"4"
 
-	"clip_size"				"8"
+	"clip_size"				"12"
 	"primary_ammo"			"Buckshot"
 	"secondary_ammo"		"None"
 
