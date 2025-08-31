@@ -1,14 +1,14 @@
 ANGEL CHANGES:
 ==============
-v1.3.0: (Note: skipped version v1.2.0 on purpose)
+v1.3.0: (Note: skipped version v1.2.0 on purpose, consider Ultrapatch+Angel v1.3.0 to be the main version of Ultrapatch from now on)
 
-* Fixed possible AS crash on server-side
+* AngelScript: Fixed possible crash on server-side
 * Fixed Door's parent entities not disappearing when destroyed
-* AngelScript global function "Teleport" now uses the same spot check like Multiplayer spawn spot checking
+* AngelScript: global function "Teleport" now uses the same spot check like Multiplayer spawn spot checking
 * Added a bunch of null checks for the Fluids Manager to prevent crashes (Gasoline)
 * Fixed black screen flashing whenever something spawned (sv_forcepreload 0)
 * Fixed a bug where the save/restore system of AngelScript would be broken if you recompiled the scripts on the fly
-* Fixed memory leaks in AngelScript
+* AngelScript: Fixed memory leaks
 + Added `ImAThrowableWeapon` P3S attribute
 + Added `ImASprayWeapon` P3S attribute
 + Added `ImAMeleeWeapon` P3S attribute
@@ -34,10 +34,10 @@ v1.3.0: (Note: skipped version v1.2.0 on purpose)
 + Added `ea_NoTargetSenses` for NPCs, when set the NPCs will no longer set the FSM target automatically when choosing a target for seeing, instead it will be set as the FSM Caller  
 this will not work as is and will require slightly rewriting the NPCs AI (the one Akella/TM wrote)
 
-+ Added `bool CP3SObj::IsDeleted()`, checks if a Postal3Script object has been already destroyed/deleted/destructed (it is recommended to use this if you encounter frequent crashes)
-+ Added `bool CP3SObj::IsValid()`, calls `IsDeleted()` and checks if the object has been marked as destroyed (acts as a combination of `bool CBaseEntity::IsDeleted()` and `bool CP3SObj::IsDeleted()`)
-* Fixed AngelScript serialization (saving script state to save file) being utterly broken
-* Fixed EHANDLE object inside AngelScript crashing the game if game has been saved
++ AngelScript: Added `bool CP3SObj::IsDeleted()`, checks if a Postal3Script object is null (internally)
++ AngelScript: Added `bool CP3SObj::IsValid()`, calls `IsDeleted()` and checks if the object has been marked as destroyed (acts as a combination of `bool CBaseEntity::IsDeleted()` and `bool CP3SObj::IsDeleted()`)
+* AngelScript: Fixed serialization (saving script state to save file) being utterly broken
+* AngelScript: Fixed EHANDLE object crashing the game if game has been saved
 * Fixed several Addon System crashes/issues
 + Added FPS camera, use `p3_ultrapatch_cam_fps_toggle` to toggle between TPS and FPS
 - PhysX is no longer functional, and thus has been removed (There are no plans bringing it back)
@@ -45,20 +45,43 @@ this will not work as is and will require slightly rewriting the NPCs AI (the on
 + Added `-novid` startup parameter, completely skips intro videos playing on main menu
 + Intro/credits videos can now be skipped
 * `p3_cam_shake` will no longer disable quake effects
-+ Added `[HIDDEN]` metadata for AngelScript, allows certain methods or classes to be completely hidden from console autocompletion
-+ Added `[EXECUTABLE]` metadata for AngelScript, allows methods to be executable even if cheats is not on
++ AngelScript: Added `[HIDDEN]` metadata, allows certain methods or classes to be completely hidden from console autocompletion
++ AngelScript: Added `[EXECUTABLE]` metadata, allows methods to be executable even if cheats is not on
 + Added Discord RPC, shows current map, current mission, current karma, and so on...
-+ Made `CTakeDamageInfo` a proper value type, rather than a pointer/ref type in AngelScript
-+ Hurt function hooks now require `(const CTakeDamageInfo& <name>)` to work
-+ Hurt functions can now override the Damage Info by simply having the function *return* the variable  
++ AngelScript: Made `CTakeDamageInfo` a proper value type, rather than a pointer/ref type
++ AngelScript: Hurt function hooks now require `(const CTakeDamageInfo& <name>)` to work
++ AngelScript: Hurt functions can now override the Damage Info by simply having the function *return* the variable  
 they will still call into hardcoded damage functions, they'll soon be scriptified
-+ Added console command `wj_angelscript_exec_owner`, same as `wj_angelscript_exec` but the console executioner will be the script owner
-+ The following entities now also have base entity functions: `CParticleSystem`, `CP3Weapon`, `CWJProp`, `CP3Player` - eliminating the need to manually cast
-* Optimized a little bit the class+function execution code of AngelScript
++ AngelScript: Added console command `wj_angelscript_exec_owner`, same as `wj_angelscript_exec` but the console executioner will be the script owner
++ AngelScript: The following entities now also have base entity functions: `CParticleSystem`, `CP3Weapon`, `CWJProp`, `CP3Player` - eliminating the need to manually cast
+* AngelScript: Optimized a little bit the class+function execution code
 + Added `-disablevideo` param to completely disable playing videos (intro, cutscenes, etc.), like during demos
 * Fixed camera entities being broken like for example `func_monitor`
-+ Added `SEngine OnEntitySpawn` hook, calls before the entity is being spawned (giving a chance to modify/or even delete entities/or etc.)
++ AngelScript: Added `SEngine OnEntitySpawn` hook, calls before the entity is being spawned (giving a chance to modify/or even delete entities/or etc.)
 * Fixed Ultrapatch Angel not working on non-Windows operating systems (like Linux or other Unix OSes, making it compatible with devices like Steam Deck)
+* Fixed P3S Weapon Base pointer pointing to the P3S entity itself, and not the weapon it was attached to
++ AngelScript: Added Global function atoi
++ AngelScript: Added Global function atof
++ AngelScript: Added Vector2D
+* Fixed cutscene camera "blinking" whenever active camera was disabled
+* AngelScript+Internal: Fixed being able to detach weapons from the Player like emptyhands, weemote, and matches
+* AngelScript+Internal: Fixed active weapon glued to the Player when detached
+* AngelScript: Fixed CP3Player::GiveAmmo using wrong function to call causing it to always crash the VM
++ AngelScript: Exposed most of CBaseCombatCharacter functions inside CBaseCombatCharacter@
++ AngelScript: Exposed most of CBaseCombatWeapon functions inside CBaseCombatWeapon@
++ AngelScript: Exposed most of CBasePlayer functions inside CBasePlayer@
+* AngelScript+Internal: Fixed dropped weapons being invisible
+* Fixed game crashing due to P3S pointer dingling around while destroyed and trying to access it (Affected NPCs only)
++ AngelScript: Added internal docs for classes, functions and methods
+* AngelScript: Upgraded library from 2.35.1 to 2.38.0
+* AngelScript: Fixed cache bugs, and improved efficiency
++ Added console command `p3_ultrapatch_ik`, controls whether IK is enabled for Players and NPCs or not. Helps with Multiplayer a bit. (by default it is 1)
++ Restored some functionality of the cut Inventory system (use, drop; partially ported from Catharsis Reborn)
++ Added automatic inventory item creation system (for addons: `p3/addons/<name>/scripts/<name>_inventory.txt`  
+look inside `p3/scripts/ultrapatch/p3_ultrapatch_inventory.txt` for example  
+* AngelScript: All console errors now start after AngelScript has (un)successfully compiled
+* AngelScript: global function `GetCrosshair` now returns `CBaseEntity@` rather than `CP3SObj@`
+
 
 MULTIPLAYER RELATED:
 ====================

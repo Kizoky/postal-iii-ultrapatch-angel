@@ -1,0 +1,67 @@
+// Baseball bat
+
+WeaponData
+{
+	// Weapon data is loaded by both the Game and Client DLLs.
+	"ID"				"machete"
+	"printname"				""
+	"viewmodel"				"models/weapons/machete/v_machete.mdl"
+	"playermodel"			"models/weapons/machete/machete.mdl"
+	"anim_prefix"			"bat"
+	"bucket"				"2"
+	"bucket_position"		"4"
+	"bucket_360"			"2"
+	"bucket_position_360"	"4"
+
+	"meleeweapon"			"1"
+
+	"weight"				"2"
+	"rumble"				"1"
+	"item_flags"			"0"
+
+    "autoswitchfrom"          "1"
+    
+    "weapon_type"           "melee"
+	
+	"PrimaryMinDamage"		"50"
+	"PrimaryMaxDamage"		"65"
+	
+	"shake_screen"	"1"
+	"screen_shake_amplitude"	"3"
+	"screen_shake_frequency"	"25"
+	"screen_shake_duration"	"0.2"
+
+	"SecondaryMinDamage"	"150"
+	"SecondaryMaxDamage"	"150"
+	
+	"NPCMinDamage"		"25"
+	"NPCMaxDamage"		"35"
+
+	// Sounds for the weapon. There is a max of 16 sounds per category (i.e. max 16 "single_shot" sounds)
+	SoundData
+	{
+		"single_shot"		"Weapon_Machete.Swing"
+		"melee_miss"		"Weapon_Machete.Miss"
+		"melee_hit"			"Weapon_Machete.Hit"
+		"melee_hit_world"	"Weapon_Machete.HitWorld"
+		"deploy"			"Weapon_Machete.Deploy"
+		"holster"			"Weapon_Machete.Holster"
+	}
+
+	// Weapon Sprite data is loaded by the Client DLL.
+	TextureData
+	{
+		"weapon"
+		{
+				"file"		"sprites/machete"
+				"width"		"128"
+				"height"	"128"
+		}
+		"weapon_small"
+		{
+				"file"		"sprites/weapon_small_icons/machete"
+				"width"		"128"
+				"height"	"128"
+		}
+	}
+}

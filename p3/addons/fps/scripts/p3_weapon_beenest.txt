@@ -1,0 +1,61 @@
+// Pistol
+
+WeaponData
+{
+	// Weapon data is loaded by both the Game and Client DLLs.
+	"ID"				"beenest"
+	"printname"				""
+	"viewmodel"				"models/weapons/grenade/v_grenade_frag.mdl"
+	"playermodel"			"models/weapons/beenest/beenest.mdl"
+	"anim_prefix"			"deagle"
+	"bucket"				"1"
+	"bucket_position"		"4"
+	"bucket_360"			"1"
+	"bucket_position_360"	"4"
+
+	"clip_size"				"-1"
+	"primary_ammo"			"Beehive"
+	"secondary_ammo"		"None"
+	
+	"default_clip"			"1"
+
+	"autoswitchfrom"		"1"
+
+	"weight"				"2"
+	"rumble"				"1"
+	"item_flags"			"0"
+
+	"fire_effect"			"M60_Fire_Fx"
+	"fire_rate1"			"0.1"
+
+	"weapon_type"			"animal"
+
+	// Sounds for the weapon. There is a max of 16 sounds per category (i.e. max 16 "single_shot" sounds)
+	SoundData
+	{
+		"deploy"			"Weapon_KillerBees.Deploy"
+	}
+
+	// Weapon Sprite data is loaded by the Client DLL.
+	TextureData
+	{
+		"weapon"
+		{
+				"file"		"sprites/bees"
+				"width"		"128"
+				"height"	"128"
+		}
+		"weapon_s"
+		{
+				"file"		"sprites/bees_s"
+				"width"		"128"
+				"height"	"128"
+		}
+		"weapon_small"
+		{
+				"file"		"sprites/weapon_small_icons/bees"
+				"width"		"128"
+				"height"	"128"
+		}
+	}
+}

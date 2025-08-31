@@ -1,10 +1,10 @@
 Ultrapatch+Angel uses some Third Party code to help make Postal 3 suck less.
-Here are all the third party code (link and along with license) that was used:
+Here are all the third party code (link and along with license) that were used:
 
 ************************************************************************************
 AngelCode Scripting Library (https://www.angelcode.com/angelscript/)
 ************************************************************************************
-Copyright © 2003-2024 Andreas Jönsson
+Copyright © 2003-2025 Andreas Jönsson
 
 This software is provided 'as-is', without any express or implied warranty. In no event will the authors be held liable for any damages arising from the use of this software.
 

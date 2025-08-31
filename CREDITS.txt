@@ -14,5 +14,5 @@ Made with love by core members of the Whackjob Interactive devteam!
 
 SPECIAL THANKS:
 ===============
-- MeeMdic: Russian localization improvements and weapon icons!
+- MeeMdic: Russian localization improvements, weapon icons, First Person animations and models!
 - Professor Skuf: Rigorous testing and bug reporting!

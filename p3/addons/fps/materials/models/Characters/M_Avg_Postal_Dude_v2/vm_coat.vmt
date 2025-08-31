@@ -1,0 +1,19 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Characters/M_Avg_Postal_Dude_v2/Postal_Dude_body_APEX"
+	"$bumpmap" "models/Characters/M_Avg_Postal_Dude_v2/vm_coat_normal"
+	"$model" "1"
+	"$halflambert" "1"
+
+
+	"$phong" "1"
+	"$phongexponent" "10"
+	"$phongboost"	"1.5"
+//	"$phongexponenttexture" "models/Characters/M_Avg_Postal_Dude/Postal_Dude_body_mask"
+	"$phongfresnelranges"	"[0.2 0.5 1.0]"
+
+	"$rimlight" "1"
+	"$rimlightboost" "1.0"
+//	"$rimlightexponent" "models/Characters/M_Avg_Postal_Dude/Postal_Dude_body_mask"
+//	"$lightwarptexture" "models/tmp_pers/lightwarptexture"
+}

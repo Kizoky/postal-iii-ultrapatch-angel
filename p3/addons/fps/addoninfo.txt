@@ -1,0 +1,7 @@
+"AddonInfo"	{
+	addontitle			"FPS"
+	addonauthor			"MeeMdic"
+	addonversion		"0.1"
+	addonDescription	"viewmodels"
+	addonlink			"https://gamebanana.com/mods/535387"
+}

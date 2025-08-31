@@ -1,0 +1,73 @@
+// Shovel
+
+WeaponData
+{
+	// Weapon data is loaded by both the Game and Client DLLs.
+	"ID"				"fireaxe"
+	"printname"				""
+	"viewmodel"				"models/weapons/Fire_Axe/v_fire_axe.mdl"
+	"playermodel"			"models/weapons/Fire_Axe/Fire_Axe_01.mdl"
+	"anim_prefix"			"bat"
+	"bucket"				"2"
+	"bucket_position"		"5"
+	"bucket_360"			"2"
+	"bucket_position_360"	"5"
+
+	"meleeweapon"			"1"
+
+	"weight"				"2"
+	"rumble"				"1"
+	"item_flags"			"0"
+
+	"weapon_type"			"melee"
+	
+	"PrimaryMinDamage"		"140"
+	"PrimaryMaxDamage"		"140"
+
+	"SecondaryMinDamage"	"140"
+	"SecondaryMaxDamage"	"140"
+	
+	"shake_screen"	"1"
+	"screen_shake_amplitude"	"3"
+	"screen_shake_frequency"	"25"
+	"screen_shake_duration"	"0.2"
+
+	// Sounds for the weapon. There is a max of 16 sounds per category (i.e. max 16 "single_shot" sounds)
+	SoundData
+	{
+		"single_shot"		"Weapon_Hammer.Swing"
+		"melee_miss"		"Weapon_Hammer.Miss"
+		"melee_hit"			"Weapon_Hammer.Hit"
+		"melee_hit_world"	"Weapon_Hammer.HitWorld"
+		"deploy"			"Weapon_Hammer.Deploy"
+		"holster"			"Weapon_Hammer.Holster"
+	}
+
+	// Weapon Sprite data is loaded by the Client DLL.
+	TextureData
+	{
+		"weapon"
+		{
+				"file"		"sprites/Fire_Axe"
+				"width"		"128"
+				"height"	"128"
+		}
+		"weapon_s"
+		{
+				"file"		"sprites/Fire_Axe_s"
+				"width"		"128"
+				"height"	"128"
+		}
+		"weapon_small"
+		{
+			"file"		"sprites/weapon_small_icons/Fire_Axe"
+			"width"		"128"
+			"height"	"128"
+		}
+		"ammo"
+		{
+				"font"		"WeaponIconsSmall"
+				"character"	"p"
+		}
+	}
+}

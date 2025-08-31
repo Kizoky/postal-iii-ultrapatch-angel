@@ -1,0 +1,24 @@
+
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Characters/m_avg_postal_dude_v2/Postal_Dude_Swat_body"
+	//"$basetexture" "models/gray"
+	"$bumpmap" "models/Characters/M_Avg_Postal_Dude_v2/Postal_Dude_Swat_body_normal"
+	"$normalmapalphaphongmask" "1"
+//	"$nocull" "1" // не нужно для физического плаща!
+	"translucent" "01"
+	"$model" "4"
+	"$halflambert" "3"
+
+
+	"$phong" "1"
+	"$phongexponent" "10"
+	"$phongboost"	"1.5"
+//	"$phongexponenttexture" "models/Characters/M_Avg_Postal_Dude/Postal_Dude_body_mask"
+	"$phongfresnelranges"	"[0.2 0.5 1.0]"
+
+	"$rimlight" "1"
+	"$rimlightboost" "0.5"
+//	"$rimlightexponent" "models/Characters/M_Avg_Postal_Dude/Postal_Dude_body_mask"
+//	"$lightwarptexture" "models/tmp_pers/lightwarptexture"
+}

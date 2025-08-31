@@ -1,0 +1,102 @@
+// Pistol
+
+WeaponData
+{
+	// Weapon data is loaded by both the Game and Client DLLs.
+	"ID"				"m16"
+	"printname"				""
+	"viewmodel"				"models/weapons/m16/v_m16.mdl"
+	"playermodel"			"models/weapons/m16/m16_uni.mdl"
+	"anim_prefix"			"m16"
+	"bucket"				"3"
+	"bucket_position"		"4"
+	"bucket_360"			"3"
+	"bucket_position_360"	"4"
+	"recoil"				"5"
+
+	"clip_size"				"30"
+	"primary_ammo"			"M16"
+	"secondary_ammo"		"None"
+
+	"weight"				"2"
+	"rumble"				"1"
+	"item_flags"			"0"
+
+	"fire_effect"			"Handgun_Fire_Fx"
+	"fire_rate1"			"0.1"
+	
+	"PrimaryMinDamage"	"10"
+	"PrimaryMaxDamage"	"15"
+	
+	"shake_screen"	"1"
+	"screen_shake_amplitude"	"3"
+	"screen_shake_frequency"	"25"
+	"screen_shake_duration"	"0.2"
+	
+	"NPCMinDamage"			"2"
+	"NPCMaxDamage"			"2"
+
+	"weapon_type"			"ranged"
+
+	// Sounds for the weapon. There is a max of 16 sounds per category (i.e. max 16 "single_shot" sounds)
+	SoundData
+	{
+		"empty"				"Weapon_M16.Empty"
+		"single_shot"		"Weapon_M16.Single"
+		"single_shot_npc"	"Weapon_M16.Single"
+		//"double_shot"
+		//"double_shot_npc"
+		//"burst"
+		"reload"			"Weapon_M16.Reload"
+		"reload_npc"		"Weapon_M16.Reload"
+		//"melee_miss"
+		//"melee_hit"
+		//"melee_hit_world"
+		"special1"			"Weapon_M16.CatSilencerOn"
+		"special2"			"Weapon_M16.CatFire"
+		//"special3"
+		//"taunt"
+		"holster"			"Weapon_M16.Holster"
+		"deploy"			"Weapon_M16.Deploy"
+	}
+	
+	JointlyUseabilityData
+	{		
+		"jointly_weapon"		"p3_weapon_cat"
+	}
+
+	// Weapon Sprite data is loaded by the Client DLL.
+	TextureData
+	{
+		"weapon"
+		{
+				"file"		"sprites/m16"
+				"width"		"128"
+				"height"	"128"
+		}
+		"weapon_small"
+		{
+				"file"		"sprites/weapon_small_icons/m_16"
+				"width"		"128"
+				"height"	"128"
+		}
+		"weapon_jointly"
+		{
+				"file"		"sprites/assign_cats_icon"
+				"width"		"128"
+				"height"	"128"
+		}
+		"weapon_jointly_s"
+		{
+				"file"		"sprites/cats_s"
+				"width"		"128"
+				"height"	"128"
+		}
+		"ammo"
+		{
+				"file"		"sprites/weapon_small_icons/ammo_m16"
+				"width"		"128"
+				"height"	"128"
+		}
+	}
+}

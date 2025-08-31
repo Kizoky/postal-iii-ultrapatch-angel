@@ -1,0 +1,128 @@
+// Pistol
+
+WeaponData
+{
+	// Weapon data is loaded by both the Game and Client DLLs.
+	"ID"				"deserteagle"
+	"printname"				""
+	"viewmodel"				"models/weapons/deagle/v_dEagle.mdl"
+	"playermodel"			"models/weapons/deagle/dEagle.mdl"
+	"anim_prefix"			"deagle"
+	"bucket"				"3"
+	"bucket_position"		"1"
+	"bucket_360"			"3"
+	"bucket_position_360"	"0"
+
+	"recoil"				"15"
+
+	"clip_size"				"7"
+	"primary_ammo"			"DesertEagle"
+	"secondary_ammo"		"None"
+
+	"weight"				"2"
+	"rumble"				"1"
+	"item_flags"			"0"
+
+	"fire_effect"			"Small_Handgun_Fire_Fx"
+
+	"fire_rate1"			"0.8"
+	"fire_rate2"			"0.8"
+	
+	"PrimaryMinDamage"	"70"
+	"PrimaryMaxDamage"	"75"
+	
+	"shake_screen"	"1"
+	"screen_shake_amplitude"	"4"
+	"screen_shake_frequency"	"25"
+	"screen_shake_duration"	"0.3"
+	
+	"NPCMinDamage"			"35"
+	"NPCMaxDamage"			"40"
+
+// weapon types
+// none							0
+// animal						1
+// gadget						2
+// nonlethal_melee	3
+// nonlethal_ranged	4
+// melee						5
+// ranged						6
+// big_gun					7
+
+	"weapon_type"			"ranged"
+
+	// Sounds for the weapon. There is a max of 16 sounds per category (i.e. max 16 "single_shot" sounds)
+	SoundData
+	{
+		"empty"				"Weapon_DesertEagle.Empty"
+		"single_shot"		"Weapon_DesertEagle.Single"
+		"single_shot_npc"	"Weapon_DesertEagle.Single"
+		//"double_shot"
+		//"double_shot_npc"
+		//"burst"
+		"reload"			"Weapon_DesertEagle.Reload"
+		"reload_npc"		"Weapon_DesertEagle.Reload"
+		//"melee_miss"
+		//"melee_hit"
+		//"melee_hit_world"
+		//"special1"
+		//"special2"
+		//"special3"
+		//"taunt"
+		"holster"			"Weapon_DesertEagle.Holster"
+		"deploy"			"Weapon_DesertEagle.Deploy"
+	}
+
+	// Weapon Sprite data is loaded by the Client DLL.
+	TextureData
+	{
+		"weapon"
+		{
+				"file"		"sprites/pistol"
+				"width"		"128"
+				"height"	"128"
+		}
+		"weapon_s"
+		{
+				"file"		"sprites/pistol_s"
+				"width"		"128"
+				"height"	"128"
+		}
+		"weapon_small"
+		{
+				"file"		"sprites/weapon_small_icons/pistol"
+				"width"		"128"
+				"height"	"128"
+		}
+		"ammo"
+		{
+				"file"		"sprites/weapon_small_icons/ammo_pistol"
+				"width"		"128"
+				"height"	"128"
+		}
+		"crosshair_dot"
+		{
+				"file"		"sprites/aim_dot_02"
+				"width"		"8"
+				"height"	"8"
+		}
+    	"crosshair_arc"
+		{
+				"file"		"sprites/aim_arc_02"
+				"width"		"32"
+				"height"	"32"
+		}
+		"autoaim_dot"
+		{
+				"file"		"sprites/aim_dot_02"
+				"width"		"8"
+				"height"	"8"
+		}
+    	"autoaim_arc"
+		{
+				"file"		"sprites/aim_arc_02"
+				"width"		"32"
+				"height"	"32"
+		}
+	}
+}
