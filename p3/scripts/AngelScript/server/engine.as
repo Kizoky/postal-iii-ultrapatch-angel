@@ -2,6 +2,21 @@
 [HIDDEN]
 class SEngine : IPostal3Script
 {
+	// Before an entity is spawned
+	[HOOK SEngine OnEntitySpawn]
+	void OnEntitySpawn(EHANDLE pEntity)
+	{
+		if (pEntity.IsValid() == false)
+			return;
+		
+		CBaseEntity@ pEnt = pEntity.GetEntity();
+		
+		if (@pEnt == @null)
+			return;
+		
+		// Do whatever you want here with the entity
+	}
+	
 	// entities are created / spawned / precached here
 	[HOOK SEngine LevelInitPostEntity]
 	void LevelInitPostEntity()

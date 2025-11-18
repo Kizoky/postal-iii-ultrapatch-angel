@@ -1,0 +1,40 @@
+// Used as a "vessel", most of the code is inside AngelScript
+// NPC functions won't work here!! - Kizoky
+
+behavior
+{
+	name bh_nextbot
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						// Allow NPCs to target this nextbot
+						SetAttr "active 1"
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+					
+					}
+				}
+			}
+		}
+	}
+}

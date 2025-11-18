@@ -9,151 +9,40 @@ class NPC : IPostal3Script
 	}
 	
 	[HOOK NPC Event_Killed]
-	void Event_Killed(CTakeDamageInfo@ info)
+	void Event_Killed(const CTakeDamageInfo&in info)
 	{
 		
 	}
 	
 	[HOOK NPC OnTakeDamage]
-	void OnTakeDamage(CTakeDamageInfo@ info)
+	void OnTakeDamage(const CTakeDamageInfo&in info)
 	{
-		//Printf("yeah, this hurts\n");
+		//CTakeDamageInfo newInfo(info);
 		
-		// I'm leaving this here as an example, you're welcome! - Kizoky
-		/*
-		if (@self == null)
-			return;
-		if (!info.GetAttacker())
-			return;
+		//Printf("'%f'\n", info.GetDamage());
 		
-		self.SetAttr("lastattacker_id", info.GetAttacker().GetEntIndex());
-		*/
+		//newInfo.SetDamage(0);
+		
+		//return newInfo;
 	}
 	
 	[HOOK NPC OnTakeDamage_Alive]
-	void OnTakeDamage_Alive(CTakeDamageInfo@ info)
+	void OnTakeDamage_Alive(const CTakeDamageInfo&in info)
 	{
 		//OnTakeDamage(info);
 		//Printf("OnTakeDamage_Alive()\n");
 	}
 	
 	[HOOK NPC OnTakeDamage_Dying]
-	void OnTakeDamage_Dying(CTakeDamageInfo@ info)
+	void OnTakeDamage_Dying(const CTakeDamageInfo&in info)
 	{
 		//OnTakeDamage(info);
 		//Printf("OnTakeDamage_Dying()\n");
 	}
 	
 	[HOOK NPC Event_Unconscious]
-	void Event_Unconscious(CTakeDamageInfo@ info)
+	void Event_Unconscious(const CTakeDamageInfo&in info)
 	{
 		
 	}
-	
-	// I'm leaving this here as an example, you're welcome! - Kizoky
-	/*
-	void HandleInfighting()
-	{
-		CP3SObj@ attacker = self.GetAttacker();
-		if (@attacker == null)
-			return;
-		
-		bool bCop = (self.IsHuman() && self.GetAttr("cr_imacop") == 1);
-		bool bAttackerCop = (attacker.IsHuman() && attacker.GetAttr("cr_imacop") == 1);
-		bool bAttackerPlayer = attacker.IsPlayer();
-		bool bAttackerNPC = attacker.IsNPC();
-		
-		if (bAttackerPlayer)
-			bAttackerCop = (attacker.GetAttr("cr_copoutfit") == 1);
-			
-		// Attacker was a player
-		if (bAttackerPlayer)
-		{
-			// I'm a cop
-			if (bCop)
-			{
-				// Player is not a cop
-				if (!bAttackerCop)
-				{
-					// Alert cops to attack the Player
-					AlertCops(self, attacker);
-					
-					if (attacker.GetWanted() <= 0)
-						attacker.AddWanted(1);
-					else
-						attacker.AddWanted(0);
-				}
-				
-				self.SetEnemy(attacker);
-				self.SetTarget(attacker);
-				self.State("st_judgementfailSRC");
-			}
-			// I'm NOT a cop
-			else
-			{
-				// Player is not a cop
-				if (!bAttackerCop)
-				{
-					// Alert cops to attack the Player
-					AlertCops(self, attacker);
-					
-					// Join the fray too!
-					if (self.HasAnyWeapon())
-					{
-						self.SetEnemy(attacker);
-						self.FireEvent("OnHitHostile", attacker);
-					}
-				}
-				// Police brutality ensues
-				else
-				{
-					AlertCops(self, self);
-					
-					// No one gets to kill me for no reason!
-					if (self.HasAnyWeapon())
-					{
-						self.SetEnemy(attacker);
-						self.FireEvent("OnHitHostile", attacker);
-					}
-				}
-			}
-		}
-		// Attacker was an NPC
-		else if (bAttackerNPC)
-		{
-			// I'm a cop
-			if (bCop)
-			{
-				// Attacker is NOT a cop
-				if (!bAttackerCop)
-				{
-					AlertCops(self, attacker);
-					
-					self.SetEnemy(attacker);
-					self.SetTarget(attacker);
-					self.State("st_judgementfailSRC");
-				}
-				// Attacker WAS a cop
-				else
-				{
-					// TODO: I'm honestly not sure if this is ok
-					self.SetEnemy(attacker);
-					self.SetTarget(attacker);
-					self.State("st_judgementfailSRC");
-				}
-			}
-			// I'm NOT a cop
-			else
-			{
-				if (!bAttackerCop)
-					AlertCops(self, attacker);
-				else
-					AlertCops(self, self);
-				
-				self.SetEnemy(attacker);
-				self.FireEvent("OnHitHostile", attacker);
-			}
-		}
-	}
-	*/
 }

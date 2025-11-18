@@ -22,6 +22,13 @@ class Player : IPostal3Script
 
 	}
 	
+	//[HOOK Player TranslateActivity]
+	//Activity TranslateActivity(Activity idealActivity)
+	//{
+	//	// No override
+	//	return idealActivity;
+	//}
+	
 	[HOOK Player OnTakeDamage]
 	void OnTakeDamage(CTakeDamageInfo@ info)
 	{

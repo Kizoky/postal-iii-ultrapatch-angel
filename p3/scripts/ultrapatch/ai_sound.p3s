@@ -1,0 +1,36 @@
+behavior
+{
+	name bh_sound
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						// Init
+						AngelScript "Object:self CP3SSound Init"
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+					}
+				}
+			}
+		}
+	}
+}

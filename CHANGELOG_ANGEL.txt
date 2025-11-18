@@ -2,6 +2,27 @@ ANGEL CHANGES:
 ==============
 v1.3.0: (Note: skipped version v1.2.0 on purpose, consider Ultrapatch+Angel v1.3.0 to be the main version of Ultrapatch from now on)
 
+## Highlights  
+- New features and fixes for the AngelScript implementation
+- New features and fixes for Postal3Script
+- Fixed buggy Door destruction
+- You can now shoot or kick while jumping
+- UltraPatch Angel is now compatible with all copies of Postal 3
+- Experimental Demo playback fix (Sound is working, Camera and the Player model are a bit wonky)
+- Added new weapons (Colt, Autoshotgun, M249, Tear Gas)
+- Fixed several crashes and memory corruptions
+- Improved and fixed the Addon System
+- Made PhysX completely non-functional (can't fix it, please don't ask in the future about it)
+- Added FPS camera (p3_ultrapatch_cam_fps_toggle)
+- Added `-novid`, skips intro videos
+- Intro and credits can now be skipped
+- `p3_cam_shake` console command no longer disables quake/explosion effects
+- Added `-disablevideo` to completely disable (cutscene) videos in-game
+- Made `func_monitor` and other such entities work again
+- "Fixed" not being able to shoot while in cover mode sometimes
+- Reimplemented cut Inventory system (very similar to Catharsis Reborn's implementation)
+- Multiplayer fixes and new features like Teams and Spectator mode
+
 * AngelScript: Fixed possible crash on server-side
 * Fixed Door's parent entities not disappearing when destroyed
 * AngelScript: global function "Teleport" now uses the same spot check like Multiplayer spawn spot checking
@@ -81,6 +102,11 @@ they will still call into hardcoded damage functions, they'll soon be scriptifie
 look inside `p3/scripts/ultrapatch/p3_ultrapatch_inventory.txt` for example  
 * AngelScript: All console errors now start after AngelScript has (un)successfully compiled
 * AngelScript: global function `GetCrosshair` now returns `CBaseEntity@` rather than `CP3SObj@`
+* Fixed destroyed/removed ragdolls corrupting the game, eventually leading to awful crashes
++ Added scriptified flames (When NPCs are on fire) (B:bh_flame; M:Flame; F:Effects; I:st_init; S:st_start)
++ Added scriptified sounds (Sound hints from HL2) (B:bh_sound; M:Sound; F:Sound; I:st_init; S:st_start)
+* Removed shoot restriction when covering, you can now shoot at any angle while in cover mode
+* AngelScript: Fixed `CP3SObj` and `CBaseEntity` reporting as not null when they are released in memory
 
 
 MULTIPLAYER RELATED:
