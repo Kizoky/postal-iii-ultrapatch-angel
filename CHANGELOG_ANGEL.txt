@@ -23,6 +23,7 @@ v1.3.0: (Note: skipped version v1.2.0 on purpose, consider Ultrapatch+Angel v1.3
 - Reimplemented cut Inventory system (very similar to Catharsis Reborn's implementation)
 - Multiplayer fixes and new features like Teams and Spectator mode
 - Players and NPCs can now open doors just by simply touching them (no need for trigger brushes anymore)
+- Increased engine model (1024->4096) and sound (8192->16384) precache limits (thanks Grizzle!)
 
 * AngelScript: Fixed possible crash on server-side
 * Fixed Door's parent entities not disappearing when destroyed
@@ -116,6 +117,7 @@ look inside `p3/scripts/ultrapatch/p3_ultrapatch_inventory.txt` for example
 + AngelScript: Added `DoRagdollBoogie` function for `CPhysObj`
 * Postal3Script: `OnTargetKilled` and `OnTargetUnconscious` will now send events to all Postal3Script entities (including non-NPC/Player ones)
 + Added in-game Addon manager
++ Added engine hack made by Grizzle (increased engine model and sound precache limits)
 
 
 MULTIPLAYER RELATED:
