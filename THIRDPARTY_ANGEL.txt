@@ -1,5 +1,5 @@
 Ultrapatch+Angel uses some Third Party code to help make Postal 3 suck less.
-Here are all the third party code (link and along with license) that were used:
+Here are all the third party code (link and along with a license if there is any) that were used:
 
 ************************************************************************************
 AngelCode Scripting Library (https://www.angelcode.com/angelscript/)
@@ -80,3 +80,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+
+************************************************************************************
+P3 engine hack (by Grizzle) https://github.com/flashintv/P3PrecacheIncrease
+************************************************************************************
