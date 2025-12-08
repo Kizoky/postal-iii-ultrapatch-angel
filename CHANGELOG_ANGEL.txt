@@ -8,7 +8,7 @@ v1.3.0: (Note: skipped version v1.2.0 on purpose, consider Ultrapatch+Angel v1.3
 - Fixed buggy Door destruction
 - You can now shoot or kick while jumping
 - UltraPatch Angel is now compatible with all copies of Postal 3
-- Experimental Demo playback fix (Sound is working, Camera and the Player model are a bit wonky)
+- Experimental Demo playback fix (Sound is working, there are some issues with the camera)
 - Added new weapons (Colt, Autoshotgun, M249, Tear Gas)
 - Fixed several crashes and memory corruptions
 - Improved and fixed the Addon System
@@ -22,6 +22,7 @@ v1.3.0: (Note: skipped version v1.2.0 on purpose, consider Ultrapatch+Angel v1.3
 - "Fixed" not being able to shoot while in cover mode sometimes
 - Reimplemented cut Inventory system (very similar to Catharsis Reborn's implementation)
 - Multiplayer fixes and new features like Teams and Spectator mode
+- Players and NPCs can now open doors just by simply touching them (no need for trigger brushes anymore)
 
 * AngelScript: Fixed possible crash on server-side
 * Fixed Door's parent entities not disappearing when destroyed
@@ -107,6 +108,14 @@ look inside `p3/scripts/ultrapatch/p3_ultrapatch_inventory.txt` for example
 + Added scriptified sounds (Sound hints from HL2) (B:bh_sound; M:Sound; F:Sound; I:st_init; S:st_start)
 * Removed shoot restriction when covering, you can now shoot at any angle while in cover mode
 * AngelScript: Fixed `CP3SObj` and `CBaseEntity` reporting as not null when they are released in memory
+* Fixed crash involving ragdolled alive NPCs and explosions/or other types of damage
+* Fixed crash involving NPCs trying to open Doors in their pathfinding (HL2 AI leftover, it was never working properly)
++ NPCs can now open Doors just by simply touching them, eliminating the need for trigger brushes
++ Players can now open Doors just by simply touching them, eliminating the need for trigger brushes
++ AngelScript: Added `GetRagdollPtr()` getter for `CP3SObj`
++ AngelScript: Added `DoRagdollBoogie` function for `CPhysObj`
+* Postal3Script: `OnTargetKilled` and `OnTargetUnconscious` will now send events to all Postal3Script entities (including non-NPC/Player ones)
++ Added in-game Addon manager
 
 
 MULTIPLAYER RELATED:
