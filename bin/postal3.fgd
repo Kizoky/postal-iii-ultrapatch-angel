@@ -900,7 +900,7 @@
 ]
 
 ////////////////////////////////////////////// CITIZEN
-@NPCClass base(p3_npc_human) studio() = p3_npc_citizen : "Citizen"
+@NPCClass base(p3_npc_human,RappelNPC) studio() = p3_npc_citizen : "Citizen"
 [
 	npc_prefab(prefab) : "Prefab NPC----------------------------------------------" : 0 =
 	[
@@ -1389,6 +1389,8 @@
 
     Manner(string) : "Manner" : "Pigeon" : "" 
     Faction(string) readonly : "Faction" : "Animals" : ""
+	SetTrack(string) : "Set track" : "pt_ese" : ""
+    FlyToPathTrack(string) : "Set Fly to Pathtrack" : "pt_ese" : ""
 ]
 
 
