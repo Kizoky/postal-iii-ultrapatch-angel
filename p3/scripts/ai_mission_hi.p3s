@@ -1,0 +1,1543 @@
+Constants
+{
+		//Общее число Талибов
+		//Граница
+	 // Const HI_BORDER_TALIB_TOTAL,4
+	Const HI_BORDER_TALIB_TOTAL,30
+		//Город
+	Const HI_CITY_TALIB_TOTAL,30
+	Const HI_CITY_TALIB_MAX_SPAW,5
+	Const HI_CITIZEN_NON_DEAD,50
+		
+		// Волны убегающих талибов
+	Const HI_BORDER_AMOUNT_WAVES,4
+	Const HI_BORDER_TALIB_WAVE1,6
+	Const HI_BORDER_TALIB_WAVE2,9
+	Const HI_BORDER_TALIB_WAVE3,10
+	Const HI_BORDER_TALIB_WAVE4,5
+	//Const HI_BORDER_TALIB_WAVE1,1
+	//Const HI_BORDER_TALIB_WAVE2,1
+	//Const HI_BORDER_TALIB_WAVE3,1
+	//Const HI_BORDER_TALIB_WAVE4,1		
+		// Время меду автоматически набегающими волнами талибов
+	Const HI_BORDER_TIMER_WAIT_BEFORE_WAVE2,10
+	Const HI_BORDER_TIMER_WAIT_BEFORE_WAVE3,20
+	Const HI_BORDER_TIMER_WAIT_BEFORE_WAVE4,30
+	
+	
+		//Расстояние которое 
+	Const HI_COP_DEFENCE_DISTANCE,400
+	Const HI_TALIB_ATTACK_DISTANCE,1000
+	
+		//Задание дополнительное, нужно чтобы не убежало талибов больше этой константы
+	Const HI_FAIL_TALIBS_RUN,15
+		//Количество не убегающих талибов
+	Const HI_TALIBS_NON_RUN,5
+		//Время устанвки новых бегущих талибов в соотвествии с защищенностью границы
+	Const HI_TALIBS_REFRESH_RUN,5
+		// Количество желающих убежать талибов (в соответсвии с плотностью защиты границы)
+	Const HI_WITH_COP_BORDER_0_TALIB_RUN,2
+	Const HI_WITH_COP_BORDER_1_TALIB_RUN,2
+ 	Const HI_WITH_COP_BORDER_2_TALIB_RUN,1
+	Const HI_WITH_COP_BORDER_3_TALIB_RUN,1
+	
+		//Ненвисть к игроку
+		// Каждый выстрел повышает ненвисть на 1 еденицу
+	Const HI_COP_HARTED,1 
+		// Время, за которое коп успокоится
+	Const HI_COP_HARTED_FREE,3
+}
+
+behavior
+{
+	name bh_mission_mexico
+	inherited bh_mission_logic_base
+	states
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "TalibsBorderAmountLive 0"
+						SetAttr "TalibBorderLeft HI_BORDER_TALIB_TOTAL,0,HI_BORDER_TALIB_TOTAL,on_change_event"
+						SetAttr "TalibBorderRunAway 0,0,HI_CITY_TALIB_TOTAL,on_change_event"
+						//SetAttr "Citizenskilled 0,0,100,on_change_event"
+						SetAttr "TalibBorderRunAwayMission 0,0,HI_FAIL_TALIBS_RUN,on_change_event"
+						//SetAttr "CitizenskilledMission 0,0,HI_CITIZEN_NON_DEAD,on_change_event"
+						
+						
+						SetAttr "TalibBorderDead 0"
+						SetAttr "TalibCityAmountLive 0,0,100,on_change_event"
+						
+						SetAttr "Cops_on_boder 3,0,3"
+						SetAttr "LevelTalibRun 0"
+						SetAttr "TalibWave 0"
+						SetAttr "TimerWave 0"
+						
+						SetAttr "TalibsCanRun 1"
+					
+						SetAttr "PlayerPath PATH_GOOD"
+						SetAttr "PlayerDontKillCop 1"
+					}
+				}
+			}
+		}
+		
+		
+		
+		st_start
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						PlayerKarma show
+						
+						
+						
+						//SetAttr "wavenum 0"
+						
+						//SetAttr "Talibskilled 0,0,100,on_change_event"
+						//SetAttr "Talibspawned 0"
+						////SetAttr "Talibsthrough 0"
+						//SetAttr "Dispatched 0,on_change_event"
+						
+						Pattern pt_mission_one
+					}
+				}
+				pt_mission_one
+				{
+					actions
+					{
+					
+					
+					//MISSION ONE
+						//MissionLog add_primary,main,#P3_MEX_MISSION1_OBJ
+						MissionLog add_primary,TalibBorderLeft,#P3_MEX_PRI_BOREDER_TALIB_LEFT
+						MissionLog add_primary,TalibBorderRunAway,#P3_MEX_PRI_BOREDER_TALIB_RUNAWAY
+						
+						MissionLog add_secondary,DontKillCops,#P3_MEX_SEC_BOREDER_TALIB_DONTKC
+						//MissionLog add_secondary,Citizenskilled,#P3_MEX_SEC_BOREDER_CITIZEN_SURVIVE
+						
+						ShowMessage "#P3_MEX_MISSION1"
+						
+						SetAttr "TalibWave 0"
+						Timer TalibsAcbar,HI_TALIBS_REFRESH_RUN,repeated
+						Timer TalibsCity,2,repeated
+						ExecutePattern st_util.xpt_nerdsWaving
+					
+					}
+					events
+					{
+						OnAttrChange_TalibBorderLeft "ExecutePattern st_util.xpt_checkPart1Done"
+					}
+				}
+				
+				pt_mission_two
+				{
+					actions
+					{
+					
+					
+					//MISSION TWO
+						playvideo hi_2,1,1
+						Wait 1
+						
+						MissionLog done,TalibBorderLeft
+						IfAttr "TalibBorderRunAway <= HI_FAIL_TALIBS_RUN MissionLog done,TalibBorderRunAway"
+						
+						//MissionLog add_primary,main,#P3_MEX_MISSION2_OBJ
+						ShowMessage "#P3_MEX_MISSION2"
+						SetAttr "MissionPartTwo 1"
+						
+						SetAttr "TalibCityLeft HI_CITY_TALIB_TOTAL,0,HI_CITY_TALIB_TOTAL,on_change_event"
+						
+						//EntFireUser spawner_cop_city,1
+						EntFireUser spawner_talib_city_free,1
+						EntFireUser spawner_talib_city_mission,1
+						ExecutePattern st_util.xpt_add_city_talibs
+					}
+					events
+					{
+						OnAttrChange_TalibCityLeft "MissionLog add_primary,TalibCityLeft,#P3_MEX_PRI_CITY_TALIB_LEFT"
+					}
+				}
+				
+				pt_failPart1RunAway
+				{
+					actions
+					{
+						MissionLog fail,TalibBorderRunAway
+						MissionLog fail,main
+						Wait 1
+						EntFireInput fade_out,Fade
+						Wait 1
+						EntFireInput "pcc,Command:reload"
+					}
+				}
+				xpt_failPart1DontKillCops
+				{
+					actions
+					{
+						RemoveAttr PlayerDontKillCops
+						MissionLog fail,DontKillCops
+					}
+				}
+				
+				xpt_failCitizenMission
+				{
+					actions
+					{
+						//MissionLog fail,CitizenSurvive
+					}
+				}
+			}
+		}
+		st_end
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						MissionLog done,TalibCityLeft
+						CheckAttr "PlayerDontKillCop MissionLog done,DontKillCops"
+						EntFireInput fade_out,Fade
+						EntFireInput proxy,Say:TASKFINISH
+						Wait 1
+						TargetPlayer 1
+						IfAttr "target.ea_health > 0 Block begin"
+							IfAttr "Karma:target >  0 Pattern pt_good"
+							IfAttr "Karma:target <= 0 Pattern pt_bad"
+						Block end
+						
+					}
+				}
+				pt_good
+				{
+					actions
+					{
+						EntFireInput "pcc,Command:video_exitcmd hi_4 p3_end_mission"
+					}
+				}
+				pt_bad
+				{
+					actions
+					{
+						EntFireInput "pcc,Command:video_exitcmd hi_5 p3_end_mission"
+					}
+				}
+			}
+		}
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				
+				// UTILS MISSION PART BOREDER
+				
+				xpt_talibDead
+				{
+					actions
+					{
+					ChangeAttr "TalibBorderLeft -1"
+					ExecutePattern st_util.xpt_checkPart1Done
+					ChangeAttr "TalibBorderDead +1"
+					ChangeAttr "TalibsBorderAmountLive -1"
+					ExecutePattern st_util.xpt_nerdsWaving
+					}
+				}
+				xpt_talibRunAway
+				{
+					actions
+					{
+					ChangeAttr "TalibBorderLeft -1"
+					
+					//ExecutePattern st_util.xpt_checkPart1Done - это сработает при деактивации
+					
+					ChangeAttr "TalibBorderRunAway +1"
+					IfAttr "TalibBorderRunAway <= HI_FAIL_TALIBS_RUN SetAttr TalibBorderRunAwayMission TalibBorderRunAway"
+					
+					ChangeAttr "TalibsBorderAmountLive -1"
+					
+					
+					PlayerKarma -KARMA_LOW
+					
+					IfAttr "TalibBorderRunAway > HI_FAIL_TALIBS_RUN Pattern st_start.pt_failPart1RunAway"
+					
+					ExecutePattern st_util.xpt_nerdsWaving
+					}
+				}
+				
+				xpt_nerdsWaving
+				{
+					actions
+					{
+						//Declaration help
+						SetAttr "AmountTalibs1 HI_BORDER_TALIB_WAVE1"
+						SetAttr "AmountTalibs2 HI_BORDER_TALIB_WAVE2"
+						SetAttr "AmountTalibs3 HI_BORDER_TALIB_WAVE3"
+						SetAttr "AmountTalibs4 HI_BORDER_TALIB_WAVE4"
+						//-------------------------------------------
+						
+						
+						// WAVE Calculations
+						
+						//WAVE 1
+						SetAttr "AmountNeedDead 0"
+						SetAttr "LastNeedWaveTalib 0"
+						SetAttr "TimeNextWave HI_BORDER_TIMER_WAIT_BEFORE_WAVE2"
+						
+						
+						//WAVE 2
+						IfAttr "TalibWave > 0 Block begin"
+							ChangeAttr "AmountNeedDead 0"
+							SetAttr "LastNeedWaveTalib AmountTalibs1"
+							SetAttr "TimeNextWave HI_BORDER_TIMER_WAIT_BEFORE_WAVE3"
+						Block end
+						
+						//WAVE 3
+						IfAttr "TalibWave > 1 Block begin"
+							ChangeAttr "AmountNeedDead +AmountTalibs1"
+							SetAttr "LastNeedWaveTalib AmountTalibs2"
+							SetAttr "TimeNextWave HI_BORDER_TIMER_WAIT_BEFORE_WAVE4"
+						Block end
+						
+						//WAVE 4
+						IfAttr "TalibWave > 2 Block begin"
+							ChangeAttr "AmountNeedDead +AmountTalibs2"
+							SetAttr "LastNeedWaveTalib AmountTalibs3"
+							SetAttr "TimeNextWave 0"
+						Block end
+						
+						ChangeAttr "LastNeedWaveTalib /2"
+						
+						SetAttr "LastWaveDead 0"
+						ChangeAttr "LastWaveDead +TalibBorderDead"
+						ChangeAttr "LastWaveDead +TalibBorderRunAway"
+						ChangeAttr "LastWaveDead -AmountNeedDead"
+						
+						
+						IfAttr "LastWaveDead >= LastNeedWaveTalib SetAttr SpawnFlag 1"
+						IfAttr "TalibWave >= HI_BORDER_AMOUNT_WAVES SetAttr SpawnFlag 0"
+						//----------------------------------------------------------------
+						
+						// Resource Release
+						RemoveAttr "AmountNeedDead"
+						RemoveAttr "LastNeedWaveTalib"
+						RemoveAttr "LastWaveDead"
+						
+						RemoveAttr "AmountTalibs1"
+						RemoveAttr "AmountTalibs2"
+						RemoveAttr "AmountTalibs3"
+						RemoveAttr "AmountTalibs4"
+						//---------------------------------------------------------------
+						
+						
+						// Waving
+						CheckAttr "SpawnFlag Block begin"
+							
+							Timer tSpawnNewWave,TimeNextWave
+							
+							RemoveAttr "SpawnFlag"
+							RemoveAttr "TimeNextWave"
+						
+							ChangeAttr "TalibWave +1"
+							
+							ExecutePattern st_util.xpt_SpawnNewWave
+						Block end
+						
+						RemoveAttr "SpawnFlag"
+						//--------------------------------------------------------------
+					}
+				}
+				xpt_SpawnNewWave
+				{
+					actions
+					{
+						IfAttr "TalibWave == 1 Block begin"
+							EntFireInput "spawner_talib,AddMaxChildren:HI_BORDER_TALIB_WAVE1"
+							//ShowMessage "[WAVE1],$P3Mission"
+						Block end
+						
+						IfAttr "TalibWave == 2 Block begin"
+							EntFireInput "spawner_talib,AddMaxChildren:HI_BORDER_TALIB_WAVE2"
+							//ShowMessage "[WAVE2],$P3Mission"
+						Block end
+						
+						IfAttr "TalibWave == 3 Block begin"
+							EntFireInput "spawner_talib,AddMaxChildren:HI_BORDER_TALIB_WAVE3"
+							//ShowMessage "[WAVE3],$P3Mission"
+						Block end
+						
+						IfAttr "TalibWave == 4 Block begin"
+							EntFireInput "spawner_talib,AddMaxChildren:HI_BORDER_TALIB_WAVE4"
+							//ShowMessage "[WAVE4],$P3Mission"
+						Block end
+						
+						EntFireInput "spawner_talib,enable"
+						
+					}
+				}
+				xpt_CopDead
+				{
+					actions
+					{
+						ChangeAttr "Cops_on_boder -1"
+						ExecutePattern st_util.xpt_SetRunnerLevel
+					}
+				}
+				xpt_CopDefenceIn
+				{
+					actions
+					{
+						ChangeAttr "Cops_on_boder +1"
+						ExecutePattern st_util.xpt_SetRunnerLevel
+					}
+				}
+				xpt_CopDefenceOut
+				{
+					actions
+					{
+						ChangeAttr "Cops_on_boder -1"
+						ExecutePattern st_util.xpt_SetRunnerLevel
+					}
+				}
+				xpt_SetRunnerLevel
+				{
+					actions
+					{
+						IfAttr "TalibsBorderAmountLive > HI_TALIBS_NON_RUN Block begin"
+							IfAttr "Cops_on_boder == 0 SetAttr TalibsCanRun HI_WITH_COP_BORDER_0_TALIB_RUN"
+							IfAttr "Cops_on_boder == 1 SetAttr TalibsCanRun HI_WITH_COP_BORDER_1_TALIB_RUN"
+							IfAttr "Cops_on_boder == 2 SetAttr TalibsCanRun HI_WITH_COP_BORDER_2_TALIB_RUN"
+							IfAttr "Cops_on_boder == 3 SetAttr TalibsCanRun HI_WITH_COP_BORDER_3_TALIB_RUN"
+						Block end
+					}
+				}
+				xpt_CitizenDead
+				{
+					actions
+					{
+						//ChangeAttr "Citizenskilled +1"
+						//IfAttr "Citizenskilled <= HI_CITIZEN_NON_DEAD SetAttr CitizenskilledMission Citizenskilled"
+						//IfAttr "Citizenskilled > HI_CITIZEN_NON_DEAD ExecutePattern st_start.xpt_failCitizenMission"
+					}
+				}
+				
+				// UTILS MISSION PART CITY
+				xpt_checkPart1Done
+				{
+					actions
+					{
+						MissionLog add_primary,TalibBorderLeft,#P3_MEX_PRI_BOREDER_TALIB_LEFT
+						IfAttr "TalibBorderLeft == 0 Block begin"
+							TargetPlayer 1
+							IfAttr "target.ea_health > 0 Pattern st_start.pt_mission_two"
+						Block end
+					}
+				}
+				xpt_talibCityDead
+				{
+					actions
+					{
+					ChangeAttr "TalibCityAmountLive -1"
+					ChangeAttr "TalibCityLeft -1"
+					ExecutePattern st_util.xpt_checkPart2Done
+					}
+				}
+				xpt_checkPart2Done
+				{
+					actions
+					{
+					CheckAttr "MissionPartTwo Block begin"
+						IfAttr "TalibCityLeft == 0 State st_end" 
+					Block end
+					}
+				}
+				xpt_add_city_talibs
+				{
+					actions
+					{
+						CheckAttr "MissionPartTwo Block begin"
+							IfAttr "TalibCityAmountLive <= 0 Block begin"
+								
+								IfAttr "TalibCityLeft >= HI_CITY_TALIB_MAX_SPAW SetAttr TalibsNeedInCity HI_CITY_TALIB_MAX_SPAW"
+								IfAttr "TalibCityLeft < HI_CITY_TALIB_MAX_SPAW SetAttr TalibsNeedInCity TalibCityLeft"
+								EntFireInput "spawner_talib_city_mission,AddMaxChildren:TalibsNeedInCity"
+								RemoveAttr TalibsNeedInCity
+								
+							Block end	
+						Block end
+					}
+				}
+				
+				
+			}
+			
+		}
+	}
+	events
+	{
+		
+		//PART MISSION BORDER
+		OnAttrChange_TalibBorderRunAwayMission "MissionLog add_primary,TalibBorderRunAway,#P3_MEX_PRI_BOREDER_TALIB_RUNAWAY"
+		//OnAttrChange_CitizenskilledMission "MissionLog add_secondary,Citizenskilled,#P3_MEX_SEC_BOREDER_CITIZEN_SURVIVE"
+
+		OnFire_CopDead "ExecutePattern st_util.xpt_CopDead"
+		OnFire_citizenDead "ExecutePattern st_util.xpt_CitizenDead"
+		OnFire_TalibBorn "ChangeAttr TalibsBorderAmountLive +1"
+		OnFire_TalibDead "ExecutePattern st_util.xpt_talibDead"
+		OnFire_TalibRunAway "ExecutePattern st_util.xpt_talibRunAway"
+		
+		// PART MISSION CITY
+		OnFire_TalibCityBorn "ChangeAttr TalibCityAmountLive +1"
+		OnFire_TalibCityDead "ExecutePattern st_util.xpt_talibCityDead"
+		
+		//COMMON
+		OnFire_CopDefenceOut "ExecutePattern st_util.xpt_CopDefenceOut"
+		OnFire_CopDefenceIn "ExecutePattern st_util.xpt_CopDefenceIn"
+		OnTimer_TalibsAcbar "ExecutePattern st_util.xpt_SetRunnerLevel"
+		OnFire_PlayerKillCop "ExecutePattern st_start.xpt_failPart1DontKillCops"
+		//OnAttrChange_TalibCityAmountLive "ExecutePattern st_util.xpt_add_city_talibs"
+		OnTimer_TalibsCity "ExecutePattern st_util.xpt_add_city_talibs"
+		
+		OnNewGame		"ExecutePattern weaponGive.HI"
+	}
+}
+
+behavior
+{
+	name bh_mexico_citizen
+	inherited bh_hub2_civil
+	states
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						SetAreaGroup AG_DEFAULT:walkable,AG_town
+						SetAttr "flag_bystander 1"
+						SetSquad citizen_squad
+						SetSquadRelation sq_talib_city:fear:3
+						
+						Timer activityInMissionPart1,2,repeated
+					}
+				}
+			}
+		}
+		st_init_static
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern st_init.pt_default
+						SetAttr "flag_static 1"
+					}
+				}
+			}
+		}
+		st_init_mex1
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern st_init.pt_default
+						TargetEntByName customer
+					}
+				}
+			}
+		}
+		st_init_mex2
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern st_init.pt_default
+						TargetEntByName shopkeeper
+					}
+				}
+			}
+		}
+		st_fear
+		{
+			Group Alert
+			Patterns
+			{
+				xpt_SetParams
+				{
+					actions
+					{
+						IfAttr "RunAway_Tries == 0 FreeMovementParams area_hidden,ED_FAR,ED_VERY_FAR,move_from_target,area_group" //,safe
+						IfAttr "RunAway_Tries == 1 FreeMovementParams area_all,ED_MIDDLE,ED_VERY_FAR,move_from_target,area_group"
+						IfAttr "RunAway_Tries == 2 FreeMovementParams area_all,ED_MIDDLE,ED_VERY_FAR,area_group"
+					}
+				}
+			}
+		}
+		st_shop
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						FreeMovement false
+					}
+				}
+				pt_nasty
+				{
+					actions
+					{
+						LookAt true
+						Sequence emote_annoyed
+						Say PISSEDON,1
+						WaitForEnd 1
+						State st_shop
+					}
+				}
+				pt_kicked
+				{
+					actions
+					{
+						LookAt true
+						Sequence emote_annoyed
+						Say BUMPED
+						WaitForEnd 1
+						State st_shop
+					}
+				}
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction >= RE_FEAR State st_start"
+					}
+				}
+			}
+			events
+			{
+				OnKicked "Pattern pt_kicked"
+				OnNasty "Pattern pt_nasty"
+				OnSuperNasty "Pattern pt_nasty"
+			}
+		}
+		st_chat
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Wait 1:3
+						FireEvent Response
+						Sequence dialogue_start
+						IfAttr "DistTo:player < ED_MIDDLE Say FOLLOWUP,CELL,RESPONSE"
+						Wait 10:10
+						State st_idle
+					}
+					events
+					{
+						OnFire_Response "Pattern pt_default"
+						OnTargetReset "State st_shop"
+						OnTargetUnconscious "State st_shop"
+						OnKicked "Pattern st_shop.pt_kicked"
+					}
+				}
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction >= RE_SEEFLAME State st_start"
+					}
+				}
+			}
+		}
+		st_foodcustomer
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						FreeMovement false
+						TargetEntByName fastfood
+						Face true
+						FireEvent Customer
+						Wait 5:5
+						Face false
+						State st_start
+					}
+					events
+					{
+						OnFire_FastFood "Pattern pt_hello"
+					}
+				}
+				pt_hello
+				{
+					actions
+					{
+						Sequence seq.dialogue_wow
+						Say BEGMONEY
+						Wait 2:2
+						FireEvent Response
+						Wait 2:5
+						Face false
+						State st_start
+					}
+				}
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction >= RE_SEEFLAME State st_start"
+					}
+				}
+			}
+		}
+		st_OnDeath
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "Object:caller == Object:Player and slot#msGP.PlayerPath == PATH_GOOD EntFireInput proxy,Say:KILLBYSTANDER"
+						//ChangeAttr "slot#msGP.Citizenskilled +1"
+						ExecutePattern bh_base:st_OnDeath.pt_default
+					}
+				}
+			}
+		}
+		st_util
+		{
+			Group Alert
+			Patterns
+			{
+				xpt_OnHit
+				{
+					actions
+					{
+						IfAttr "Object:Caller == Object:Player Block begin"
+							SetAttr "rnd 0"
+							ChangeAttr "rnd 0:5"
+							IfAttr "rnd > 4 and dudeisgood == 1 EntFireInput proxy,Say:INJUREBYSTANDER"
+						Block end
+						
+						ExecutePattern bh_base:st_util.xpt_OnHit
+					}
+				}
+			}
+		}
+	}
+}
+
+
+behavior
+{
+	name bh_mexico_talib_base
+	inherited bh_civil
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						SetAttr "flag_IgnoreCombat 1"
+						SetAttr "flag_IgnoreWeapon 1"
+						SetAttr "flag_IgnorePlayerFear 1"
+						SetAttr "ReactionThreshold RE_DANGER"
+						
+						AvoidProhibitedArea false
+						SetAttr "flag_VitalEnemy 1"
+					}
+				}
+			}
+		}
+		st_combat_logic
+		{
+			Group Combat
+			Patterns
+			{
+				xpt_SayAttack
+				{
+					actions
+					{
+						//милишная атака
+						IfAttr "Timer:tCanSay > 0 Return 1"
+						Say STARTFIGHT,REBEL
+						Timer tCanSay,5:3
+					}
+				}
+				xpt_SayPush
+				{
+					actions
+					{
+						//милишная безоружная атака
+						IfAttr "Timer:tCanSay > 0 Return 1"
+						Say STARTFIGHT,REBEL
+						Timer tCanSay,5:3
+					}
+				}
+				xpt_SayShoot
+				{
+					actions
+					{
+						//простая стрельба
+						IfAttr "Timer:tCanSay > 0 Return 1"
+						Say REBEL
+						Timer tCanSay,5:3
+					}
+				}
+				xpt_SayThrow
+				{
+					actions
+					{
+						//бросок гранаты
+						IfAttr "Timer:tCanSay > 0 Return 1"
+						Say RIOT
+						Timer tCanSay,5:3
+					}
+				}
+			}
+		}
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_SelectWeapon
+				{
+					actions
+					{
+						Weapon arm
+					}
+				}
+			}
+		}
+	}
+}
+behavior
+{
+	name bh_mexico_talib
+	inherited bh_mexico_talib_base
+	states
+	{
+		
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						TargetFromMem msGP // не убирать следующая строчка не работает
+						FireEvent TalibBorn
+						SetSquadRelation player_squad:enemy:5,cops_squad:enemy:3
+						//SetAreaGroup AG_DEFAULT,AG_town,AG_border
+						SetAreaGroup AG_DEFAULT,AG_border
+						SetHintgroup hint_talib
+						
+						//Grenade
+						SetAttr "GrenadeType GRND_TYPE_MOLOVOT"
+						SetAttr "BombardChance 50"
+						
+						SetAttr "RunToBorder 1"
+					}
+				}
+			}
+		
+		}
+		st_start
+		{
+			group Alert
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						AvoidProhibitedArea true
+						
+						ExecutePattern bh_base:st_start.pt_default	
+					}
+				}
+				
+				xpt_CheckCombat
+				{
+					actions
+					{
+						CheckAttr "NeedToRunAway State st_runaway"
+						CheckAttr "GoToJump State st_goto_jump"
+						CheckAttr "RunToBorder State st_runToBorder"
+						ChangeAttr "rnd 0:20"
+						IfAttr "rnd >= 18 and DistTo:player < ED_FAR Say REBEL"
+						//больше это некуда впихнуть
+						
+						ExecutePattern bh_base:st_start.xpt_CheckCombat
+					}
+				}
+			}
+		}
+		
+		st_runToBorder
+		{
+			group Alert
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetEntByName defense_point
+						//мб им стоит бежать в ареагруппу?
+						MoveToTarget run
+						Timer checkRunLevel,5,repeated
+						Pattern pt_loop
+					}
+				}
+				
+				pt_loop
+				{
+					actions
+					{
+						IfAttr "DistTo:target < HI_TALIB_ATTACK_DISTANCE Pattern pt_end"
+						MoveToTarget run
+						Repeat 1
+					}
+					events
+					{
+						OnInvalidRoute "Pattern pt_end"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						IfAttr "Object:target != Object:null Block begin"
+							IfAttr "Name:target == String:defense_point Block begin"
+								IgnoreTarget 100
+								ResetTarget 1
+							Block end
+						Block end
+						
+						RemoveAttr RunToBorder
+						
+						IfAttr "reaction < RE_KICKED Block begin"
+							SetAttr "NewReaction RE_NONE"
+							SetAttr "reaction RE_NONE"
+						Block end
+						
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction >= RE_KICKED Pattern pt_end"
+					}
+				}
+			}
+		}
+		
+		
+		st_goto_jump
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetEntByName target_border
+						Crouch  false
+						//Face true
+						FreeMovement false
+						FreeMovementParams hint_all,ED_VERY_CLOSE,5000,hint_group,hint_face,use_node
+						FreeMovement run
+						Pattern pt_runloop
+					}
+				}
+				
+				pt_runloop
+				{
+					actions
+					{
+						Wait 30
+						Pattern pt_end
+					}
+					events
+					{
+						OnInvalidRoute "Pattern pt_end"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						IfAttr "reaction < RE_KICKED Block begin"
+							SetAttr "NewReaction RE_NONE"
+							SetAttr "reaction RE_NONE"
+						Block end
+						
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction >= RE_KICKED Pattern pt_end"
+					}
+				}
+			}
+		}
+		st_jumpover
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						RemoveAttr GoToJump
+						TargetEntByName target_border
+						//Face true
+						SetAttr "TaserDamage 0"
+						SetAttr "SprayDamage 0"
+						SetAttr "rnd 0"
+						ChangeAttr "rnd 0:10"
+						IfAttr "rnd > 5 and DistTo:player < ED_FAR Say TOUGH"
+						FreeMovement false
+						ResetSequence 1
+						Sequence seq.jumpover
+						WaitForEnd 1
+						SetAttr "NeedToRunAway 1"
+						Pattern pt_end
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						SetAttr "TaserDamage 50"
+						SetAttr "SprayDamage 50"
+						
+						IfAttr "reaction < RE_KICKED Block begin"
+							SetAttr "NewReaction RE_NONE"
+							SetAttr "reaction RE_NONE"
+						Block end
+						
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction == RE_KICKED Pattern pt_end"
+					}
+				}
+				
+				xpt_OnHit
+				{
+					actions
+					{
+						TargetToMem msLEADER
+						ExecutePattern st_util.xpt_OnHit
+						TargetFromMem msLEADER
+					}
+				}
+			}
+			events
+			{
+				OnHit	"ExecutePattern .xpt_OnHit"
+				OnTimer_checkRunLevel "Wait 0"
+			}
+		}
+		
+		st_runaway
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetEntByName target_border
+						AvoidProhibitedArea false
+						MoveToTarget run
+						Wait 15
+						// тут не убегают потом подправить
+						//??
+						Pattern pt_selfkill
+					}
+					events
+					{
+						OnInvalidRoute "FreeMovementParams  area_all,0,0,from_target"
+						OnTargetReach "Pattern pt_selfkill"
+					}
+				}
+				
+				pt_selfkill
+				{
+					actions
+					{
+						TargetFromMem msGP
+						FireEvent TalibRunAway
+						Npc kill
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction >= RE_KICKED Pattern pt_end"
+					}
+				}
+			}
+			events
+			{
+				OnHit	"ExecutePattern st_jumpover.xpt_OnHit"
+				OnTimer_checkRunLevel "Wait 0"
+			}
+		}
+		
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetFromMem msGP
+						FireEvent TalibDead
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+		
+		
+		st_utils
+		{
+			Group Alert
+			Patterns
+			{
+				xpt_checkLevelRunAway
+				{
+					actions
+					{
+						CheckAttr "NeedToRunAway Return 1"
+						CheckAttr "GoToJump Return 1"
+						
+						SetAttr "NOW slot#msGP.TalibsCanRun"
+						IfAttr "slot#msGP.TalibsCanRun > 0 Block begin"
+							ChangeAttr "slot#msGP.TalibsCanRun -1"
+							SetAttr "GoToJump 1"
+						Block end
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnTimer_checkRunLevel "ExecutePattern st_utils.xpt_checkLevelRunAway"
+	}
+}
+
+behavior
+{
+	name bh_mexico_talib_city
+	inherited bh_mexico_talib_base
+	states
+	{
+		
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						TargetFromMem msGP
+						FireEvent TalibCityBorn
+						
+						SetAreaGroup AG_DEFAULT,AG_town
+						
+						//Grenade
+						//SetAttr "GrenadeType GRND_TYPE_MOLOTOV"
+						SetSquadRelation citizen_squad:enemy:1,local
+						
+						Timer activityInMissionPart1,2,repeated
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_ChooseEnemy
+				{
+					actions
+					{
+						IfAttr "DistTo:player < ED_MIDDLE Block begin"
+							SetSquadRelation player_squad:enemy:5
+							TargetPlayer 1
+						Block end
+						ExecutePattern bh_base:st_start.xpt_ChooseEnemy
+					}
+				}
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_decide
+				{
+					actions
+					{
+						Pattern pt_idle
+					}
+				}
+				
+				xpt_OnVisible
+				{
+					actions
+					{
+						TargetCaller 1
+						CheckAttr "target.flag_bystander Block begin"
+							ExecutePattern st_util.xpt_AddTargetToEnemy
+							State st_start
+						Block end
+						
+						ExecutePattern bh_base:st_idle.xpt_OnVisible
+					}
+				}
+			}
+		}
+		
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetFromMem msGP
+						FireEvent TalibCityDead
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+		
+		
+		st_utils
+		{
+			Group Alert
+			Patterns
+			{
+				xpt_cityActivate
+				{
+					actions
+					{
+						CheckAttr "slot#msGP.MissionPartTwo Block begin"
+							//ShowMessage "[PLAYER IS ENEMY],P3Helper"
+							SetSquadRelation player_squad:enemy:3
+							SetSquadRelation cops_squad:enemy:3
+							Timer activityInMissionPart1,0
+							State st_start
+						Block end
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnTimer_activityInMissionPart1 "ExecutePattern st_utils.xpt_cityActivate"
+	}
+}
+
+
+
+
+
+behavior
+{
+	name bh_mexico_cop
+	inherited bh_civil
+	
+	States
+	{
+	
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						SetAttr "flag_IgnoreCombat 1"
+						SetAttr "flag_IgnoreWeapon 1"
+						SetAttr "flag_IgnorePlayerFear 1"
+						SetAttr "flag_PlayerFriendly 1"
+						SetAttr "flag_CombatUsesAG 1"
+						SetAttr "ReactionThreshold RE_DANGER"
+						
+						AvoidProhibitedArea false
+		
+						SetAreaGroup POLICE_GUARD,AG_town,AG_DEFAULT
+						SetSquad cops_squad
+						//Grenade
+						SetAttr "GrenadeType GRND_TYPE_NONE"
+						
+						Timer checkDefenceDistance,1,repeated
+						
+						SetAttr "ea_bulletdmg_absorb RESIST_HIGH"
+						SetAttr "ea_clubdmg_absorb RESIST_HIGH"
+						
+						SetAttr "flagDefence 0,0,1,on_change_event"
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Senses true
+						ExecutePattern st_util.xpt_cityActivate
+						ExecutePattern bh_base:st_start.pt_default
+					}
+				}
+				xpt_combat
+				{
+					actions
+					{
+						AvoidProhibitedArea true
+						ExecutePattern bh_base:st_start.xpt_combat
+					}
+				}
+			}
+		}
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_decide
+				{
+					actions
+					{
+						Pattern pt_idle
+					}
+				}
+				xpt_SelectWeapon
+				{
+					actions
+					{
+						Weapon select,ranged
+					}
+				}
+			}
+		}
+		st_runToTown
+		{
+			group Alert
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+					TargetEntByName town_point
+					MoveToTarget run
+					IfAttr "DistTo:target < HI_COP_DEFENCE_DISTANCE Block begin"
+						State st_start
+					Block end 
+					Repeat 1
+					}
+				}
+			}
+		}
+		
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "Object:Caller == Object:Player Block begin"
+							TargetFromMem msGP
+							FireEvent PlayerKillCop
+						Block end
+						
+						TargetFromMem msGP
+						FireEvent CopDead
+						
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+		
+		st_util
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				
+				
+				xpt_checkDefenceDistance
+				{
+					actions
+					{
+						TargetToMem msEnemy
+						TargetEntByName defense_point
+						IfAttr "DistTo:target >= HI_COP_DEFENCE_DISTANCE SetAttr flagDefence 0"
+						IfAttr "DistTo:target < HI_COP_DEFENCE_DISTANCE SetAttr flagDefence 1"
+						TargetFromMem msEnemy
+					}
+				}
+				xpt_sendLogic
+				{
+					actions
+					{
+						TargetFromMem msGP
+						IfAttr "flagDefence == 0 FireEvent CopDefenceOut"
+						IfAttr "flagDefence == 1 FireEvent CopDefenceIn"
+						TargetFromMem msEnemy
+					}
+				}
+				
+				xpt_cityActivate
+				{
+					actions
+					{
+						
+						CheckAttr "slot#msGP.MissionPartTwo Block begin"
+							SetSquadRelation sq_talib_city:enemy:3
+							SetAreaGroup AG_DEFAULT,AG_town
+							IfAttr "DistTo:target > HI_COP_DEFENCE_DISTANCE State st_runToTown"
+						Block end
+					}
+				}
+				
+				xpt_OnPlayerFailsFriendship
+				{
+					actions
+					{
+						//тут должно обрабатываться то, что дюд слишком много стрелял по копам
+					}
+				}
+			}
+		}
+		
+	}
+	
+	events
+	{
+		OnTimer_checkDefenceDistance "ExecutePattern st_util.xpt_checkDefenceDistance"
+		OnAttrChange_flagDefence "ExecutePattern st_util.xpt_sendLogic"
+		OnAE_PlayerBad "SetSquadRelation Player_Squad:enemy:3"
+		//OnTimer_activityInMissionPart1 "ExecutePattern st_util.xpt_cityActivate"
+	}
+	
+}
