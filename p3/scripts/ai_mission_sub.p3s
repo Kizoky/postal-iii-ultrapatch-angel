@@ -1,0 +1,2175 @@
+Constants
+{
+	Const SUB_NERDS_TOTAL,30
+	Const SUB_NERDS_UWE_ATTACKERS,3
+	Const SUB_NERDS_PLAYER_ATTACKERS,3
+	
+	Const SUB_TIMER_WAVE1,20
+	Const SUB_TIMER_WAVE2,30
+	Const SUB_TIMER_WAVE3,40
+	Const SUB_TIMER_WAVE4,40
+
+	
+	Const SUB_NERDS_WAVE1,4
+	Const SUB_NERDS_WAVE2,5
+	Const SUB_NERDS_WAVE3,5
+	Const SUB_NERDS_WAVE4,4
+	Const SUB_NERDS_WAVE5,6
+	
+	Const SUB_NERDSPISTOL_WAVE1,0
+	Const SUB_NERDSPISTOL_WAVE2,1
+	Const SUB_NERDSPISTOL_WAVE3,3
+	Const SUB_NERDSPISTOL_WAVE4,2
+	Const SUB_NERDSPISTOL_WAVE5,0
+	
+	Const SUB_NERDS_SAY_PRIORITY_ATTACK,2
+	Const SUB_NERDS_SAY_PRIORITY_AGITATE,1
+	Const SUB_NERDS_SAY_FEAR,3
+	Const SAY_SAVEUWE_DEATH,4
+	
+	Const UWE_ANGLE_ATTACK,40
+	Const UWE_DISTANCE_ATTACK,80 // меньше в упор стоит и не атакует
+	
+	Const SUB_NERDS_MINIMAL_HEALTH,20
+}
+
+behavior
+{
+	name bh_mission_sub
+	inherited bh_mission_logic_base
+	
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "PlayerKillUwe 0"
+						SetAttr "NerdsLeft SUB_NERDS_TOTAL,0,SUB_NERDS_TOTAL,on_change_event"
+						SetAttr "slot#msGP.UweAmountAttakers 0,0,SUB_NERDS_UWE_ATTACKERS"
+						SetAttr "slot#msGP.PlayerAmountAttakers 0,0,SUB_NERDS_PLAYER_ATTACKERS"
+						SetAttr "NerdsWave 0"
+						SetAttr "TimerWave 0"
+						SetAttr "NerdsDead 0"
+						
+						SetAttr "PlayerPath PATH_GOOD"
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral1
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						PlayerKarma show
+						Wait 1
+						//MissionBriefing "[#P3_SUB_BRIEF]"
+						ExecutePattern st_util.xpt_SpawnNewWave
+						ShowMessage #P3_SUB_MSG01
+						
+						MissionLog add_primary,SaveUwe,#P3_SUB_PRI_SAVEUWE
+						//MissionLog add_primary,NerdsLeft,#P3_SUB_PRI_NERDSLEFT
+						MissionLog add_secondary,NonLethal,#P3_SUB_SEC_LETHAL
+						
+						ChangeAttr "NerdsWave +1"
+						ExecutePattern st_util.xpt_SpawnNewWave
+					}
+				}
+			}
+		}
+		
+		st_fail
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						MissionLog fail,SaveUwe
+						MissionLog fail,SaveSelf
+						Wait 2
+						EntFireInput "pcc,Command:reload"
+					}
+				}
+			}
+		}
+		
+		st_bad
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "UweIsDead 1"
+						MissionLog fail,SaveUwe
+						MissionLog fail,NonLethal
+						MissionLog add_primary,SaveSelf,#P3_SUB_PRI_SAVEDUDE
+						SetAttr "PlayerKillUwe 1"
+						PlayVideo sub_2,1,1
+						AreaEvent PlayerBad,1024
+						PlayerKarma +KARMA_MED
+					}
+				}
+			}
+		}
+		
+		st_done
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "PlayerKillUwe == 0 Block begin"
+							MissionLog done,SaveUwe
+							EntFireInput fade_in,Fade
+							Wait 1
+							EntFireInput "pcc,Command:video_exitcmd sub_3 p3_end_mission"
+						Block end
+						
+						IfAttr "PlayerKillUwe == 1 Block begin"
+							MissionLog done,SaveSelf
+							EntFireInput fade_in,Fade
+							Wait 1
+							PlayerKarma +KARMA_HALF
+							EntFireInput "pcc,Command:video_exitcmd sub_4 p3_end_mission"
+						Block end
+					}
+				}
+			}
+		}
+		
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_OnWaveSpawned
+				{
+					actions
+					{
+						///можно че-нить тут написать
+							//ShowMessage "[WAVE],$P3Mission"
+					}
+				}
+				
+				xpt_SpawnNewWave
+				{
+					actions
+					{
+						IfAttr "NerdsWave == 1 Block begin"
+							EntFireInput "nerd_spawner,AddMaxChildren:SUB_NERDS_WAVE1"
+							EntFireInput "nerd_spawner_pistol,AddMaxChildren:SUB_NERDSPISTOL_WAVE1"
+							Timer tSpawnNewWave,SUB_TIMER_WAVE1
+						Block end
+						
+						IfAttr "NerdsWave == 2 Block begin"
+							EntFireInput "nerd_spawner,AddMaxChildren:SUB_NERDS_WAVE2"
+							EntFireInput "nerd_spawner_pistol,AddMaxChildren:SUB_NERDSPISTOL_WAVE2"
+							Timer tSpawnNewWave,SUB_TIMER_WAVE2
+						Block end
+						
+						IfAttr "NerdsWave == 3 Block begin"
+							EntFireInput "nerd_spawner,AddMaxChildren:SUB_NERDS_WAVE3"
+							EntFireInput "nerd_spawner_pistol,AddMaxChildren:SUB_NERDSPISTOL_WAVE3"
+							Timer tSpawnNewWave,SUB_TIMER_WAVE3
+						Block end
+						
+						IfAttr "NerdsWave == 4 Block begin"
+							EntFireInput "nerd_spawner,AddMaxChildren:SUB_NERDS_WAVE4"
+							EntFireInput "nerd_spawner_pistol,AddMaxChildren:SUB_NERDSPISTOL_WAVE4"
+							Timer tSpawnNewWave,SUB_TIMER_WAVE4
+						Block end
+						
+						IfAttr "NerdsWave == 5 Block begin"
+							EntFireInput "nerd_spawner,AddMaxChildren:SUB_NERDS_WAVE5"
+							EntFireInput "nerd_spawner_pistol,AddMaxChildren:SUB_NERDSPISTOL_WAVE5"
+						Block end
+						
+						SetAttr "TimerWave NerdsWave"
+						
+						EntFireInput "nerd_spawner,enable"
+						EntFireInput "nerd_spawner_pistol,enable"
+					}
+				}
+				xpt_SpawnNewWaveByTimer
+				{
+					actions
+					{
+						ChangeAttr "TimerWave +1"
+						
+						IfAttr "TimerWave > NerdsWave Block begin"
+							IfAttr "TimerWave == 1 Block begin"
+								EntFireInput "nerd_spawner,AddMaxChildren:SUB_NERDS_WAVE1"
+								EntFireInput "nerd_spawner_pistol,AddMaxChildren:SUB_NERDSPISTOL_WAVE1"
+								Timer tSpawnNewWave,SUB_TIMER_WAVE1
+							Block end
+							
+							IfAttr "TimerWave == 2 Block begin"
+								EntFireInput "nerd_spawner,AddMaxChildren:SUB_NERDS_WAVE2"
+								EntFireInput "nerd_spawner_pistol,AddMaxChildren:SUB_NERDSPISTOL_WAVE2"
+								Timer tSpawnNewWave,SUB_TIMER_WAVE2
+							Block end
+							
+							IfAttr "TimerWave == 3 Block begin"
+								EntFireInput "nerd_spawner,AddMaxChildren:SUB_NERDS_WAVE3"
+								EntFireInput "nerd_spawner_pistol,AddMaxChildren:SUB_NERDSPISTOL_WAVE3"
+								Timer tSpawnNewWave,SUB_TIMER_WAVE3
+							Block end
+							
+							IfAttr "TimerWave == 4 Block begin"
+								EntFireInput "nerd_spawner,AddMaxChildren:SUB_NERDS_WAVE4"
+								EntFireInput "nerd_spawner_pistol,AddMaxChildren:SUB_NERDSPISTOL_WAVE4"
+								Timer tSpawnNewWave,SUB_TIMER_WAVE4
+							Block end
+							
+							IfAttr "TimerWave == 5 Block begin"
+								EntFireInput "nerd_spawner,AddMaxChildren:SUB_NERDS_WAVE5"
+								EntFireInput "nerd_spawner_pistol,AddMaxChildren:SUB_NERDSPISTOL_WAVE5"
+							Block end
+						
+						Block end
+						IfAttr "TimerWave > NerdsWave SetAttr NerdsWave TimerWave"
+						
+						EntFireInput "nerd_spawner,enable"
+						EntFireInput "nerd_spawner_pistol,enable"
+					}
+				}
+				
+				xpt_nerdsWaving
+				{
+					actions
+					{
+					ChangeAttr "NerdsLeft -1"
+					ChangeAttr "NerdsDead +1"
+					
+					SetAttr "nerdsWaveFree1 SUB_NERDS_WAVE1"
+					SetAttr "nerdsWavePistol1 SUB_NERDSPISTOL_WAVE1"
+					SetAttr "nerdsWaveFree2 SUB_NERDS_WAVE2"
+					SetAttr "nerdsWavePistol2 SUB_NERDSPISTOL_WAVE2"
+					SetAttr "nerdsWaveFree3 SUB_NERDS_WAVE3"
+					SetAttr "nerdsWavePistol3 SUB_NERDSPISTOL_WAVE3"
+					SetAttr "nerdsWaveFree4 SUB_NERDS_WAVE4"
+					SetAttr "nerdsWavePistol4 SUB_NERDSPISTOL_WAVE4"
+					
+					SetAttr "AmountDead 0"
+					IfAttr "NerdsWave > 1 Block begin"
+						ChangeAttr "AmountDead +nerdsWaveFree1"
+						ChangeAttr "AmountDead +nerdsWavePistol1"
+						
+					Block end
+					IfAttr "NerdsWave > 2 Block begin"
+						ChangeAttr "AmountDead +nerdsWaveFree2"
+						ChangeAttr "AmountDead +nerdsWavePistol2"
+						
+					Block end
+					IfAttr "NerdsWave > 3 Block begin"
+						ChangeAttr "AmountDead +nerdsWaveFree3"
+						ChangeAttr "AmountDead +nerdsWavePistol3"
+					Block end
+					IfAttr "NerdsWave > 4 Block begin"
+						ChangeAttr "AmountDead +nerdsWaveFree4"
+						ChangeAttr "AmountDead +nerdsWavePistol4"
+						
+					Block end
+					SetAttr "AmountLastDead 0"
+					IfAttr "NerdsWave == 1 Block begin"
+						ChangeAttr "AmountLastDead +nerdsWaveFree1"
+						ChangeAttr "AmountLastDead +nerdsWavePistol1"
+						
+					Block end
+					IfAttr "NerdsWave == 2 Block begin"
+						ChangeAttr "AmountLastDead +nerdsWaveFree2"
+						ChangeAttr "AmountLastDead +nerdsWavePistol2"
+						
+					Block end
+					IfAttr "NerdsWave == 3 Block begin"
+						ChangeAttr "AmountLastDead +nerdsWaveFree3"
+						ChangeAttr "AmountLastDead +nerdsWavePistol3"
+					Block end
+					IfAttr "NerdsWave == 4 Block begin"
+						ChangeAttr "AmountLastDead +nerdsWaveFree4"
+						ChangeAttr "AmountLastDead +nerdsWavePistol4"
+						
+					Block end
+					ChangeAttr "AmountLastDead /2"
+					
+					RemoveAttr "nerdsWaveFree1"
+					RemoveAttr "nerdsWavePistol1"
+					RemoveAttr "nerdsWaveFree1"
+					RemoveAttr "nerdsWavePistol1"
+					RemoveAttr "nerdsWaveFree1"
+					RemoveAttr "nerdsWavePistol1"
+					RemoveAttr "nerdsWaveFree1"
+					RemoveAttr "nerdsWavePistol1"
+					ChangeAttr "AmountDead +AmountLastDead"
+					IfAttr "NerdsDead > AmountDead Block begin"
+						ChangeAttr "NerdsWave +1"
+						Pattern st_util.xpt_SpawnNewWave
+					Block end
+					}
+				}
+				xpt_playerOnClumb
+				{
+					actions
+					{
+						//ShowMessage "[Player on clumb],$P3Mission"
+						SetAttr "PlayerOnClumb 1"
+					}
+				}
+			}
+			
+		}
+		st_in_out{
+			
+			Group Neutral
+			Patterns
+			{
+				pt_playerInZone
+				{
+					actions
+					{
+						///можно че-нить тут написать
+							CheckAttr "PlayerOut Block begin"
+								RemoveAttr "PlayerOut"
+								IfAttr "UweIsDead == 1 ShowMessage #P3_SUB_SEC_COMBACK_UWE_DIE"
+								IfAttr "UweIsDead == 0 ShowMessage #P3_SUB_SEC_COMBACK_UWE_LIVES"
+							Block end
+							
+							
+							
+							TargetEntByName "npc_uwe"
+							SetAttr "target.ea_clubdmg_absorb 95"
+							SetAttr "target.ea_bulletdmg_absorb 95"
+					}
+				}
+				pt_playerOutZone
+				{
+					actions
+					{
+						///можно че-нить тут написать
+							IfAttr "UweIsDead == 1 ShowMessage #P3_SUB_SEC_RUNAWAY_UWE_DIE"
+							IfAttr "UweIsDead == 0 ShowMessage #P3_SUB_SEC_RUNAWAY_UWE_LIVES"
+							SetAttr "PlayerOut 1"
+							TargetEntByName "npc_uwe"
+							SetAttr "target.ea_clubdmg_absorb 30"
+							SetAttr "target.ea_bulletdmg_absorb 30"
+					}
+				}
+			}
+		
+		}
+	}
+	events
+	{
+		OnFire_UweDead "State st_fail"
+		OnFire_UweDeadByPlayer "State st_bad"
+		
+		OnFire_NerdDead "ExecutePattern st_util.xpt_nerdsWaving"
+		
+		
+		
+	//	OnFire_NerdDead "ChangeAttr NerdsLeft -1"
+		
+		OnAttrChange_NerdsLeft "MissionLog add_primary,NedsLeft,#P3_SUB_PRI_NERDSLEFT"
+		//OnAttrChange_NerdsLeft "ShowMessage [NerdLeft],$P3Mission"
+		//OnAttrChange_NerdsLeft "ExecutePattern st_util.xpt_nerdsWaving"
+		
+		OnAttrMin_NerdsLeft "State st_done"
+		//OnWaveSpawned "ExecutePattern st_util.xpt_OnWaveSpawned"
+		
+		OnTimer_tSpawnNewWave "ExecutePattern st_util.xpt_SpawnNewWaveByTimer"
+		
+		//OnClumbIn "ExecutePattern st_util.xpt_playerOnClumb"
+		
+		OnClumbIn "SetAttr PlayerOnClumb 1"
+		OnClumbOut "RemoveAttr PlayerOnClumb"
+		
+		OnPlayerInZone "ExecutePattern st_in_out.pt_playerInZone"
+		OnPlayerOutZone "ExecutePattern st_in_out.pt_playerOutZone"
+		
+		OnNewGame	"ExecutePattern weaponGive.SUB"
+	}
+}
+
+behavior
+{
+	name bh_uweboll
+	inherited bh_military
+	
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						TargetEntByName "mission_logic"
+						TargetToMem msGP
+						ResetTarget 1
+						SetAreaGroup AG_UWE_FIGHT
+						//,AG_UWE_LADER:walkable
+						SetSquad Uwe_Squad
+						SetActPack ACT_IDLE,melee_box_idle,Alert
+						SetActPack ACT_IDLE,melee_box_idle,wound
+						SetSquadRelation Nerd_Squad:enemy:2
+						SetAttr "ea_bulletdmg_absorb 95"
+						SetAttr "ea_clubdmg_absorb 95"
+						SetAttr "TaserDamage 15"
+						SetAttr "SprayDamage 15"
+						SetAttr "ea_takeable 0"
+						SetAttr "AttackBoxSequenceAmmount 5"
+						SetAttr "AttackBoxLogic 1" // Активатор выбора комбо ударов
+						SetAttr "agressiveSpliter AttackBoxSequenceAmmount"
+						SetAttr "MovieRun 1"
+						ChangeAttr "agressiveSpliter /2"
+						
+						SetAttr "moveToCounter 0"
+						SetAttr "Agitate_counter 0"
+						
+						SetAttr "flag_VitalEnemy 1"
+						
+						Timer EndKino,15
+						//SetAttr "ea_takeable 0"
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						AttributeProgressBar "UweHealthPanel,show,ea_health"
+						LookAt false
+						Face false
+						Senses true
+						CheckAttr "MovieRun Pattern pt_kino"
+						//***********************************
+						// Если есть враги или он под огнем
+						IfAttr "ea_NumEnemy > 0 Block begin"
+							TargetEnemy 1
+							State st_attack
+						Block end
+						IfAttr "UnderFire == 1 Block begin"
+							TargetEnemy 1
+							State st_attack
+						Block end
+						//-----------------------------------
+						
+						//***********************************
+						//В случае если врага нет то свободное перемещение 
+						
+						Sequence seq.idle_ScratchAss,seq.idle_ScratchHair1,seq.idle_ScratchHair2,seq.idle_Yawn,seq.idle_ScratchHair3,seq.idle_ScratchNose1,seq.idle_ScratchNose2
+						WaitForEnd 1
+						FreeMovementParams area_all,1,2,area_group
+						FreeMovement walk
+						Wait 1
+						
+						
+						
+						//-----------------------------------
+						
+						Repeat 2
+					}
+				}
+				pt_kino{
+					actions{
+					
+						RemoveAttr MovieRun
+						
+						Sequence seq.idle_ScratchAss,seq.idle_ScratchHair1,seq.idle_ScratchHair2,seq.idle_ScratchNose2
+						WaitForEnd 1
+						FreeMovementParams area_all,1,2,area_group
+						FreeMovement walk
+						Wait 0.3
+						
+						TargetEntByName "npc_ninja"
+						IfAttr "AngleTo:Target > 30 Block begin"
+							Face true
+							Wait 0.5
+							Face False
+						Block end
+						
+						Sequence seq.confusion_agressive,seq.dialogue_idea,seq.dialogue_listen,seq.dialogue_no,seq.dialogue_phrase3,seq.dialogue_point,seq.dialogue_shake,seq.dialogue_wow,seq.dialogue_yo
+						
+						WaitForEnd 1
+						
+						Say LAUGH
+						
+						Repeat 1
+					}
+				
+				
+				}
+				pt_kino_end{
+					actions{
+						
+						IgnoreTarget 5
+						Pattern pt_default
+					}
+				
+				
+				}
+			}
+			events
+			{
+				OnTimer_EndKino "Pattern pt_kino_end"
+				OnNewEnemy "Repeat 0"
+				OnSprayStunned	"State st_OnSprayStunned"
+				
+			}
+		}
+		
+		st_attack
+		{
+			Group Alert
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						
+						//IfAttr "ea_NumEnemy == 0 and UnderFire == 0 Block begin"
+						//	State st_start
+						//Block end
+						
+						TargetEnemy 1
+						
+						LookAt true
+						Face false
+						Timer tRetarget,10
+						
+						Pattern pt_moveto
+					}
+				}
+				pt_moveto
+				{
+					actions
+					{
+						
+						
+						//****************************
+						//Если цель - игрок то выбираем другую цель
+						IfAttr "Object:Target == Object:Player Block begin"
+							SetAttr "NeedRetarget 1"
+							Pattern pt_end
+						Block end
+						
+						//Если врагов нет то в переходим в свободное перемещение
+						IfAttr "ea_NumEnemy == 0 Block begin"
+							State st_start
+						Block end
+						
+						//Если цели нет то авбираем цель ( враги есть, так как отсутсвие врегов отсеивается предыдущим условием)
+						IfAttr "Object:Target == Object:NULL Block begin"
+							FreeMovementParams area_all,5,5,area_group
+							FreeMovement walk
+							Wait 1:3
+							SetAttr "NeedRetarget 1"
+							Pattern pt_end
+						Block end
+						
+						//----------------------------
+						
+						// попытка в бою рандомить врагов
+						//IfAttr "Hited > 4 Block begin"
+						//	TargetEnemy 1
+						//	MoveToTarget run,0
+						//Block end
+						
+						//*************************************************
+						
+						// Если цель активна и она не игрок то:
+						//CheckAttr "target.active Block begin"
+						IfAttr "Object:Target != Object:Player Block begin"
+							
+							// костыль
+							
+							// Если цель активна
+							IfAttr "target.active == 1 Block begin"
+								
+								// Если цель под ударами и дистанция больше UWE_DISTANCE_ATTACK а также оружие не огнестрельное, то
+								// движение к цели, иначе изменение цели, так как рукопашный нерд уже отошел
+								IfAttr "Hited > 0 Block begin"
+									IfAttr "DistTo:Target > UWE_DISTANCE_ATTACK and target.ea_ActiveWeapon < 6 Block begin"
+										SetAttr "NeedRetarget 1"
+										Pattern pt_end
+									Block end
+									MoveToTarget run,0
+								Block end
+								IfAttr "UnderFire > 0 Block begin"
+									IfAttr "DistTo:Target > UWE_DISTANCE_ATTACK and target.ea_ActiveWeapon < 6 Block begin"
+										SetAttr "NeedRetarget 1"
+										Pattern pt_end
+									Block end
+									MoveToTarget run,0
+								Block end
+								// Если 
+								
+								// Если цель на расстоянии удара уже то бой
+								IfAttr "DistTo:Target < UWE_DISTANCE_ATTACK Block begin"
+									TargetEnemy 1
+							
+									//SetAttr "moveToCounter 0"
+									Pattern pt_hit
+								Block end
+								
+							Block end
+							
+							// Если цель неактивна то смена цели .
+							CheckAttr "target.active Block begin"
+								SetAttr "NeedRetarget 1"
+								Pattern pt_end
+							Block end
+						
+						
+							
+						Block end
+						//------------------------------------------------------------------------
+						
+						// Если цель есть и она активна, и она не игрок, но она не в перделах расстояния удара, но здоровье ниже минимального, то 
+						// то меняем цель
+						IfAttr "target.ea_health <= SUB_NERDS_MINIMAL_HEALTH and target.ea_ActiveWeapon < 6 Block begin"
+							SetAttr "NeedRetarget 1"
+							Pattern pt_end
+						Block end
+						
+						
+						// Если цель есть и она активна, и она не игрок, но она не в перделах расстояния удара и здоровье выше минимального, то 
+						// движемся к ней по умолчанию
+						MoveToTarget run,0
+						Repeat 1
+						
+					}
+					events
+					{
+						OnTargetClose "Pattern pt_hit"
+						OnTargetReach "Pattern pt_hit"
+						
+					}
+				}
+				
+				pt_hit
+				{
+					//решаем, бить или пинать
+					actions
+					{
+						
+						
+						//TargetEnemy 1
+						
+						//**********************************
+						// это уже проверели
+						//IfAttr "DistTo:Target > UWE_DISTANCE_ATTACK and target.ea_ActiveWeapon < 6 Block begin"
+						//	SetAttr "NeedRetarget 1"
+						//	Pattern pt_end
+						//Block end
+						//------------------------------------
+						
+						
+						//***************************************
+						//Проверки на аттаку
+						
+						
+						// Если здоровье нерда меньше минималльного то Уве игнорирует его
+						IfAttr "target.ea_health > SUB_NERDS_MINIMAL_HEALTH Block begin"
+							CheckAttr "target.OnGround Pattern pt_kick"
+							CheckAttr "target.active Pattern pt_punch"
+						Block end
+						
+						//Если нерд с оружием то игнорирования не происходит, нерд забивается до смерти
+						IfAttr "target.ea_ActiveWeapon >= 6 Block begin"
+							CheckAttr "target.OnGround Pattern pt_kick"
+							CheckAttr "target.active Pattern pt_punch"
+						Block end
+						//-----------------------------------------
+						
+						// Если у нерда мало здоровья и он рукопашник то меняем цель
+						
+						SetAttr "NeedRetarget 1"
+						CheckAttr "target.active Pattern pt_end"
+						Relationship target,neutral
+						Pattern pt_end
+					}
+				}
+				
+				pt_punch
+				{
+					actions
+					{
+						//CallPattern pt_face
+						//IfAttr "Object:Target == Object:Null Block begin"
+						//	SetAttr "NeedRetarget 1"
+						//	Pattern pt_end
+						//Block end
+						//IfAttr "Object:Target == Object:Null Block begin"
+						//	SetAttr "NeedRetarget 1"
+						//	Pattern pt_end
+						//Block end
+						//IfAttr "DistTo:Target > 70 Block begin"
+						//		SetAttr "NeedRetarget 1"
+						//		Pattern pt_end
+						//Block end
+						
+						
+						
+						//*****************************************
+						// Изменение логики поведения
+						
+						SetAttr "AttackBoxLogic 0"
+						
+						ChangeAttr "AttackBoxLogic +0:AttackBoxSequenceAmmount"
+						
+						IfAttr "AttackBoxLogic < agressiveSpliter Say SAVEUWE"
+						SetAttr "DISTANCE DistTo:Target "
+						
+						IfAttr  "AttackBoxLogic == 0 Pattern pt_end"
+						IfAttr  "AttackBoxLogic == 1 SetAttr boxHandStart 1"
+						IfAttr  "AttackBoxLogic == 2 SetAttr boxHandStart 2"
+						IfAttr  "AttackBoxLogic == 3 SetAttr boxHandStart 1"
+						IfAttr  "AttackBoxLogic == 4 SetAttr boxHandStart 2"
+						IfAttr  "AttackBoxLogic == 5 Block begin"
+							ChangeAttr "Agitate_counter +1"
+							Pattern pt_agitate
+							//IfAttr  "Agitate_counter == 1  Pattern pt_agitate"
+							//IfAttr  "Agitate_counter > 5 ChangeAttr Agitate_counter 0"
+						Block end	
+						// -----------------------------------------
+						
+						// переход к боевке
+						Pattern pt_punch_arms
+						
+						
+						
+					}
+				}
+				
+				pt_punch_arms
+				{
+					actions
+					{
+						//SetAttr "ANGLETARGERT AngleTo:target"
+						//Face true
+						//Wait 0.2
+						//Face false
+						
+						//IfAttr "AngleTo:target < UWE_ANGLE_ATTACK Block begin"
+							// BOX
+							IfAttr "DistTo:Target > UWE_DISTANCE_ATTACK Pattern pt_moveto"
+							IfAttr "AngleTo:target >= UWE_ANGLE_ATTACK CallPattern pt_face"
+							//IfAttr "AngleTo:target > UWE_ANGLE_ATTACK Pattern pt_runaway"
+							IfAttr "DistTo:Target < UWE_DISTANCE_ATTACK Block begin"
+								IfAttr" boxHandStart == 1 Sequence seq.melee_box_01_R,seq.melee_box_02_R,seq.melee_box_03"
+								IfAttr" boxHandStart == 2 Sequence seq.melee_box_01_L,seq.melee_box_02_L"
+								WaitForEnd 1
+								Sequence seq.melee_box_idle
+							Block end
+							
+							//ON GROUND CHECK
+							CheckAttr "target.OnGround Pattern pt_kick"
+							
+							//BOX
+							//IfAttr "DistTo:Target > UWE_DISTANCE_ATTACK Pattern pt_moveto"
+							IfAttr "AngleTo:target >= UWE_ANGLE_ATTACK CallPattern pt_face"
+							//IfAttr "AngleTo:target > UWE_ANGLE_ATTACK Pattern pt_runaway"
+							IfAttr "DistTo:Target < UWE_DISTANCE_ATTACK Block begin"
+								IfAttr" boxHandStart == 2 Sequence seq.melee_box_01_R,seq.melee_box_02_R,seq.melee_box_03"
+								IfAttr" boxHandStart == 1 Sequence seq.melee_box_01_L,seq.melee_box_02_L"
+								WaitForEnd 1
+								Sequence seq.melee_box_idle
+							Block end
+							
+							//ON GROUND CHECK
+							CheckAttr "target.OnGround Pattern pt_kick"
+							
+							//LEG
+							IfAttr "DistTo:Target > UWE_DISTANCE_ATTACK Pattern pt_moveto"
+							IfAttr "AngleTo:target >= UWE_ANGLE_ATTACK CallPattern pt_face"
+							//IfAttr "AngleTo:target > UWE_ANGLE_ATTACK Pattern pt_runaway"
+							IfAttr "DistTo:Target < UWE_DISTANCE_ATTACK Block begin"
+								Sequence seq.melee_kick1,seq.action_punch_02
+							WaitForEnd 1
+							Block end
+							Sequence seq.melee_box_idle
+						//Block end
+						
+						Pattern pt_afterPunch
+						
+					}
+					events
+					{
+						OnAnimHIT "Push self,target,medium" //[easy,medium,hard] не нужно менять так как даже с easy UweBoll Крут 
+					}
+				
+				}
+				
+				pt_face
+				{
+					actions
+					{
+						IfAttr "AngleTo:target > 100 Block begin"
+							Face true
+							Wait 0.4
+							Face false
+						Block end
+						IfAttr "AngleTo:target > 80 Block begin"
+							Face true
+							Wait 0.3
+							Face false
+						Block end
+						IfAttr "AngleTo:target > 60 Block begin"
+							Face true
+							Wait 0.2
+							Face false
+						Block end
+						IfAttr "AngleTo:target > 30 Block begin"
+							Face true
+							Wait 0.1
+							Face false
+						Block end
+					}
+				}
+				
+				pt_kick
+				{
+					actions
+					{
+						//CallPattern pt_face
+						Sequence seq.melee_kick1
+						WaitForEnd 1
+						Wait 0.3:0.3
+						Pattern pt_end
+					}
+					events
+					{
+						OnAnimPUSH_HEAVY "Push self,target,hard"
+					}
+				}
+				
+				pt_agitate
+				{
+					actions
+					{
+						Face true
+						Sequence seq.agitate_agressive,seq.confusion_agressive,seq.emotions_greet
+						Say SAVEUWE_AGITATE,1
+						WaitForEnd 1
+						Face false
+						Pattern pt_end
+						
+						
+					}
+				}
+				
+				
+				pt_afterPunch
+				{
+					actions{
+					
+					
+					
+						//IfAttr "AttackBoxLogic >= agressiveSpliter Block begin"
+							//Face true
+							//Sequence seq.g_panic_1,seq.g_panic_2
+							//FreeMovementParams area_all,1,1,area_group
+							//FreeMovement run
+							//Wait 0.05
+							//Face false
+						//Block end
+						
+						// *********************************
+						// Вхождение в защиту
+						IfAttr "ea_health > 50 and ea_health < 70 Block begin"
+							IfAttr  "AttackBoxLogic == 3 Pattern pt_block"
+							IfAttr  "AttackBoxLogic == 5 Pattern pt_block"
+						Block end
+						IfAttr "ea_health > 30 and ea_health < 50 Block begin"
+							IfAttr  "AttackBoxLogic == 2 Pattern pt_block"
+							IfAttr  "AttackBoxLogic == 6 Pattern pt_block"
+							
+						Block end
+						IfAttr "ea_health < 30 Block begin"
+							IfAttr  "AttackBoxLogic == 2 Pattern pt_block"
+							IfAttr  "AttackBoxLogic == 4 Pattern pt_block"
+							IfAttr  "AttackBoxLogic == 6 Pattern pt_block"
+						Block end
+						// ----------------------------------
+						
+						// Если здоровье минимально то меняем цель
+						IfAttr "target.ea_health <= SUB_NERDS_MINIMAL_HEALTH Block begin"
+								SetAttr "NeedRetarget 1"
+						Block end
+						
+						Pattern pt_runaway
+					}
+				
+				
+				}
+				pt_block
+				{
+					actions
+					{
+						// Не используется
+						//CheckAttr "Hited Block begin"
+						
+						
+						
+						FireInput self,InputHeadTurningOff
+						Sequence seq.melee_box_block_in
+						WaitForEnd 1
+						Sequence seq.melee_box_block
+						WaitForEnd 1
+						Wait 0.5:1
+						Sequence seq.melee_box_block_out
+						WaitForEnd 1
+						//Block end
+					
+						FireInput self,InputHeadTurningOn
+						
+						
+						Pattern pt_moveto
+						
+					}
+				}
+				pt_runaway
+				{
+					actions
+					{	
+						// Отключено
+						// Убегаем куда нибудь, паттерн используется для исправления проблем с  углом поворота при атаке
+						// :: если возникает проблема то мы переходим в бег
+						Face true
+						//Sequence seq.g_panic_1,seq.g_panic_2
+						FreeMovement run
+						Wait 0.5
+						Face false
+						Pattern pt_end
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{	
+						
+						// Если требуется сменить цель то меняет ее  лишь в том случае если это не вооруженный нерд
+						CheckAttr "NeedRetarget Block begin"
+							SetAttr "Hited 0"
+							RemoveAttr NeedRetarget
+							ExecutePattern .xpt_retarget
+							//IfAttr "target.ea_ActiveWeapon < 6 ExecutePattern .xpt_retarget" // это не нужно так как есть контроль для ретарджет с вооруженных уже есть
+						Block end
+						
+						State st_start
+					}
+				}
+				
+				pt_hitted
+				{
+					actions
+					{	
+						
+						// Если требуется сменить цель то меняет ее  лишь в том случае если это не вооруженный нерд
+						//SetAttr "target Object:Caller"
+						TargetToMem msENEMY
+						
+						ChangeAttr "Hited +1"
+						TargetFromMem msGP
+						SetAttr "slot#msGP.UweHited 1"
+						//TargetEnemy 1
+						TargetFromMem msENEMY
+					}
+				}
+				xpt_retarget
+				{
+					actions
+					{
+						IgnoreTarget 3
+						ResetTarget 1
+					}
+				}
+			}
+			events
+			{
+				OnHit "ExecutePattern pt_hitted"
+				//OnHit "ChangeAttr Hited +1"
+				OnTimer_tRetarget "SetAttr NeedRetarget 1"
+				//OnTargetArrested "State st_start"
+				OnTargetUnconscious "State st_start"
+				OnTargetReset "State st_start"
+				OnSprayStunned	"State st_OnSprayStunned"
+			}
+		}
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ShowMessage #P3_SUB_SEC_UWE_DIE
+						
+						TargetCaller 1
+						TargetToMem msSUSPECTED
+					
+						IfAttr "Object:caller == Object:Player Block begin"
+							TargetFromMem msGP
+							SetAttr "target.UweIsDead 1"
+							FireEvent UweDeadByPlayer
+						Block end
+					
+						IfAttr "Object:caller != Object:Player Block begin"
+							Say SAVEUWE_DEATH,SAY_SAVEUWE_DEATH
+							TargetFromMem msGP
+
+							FireEvent UweDead
+						Block end
+					
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+		st_OnSprayStunned
+		{	
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						//ExecutePattern .xpt_DecreaseConsciousness
+						Senses false
+						SetAttr	"ea_tased 1"
+						//SetAttr "ea_takeable 1"
+						Pattern pt_stunned
+					}
+				}
+				
+				pt_stunned
+				{
+					actions
+					{
+						Sequence seq.reaction_spray,9000
+						ExecutePattern .xpt_SayScream
+						Timer tScream,5,repeated
+						Timer tUnstun,SPRAY_UNSTUN_TIMER
+						Pattern pt_stunloop
+					}
+				}
+				
+				pt_stunloop
+				{
+					actions
+					{
+						IfAttr "Timer:tUnstun <= 0 Pattern pt_end"
+						Repeat 3
+						//Wait 20
+						//Pattern pt_end
+					}
+					events
+					{
+						OnDeath "ExecutePattern st_OnDeath.pt_default"
+						OnTimer_tUnstun	"Pattern pt_end"
+						OnUnconscious "Pattern pt_unconscious"
+						OnHostaged "Pattern pt_hostaged"
+						OnSprayStunned "Timer tUnstun,SPRAY_UNSTUN_TIMER"
+						OnTimer_tScream "ExecutePattern .xpt_SayScream"
+						OnUnstunned "Pattern pt_end"
+						OnStandUpEnd	"Pattern pt_end"
+						//OnTimer_tStopAction "Pattern pt_end"
+					}
+				}
+				
+				pt_hostaged
+				{
+					actions
+					{
+						SetAttr "hostaged 1"
+						Pattern pt_end
+					}
+				}
+				
+				pt_unconscious:ignore_ext_events
+				{
+					actions
+					{
+						SetAttr "ea_takeable 0"
+						RemoveAttr ea_tased
+						State st_OnUnconscious
+					}
+					events
+					{
+						OnDeath "ExecutePattern st_OnDeath.pt_default"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						Senses true
+						SetAttr "ea_takeable 0"
+						RemoveAttr ea_tased
+						Timer tScream,0
+						
+						IfAttr "reaction <= RE_SPRAYED Block begin"
+							SetAttr "reaction RE_NONE"
+							SetAttr "NewReaction RE_NONE"
+						Block end
+						
+						CheckAttr "hostaged State st_OnHostaged"
+						
+						ResetSequence 1
+						State st_start
+					}
+				}
+				
+				xpt_SayScream
+				{
+					actions
+					{
+						IfAttr "VoicePrefix:self == String:PM Say WM_SCREAM,2"
+						IfAttr "VoicePrefix:self == String:PF Say WF_SCREAM,2"
+						ifAttr "VoicePrefix:self != String:PM and VoicePrefix:self != String:PF Say SCREAM,2"
+					}
+				}
+			}
+		}
+		
+	}
+	events{
+		OnKillUwe "SetAttr ea_health 0"
+	//	OnKillUwe "ShowMessage [Kill Uwe!],$P3Mission"
+	}
+	
+}
+
+
+behavior
+{
+	name bh_movienerd
+	//inherited bh_human
+	inherited bh_military
+	
+	States
+	{
+	
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetEntByName "mission_logic"
+						TargetToMem msGP
+						
+						SetAttr "SprayDamage SPRAY_DMG_DEFAULT"
+						
+						ExecutePattern bh_base:st_init.pt_default
+						
+						AvoidProhibitedArea false
+						
+						SetSquad Nerd_Squad
+						SetSquadRelation Uwe_Squad:enemy:1
+						SetAreaGroup AG_UWE,AG_UWE_FIGHT,AG_DEFAULT:walkable
+						//,AG_UWE_LADER:walkable
+						TargetEntByName "npc_uwe"
+						TargetToMem msENEMY
+						
+						// Если нужно проверить поведение побитых то включить
+						//SetAttr "ea_health 15" 
+						
+						ResetTarget 1
+						
+						SetAttr "UweAttacker 0"
+						SetAttr "PlayerAttacker 0"
+						SetAttr "IdleFirstRun 1"
+						
+						//SetAttr "flag_VitalEnemy 1"
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Senses true
+						RemoveAttr OnGround
+						
+						TargetEnemy 1
+						
+						CheckAttr "slot#msGP.PlayerOnClumb Block begin"
+							IfAttr "Object:target == Object:Player and ea_ActiveWeapon < 6 Block begin"
+								IfAttr "PlayerAttacker == 1 Block begin"
+									SetAttr "PlayerAttacker 0"
+									ChangeAttr "slot#msGP.PlayerAmountAttakers -1"
+								Block end
+								IgnoreTarget 3
+								ResetTarget 1
+								SetAttr "Object:Target Object:NULL"
+								CheckAttr "slot#msENEMY.active TargetFromMem slot#msENEMY"
+								
+							Block end
+						Block end
+
+						IfAttr "Object:Target == Object:Player Block begin"
+							CheckAttr "Hited Block begin"
+								RemoveAttr "Hited"
+								ExecutePattern .xpt_combat
+							Block end
+						Block end
+						IfAttr "Object:Target == slot#msENEMY Block begin"
+							CheckAttr "Hited Block begin"
+								RemoveAttr "Hited"
+								ExecutePattern .xpt_combat
+							Block end
+						Block end
+						IfAttr "Object:Target != Object:Player and Object:Target != slot#msENEMY Block begin"
+							IgnoreTarget 5
+						Block end	
+						
+						
+						//********************************************
+						// PRE-ACTION
+						IfAttr "Object:target == Object:slot#msENEMY Block begin"
+							SetAttr "ATTACKER UweAttacker"
+							SetAttr "MAXATTACKS SUB_NERDS_UWE_ATTACKERS"
+							SetAttr "NOWATTACKS slot#msGP.UweAmountAttakers"
+						Block end
+						IfAttr "Object:target == Object:Player Block begin"
+							SetAttr "ATTACKER PlayerAttacker"
+							SetAttr "MAXATTACKS SUB_NERDS_PLAYER_ATTACKERS"
+							SetAttr "NOWATTACKS slot#msGP.PlayerAmountAttakers"
+						Block end
+						//-------------------------------------------
+						
+						
+						
+						
+						
+						//*******************************************
+						// SAVE ACTOR
+						IfAttr "NOWATTACKS <= MAXATTACKS Block begin"
+							IfAttr "ATTACKER != 1 and ea_NumEnemy > 0 and ea_NumVisibleEnemy > 0 Block begin"
+									SetAttr "ATTACKER 1"
+									IfAttr "Object:target == Object:slot#msENEMY and DistTo:Target < 200 Block begin"
+										SetAttr "UweAttacker 1"
+										ChangeAttr "slot#msGP.UweAmountAttakers +1"
+									Block end
+									IfAttr "Object:target == Object:Player and DistTo:Target < 200 Block begin"
+										SetAttr "PlayerAttacker 1"
+										ChangeAttr "slot#msGP.PlayerAmountAttakers +1"
+									Block end
+							Block end
+						Block end
+						
+						
+						
+						//------------------------------------------
+						IfAttr "ea_health <= SUB_NERDS_MINIMAL_HEALTH Block begin"
+							
+								IfAttr "Object:target == Object:slot#msENEMY Block begin"
+										
+										SetAttr "ATTACKER 0"
+										
+										IfAttr "UweAttacker == 1 Block begin"
+											SetAttr "UweAttacker 0"
+											ChangeAttr "slot#msGP.UweAmountAttakers -1"
+											Face true
+											Wait 0.2
+											Say SUBNERDS_FEAR_UWE,SUB_NERDS_SAY_FEAR // Так и не говорят
+											Face false
+										Block end
+										IfAttr "PlayerAttacker == 1 Block begin"
+											SetAttr "PlayerAttacker 0"
+											ChangeAttr "slot#msGP.PlayerAmountAttakers -1"
+										Block end
+								Block end
+						Block end
+						
+						// Решение проблеммы с клумбой при убитом уве
+						CheckAttr "slot#msGP.PlayerOnClumb Block begin"
+							IfAttr "Object:target == Object:Player and ea_ActiveWeapon < 6 Block begin"
+								SetAttr "ATTACKER 0"
+							Block end
+						Block end
+						
+						
+						
+						//*******************************************
+						// ACTION
+						CheckAttr "ATTACKER Block begin"
+							IfAttr "ATTACKER == 1 Block begin"
+								
+									
+								RemoveAttr "ATTACKER"
+								RemoveAttr "MAXATTACKS"
+								RemoveAttr "NOWATTACKS"
+								Face true
+								Wait 0.2
+								IfAttr "Object:target == Object:slot#msENEMY Say SUBNERDS_ATTACK_UWE,TOUGH,TOUGH,SUB_NERDS_SAY_PRIORITY_ATTACK"
+								Face false
+								//IfAttr "Object:target == Object:Player Say SUBNERDS_ATTACK,SUB_NERDS_SAY_PRIORITY_ATTACK"
+						
+						
+								CheckAttr "target.active ExecutePattern .xpt_combat"
+							Block end
+							
+							IfAttr "ATTACKER == 0 and ea_NumVisibleEnemy < 20 Block begin" ////////////// ERROR NEED CORRECT ea_NumVisibleEnemy
+								
+								
+								IfAttr "DistTo:Target < 400 Block begin"
+									FreeMovement run
+									Wait 1
+						
+									IfAttr "ea_health <= SUB_NERDS_MINIMAL_HEALTH Block begin"
+										Sequence seq.a_heavy_LEFTLEG_left,seq.a_heavy_RIGHTLEG_left,seq.a_heavy_STOMACH_left,seq.a_heavy_STOMACH_right,seq.reaction_vomit,seq.emotions_bow
+										WaitForEnd 1
+									Block end
+									
+									FreeMovement run
+									Wait 1
+								Block end
+								CheckAttr "slot#msGP.PlayerOnClumb Block begin"
+									FreeMovementParams area_all,1,1,area_group
+									FreeMovement run
+									Wait 1
+						
+									IfAttr "ea_health <= SUB_NERDS_MINIMAL_HEALTH Block begin"
+										Sequence seq.a_heavy_LEFTLEG_left,seq.a_heavy_RIGHTLEG_left,seq.a_heavy_STOMACH_left,seq.a_heavy_STOMACH_right,seq.reaction_vomit,seq.emotions_bow
+										WaitForEnd 1
+									Block end
+									
+									FreeMovement run
+									Wait 1
+								Block end
+							
+								// гарантирует что нерды угол поворота для нердов к ыцели будет минимальный
+								// и получится что слова pt_agitate обращены к цели
+								MoveToTarget true,5:10,1:360
+								Wait 0.5
+								
+								RemoveAttr "ATTACKER"
+								RemoveAttr "MAXATTACKS"
+								RemoveAttr "NOWATTACKS"
+								IfAttr "DistTo:Target < 400 Pattern pt_agitate"
+								
+							Block end
+						Block end
+						//------------------------------------------
+						
+						
+						
+						ExecutePattern .xpt_idle
+					}
+				}
+				
+				pt_agitate
+				{
+					actions
+					{
+						
+						Face true
+						Wait 0.5
+						Face false
+						
+						Sequence seq.agitate_agressive	
+						
+						IfAttr "Object:target == Object:slot#msENEMY Say SUBNERDS_AGGITATE_UWE,SUB_NERDS_SAY_PRIORITY_AGITATE"
+						
+						WaitForEnd 1
+						Pattern pt_default
+					}
+				}
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						CheckAttr "IdleFirstRun Block begin"
+							RemoveAttr IdleFirstRun
+							Pattern pt_firstrun
+						Block end
+						
+						TargetEntByName "npc_uwe"
+						
+						//FreeMovementParams area_all,-1,-1,area_group
+						FreeMovementParams area_all,ED_CLOSE,ED_MIDDLE,from_target
+						
+						FreeMovement run
+						Wait 2:5
+						
+						IfAttr "ea_health <= SUB_NERDS_MINIMAL_HEALTH Block begin"
+							Sequence seq.a_heavy_LEFTLEG_left,seq.a_heavy_RIGHTLEG_left,seq.a_heavy_STOMACH_left,seq.a_heavy_STOMACH_right,seq.reaction_vomit,seq.emotions_bow
+							WaitForEnd 1
+						Block end
+									
+						FreeMovement run
+						Wait 3:5
+					
+						State st_start
+					}
+				}
+				
+				pt_firstrun
+				{
+					actions
+					{
+						AvoidProhibitedArea false
+						SetHintGroup hg_uwe
+						FreeMovementParams hint_all,-1,-1,hint_group,nearest
+						FreeMovement run
+						Wait 7:8
+						State st_start
+					}
+				}
+			}
+			events
+			{
+				OnNewEnemy "State st_start"
+				OnNewFear  "State st_start"
+			}
+		}
+		
+		
+		
+		
+		
+		st_attack_melee
+		{
+			Group Combat
+			events
+			{
+				
+				OnNewEnemy "State st_start"
+				
+			}
+		}
+		
+		st_OnKicked
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "OnGround 1"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						RemoveAttr OnGround
+						State st_start
+					}
+				}
+			}
+			events
+			{
+				OnStandUpEnd "Pattern pt_end"
+			}
+		}
+		
+		st_OnDeath
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						//IfAttr "Object:target == Object:slot#msENEMY Say SUBNERDS_DEATH,1"
+						
+						IfAttr "Object:Caller == Object:Player Block begin"
+							MissionLog fail,NonLethal
+						Block end
+						
+						ExecutePattern bh_base:st_OnDeath.pt_default
+					}
+				}
+			}
+		}
+		
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						
+						
+						IfAttr "UweAttacker == 1 Block begin"
+							SetAttr "UweAttacker 0"
+							ChangeAttr "slot#msGP.UweAmountAttakers -1"
+						Block end
+						IfAttr "PlayerAttacker == 1 Block begin"
+							SetAttr "PlayerAttacker 0"
+							ChangeAttr "slot#msGP.PlayerAmountAttakers -1"
+						Block end
+						
+						TargetFromMem msGP
+						FireEvent NerdDead
+						
+						ExecutePattern st_util.xpt_CheckCallerAgression
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+		
+		st_util
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				xpt_CheckCallerAgression
+				{
+					actions
+					{
+						IfAttr "Object:Caller == Object:Player SetSquadRelation Player_Squad:enemy:3"
+					}
+				}
+				
+				xpt_OnHit
+				{
+					actions
+					{
+						ExecutePattern st_util.xpt_CheckCallerAgression
+						SetAttr "Hited 1"
+						IfAttr "Object:Caller != Object:Player and Object:Caller != slot#msENEMY Block begin"
+							CheckAttr "slot#msGP.PlayerOnClumb TargetCaller 1"
+						Block end
+						State st_start
+					}
+				}
+				
+			}
+		}
+		
+		st_OnSprayStunned
+		{	
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						//ExecutePattern .xpt_DecreaseConsciousness
+						Senses false
+						SetAttr	"ea_tased 1"
+						//SetAttr "ea_takeable 1"
+						Pattern pt_stunned
+					}
+				}
+				
+				pt_stunned
+				{
+					actions
+					{
+						Sequence seq.reaction_spray,9000
+						ExecutePattern .xpt_SayScream
+						Timer tScream,5,repeated
+						Timer tUnstun,SPRAY_UNSTUN_TIMER
+						Pattern pt_stunloop
+					}
+				}
+				
+				pt_stunloop
+				{
+					actions
+					{
+						IfAttr "Timer:tUnstun <= 0 Pattern pt_end"
+						Repeat 3
+						//Wait 20
+						//Pattern pt_end
+					}
+					events
+					{
+						OnDeath "ExecutePattern st_OnDeath.pt_default"
+						OnTimer_tUnstun	"Pattern pt_end"
+						OnUnconscious "Pattern pt_unconscious"
+						OnHostaged "Pattern pt_hostaged"
+						OnSprayStunned "Timer tUnstun,SPRAY_UNSTUN_TIMER"
+						OnTimer_tScream "ExecutePattern .xpt_SayScream"
+						OnUnstunned "Pattern pt_end"
+						OnStandUpEnd	"Pattern pt_end"
+						//OnTimer_tStopAction "Pattern pt_end"
+					}
+				}
+				
+				pt_hostaged
+				{
+					actions
+					{
+						SetAttr "hostaged 1"
+						Pattern pt_end
+					}
+				}
+				
+				pt_unconscious:ignore_ext_events
+				{
+					actions
+					{
+						SetAttr "ea_takeable 0"
+						RemoveAttr ea_tased
+						State st_OnUnconscious
+					}
+					events
+					{
+						OnDeath "ExecutePattern st_OnDeath.pt_default"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						Senses true
+						SetAttr "ea_takeable 0"
+						RemoveAttr ea_tased
+						Timer tScream,0
+						
+						IfAttr "reaction <= RE_SPRAYED Block begin"
+							SetAttr "reaction RE_NONE"
+							SetAttr "NewReaction RE_NONE"
+						Block end
+						
+						CheckAttr "hostaged State st_OnHostaged"
+						
+						ResetSequence 1
+						State st_start
+					}
+				}
+				
+				xpt_SayScream
+				{
+					actions
+					{
+						IfAttr "VoicePrefix:self == String:PM Say WM_SCREAM,2"
+						IfAttr "VoicePrefix:self == String:PF Say WF_SCREAM,2"
+						ifAttr "VoicePrefix:self != String:PM and VoicePrefix:self != String:PF Say SCREAM,2"
+					}
+				}
+			}
+		}
+		
+	}
+	
+		
+		
+		
+	events
+	{
+		OnHit					"ExecutePattern st_util.xpt_OnHit"
+		OnAE_PlayerBad "SetSquadRelation Player_Squad:enemy:3"
+		OnArresteded	"ExecutePattern st_OnArrested.pt_default"
+		//OnUnconscious	"ExecutePattern st_util.xpt_OnUnconscious"
+		OnDeath				"ExecutePattern st_OnDeath.pt_default"
+		OnSprayStunned	"State st_OnSprayStunned"
+		
+	}
+	
+}
+
+behavior
+{
+	name bh_movienerd_military
+	inherited bh_movienerd
+	
+	States
+	{
+		
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetEntByName "mission_logic"
+						TargetToMem msGP
+						ExecutePattern bh_base:st_init.pt_default
+						
+						SetAttr "SprayDamage SPRAY_DMG_DEFAULT"
+						
+						
+						
+						AvoidProhibitedArea false
+						
+						SetSquad Nerd_Squad
+						SetSquadRelation Uwe_Squad:enemy:1
+						SetAreaGroup AG_UWE,AG_UWE_FIGHT,AG_DEFAULT:walkable
+						
+						TargetEntByName "npc_uwe"
+						TargetToMem msENEMY
+						
+						// Если нужно проверить поведение побитых то включить
+						
+						ResetTarget 1
+						
+						SetAttr "IdleFirstRun 1"
+						
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Senses true
+						RemoveAttr OnGround
+						//TargetFromMem msENEMY
+						TargetEnemy 1
+						
+						
+						//IfAttr "target.active != 1 TargetPlayer 1"
+						MoveToTarget run,200:300
+						Wait 2
+						ExecutePattern .xpt_combat
+						ExecutePattern .xpt_idle
+						
+						Repeat 3
+					}
+				}
+			}
+		}
+		st_OnDeath
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						//IfAttr "Object:target == Object:slot#msENEMY Say SUBNERDS_DEATH,1"
+						
+						IfAttr "Object:Caller == Object:Player Block begin"
+							MissionLog fail,NonLethal
+						Block end
+						
+						ExecutePattern bh_base:st_OnDeath.pt_default
+					}
+				}
+			}
+		}
+		st_util
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				xpt_checkClumb
+				{
+					actions
+					{
+					}
+				}
+			}
+		}
+	}
+	
+}
+
+behavior
+{
+	name bh_ninja
+	inherited bh_civil
+	
+	States
+	{
+	
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetEntByName mission_logic
+						TargetToMem msGP
+						ResetTarget 1
+						Timer checkUnderAttack,1,repeated
+						SetAreaGroup AG_NINJA
+						SetSquad Uwe_Squad
+						SetAttr "FirstRun 1"
+						ExecutePattern bh_base:st_init.pt_default
+						
+						
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Senses true
+						Face true
+						MoveToTarget run
+						Wait 1
+						Face False
+						SetAreaGroup AG_UWE,AG_UWE_FIGHT,AG_DEFAULT:walkable
+						CheckAttr "slot#msGP.UweHited Block begin"
+							ResetTarget 1
+							TargetEnemy 1
+							ExecutePattern .xpt_combat
+						Block end
+						
+						IfAttr "Name:self == String:npc_ninja1 TargetEntByName npc_ninja2"
+						IfAttr "Name:self == String:npc_ninja2 TargetEntByName npc_ninja1"
+						
+						IfAttr "Object:target != Object:Null and target.active == 1 ExecutePattern .xpt_combat"
+						
+						
+						ExecutePattern .xpt_idle
+					}
+				}
+				pt_checkUnderAttack
+				{
+			
+					actions
+					{
+						Timer checkUnderAttack,0
+						CheckAttr "slot#msGP.UweHited Block begin"
+							SetAttr "HITTEDUWE 1"
+							ResetTarget 1
+							IfAttr "target == npc_ninja1 IgnoreTarget 100"
+							IfAttr "target == npc_ninja2 IgnoreTarget 100"
+							IfAttr "Object:target != Object:Null and target.active == 1 ExecutePattern .xpt_combat"
+						
+						//	IfAttr "Object:target != Object:Null and target.active == 1 State st_attack"
+						Block end
+						
+					}	
+				}
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						
+						State st_start
+					}
+				}
+			}
+			events
+			{
+				OnNewEnemy "State st_start"
+				OnNewFear  "State st_start"
+			}
+		}
+		
+		
+		st_OnDeath
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "Object:Caller == Object:Player Block begin"
+							MissionLog fail,NonLethal
+						Block end
+						ExecutePattern bh_base:st_OnDeath.pt_default
+					}
+				}
+			}
+		}
+		
+		st_util
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				xpt_CheckCallerAgression
+				{
+					actions
+					{
+						IfAttr "Object:Caller == Object:Player SetSquadRelation Player_Squad:enemy:3"
+					}
+				}
+				
+				xpt_OnHit
+				{
+					actions
+					{
+						ExecutePattern st_util.xpt_CheckCallerAgression
+						TargetCaller 1
+						State st_start
+					}
+				}
+				
+			}
+		}
+		
+	}
+	
+	events
+	{
+		OnTimer_checkUnderAttack "ExecutePattern st_start.pt_checkUnderAttack"
+		//OnHit					"ExecutePattern st_util.xpt_OnHit"
+		//OnAE_PlayerBad "SetSquadRelation Player_Squad:enemy:3"
+		//OnArresteded	"ExecutePattern st_util.xpt_OnArrested"
+		//OnUnconscious	"ExecutePattern st_util.xpt_OnUnconscious"
+		//OnDeath				"ExecutePattern st_OnDeath.pt_default"
+	}
+	
+}
+
+
+
+
+behavior
+{
+	name bh_operator
+	inherited bh_civil
+	
+	States
+	{
+	
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						SetSquad Uwe_Squad
+						Timer ChangeMovieHero,10,repeated
+						SetAttr "flag_IgnoreWeapon 1"
+						SetAttr "flag_IgnorePlayerAttack 1"
+					}
+				}
+			}
+		}
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_ChooseEnemy
+				{
+					actions
+					{
+					}
+				}
+			}
+		}
+		st_movieherochange
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetFromMem msGP
+						
+						SetAttr "HeroNinja 1:10"
+						IfAttr "HeroNinja <= 5 TargetEntByName npc_ninja1"
+						IfAttr "HeroNinja > 5 TargetEntByName npc_ninja2"
+						CheckAttr "slot#msGP.UweHited Block begin"
+							Timer ChangeMovieHero,0
+							Weapon drop
+							Wait 1
+							SetAttr "NewReaction RE_FEAR"
+						Block end	
+						
+						RemoveAttr "HeroNinja"
+						Face true
+						State st_kino
+					}
+				}
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						
+						CheckAttr "slot#msGP.UweHited State st_fear"
+						ExecutePattern st_movieherochange.pt_default
+					}
+				}
+			}
+		}
+		
+		st_kino
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "reaction != RE_NONE Pattern pt_end"
+						CheckAttr "slot#msGP.UweHited SetAttr NewReaction RE_FEAR"
+						
+						Face true
+						Wait 1
+						Hit 1
+						Face False
+						
+						repeat 2
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						Pattern pt_end
+					}
+				}
+			}
+		
+		}
+		
+	}
+	events
+	{
+		OnTimer_ChangeMovieHero "ExecutePattern st_movieherochange.pt_default"
+	}
+}
+
+
+
+
+
+behavior
+{
+	name bh_civil_sub
+	inherited bh_civil
+	
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						SetAttr "flag_bystander 1"
+					}
+				}
+			}
+		}
+		
+		//карму зарезал т.к. есть её регулировка в bh_social для байстендеров
+	}
+}
