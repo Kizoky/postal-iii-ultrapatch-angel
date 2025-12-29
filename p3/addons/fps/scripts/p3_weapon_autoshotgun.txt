@@ -14,7 +14,7 @@ WeaponData
 	"bucket_position_360"	"1"
 	"recoil"				"4"
 
-	"clip_size"				"8"
+	"clip_size"				"12"
 	"primary_ammo"			"Buckshot"
 	"secondary_ammo"		"None"
 

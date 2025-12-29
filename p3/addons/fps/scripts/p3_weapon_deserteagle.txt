@@ -36,8 +36,8 @@ WeaponData
 	"screen_shake_frequency"	"25"
 	"screen_shake_duration"	"0.3"
 	
-	"NPCMinDamage"			"35"
-	"NPCMaxDamage"			"40"
+	"NPCMinDamage"			"25"
+	"NPCMaxDamage"			"25"
 
 // weapon types
 // none							0
