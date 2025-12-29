@@ -11,3 +11,16 @@ Postal III Ultrapatch Angel is fork of Ultrapatch that adds the AngelScript scri
 - Addon system (similar to ZOOM's implementation, but better)
 - More bug and crash fixes
 - Makes Postal III less painful to play with
+
+### Credits
+
+- `Pseudonym_Tim`: Lead Developer and Programmer
+- `Kizoky`: Programming, Mapping
+- `Lena`: Mapping
+- `Jenny_MCII`: Programming, Balancing, Testing, and Mission Improvements
+- `Elwood`: English Writing Improvements, Balancing, and Mission Improvements
+- `ABRAoriginal`: Mapping, P3S Scripting, various other improvements
+
+### SPECIAL THANKS:
+- `MeeMdic`: Russian localization improvements, weapon icons, First Person animations and models!
+- `Professor Skuf`: Rigorous testing and bug reporting!
