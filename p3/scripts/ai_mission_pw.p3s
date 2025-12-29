@@ -1425,7 +1425,7 @@ behavior //bh_mom
                     {
                         ResetGesture all
                         SetHintGroup wish_fun_watch
-                        FreeMovementParams  hint_all,ED_MIDDLE,ED_FAR,hint_group,hint_face
+                        FreeMovementParams  hint_all,ED_MIDDLE,9999,hint_group,hint_face
                         FreeMovement run,reset
 						Gesture march_banner
 						Repeat 10
