@@ -1,0 +1,19 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Weapons/M60/chain"
+	"$alphatest" "1"
+	"$lightwarptexture" "models/Weapons/M60/chain_lightwarp"
+	"$bumpmap" "models/Weapons/M60/chain_alpha_normal"
+	
+	"$phong" "1"
+	"$phongexponent" 30
+	"$phongboost"	"2"
+	"$phongfresnelranges"	"[0.5 1 1]"
+	
+	"Proxies"
+	{
+		"M60ChainProxy"
+		{
+		}
+	}
+}

@@ -20,4 +20,4 @@
 	
 	//"$color2" "[0.80 0.65 0.55]"
 }
-#base "materials/models/burned_flesh.vmt"
+#base "materials/models/burned_fabric.vmt"

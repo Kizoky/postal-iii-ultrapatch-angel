@@ -1,0 +1,9 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Weapons/Box_Grenade/box_catnip"
+	"$basemapalphaphongmask" "1"
+	"$phong" "1"
+	"$phongexponent" 5
+	"$phongboost"	"0.5"
+	"$phongfresnelranges"	"[0.5 1 1]"
+}

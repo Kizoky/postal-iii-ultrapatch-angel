@@ -1,0 +1,19 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Characters/M_Avg_Talib/Hats/Taliban_Cap_04"
+	//"$basetexture" "models/gray"
+	"$bumpmap" "models/Characters/M_Avg_Talib/Hats/Taliban_Cap_04_normal"
+//	"$normalmapalphaenvmapmask" "1"
+//	"$envmaptint" "[.4 .4 .4]"
+
+	"$phong" "1"
+	"$phongexponent" 3
+	"$phongboost"	"1"
+	"$phongfresnelranges"	"[0.01 0.2 0.7]"
+
+	"$rimlight" "1"
+	"$rimlightboost" "1"
+//	"$lightwarptexture" "models/tmp_pers/lightwarptexture"
+	"$halflambert" "1"
+}
+#base "materials/models/burned_fabric.vmt"
