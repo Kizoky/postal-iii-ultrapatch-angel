@@ -21,6 +21,6 @@ Postal III Ultrapatch Angel is fork of Ultrapatch that adds the AngelScript scri
 - `Elwood`: English Writing Improvements, Balancing, and Mission Improvements
 - `ABRAoriginal`: Mapping, P3S Scripting, various other improvements
 
-### SPECIAL THANKS:
+#### SPECIAL THANKS:
 - `MeeMdic`: Russian localization improvements, weapon icons, First Person animations and models!
 - `Professor Skuf`: Rigorous testing and bug reporting!
