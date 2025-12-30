@@ -107,6 +107,25 @@
         "NumberFont"           "HudNumbersSmall"
 	}
 
+    HudSuit
+	{
+		"fieldName"		"HudSuit"
+		"xpos"	"140"
+		"ypos"	"432"
+		"wide"	"108"
+		"tall"  "36"
+		"visible" "1"
+		"enabled" "1"
+
+		"PaintBackgroundType"	"2"
+
+		
+		"text_xpos" "8"
+		"text_ypos" "20"
+		"digit_xpos" "50"
+		"digit_ypos" "2"
+	}
+	
     HudKarmaMeter
     {
     	"fieldName"	           "HudKarmaMeter"
@@ -153,7 +172,7 @@
 	{
 		"fieldName"		"HudHealth"
 
-		// позиция и размер самого элемента
+		// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 		"xpos"	"24"
 		"ypos"	"420"
 		"wide"	"140"
@@ -163,12 +182,12 @@
 
 		"PaintBackgroundType"	"2"
 
-		// позиция иконки
+		// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 		"TextFont" "HudNumbers"
 		"text_xpos" "2"
 		"text_ypos" "8"
 
-		// позиция цифр
+		// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 		"digit_xpos" "42"
 		"digit_ypos" "0"
 	}
@@ -185,22 +204,22 @@
 
 		"PaintBackgroundType"	"2"
 		
-		// иконка
+		// пїЅпїЅпїЅпїЅпїЅпїЅ
 		"icon_xpos"	"0"
 		"icon_ypos" "0"
 		"icon_wide" "100"
 		"icon_tall" "100"
 
-		// патроны
+		// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 		"digit_xpos" "24"
 		"digit_ypos" "0"
 
-		// слэш
+		// пїЅпїЅпїЅпїЅ
 		"TextFont" "HudNumbers"
 		"text_xpos" "90"
 		"text_ypos" "0"
 
-		// обоймы
+		// пїЅпїЅпїЅпїЅпїЅпїЅ
 		"SmallNumberFont" "HudNumbers"
 		"digit2_xpos" "110"
 		"digit2_ypos" "0"
@@ -391,7 +410,7 @@
     {
         "fieldName"	"HudPlayerInfo"
 		"enabled"	"1"
-        "wide"			"256"
+        "wide"			"512"
 		"tall"			"256"
         "visible"       "1"
         
