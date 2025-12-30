@@ -1,0 +1,180 @@
+"Elevator_DTS.Moving"
+{
+	"soundlevel"	"SNDLVL_75dB"
+	"pitch"			"PITCH_NORM"
+	"volume"		"1.0"
+
+	"wave"		"objects/lift_moving.wav"
+}
+
+"Car.Explosion"
+{
+	"channel"		"CHAN_AUTO"
+	"volume"		"1.0"
+	"soundlevel"	"SNDLVL_150"
+
+	"rndwave"
+	{
+		"wave"		"^objects/car_expl_01.wav"
+		"wave"		"^objects/car_expl_02.wav"
+		"wave"		"^objects/car_expl_03.wav"
+		"wave"		"^objects/car_expl_04.wav"
+		"wave"		"^objects/car_expl_05.wav"
+	}
+}
+
+"Car.TireShot"
+{
+	"channel"		"CHAN_AUTO"
+	"volume"		"1.0"
+	"soundlevel"	"SNDLVL_150"
+
+	"rndwave"
+	{
+		"wave"		"^objects/car_tire_shot_01.wav"
+		"wave"		"^objects/car_tire_shot_02.wav"
+		"wave"		"^objects/car_tire_shot_03.wav"
+		"wave"		"^objects/car_tire_shot_04.wav"
+	}
+}
+
+"Car.Creak"
+{
+	"channel"		"CHAN_AUTO"
+	"volume"		"1.0"
+	"soundlevel"	"SNDLVL_150"
+
+	"rndwave"
+	{
+		"wave"		"^objects/car_suspension_creak_01.wav"
+		"wave"		"^objects/car_suspension_creak_02.wav"
+		"wave"		"^objects/car_suspension_creak_03.wav"
+		"wave"		"^objects/car_suspension_creak_04.wav"
+	}
+}
+
+"Segway.Moving"
+{
+	"channel"		"CHAN_VOICE"
+	"soundlevel"	"SNDLVL_75dB"
+	"volume"		"1"
+
+	"wave"			"^characters/segway.wav"
+}
+
+"Catnip.Splash"
+{
+	"channel"		"CHAN_AUTO"
+	"volume"		"1.0"
+	"soundlevel"	"SNDLVL_150"
+
+	"wave"			"physics/glass/glass_sheet_break1.wav"
+}
+
+"Photocam.Flashlight"
+{
+	"channel"		"CHAN_AUTO"
+	"volume"		"1.0"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/camera/camera_flash_02.wav"
+		"wave"		"weapons/camera/camera_flash_04.wav"
+		"wave"		"weapons/camera/camera_flash_05.wav"
+		"wave"		"weapons/camera/camera_flash_07.wav"
+		"wave"		"weapons/camera/camera_flash_08.wav"
+		"wave"		"weapons/camera/camera_flash_10.wav"
+		"wave"		"weapons/camera/camera_flash_11.wav"
+		"wave"		"weapons/camera/camera_flash_13.wav"
+		"wave"		"weapons/camera/camera_flash_14.wav"
+		"wave"		"weapons/camera/camera_flash_15.wav"
+		"wave"		"weapons/camera/camera_flash_16.wav"
+	}
+}
+
+"Extinguisher.Hit"
+{
+	"channel"		"CHAN_AUTO"
+	"volume"		"1.0"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"^characters/segway.wav"
+}
+
+"Extinguisher.Explosion"
+{
+	"channel"		"CHAN_AUTO"
+	"volume"		"1.0"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"wave"			"^objects/car_explosion.wav"
+}
+
+"Helicopter.RotorSound"
+{
+	"channel"		"CHAN_AUTO"
+	"volume"		"1.0"
+	"soundlevel"	"SNDLVL_150"
+
+	"wave"			"characters/helicopter/helicopter_idle_loop.wav"
+}
+
+"Tank.Engine"
+{
+	"channel"		"CHAN_AUTO"
+	"volume"		"0.80"
+	"soundlevel"	"SNDLVL_130"
+
+	"wave"			"characters/tank/tank_engine_idle_loop.wav"
+}
+
+"Tank.Movement"
+{
+	"channel"		"CHAN_AUTO"
+	"volume"		"1.0"
+	"soundlevel"	"SNDLVL_150"
+
+	"wave"			"characters/tank/tank_movement_loop.wav"
+}
+
+"Tank.Rotate"
+{
+	"channel"		"CHAN_AUTO"
+	"volume"		"1.0"
+	"soundlevel"	"SNDLVL_150"
+
+	"wave"			"characters/tank/tank_turret_aim_loop.wav"
+}
+
+"VehicleTank.FireSound"
+{
+	"channel"		"CHAN_AUTO"
+	"volume"		"1.0"
+	"soundlevel"	"SNDLVL_150dB"
+
+	"rndwave"
+	{
+		"wave"		"weapons/m136/m136_shot_01.wav"
+		"wave"		"weapons/m136/m136_shot_02.wav"
+		"wave"		"weapons/m136/m136_shot_03.wav"
+		"wave"		"weapons/m136/m136_shot_04.wav"
+		"wave"		"weapons/m136/m136_shot_05.wav"
+	}
+}
+
+"npc_combinehelicopter.dyingsound"
+{
+	"channel"		"CHAN_AUTO"
+	"volume"		"1.0"
+	"soundlevel"	"SNDLVL_150"
+
+	"rndwave"
+	{
+		"wave"		"^objects/car_expl_01.wav"
+		"wave"		"^objects/car_expl_02.wav"
+		"wave"		"^objects/car_expl_03.wav"
+		"wave"		"^objects/car_expl_04.wav"
+		"wave"		"^objects/car_expl_05.wav"
+	}
+}

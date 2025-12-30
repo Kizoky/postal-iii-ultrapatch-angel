@@ -1,0 +1,7 @@
+"LightmappedGeneric"
+{
+	"$baseTexture" "ground\debris_01"
+	"$basetexture2" "ground\ground_grotto_01"
+	"$blendmodulatetexture" "ground\blendtexture01"
+	"$surfaceprop" "dirt"
+}
