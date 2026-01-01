@@ -335,9 +335,9 @@
 
     "rndwave"
 	{
-			"wave"		"^weapons/SniperRifle/SniperRifle_magout01.wav"
-			"wave"		"^weapons/SniperRifle/SniperRifle_magout02.wav"
-			"wave"		"^weapons/SniperRifle/SniperRifle_magout03.wav"
+			"wave"		"weapons/SniperRifle/SniperRifle_magout01.wav"
+			"wave"		"weapons/SniperRifle/SniperRifle_magout02.wav"
+			"wave"		"weapons/SniperRifle/SniperRifle_magout03.wav"
 	}
 	
 }
@@ -349,9 +349,9 @@
 
     "rndwave"
 	{
-			"wave"		"^weapons/SniperRifle/SniperRifle_magin01.wav"
-			"wave"		"^weapons/SniperRifle/SniperRifle_magin02.wav"
-			"wave"		"^weapons/SniperRifle/SniperRifle_magin03.wav"
+			"wave"		"weapons/SniperRifle/SniperRifle_magin01.wav"
+			"wave"		"weapons/SniperRifle/SniperRifle_magin02.wav"
+			"wave"		"weapons/SniperRifle/SniperRifle_magin03.wav"
 	}
 	
 }
@@ -361,7 +361,7 @@
 	"channel"		"CHAN_ITEM"
 	"soundlevel"	"SNDLVL_NORM"
 
-	"wave"			"^weapons/SniperRifle/scopezoom.wav"
+	"wave"			"weapons/SniperRifle/scopezoom.wav"
 }
 
 "Weapon_SniperRifle.Bolt"
@@ -369,7 +369,7 @@
 	"channel"		"CHAN_ITEM"
 	"soundlevel"	"SNDLVL_NORM"
 
-	"wave"			"^weapons/SniperRifle/SniperRifle_Bolt.wav"
+	"wave"			"weapons/SniperRifle/SniperRifle_Bolt.wav"
 }
 
 "Weapon_M16.Single"
@@ -1889,11 +1889,15 @@
 
 	"rndwave"
 	{
-		"wave"		"weapons/gasoline/gasoline_match_01.wav"
-		"wave"		"weapons/gasoline/gasoline_match_02.wav"
-		"wave"		"weapons/gasoline/gasoline_match_03.wav"
-		"wave"		"weapons/gasoline/gasoline_match_04.wav"
-		"wave"		"weapons/gasoline/gasoline_match_05.wav"
+		"wave"		"weapons/gasoline/matches_burn_01.wav"
+		"wave"		"weapons/gasoline/matches_burn_02.wav"
+		"wave"		"weapons/gasoline/matches_burn_03.wav"
+		"wave"		"weapons/gasoline/matches_burn_04.wav"
+		"wave"		"weapons/gasoline/matches_burn_05.wav"
+		"wave"		"weapons/gasoline/matches_burn_06.wav"
+		"wave"		"weapons/gasoline/matches_burn_07.wav"
+		"wave"		"weapons/gasoline/matches_burn_08.wav"
+		"wave"		"weapons/gasoline/matches_burn_09.wav"
 	}
 }
 
