@@ -8,7 +8,7 @@ v1.3.0: (Note: skipped version v1.2.0 on purpose, consider Ultrapatch+Angel v1.3
 - Fixed buggy Door destruction
 - You can now shoot or kick while jumping
 - UltraPatch Angel is now compatible with all copies of Postal 3
-- Experimental Demo playback fix (Sound is working, there are some issues with the camera)
+- Experimental Demo playback fix (Sound is working, there are some issues with the camera/prediction)
 - Added new weapons (Colt, Autoshotgun, M249, Tear Gas)
 - Fixed several crashes and memory corruptions
 - Improved and fixed the Addon System
@@ -118,6 +118,9 @@ look inside `p3/scripts/ultrapatch/p3_ultrapatch_inventory.txt` for example
 * Postal3Script: `OnTargetKilled` and `OnTargetUnconscious` will now send events to all Postal3Script entities (including non-NPC/Player ones)
 + Added in-game Addon manager
 + Added engine hack made by Grizzle (increased engine model and sound precache limits)
+* Fixed all props trying to transfer over via `changelevel` or triggers in Multiplayer 
+* Slightly altered the code of pathfinding
+* TVCam weapon (NPC-only weapon) is no longer restricted to Uwe Boll mission only
 
 
 MULTIPLAYER RELATED:
