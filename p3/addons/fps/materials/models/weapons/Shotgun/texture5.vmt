@@ -1,0 +1,18 @@
+"Unlittwotexture"
+{
+	"$basetexture" "models/Weapons/Shotgun/texture5"
+	"$texture2"	"models/Weapons/Shotgun/noise"
+	"$additive" 1
+	"$model" 1
+
+	"Proxies"
+	{
+
+		"TextureScroll"
+		{
+			"texturescrollvar" "$texture2transform"
+			"texturescrollrate" 4
+			"texturescrollangle" -50
+		}
+	}
+}
