@@ -22,7 +22,7 @@ Scheme
 		
 		"Red"				"192 28 0 140"
 		"Black"				"0 0 0 196"
-		"TransparentBlack"	"0 0 0 218"
+		"TransparentBlack"	"0 0 0 196"
 		"TransparentLightBlack"	"0 0 0 90"
 
 		"Blank"				"0 0 0 0"
@@ -38,6 +38,7 @@ Scheme
 	BaseSettings
 	{
 		"FgColor"			"255 220 0 100"
+		"FgColor_vrmode"	"255 220 0 200"
 		"BgColor"			"0 0 0 76"
 
 		"Panel.FgColor"			"255 220 0 100"
@@ -65,8 +66,7 @@ Scheme
 
 		// Top-left corner of the "Half-Life 2" on the main screen
 		"Main.Title1.X"		"76"
-		"Main.Title1.Y"		"145"
-		"Main.Title1.Y_hidef" "130"
+		"Main.Title1.Y"		"184"
 		"Main.Title1.Color"	"255 255 255 255"
 		
 		// Top-left corner of the "DEATHMATCH" on the main screen
@@ -76,7 +76,6 @@ Scheme
 
 		// Top-left corner of the menu on the main screen
 		"Main.Menu.X"			"76"
-		"Main.Menu.X_hidef"		"90"
 		"Main.Menu.Y"			"240"
 		
 		// Blank space to leave beneath the menu on the main screen
@@ -273,16 +272,12 @@ Scheme
 	// describes all the fonts
 	Fonts
 	{
-	
-	
-	/////////////////////// P3 FONTS START /////////////////////////////
-
 		"p3_message"
 		{
 			"1"
 			{
 				"name"		"soup"
-				"tall"		"27"
+				"tall"		"24"
 				"weight"	"560"
 				"antialias" "1"
                 "custom"    "1"
@@ -295,52 +290,90 @@ Scheme
 			"1"
 			{
 				"name"		"soup"
-				"tall"		"28"
+				"tall"		"25"
 				"weight"	"600"
 				"antialias" "1"
                 "custom"    "1"
 				"blur"      "2"
 			}
 		}
-        
-       
-	
-	/////////////////////// P3 FONTS END /////////////////////////////
-
-	
-	
+		
 		// fonts are used in order that they are listed
-		// fonts are used in order that they are listed
-		"DefaultBold"
+		"InstructorTitle"
 		{
 			"1"
 			{
-				"name"		"soup" [!$OSX]
-				"name"		"Verdana Bold" [$OSX]
-				"tall"		"29"
-				"weight"	"1000"
+				"name"		"Sketchit Means Sketchit"
+				"tall"			"16"
+				"weight"	"100"
 				"antialias" "1"
-				"custom"	"1"
+				"dropshadow"	"1"
 			}
 		}
-		"HelperBold"
+		"InstructorTitle_ss"
 		{
 			"1"
 			{
-				"name"		"soup" [!$OSX]
-				"name"		"Verdana Bold" [$OSX]
-				"tall"		"22"
-				"weight"	"700"
+				"name"		"Sketchit Means Sketchit"
+				"tall"			"16"
+				"weight"	"100"
 				"antialias" "1"
-				"custom"	"1"
+				"dropshadow"	"1"
 			}
 		}
+		"InstructorTitleGlow"
+		{
+			"1"
+			{
+				"name"		"Sketchit Means Sketchit"
+				"tall"			"16"
+				"weight"	"100"
+				"antialias" "1"
+				"dropshadow"	"1"
+				"blur"	"2"
+			}
+		}
+		"InstructorTitleGlow_ss"
+		{
+			"1"
+			{
+				"name"		"Sketchit Means Sketchit"
+				"tall"			"16"
+				"weight"	"100"
+				"antialias" "1"
+				"dropshadow"	"1"
+				"blur"	"2"
+			}
+		}
+		InstructorButtons
+		{
+			"1"
+			{
+				"bitmap"	"1"
+				"name"		"Buttons"
+				"scalex"	"0.65"
+				"scaley"	"0.65"
+			}
+		}
+		"InstructorKeyBindings"
+		{
+			"1"
+			{
+				"name"		"Sketchit Means Sketchit"
+				"tall"		"14"
+				"weight"	"500"
+				"antialias" "1"
+			}
+		} 
+		
+		// fonts are used in order that they are listed
+		// fonts are used in order that they are listed
 		"DebugFixed"
 		{
 			"1"
 			{
 				"name"		"Courier New"
-				"tall"		"18"
+				"tall"		"14"
 				"weight"	"400"
 				"antialias" "1"
 			}
@@ -447,13 +480,6 @@ Scheme
 				"weight"	"0"
 				"antialias"	"1"
 			}
-			"6"
-			{
-				"name"		"Arial"
-				"tall"		"12"
-				"range" 		"0x0000 0x00FF"
-				"weight"		"0"
-			}
 		}
 		"DefaultVerySmall"
 		{
@@ -496,19 +522,29 @@ Scheme
 				"weight"	"0"
 				"antialias"	"1"
 			}
-			"6"
+		}
+		"DefaultBold"
+		{
+			"1"
 			{
-				"name"		"Verdana"
-				"tall"		"12"
-				"range" 		"0x0000 0x00FF"
-				"weight"		"0"
+				"name"		"soup" [!$OSX]
+				"name"		"Verdana Bold" [$OSX]
+				"tall"		"26"
+				"weight"	"1000"
+				"antialias" "1"
+				"custom"	"1"
 			}
-			"7"
+		}
+		"HelperBold"
+		{
+			"1"
 			{
-				"name"		"Arial"
-				"tall"		"11"
-				"range" 		"0x0000 0x00FF"
-				"weight"		"0"
+				"name"		"soup" [!$OSX]
+				"name"		"Verdana Bold" [$OSX]
+				"tall"		"19"
+				"weight"	"700"
+				"antialias" "1"
+				"custom"	"1"
 			}
 		}
 		WeaponIcons
@@ -597,58 +633,33 @@ Scheme
 			"1"
 			{
 				"name"		"HalfLife2"
-				"tall"		"40" [!$OSX]
-				"tall"		"41" [$OSX]
+				"tall"		"40"
 				"weight"	"0"
 				"antialias" "0"
 				"additive"	"1"
 				"custom"	"1"
-				"yres"		"1 1599" [!$DECK]
-				"yres"		"1 1439" [$DECK]
-			}
-			"2"
-			{
-				"name"		"HalfLife2"
-				"tall"		"80"
-				"weight"	"0"
-				"antialias" "1"
-				"additive"	"1"
-				"custom"	"1"
-				"yres"		"1600 3199" [!$DECK]
-				"yres"		"1440 3199" [$DECK]
-			}
-			"3"
-			{
-				"name"		"HalfLife2"
-				"tall"		"120"
-				"weight"	"0"
-				"antialias" "1"
-				"additive"	"1"
-				"custom"	"1"
-				"yres"		"3200 4799"
-			}
-			"4"
-			{
-				"name"		"HalfLife2"
-				"tall"		"17"
-				"weight"	"0"
-				"antialias" "1"
-				"additive"	"1"
-				"custom"	"1"
+				"yres"		"1 10000"
 			}
 		}
 		QuickInfo
 		{
-			"1"
+			"1"	[$X360]
 			{
 				"name"		"HL2cross"
-				"tall"		"36" [$DECK]
-				"tall"		"28" [!$OSX]
-				"tall"		"50" [$OSX]
+				"tall"		"57"
+				"weight"	"0"
+				"antialias" 	"1"
+				"additive"	"1"
+				"custom"	"1"
+			}
+			"1"	[$WIN32]
+			{
+				"name"		"HL2cross"
+				"tall"		"28"
 				"weight"	"0"
 				"antialias" "1"
 				"additive"	"1"
-				"custom"	"1" [!$OSX]
+				"custom"	"1"
 			}
 		}
 		HudNumbers
@@ -707,12 +718,18 @@ Scheme
 		}
 		HudHintTextLarge
 		{
+			"1"	[$X360]
+			{
+				"bitmap"	"1"
+				"name"		"Buttons"
+				"scalex"	"1.0"
+				"scaley"	"1.0"
+			}
 			"1"	[$WIN32]
 			{
-				"name"		"GorDIN"
-				"tall"		"22" [$DECK]
-				"tall"		"15"
-				"weight"	"700"
+				"name"		"Verdana"
+				"tall"		"14"
+				"weight"	"1000"
 				"antialias" "1"
 				"additive"	"1"
 			}
@@ -721,10 +738,17 @@ Scheme
 		{
 			"1"	[$WIN32]
 			{
-				"name"		"GorDIN"
-				"tall"		"18" [$DECK]
-				"tall"		"13"
+				"name"		"Verdana"
+				"tall"		"11"
 				"weight"	"0"
+				"antialias" "1"
+				"additive"	"1"
+			}
+			"1"	[$X360]
+			{
+				"name"		"Verdana"
+				"tall"		"12"
+				"weight"	"700"
 				"antialias" "1"
 				"additive"	"1"
 			}
@@ -733,52 +757,43 @@ Scheme
 		{
 			"1"
 			{
-				"name"		"GorDIN"
-				"tall"		"12" [$DECK]
-				"tall"		"12"
-				"weight"	"600"
+				"name"		"Verdana"
+				"tall"		"8"
+				"weight"	"700"
 				"antialias" "1"
 				"yres"	"1 599"
-				"additive"	"1"
 			}
 			"2"
 			{
-				"name"		"GorDIN"
-				"tall"		"14" [$DECK]
-				"tall"		"12"
-				"weight"	"600"
+				"name"		"Verdana"
+				"tall"		"10"
+				"weight"	"700"
 				"antialias" "1"
 				"yres"	"600 767"
-				"additive"	"1"
 			}
 			"3"
 			{
-				"name"		"GorDIN"
-				"tall"		"18" [$DECK]
-				"tall"		"14"
-				"weight"	"600"
+				"name"		"Verdana"
+				"tall"		"12"
+				"weight"	"900"
 				"antialias" "1"
 				"yres"	"768 1023"
-				"additive"	"1"
 			}
 			"4"
 			{
-				"name"		"GorDIN"
-				"tall"		"22" [$DECK]
-				"tall"		"17"
-				"weight"	"600"
+				"name"		"Verdana"
+				"tall"		"16"
+				"weight"	"900"
 				"antialias" "1"
 				"yres"	"1024 1199"
-				"additive"	"1"
 			}
 			"5"
 			{
-				"name"		"GorDIN"
-				"tall"		"9" [$DECK]
-				"tall"		"7"
-				"weight"	"700"
+				"name"		"Verdana"
+				"tall"		"17"
+				"weight"	"1000"
 				"antialias" "1"
-				"additive"	"1"
+				"yres"	"1200 10000"
 			}
 		}
 		GameUIButtons
@@ -1125,9 +1140,9 @@ Scheme
 			// note that this scales with the screen resolution
 			"1"
 			{
-				"name"		"GorDIN"
+				"name"		"soup"
 				"tall"		"18"
-				"weight"	"700"
+				"weight"	"900"
 				"antialias" "1"
 				"additive"	"1"
 			}
@@ -1348,21 +1363,14 @@ Scheme
 	{
 		"1"		"resource/HALFLIFE2.ttf"
 		"2"		"resource/HL2crosshairs.ttf"
-		"3"	"resource/HL2EP2.ttf"		
-		"3"		"resource/HL2MP.ttf"
-		"4"		"resource/linux_fonts/DejaVuSans.ttf"
-		"5"		"resource/linux_fonts/DejaVuSans-Bold.ttf"
-		"6"		"resource/linux_fonts/DejaVuSans-BoldOblique.ttf"
-		"7"		"resource/linux_fonts/DejaVuSans-Oblique.ttf"
-		"8"		"resource/linux_fonts/LiberationSans-Regular.ttf"
-		"9"		"resource/linux_fonts/LiberationSans-Bold.ttf"
-		"10"	"resource/linux_fonts/LiberationMono-Regular.ttf"
+		"3"		"resource/HL2EP2.ttf"
+		"4"		"resource/soup.ttf"
 
-		"11"	"resource/GorDIN-Regular.ttf"
-		"12"	"resource/GorDIN-Bold.ttf"
-		"13"	"resource/GorDIN-Semibold.ttf"
-		"14"	"resource/GorDIN-Black.ttf"
-		"15"	"resource/GorDIN-Light.ttf"
+		"5"	"resource/GorDIN-Regular.ttf"
+		"6"	"resource/GorDIN-Bold.ttf"
+		"7"	"resource/GorDIN-Semibold.ttf"
+		"8"	"resource/GorDIN-Black.ttf"
+		"9"	"resource/GorDIN-Light.ttf"
 	}
 
 }
