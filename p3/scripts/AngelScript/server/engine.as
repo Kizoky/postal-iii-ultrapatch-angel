@@ -4,16 +4,8 @@ class SEngine : IPostal3Script
 {
 	// Before an entity is spawned
 	[HOOK SEngine OnEntitySpawn]
-	void OnEntitySpawn(EHANDLE pEntity)
-	{
-		if (pEntity.IsValid() == false)
-			return;
-		
-		CBaseEntity@ pEnt = pEntity.GetEntity();
-		
-		if (@pEnt == @null)
-			return;
-		
+	void OnEntitySpawn(CBaseEntity@ pEntity)
+	{		
 		// Do whatever you want here with the entity
 	}
 	
@@ -118,7 +110,7 @@ class SEngine : IPostal3Script
 	}
 	
 	[HOOK SEngine OnCVarChanged]
-	void OnCVarChanged(string name, string OldString, float OldValue)
+	void OnCVarChanged(string name, string OldString, float OldValue, ConVar@ cvar)
 	{
 		
 	}
