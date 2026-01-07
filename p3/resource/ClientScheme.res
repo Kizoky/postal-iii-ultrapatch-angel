@@ -298,38 +298,37 @@ Scheme
 			}
 		}
 		
-		// fonts are used in order that they are listed
 		"InstructorTitle"
 		{
 			"1"
 			{
-				"name"		"Sketchit Means Sketchit"
+				"Name"			"Trade Gothic"
 				"tall"			"16"
 				"weight"	"100"
 				"antialias" "1"
-				"dropshadow"	"1"
+				//"dropshadow"	"1"
 			}
 		}
 		"InstructorTitle_ss"
 		{
 			"1"
 			{
-				"name"		"Sketchit Means Sketchit"
+				"Name"			"Trade Gothic"
 				"tall"			"16"
 				"weight"	"100"
 				"antialias" "1"
-				"dropshadow"	"1"
+				//"dropshadow"	"1"
 			}
 		}
 		"InstructorTitleGlow"
 		{
 			"1"
 			{
-				"name"		"Sketchit Means Sketchit"
+				"Name"			"Trade Gothic"
 				"tall"			"16"
 				"weight"	"100"
 				"antialias" "1"
-				"dropshadow"	"1"
+				//"dropshadow"	"1"
 				"blur"	"2"
 			}
 		}
@@ -337,11 +336,11 @@ Scheme
 		{
 			"1"
 			{
-				"name"		"Sketchit Means Sketchit"
+				"Name"			"Trade Gothic"
 				"tall"			"16"
 				"weight"	"100"
 				"antialias" "1"
-				"dropshadow"	"1"
+				//"dropshadow"	"1"
 				"blur"	"2"
 			}
 		}
@@ -359,12 +358,12 @@ Scheme
 		{
 			"1"
 			{
-				"name"		"Sketchit Means Sketchit"
-				"tall"		"14"
+				"name"		"Trade Gothic"
+				"tall"		"11"
 				"weight"	"500"
 				"antialias" "1"
 			}
-		} 
+		}
 		
 		// fonts are used in order that they are listed
 		// fonts are used in order that they are listed
