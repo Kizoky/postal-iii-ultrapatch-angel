@@ -104,4 +104,7 @@ p3_registry
 	"catnip_decals_count"		"8"
 	"catnip_decals_radius"		"10"
 	
+	
+	"fire_interval"				"0.7" // Interval of fire damage - Kizoky
+	
 }
