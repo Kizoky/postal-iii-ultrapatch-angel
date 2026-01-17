@@ -121,6 +121,21 @@ look inside `p3/scripts/ultrapatch/p3_ultrapatch_inventory.txt` for example
 * Fixed all props trying to transfer over via `changelevel` or triggers in Multiplayer 
 * Slightly altered the code of pathfinding
 * TVCam weapon (NPC-only weapon) is no longer restricted to Uwe Boll mission only
+* Postal3Script: Fixed `Weapon pickup` not working properly
+- Added `DropActiveWeapon` console command
+* Fixed Monkey & Champ echo sounds
+* AngelScript: Fixed active contexts being attempted to be used for execution
+* Fixed player ragdolls going through player clips
+* Fixed flashbang (unused projectile) deafening the Player forever
++ Added skill-based damage scaling for the Player (Easy, Normal, Hard like in HL2)
++ Added fire interval damage (Similar to POSTAL2)
+* Dropping weapons no longer removes the ammo type of that weapon anymore
++ Added L4D/Alien Swarm instructor system
+* Fixed some weapons still ticking while game is paused
++ AngelScript: Custom cvars with `FCVAR_ARCHIVE` now remember their values (stored inside `cfg/config_angel.cfg`
++ Added `env_hudhint` from Catharsis Reborn
+* Fixed the scoreboard and spectator UI looking like an ugly mess
+* Fixed hockey moms having a stare contest with Ron
 
 
 MULTIPLAYER RELATED:
