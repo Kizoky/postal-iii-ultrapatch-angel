@@ -37,6 +37,12 @@ WeaponData
     
 	"SecondaryMinDamage"	"200"
 	"SecondaryMaxDamage"	"250"
+	
+	"CanBeDropped"			"1"
+	"IsMelee"				"1"
+	"IsRanged"				"0"
+	// NPCs react negatively to this weapon if seen on humans
+	"Dangerous"				"0"
 
 	// Sounds for the weapon. There is a max of 16 sounds per category (i.e. max 16 "single_shot" sounds)
 	SoundData

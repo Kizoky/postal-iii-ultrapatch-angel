@@ -3,17 +3,17 @@
 WeaponData
 {
 	// Weapon data is loaded by both the Game and Client DLLs.
-	"ID"				"gamamet"
+	"ID"				"shopvac"
 	"printname"				""
-	"viewmodel"				"models/weapons/shop_vac/gamamet.mdl"
-	"playermodel"			"models/weapons/shop_vac/gamamet.mdl"
+	"viewmodel"				"models/weapons/shop_vac/v_shopvac.mdl"
+	"playermodel"			"models/weapons/shop_vac/shopvac.mdl"
 	"anim_prefix"			"shopvac"
 	"bucket"				"1"
-	"bucket_position"		"6"
+	"bucket_position"		"0"
 	"bucket_360"			"1"
-	"bucket_position_360"	"6"
+	"bucket_position_360"	"0"
 
-	"clip_size"				"100"
+	"clip_size"				"50"
 	"primary_ammo"			"None"
 	"secondary_ammo"		"None"
 
@@ -28,7 +28,7 @@ WeaponData
 	"weapon_type"			"gadget"
 	
 	"CanBeDropped"			"1"
-	"IsMelee"				"1" // NPCs should use melee behavior for this weapon
+	"IsMelee"				"1" // NPCs should use melee behavior for this
 	"IsRanged"				"0"
 	// NPCs react negatively to this weapon if seen on humans
 	"Dangerous"				"0"
@@ -36,9 +36,9 @@ WeaponData
 	// Sounds for the weapon. There is a max of 16 sounds per category (i.e. max 16 "single_shot" sounds)
 	SoundData
 	{
-		"special1"			"Weapon_ShopVac.Suit"
-		"burst"				"Weapon_ShopVac.Wock"
-		"special2"			"Weapon_ShopVac.Sprk"
+		"special1"			"Weapon_ShopVac.Suck"
+		"special2"			"Weapon_ShopVac.Spit"
+		"burst"				"Weapon_ShopVac.Work"
 		"deploy"			"Weapon_ShopVac.Deploy"
 	}
 
@@ -47,13 +47,13 @@ WeaponData
 	{
 		"weapon"
 		{
-				"file"		"sprites/gama"
+				"file"		"sprites/shopvac"
 				"width"		"128"
 				"height"	"128"
 		}
 		"weapon_small"
 		{
-				"file"		"sprites/weapon_small_icons/gama"
+				"file"		"sprites/weapon_small_icons/shop_vac"
 				"width"		"128"
 				"height"	"128"
 		}

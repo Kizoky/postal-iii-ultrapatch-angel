@@ -3,15 +3,15 @@
 WeaponData
 {
 	// Weapon data is loaded by both the Game and Client DLLs.
-	"ID"				"nailbat"
+	"ID"				"metabulky"
 	"printname"				""
 	"viewmodel"				"models/weapons/bat/bat.mdl"
 	"playermodel"			"models/weapons/bat/bat.mdl"
 	"anim_prefix"			"bat"
-	"bucket"				"2"
-	"bucket_position"		"2"
-	"bucket_360"			"2"
-	"bucket_position_360"	"2"
+	"bucket"				"0"
+	"bucket_position"		"7"
+	"bucket_360"			"1"
+	"bucket_position_360"	"7"
 
 	"meleeweapon"			"1"
 
@@ -20,34 +20,18 @@ WeaponData
 	"item_flags"			"0"
 
 	"weapon_type"			"melee"
-    "autoswitchfrom"        "1"
-	
-	"PrimaryMinDamage"		"65"
-	"PrimaryMaxDamage"		"75"
-	
-	"shake_screen"	"1"
-	"screen_shake_amplitude"	"3"
-	"screen_shake_frequency"	"25"
-	"screen_shake_duration"	"0.2"
 
-	"SecondaryMinDamage"	"100"
-	"SecondaryMaxDamage"	"100"
-	
 	"CanBeDropped"			"1"
 	"IsMelee"				"1"
 	"IsRanged"				"0"
 	// NPCs react negatively to this weapon if seen on humans
-	"Dangerous"				"1"
+	"Dangerous"				"0"
 
 	// Sounds for the weapon. There is a max of 16 sounds per category (i.e. max 16 "single_shot" sounds)
 	SoundData
 	{
 		"single_shot"		"Weapon_NailBat.Swing"
-		"melee_miss"		"Weapon_NailBat.Miss"
-		"melee_hit"			"Weapon_NailBat.Hit"
-		"melee_hit_world"	"Weapon_NailBat.HitWorld"
 		"deploy"			"Weapon_NailBat.Deploy"
-		"holster"			"Weapon_NailBat.Holster"
 	}
 
 	// Weapon Sprite data is loaded by the Client DLL.
@@ -61,9 +45,8 @@ WeaponData
 		}
 		"weapon_small"
 		{
-				"file"		"sprites/weapon_small_icons/nail_bat"
-				"width"		"128"
-				"height"	"128"
+				"font"		"WeaponIconsSmall"
+				"character"	"d"
 		}
 		"ammo"
 		{

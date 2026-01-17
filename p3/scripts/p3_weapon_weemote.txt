@@ -1,0 +1,65 @@
+WeaponData
+{
+	// Weapon data is loaded by both the Game and Client DLLs.
+	"ID"			"weemote"
+	"printname"			""
+	"viewmodel"			"models/test/locator.mdl"
+	"playermodel"		"models/test/locator.mdl"
+	"anim_prefix"		"gauss"
+	"bucket"			"0"
+	"bucket_position"	"1"
+	"bucket_360"			"2"
+	"bucket_position_360"	"2"
+
+	"clip_size"				"50"
+
+	"clip2_size"		"-1"
+	"primary_ammo"		"None"
+	"secondary_ammo"	"None"
+	"default_clip"		"0"
+	"default_clip2"		"0"
+	"weight"			"0"
+	"autoswitchto"		"0"
+	"autoswitchfrom"	"0"
+	"item_flags"		"5"
+
+	"weapon_type"			"gadget"
+
+	"CanBeDropped"			"0"
+	"IsMelee"				"1"
+	"IsRanged"				"0"
+	// Not dangerous just disgusting
+	"Dangerous"				"0"
+
+	SoundData
+	{
+		"deploy"			"Weapon_Weemote.Deploy"
+		"holster"			"Weapon_Weemote.Holster"
+		"special1"			"Weapon_PhysCannon.Pickup"
+	}
+
+	// Weapon Sprite data is loaded by the Client DLL.
+	TextureData
+	{
+		"weapon"
+		{
+				"file"		"sprites/pee"
+				"width"		"128"
+				"height"	"128"
+		}
+		"weapon_small"
+		{
+			"file"		"sprites/weapon_small_icons/pee"
+			"width"		"128"
+			"height"	"128"
+		}
+		"ammo"
+		{
+			"file"		"sprites/d_icons"
+			"x"			"0"
+			"y"			"0"
+			"width"		"32"
+			"height"	"32"
+		}
+	}
+}

@@ -1,0 +1,57 @@
+// Photo Cam
+
+WeaponData
+{
+	// Weapon data is loaded by both the Game and Client DLLs.
+	"ID"				"photocam"
+	"printname"				""
+	"viewmodel"				"models/weapons/TV_camera/photo_camera.mdl"
+	"playermodel"			"models/weapons/TV_camera/photo_camera.mdl"
+	"anim_prefix"			"bat"
+	"bucket"				"2"
+	"bucket_position"		"3"
+	"bucket_360"			"2"
+	"bucket_position_360"	"3"
+
+	"meleeweapon"			"1"
+
+	"weight"				"2"
+	"rumble"				"1"
+	"item_flags"			"0"
+
+	"weapon_type"			"gadget"
+
+	"CanBeDropped"			"1"
+	"IsMelee"				"0"
+	"IsRanged"				"1"
+	// NPCs react negatively to this weapon if seen on humans
+	"Dangerous"				"0"
+
+	// Sounds for the weapon. There is a max of 16 sounds per category (i.e. max 16 "single_shot" sounds)
+	SoundData
+	{
+		//"single_shot"		"Weapon_NailBat.Hit"
+		//"deploy"			"Weapon_NailBat.Deploy"
+	}
+
+	// Weapon Sprite data is loaded by the Client DLL.
+	TextureData
+	{
+		"weapon"
+		{
+				"file"		"sprites/machete"
+				"width"		"128"
+				"height"	"128"
+		}
+		"weapon_small"
+		{
+				"font"		"WeaponIconsSmall"
+				"character"	"d"
+		}
+		"ammo"
+		{
+				"font"		"WeaponIconsSmall"
+				"character"	"p"
+		}
+	}
+}

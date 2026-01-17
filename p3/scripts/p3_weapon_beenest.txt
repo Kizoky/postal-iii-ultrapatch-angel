@@ -3,19 +3,23 @@
 WeaponData
 {
 	// Weapon data is loaded by both the Game and Client DLLs.
-	"ID"				"gamamet"
+	"ID"				"beenest"
 	"printname"				""
-	"viewmodel"				"models/weapons/shop_vac/gamamet.mdl"
-	"playermodel"			"models/weapons/shop_vac/gamamet.mdl"
-	"anim_prefix"			"shopvac"
+	"viewmodel"				"models/weapons/grenade/v_grenade_frag.mdl"
+	"playermodel"			"models/weapons/beenest/beenest.mdl"
+	"anim_prefix"			"deagle"
 	"bucket"				"1"
-	"bucket_position"		"6"
+	"bucket_position"		"4"
 	"bucket_360"			"1"
-	"bucket_position_360"	"6"
+	"bucket_position_360"	"4"
 
-	"clip_size"				"100"
-	"primary_ammo"			"None"
+	"clip_size"				"-1"
+	"primary_ammo"			"Beehive"
 	"secondary_ammo"		"None"
+	
+	"default_clip"			"1"
+
+	"autoswitchfrom"		"1"
 
 	"weight"				"2"
 	"rumble"				"1"
@@ -23,23 +27,19 @@ WeaponData
 
 	"fire_effect"			"M60_Fire_Fx"
 	"fire_rate1"			"0.1"
-	"disable_monkey"		"1"
 
-	"weapon_type"			"gadget"
+	"weapon_type"			"animal"
 	
 	"CanBeDropped"			"1"
-	"IsMelee"				"1" // NPCs should use melee behavior for this weapon
-	"IsRanged"				"0"
+	"IsMelee"				"0"
+	"IsRanged"				"1"
 	// NPCs react negatively to this weapon if seen on humans
-	"Dangerous"				"0"
+	"Dangerous"				"1"
 
 	// Sounds for the weapon. There is a max of 16 sounds per category (i.e. max 16 "single_shot" sounds)
 	SoundData
 	{
-		"special1"			"Weapon_ShopVac.Suit"
-		"burst"				"Weapon_ShopVac.Wock"
-		"special2"			"Weapon_ShopVac.Sprk"
-		"deploy"			"Weapon_ShopVac.Deploy"
+		"deploy"			"Weapon_KillerBees.Deploy"
 	}
 
 	// Weapon Sprite data is loaded by the Client DLL.
@@ -47,13 +47,19 @@ WeaponData
 	{
 		"weapon"
 		{
-				"file"		"sprites/gama"
+				"file"		"sprites/bees"
+				"width"		"128"
+				"height"	"128"
+		}
+		"weapon_s"
+		{
+				"file"		"sprites/bees_s"
 				"width"		"128"
 				"height"	"128"
 		}
 		"weapon_small"
 		{
-				"file"		"sprites/weapon_small_icons/gama"
+				"file"		"sprites/weapon_small_icons/bees"
 				"width"		"128"
 				"height"	"128"
 		}

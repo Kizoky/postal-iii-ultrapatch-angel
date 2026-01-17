@@ -1,0 +1,72 @@
+// Pistol
+
+WeaponData
+{
+	// Weapon data is loaded by both the Game and Client DLLs.
+	"ID"				"molotov"
+	"printname"				""
+	"viewmodel"				"models/weapons/grenade/v_grenade_frag.mdl" 
+	"playermodel"			"models/weapons/molotov/molotov.mdl" 
+	 "anim_prefix"			"grenade"
+	"bucket"				"4"
+	"bucket_position"		"1"
+	"bucket_360"			"4"
+	"bucket_position_360"	"1"
+
+	"clip_size"				"-1"
+	"primary_ammo"			"Molotov"
+	"secondary_ammo"		"None"
+	"default_clip"			"1"
+
+    "autoswitchfrom"        "1"
+    
+	"weight"				"2"
+	"rumble"				"1"
+	"item_flags"			"0"
+
+	"fire_effect"			"M60_Fire_Fx"
+	"fire_rate1"			"0.1"
+	
+	"CanBeDropped"			"1"
+	"IsMelee"				"0"
+	"IsRanged"				"1"
+	// NPCs react negatively to this weapon if seen on humans
+	"Dangerous"				"1"
+
+// weapon types
+// none 0
+// animal 1
+// gadget 2
+// nonlethal_melee 3
+// nonlethal_ranged 4
+// melee 5
+// ranged 6
+// big_gun 7
+
+	"weapon_type"			"gadget"
+
+	// Sounds for the weapon. There is a max of 16 sounds per category (i.e. max 16 "single_shot" sounds)
+	SoundData
+	{
+		"single_shot"		"Weapon_Molotov.Throw"
+		"burst"				"Weapon_Molotov.Explode"
+		"deploy"			"Weapon_Molotov.Deploy"
+	}
+
+	// Weapon Sprite data is loaded by the Client DLL.
+	TextureData
+	{
+		"weapon"
+		{
+				"file"		"sprites/molotov_coctail"
+				"width"		"128"
+				"height"	"128"
+		}
+		"weapon_small"
+		{
+				"file"		"sprites/weapon_small_icons/molotov"
+				"width"		"128"
+				"height"	"128"
+		}
+	}
+}

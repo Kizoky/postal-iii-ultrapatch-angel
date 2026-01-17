@@ -29,6 +29,12 @@ WeaponData
 	
 	"NPCMinDamage"		"25"
 	"NPCMaxDamage"		"35"
+	
+	"CanBeDropped"			"1"
+	"IsMelee"				"1"
+	"IsRanged"				"0"
+	// NPCs react negatively to this weapon if seen on humans
+	"Dangerous"				"0"
 
 // weapon types
 // none 0

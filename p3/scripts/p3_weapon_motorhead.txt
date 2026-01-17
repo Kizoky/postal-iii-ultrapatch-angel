@@ -1,52 +1,44 @@
-// Cat
+// Motorhead
 
 WeaponData
 {
 	// Weapon data is loaded by both the Game and Client DLLs.
-	"ID"				"cat"
+	"ID"					"motorhead"
 	"printname"				""
 	"viewmodel"				"models/test/locator.mdl"
 	"playermodel"			"models/test/locator.mdl"
-	"anim_prefix"			"cat"
-	"bucket"				"4"
-	"bucket_position"		"3"
+	"anim_prefix"			"monkey"
+	"bucket"			"4"
+	"bucket_position"		"4"
 	"bucket_360"			"4"
-	"bucket_position_360"	"3"
+	"bucket_position_360"		"4"
 
 	"clip_size"				"-1"
-	"primary_ammo"			"Cat"
+	"primary_ammo"			"Motorhead"
 	"secondary_ammo"		"None"
-
-    "autoswitchfrom"        "1"
-	
-	"default_clip"			"1"
+    "default_clip"          "1"
     
+    "autoswitchfrom"        "1"
+
 	"weight"				"2"
 	"rumble"				"1"
 	"item_flags"			"0"
 
 	//"fire_effect"			"M60_Fire_Fx"
-
 	"fire_rate1"			"0.1"
 
 	"weapon_type"			"animal"
 	
-	"CanBeDropped"			"0"
+	"CanBeDropped"			"1"
 	"IsMelee"				"0"
 	"IsRanged"				"1"
 	// NPCs react negatively to this weapon if seen on humans
 	"Dangerous"				"0"
-
+	
 	// Sounds for the weapon. There is a max of 16 sounds per category (i.e. max 16 "single_shot" sounds)
 	SoundData
 	{
-		"single_shot"		"Weapon_Cat.Throw"
-		"deploy"			"Weapon_Cat.Deploy"
-	}
-	
-	JointlyUseabilityData
-	{
-		"jointly_weapon"	"p3_weapon_grenade"
+		//"deploy"			"Weapon_NailBat.Deploy"
 	}
 
 	// Weapon Sprite data is loaded by the Client DLL.
@@ -54,33 +46,20 @@ WeaponData
 	{
 		"weapon"
 		{
-				"file"		"sprites/cats"
+				"file"		"sprites/monkey"
 				"width"		"128"
 				"height"	"128"
 		}
 		"weapon_small"
 		{
-				"file"		"sprites/weapon_small_icons/cats"
-				"width"		"128"
-				"height"	"128"
-		}
-		"weapon_jointly"
-		{
-				"file"		"sprites/assign_grenades_icon"
-				"width"		"128"
-				"height"	"128"
-		}
-		"weapon_jointly_s"
-		{
-				"file"		"sprites/grenades_s"
+				"file"		"sprites/weapon_small_icons/monkey"
 				"width"		"128"
 				"height"	"128"
 		}
 		"ammo"
 		{
-				"file"		"sprites/weapon_small_icons/cats"
-				"width"		"128"
-				"height"	"128"
-		}		
+				"font"		"WeaponIconsSmall"
+				"character"	"p"
+		}
 	}
 }
