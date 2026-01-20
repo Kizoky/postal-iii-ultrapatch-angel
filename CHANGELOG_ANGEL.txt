@@ -136,6 +136,10 @@ look inside `p3/scripts/ultrapatch/p3_ultrapatch_inventory.txt` for example
 + Added `env_hudhint` from Catharsis Reborn
 * Fixed the scoreboard and spectator UI looking like an ugly mess
 * Fixed hockey moms having a stare contest with Ron
+* Fixed Segway crashing the game when it was trying to modify its own sound while ridden (it was most sensitive while transitioning)
+* Fixed Segway (ridden) not transferring with the Player on transition
+* Fixed AngelScript crash when trying to restore custom ConVars
++ Added `p3_ultrapatch_spawn_segway` console command
 
 
 MULTIPLAYER RELATED:
