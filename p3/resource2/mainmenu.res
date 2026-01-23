@@ -50,7 +50,6 @@
 		"text"			"#GameUI2_Options"
 		"description"	"#GameUI2_OptionsDescription"
 		"command"		"cvar gamemenucommand openoptionsdialog"
-	//	"command"		"cvar gameui2_openoptionsdialog"
 		"priority"		"3"
 		"specifics"		"shared"
 	}
@@ -69,7 +68,6 @@
 		"text"			"#GameUI2_Quit"
 		"description"	"#GameUI2_QuitDescription"
 		"command"		"cvar gamemenucommand quit"
-	//	"command"		"cvar gameui2_openquitgamedialog"
 		"priority"		"1"
 		"specifics"		"shared"
 	}
@@ -78,10 +76,9 @@
 	{
 		"text"			""
 		"description"	""
-		"command"		""
+		"command"		"cvar gameui2_openurl www.x.com/WhackJob_Int"
 		// materials/vgui/.
 		"image"			"social/twitter.vtf"
-		"image_offset"	"5"
 		"image_scale"	"1"
 		"priority"		"10"
 		"specifics"		"social"
@@ -91,10 +88,9 @@
 	{
 		"text"			""
 		"description"	""
-		"command"		""
+		"command"		"cvar gameui2_openurl www.discord.com/invite/Q8K8TMA"
 		// materials/vgui/.
 		"image"			"social/discord.vtf"
-		"image_offset"	"20"
 		"image_scale"	"1"
 		"priority"		"11"
 		"specifics"		"social"
@@ -104,10 +100,9 @@
 	{
 		"text"			""
 		"description"	""
-		"command"		""
+		"command"		"cvar gameui2_openurl www.moddb.com/mods/postal-iii-ultrapatch"
 		// materials/vgui/.
 		"image"			"social/moddb.vtf"
-		"image_offset"	"20"
 		"image_scale"	"1"
 		"priority"		"12"
 		"specifics"		"social"
@@ -117,10 +112,9 @@
 	{
 		"text"			""
 		"description"	""
-		"command"		""
+		"command"		"cvar gameui2_openurl www.github.com/Kizoky/postal-iii-ultrapatch-angel"
 		// materials/vgui/.
 		"image"			"social/github.vtf"
-		"image_offset"	"20"
 		"image_scale"	"1"
 		"priority"		"13"
 		"specifics"		"social"
@@ -130,10 +124,10 @@
 	{
 		"text"			""
 		"description"	""
-		"command"		""
+		// мяу
+		"command"		"cvar gameui2_openurl www.vk.com/catharsisreborn"
 		// materials/vgui/.
 		"image"			"social/vk.vtf"
-		"image_offset"	"20"
 		"image_scale"	"1"
 		"priority"		"14"
 		"specifics"		"social"
@@ -143,10 +137,9 @@
 	{
 		"text"			""
 		"description"	""
-		"command"		""
+		"command"		"cvar gameui2_openurl www.youtube.com/@WhackJobInteractive"
 		// materials/vgui/.
 		"image"			"social/youtube.vtf"
-		"image_offset"	"20"
 		"image_scale"	"1"
 		"priority"		"15"
 		"specifics"		"social"
