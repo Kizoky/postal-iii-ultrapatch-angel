@@ -144,4 +144,16 @@
 		"priority"		"15"
 		"specifics"		"social"
 	}
+	
+	"WhackJob"
+	{
+		"text"			""
+		"description"	""
+		"command"		"cvar gameui2_openurl www.linktr.ee/WhackJob_Int"
+		// materials/vgui/.
+		"image"			"social/whackjob.vtf"
+		"image_scale"	"1"
+		"priority"		"16"
+		"specifics"		"social"
+	}
 }
