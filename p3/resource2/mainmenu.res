@@ -73,4 +73,82 @@
 		"priority"		"1"
 		"specifics"		"shared"
 	}
+	
+	"Twitter"
+	{
+		"text"			""
+		"description"	""
+		"command"		""
+		// materials/vgui/.
+		"image"			"social/twitter.vtf"
+		"image_offset"	"5"
+		"image_scale"	"1"
+		"priority"		"10"
+		"specifics"		"social"
+	}
+	
+	"Discord"
+	{
+		"text"			""
+		"description"	""
+		"command"		""
+		// materials/vgui/.
+		"image"			"social/discord.vtf"
+		"image_offset"	"20"
+		"image_scale"	"1"
+		"priority"		"11"
+		"specifics"		"social"
+	}
+	
+	"ModDB"
+	{
+		"text"			""
+		"description"	""
+		"command"		""
+		// materials/vgui/.
+		"image"			"social/moddb.vtf"
+		"image_offset"	"20"
+		"image_scale"	"1"
+		"priority"		"12"
+		"specifics"		"social"
+	}
+	
+	"GitHub"
+	{
+		"text"			""
+		"description"	""
+		"command"		""
+		// materials/vgui/.
+		"image"			"social/github.vtf"
+		"image_offset"	"20"
+		"image_scale"	"1"
+		"priority"		"13"
+		"specifics"		"social"
+	}
+	
+	"VK"
+	{
+		"text"			""
+		"description"	""
+		"command"		""
+		// materials/vgui/.
+		"image"			"social/vk.vtf"
+		"image_offset"	"20"
+		"image_scale"	"1"
+		"priority"		"14"
+		"specifics"		"social"
+	}
+	
+	"YouTube"
+	{
+		"text"			""
+		"description"	""
+		"command"		""
+		// materials/vgui/.
+		"image"			"social/youtube.vtf"
+		"image_offset"	"20"
+		"image_scale"	"1"
+		"priority"		"15"
+		"specifics"		"social"
+	}
 }
