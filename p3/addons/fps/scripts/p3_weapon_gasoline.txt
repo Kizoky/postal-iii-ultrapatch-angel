@@ -3,26 +3,27 @@
 WeaponData
 {
 	// Weapon data is loaded by both the Game and Client DLLs.
-	"ID"					"spray"
+	"ID"				"gasoline"
 	"printname"				""
-	"viewmodel"				"models/weapons/Pepperspray/v_pepperspray.mdl"
-	"playermodel"			"models/weapons/Pepperspray/Pepperspray_01.mdl"
-	"anim_prefix"			"deagle"
-	"bucket"				"0"
-	"bucket_position"		"3"
-	"bucket_360"			"0"
-	"bucket_position_360"	"2"
+	"viewmodel"				"models/weapons/gasoline/v_gasoline.mdl"
+	"playermodel"			"models/weapons/gasoline/gasoline_can_01.mdl"
+	"anim_prefix"			"wolwerine"
+	"bucket"				"1"
+	"bucket_position"		"5"
+	"bucket_360"			"1"
+	"bucket_position_360"	"5"
 
-    "default_clip"          "1"
-    "primary_ammo"			"PepperSprayCan"
-	"secondary_ammo"		"PepperSprayGas"
-	
+	"clip_size"				"-1"
+	"primary_ammo"			"Gasoline"
+	"secondary_ammo"		"None"
+	"default_clip"			"100"
+
 	"weight"				"0"
 	"item_flags"			"0"
 
-    "autoswitchfrom"        "1"
 	"weapon_type"			"gadget"
-
+    "autoswitchfrom"        "1"
+	
 	"CanBeDropped"			"1"
 	"IsMelee"				"1" // NPCs should use melee behavior for this
 	"IsRanged"				"0"
@@ -32,8 +33,8 @@ WeaponData
 	// Sounds for the weapon. There is a max of 16 sounds per category (i.e. max 16 "single_shot" sounds)
 	SoundData
 	{
-		"deploy"			"Weapon_Spray.Deploy"
-		"special1"			"Weapon_Spray.PourStart"
+		"deploy"			"Weapon_Gasoline.Deploy"
+		"special1"			"Weapon_Gasoline.PourStart"
 	}
 
 	// Weapon Sprite data is loaded by the Client DLL.
@@ -41,13 +42,13 @@ WeaponData
 	{
 		"weapon"
 		{
-			"file"		"sprites/pepper_spray"
+			"file"		"sprites/gascan"
 			"width"		"128"
 			"height"	"128"
 		}
 		"weapon_small"
 		{
-			"file"		"sprites/weapon_small_icons/pepper_spray"
+			"file"		"sprites/weapon_small_icons/gas_can"
 			"width"		"128"
 			"height"	"128"
 		}
