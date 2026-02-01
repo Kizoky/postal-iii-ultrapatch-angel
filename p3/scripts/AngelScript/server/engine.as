@@ -114,4 +114,10 @@ class SEngine : IPostal3Script
 	{
 		
 	}
+	
+	[HOOK SEngine OnSoundSpawn]
+	void OnSoundSpawn(CSound@ pSound)
+	{
+	
+	}
 }
