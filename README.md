@@ -8,7 +8,7 @@ Postal III Ultrapatch Angel is a fork of Ultrapatch that adds the AngelScript sc
 
 - Everything from Ultrapatch
 - Multiplayer support and fixes
-- Ability to mod the game even more with scripting or mapping
+- Ability to mod the game even more with scripting or mapping via AngelScript
 - First Person view camera
 - Addon system (similar to ZOOM's implementation, but better)
 - More bug and crash fixes
