@@ -26,3 +26,4 @@ Postal III Ultrapatch Angel is a fork of Ultrapatch that adds the AngelScript sc
 #### SPECIAL THANKS:
 - `MeeMdic`: Russian localization improvements, weapon icons, First Person animations and models!
 - `Professor Skuf`: Rigorous testing and bug reporting!
+- `Grizzle`: Engine hack which extends sound and model precache limits!
