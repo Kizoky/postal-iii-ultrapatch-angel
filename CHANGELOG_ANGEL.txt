@@ -139,7 +139,45 @@ look inside `p3/scripts/ultrapatch/p3_ultrapatch_inventory.txt` for example
 * Fixed Segway crashing the game when it was trying to modify its own sound while ridden (it was most sensitive while transitioning)
 * Fixed Segway (ridden) not transferring with the Player on transition
 * Fixed AngelScript crash when trying to restore custom ConVars
-+ Added `p3_ultrapatch_spawn_segway` console command
++ Added `p3_ultrapatch_spawn_segway` cheat console command
++ Added `p3_ultrapatch_ai_can_climb` cheat cvar, controls whether Human NPCs can climb or not
++ Added `ea_invulnerable` P3S attribute, which makes NPCs invulnerable to any damage or interaction
++ Added scripted anim events for Human NPCs: `KICK` and `PUSH_HEAVY`, models need to be modified if you want to use them
+* Human NPCs when performing attacks with melee weapons will now always grab damage values from active weapon, previously this was hardcoded to use their melee weapon pointer which is not always correct and could cause issues
++ Human NPCs with melee weapons when attacking now properly play melee hit sounds based on weapon sound (if this is gone wrong for some reason it fallbacks to `P3_NPC_Military.WeaponBash`)
+* Human NPCs now perform Ranged or Melee attacks based on IsRanged and IsMelee weapon script flags from active weapon (previously this was also hardcoded to ranged or melee weapon pointers)
+* Fixed rare crash when Human NPCs trying to pick up non-existent FSM prop/item
+* Cat Dervish period increased from 12 seconds to 24 seconds
+* Cat Dervish target pathing now takes FSM/P3S targets as first priority, previously it would only target enemies first (which would randomly disappear....) and then after FSM targets
++ Thrown Cats are now marked with `ThrownByDude_Init` P3S attribute
++ Thrown Cats with Grenades inside them now have `GrenadeAttached` P3S attribute
++ `ea_catbite` on Cats will now enable "Headcrab behavior"
++ [ea_catbite] `OnBite` event is fired when Cat pounced on something, `OnBitten` is fired inside the victim
+* Thrown Cats will now immediately start targeting nearby NPCs
++ Added `ea_dervish`, returns 1 when Cat's state is in Dervish mode (it shouldn't be modified!)
+* `p3_plr_snatch_bitedmg` from 5 to 3
+* `p3_dog_bitedmg` from 5 to 10
++ Added jump attack (without snatching aka. headcrab attack) for Animals
+* Fixed Dogs bugging out when trying to kick them (any damage that causes ragdoll) while they are in the air/trying to snatch
++ Dogs when trying to use Snatch function on non-Humans or the player they will instead damage the target upon touch (headcrab behavior), rather than just doing nothing
+* Fixed Dogs sometimes getting stuck pouncing the air while in non-combat state
++ Added `ea_nopushing` attribute for Citizens, prevents being pushed around while idling by the Player
+* Citizens while in Alert or Combat state group are no longer possible to be pushed around
+* Citizens if their enemy is the Player can no longer be pushed around by the Player anymore
+* Motorhead will now stick to where the laser is actually
+* Fixed a crash when Motorhead tries to pick up non-existent items (could this be why one map crashed so much?)
+* Fixed a crash when Motorhead tries to throw non-existent items
++ Added Motorhead Gear sound via anim event (`Motorhead.HeadMotor`=`AE_MOTORHEAD_MOTOR_GEAR`)
++ Added Monkey footstep sounds via anim event (`Monkey.Step`=`AE_MONKEY_FOOTSTEP_LEFT`/`AE_MONKEY_FOOTSTEP_RIGHT`)
+* Helicopter will now ALWAYS use its P3S target for targeting and shooting
++ Added `OnTargetKilled` P3S event for the Heli
+* Heli can now start smoking and it will intensify the less health it has (feature from CR)
+* Fixed out of bounds memory access inside throwable weapons when trajectory is shown
++ Added valid index checks inside ballistic trajectory system, hopefully we won't hear about grenade crashes anymore
++ Added null checks for NPC speech
++ Added Imgui, `INSERT` to bring it up and `END` to force it to run in the background
++ Players now store a P3S attribute called `map_<mapname>` which tells if a Player has visited a specific map before or not
+* Attempt fix for Karma & Transition combo, the way karma is handled might need a rewrite
 
 
 MULTIPLAYER RELATED:
