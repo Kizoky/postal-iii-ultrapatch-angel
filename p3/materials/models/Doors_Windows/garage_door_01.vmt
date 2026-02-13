@@ -1,0 +1,10 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Doors_Windows/garage_door_01"
+	"$bumpmap" "models/Doors_Windows/garage_door_01_normal"
+	"$phong" "1"
+	"$phongexponent" 20
+	"$phongboost"	"1"
+	"$phongfresnelranges"	"[0.5 0.5 1]"
+	"$surfaceprop" "metal"
+}
