@@ -1,7 +1,6 @@
 "LightmappedGeneric"
 {
 	"$basetexture" "daveland/Stone_wall_00"
-//	"$surfaceprop" "wood" //first aid station
 	"$surfaceprop" "brick"
 	"$detail" "detail\noise_detail_01"
 	"$detailscale" "7.740"
