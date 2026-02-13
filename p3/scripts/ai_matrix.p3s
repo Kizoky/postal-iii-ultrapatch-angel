@@ -1,7 +1,6 @@
 //////////////////////// factions
 factions
 {
-	0 NullFaction
 	1 Police 
 	2 Zealots
 	3 Citizens
