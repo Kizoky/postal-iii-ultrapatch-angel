@@ -1,0 +1,11 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Electrical_devices/Surveilance_camera_01"
+	"$basemapalphaphongmask" "1"
+	"$phong" "1"
+	"$phongexponent" 10
+	"$phongboost"	"2"
+	"$phongfresnelranges"	"[1.0 0.5 1]"
+	"$selfillum" 1
+	"$selfillummask" "models/Electrical_devices/Surveilance_camera_01_si"
+}
