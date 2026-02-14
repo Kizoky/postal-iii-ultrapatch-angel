@@ -8,8 +8,7 @@
 	"$specularlightmappower" 1
 	"$envmaptint" "[0.5 0.5 0.5 ]"
 	
-	 //"%keywords" "concrete"
+	//"%keywords" "concrete"
 	// "%keywords" "cosmetic"
 	"$surfaceprop" "metal" 
 }
-    
