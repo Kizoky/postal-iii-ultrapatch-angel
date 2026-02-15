@@ -174,7 +174,7 @@
 {
 	"channel"		"CHAN_WEAPON"
 	"volume"		"VOL_NORM"
-	"soundlevel"	"SNDLVL_GUNFIRE"
+	"soundlevel"	"SNDLVL_65dB"
 
 	"rndwave"
 	{
