@@ -90,6 +90,7 @@ behavior
 						Wait 0.2
 						//MissionLog add_primary,SushiLeft,#P3_DCR_SUSHI_LEFT
 						MissionLog add_primary,SurviveSushi,#P3_DCR_SUSHI_TASK
+						MissionLog add_primary,SushiLeft,#P3_DCR_SUSHI_LEFT
 						Wait 1.5
 						
 						ShowMessage #P3_DCR_SUSHI_ASSAULT
