@@ -182,6 +182,7 @@ behavior
 					{
 						ExecutePattern weaponGive.MVC
 						EntFireInput "pcc,Command:give p3_weapon_m136"
+						EntFireInput "pcc,Command:give p3_weapon_autoshotgun"
 						EntFireInput "pcc,Command:giveammo M136 3"
 					}
 				}
@@ -301,6 +302,7 @@ behavior
 					{
 						ExecutePattern weaponGive.PM2
 						EntFireInput "pcc,Command:give p3_weapon_m136"
+						EntFireInput "pcc,Command:give p3_weapon_autoshotgun"
 						EntFireInput "pcc,Command:giveammo M136 3"
 					}
 				}
