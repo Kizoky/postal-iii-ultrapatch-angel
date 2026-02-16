@@ -1,0 +1,22 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Characters/Postal_Babe/Postal_Babe_body_2"
+	//"$basetexture" "models/gray"
+	"$bumpmap" "models/Characters/Postal_Babe/Postal_Babe_body_normal"
+//	"$normalmapalphaenvmapmask" "1"
+//	"$envmaptint" "[.5 .5 .5]"
+
+	"$phong" "1"
+	"$phongexponent" 8
+	"$phongboost"	"2.5"
+//	"$phongexponenttexture" "models/Characters/F_Avg/F_Avg_ss_pants_phong"
+	"$phongfresnelranges"	"[0.05 0.5 1]"
+
+	//"$rimlight" "1"
+	//"$rimlightboost" "1"
+//	"$rimlightexponent" "models/Characters/F_Avg/F_Avg_ss_pants_phong"
+//	"$lightwarptexture" "models/tmp_pers/lightwarptexture"
+	"$halflambert" "1"
+
+}
+#base "materials/models/burned_fabric.vmt"
