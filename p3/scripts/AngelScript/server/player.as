@@ -30,7 +30,7 @@ class Player : IPostal3Script
 	//}
 	
 	[HOOK Player OnTakeDamage]
-	void OnTakeDamage(CTakeDamageInfo@ info)
+	void OnTakeDamage(const CTakeDamageInfo&in info)
 	{
 		//float dmg = info.GetDamage();
 		//Printf("AS: Taken Damage: %f\n", dmg);
@@ -38,7 +38,7 @@ class Player : IPostal3Script
 	
 	// Killed
 	[HOOK Player Event_Killed]
-	void Event_Killed(CTakeDamageInfo@ info)
+	void Event_Killed(const CTakeDamageInfo&in info)
 	{
 		
 	}
@@ -71,7 +71,7 @@ class Player : IPostal3Script
 	
 	}
 	
-	// Called in Multiplayer only
+	// Called in Multiplayer only (or when using respawn cheat)
 	[HOOK Player Respawn]
 	void Respawn()
 	{
