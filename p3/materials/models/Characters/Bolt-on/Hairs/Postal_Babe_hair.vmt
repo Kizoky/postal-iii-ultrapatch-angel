@@ -7,6 +7,8 @@
 //	"$envmaptint" "[.5 .5 .5]"
 	"$translucent" "0"
 	"$alphatest" 1
+	$alphatestreference 0.2
+	$allowalphatocoverage 1
 	//"$model" 1
 	//"$nocull" 1
 
