@@ -5,8 +5,20 @@
 		"text"			"#GameUI2_ResumeGame"
 		"description"	"#GameUI2_ResumeGameDescription"
 		"command"		"cvar gamemenucommand resumegame"
-		"priority"		"8"
+		"priority"		"9"
 		"specifics"		"ingame"
+	}
+	
+	"ContinueGame"
+	{
+		"text"			"#GameUI2_ContinueGame"
+		"description"	"#GameUI2_ContinueGameDescription"
+		"command"		"cvar playgamesound Cat.Hiss"
+		"priority"		"8"
+		"specifics"		"mainmenu"
+		"tv"			"pc_continue"
+		// TODO: do we really have to do this?
+		"vmt"			"#GameUI_GameMenu_ContinueGame"
 	}
 	
 	"NewGame"
@@ -16,6 +28,9 @@
 		"command"		"cvar gamemenucommand opennewgamedialog"
 		"priority"		"7"
 		"specifics"		"shared"
+		"tv"			"pc_newgame"
+		// TODO: do we really have to do this?
+		"vmt"			"#GameUI_GameMenu_NewGame"
 	}
 	
 	"SaveGame"
@@ -34,6 +49,9 @@
 		"command"		"cvar gamemenucommand openloadgamedialog"
 		"priority"		"5"
 		"specifics"		"shared"
+		"tv"			"pc_loadgame"
+		// TODO: do we really have to do this?
+		"vmt"			"#GameUI_GameMenu_LoadGame"
 	}
 	
 	"Achievements"
@@ -43,6 +61,9 @@
 		"command"		"cvar gamemenucommand openachievementsdialog"
 		"priority"		"4"
 		"specifics"		"shared"
+		"tv"			"pc_achievements"
+		// TODO: do we really have to do this?
+		"vmt"			"#GameUI_GameMenu_Achievements"
 	}
 	
 	"Options"
@@ -52,6 +73,9 @@
 		"command"		"cvar gamemenucommand openoptionsdialog"
 		"priority"		"3"
 		"specifics"		"shared"
+		"tv"			"pc_options"
+		// TODO: do we really have to do this?
+		"vmt"			"#GameUI_GameMenu_Options"
 	}
 	
 	"Addons"
@@ -70,6 +94,9 @@
 		"command"		"cvar gamemenucommand quit"
 		"priority"		"1"
 		"specifics"		"shared"
+		"tv"			"pc_quit"
+		// TODO: do we really have to do this?
+		"vmt"			"#GameUI_GameMenu_Quit"
 	}
 	
 	"Twitter"
