@@ -374,7 +374,7 @@ behavior
 					{
 						ExecutePattern weaponGive.AA
 						EntFireInput "pcc,Command:give p3_weapon_gamamet"
-						EntFireInput "pcc,Command:giveammo catnipcan 999"
+						EntFireInput "pcc,Command:giveammo catnipcan 99"
 						EntFireInput "pcc,Command:give p3_weapon_cat"
 						EntFireInput "pcc,Command:giveammo cat 9"
 						EntFireInput "pcc,Command:giveammo gasoline 100"
@@ -386,9 +386,8 @@ behavior
 						EntFireInput "pcc,Command:giveammo Buckshot 999"
 						EntFireInput "pcc,Command:giveammo M60 999"
 						EntFireInput "pcc,Command:giveammo grenade 999"
-						EntFireInput "pcc,Command:giveammo pepperspraycan 999"
+						EntFireInput "pcc,Command:giveammo pepperspraycan 99"
 						EntFireInput "pcc,Command:giveammo M16 999"
-						EntFireInput "pcc,Command:giveammo m136 999"
 						EntFireInput "pcc,Command:giveammo sniper 999"
 						EntFireInput "pcc,Command:give p3_weapon_teargas"
 						EntFireInput "pcc,Command:giveammo teargas 999"
