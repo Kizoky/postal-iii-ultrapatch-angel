@@ -1,0 +1,7 @@
+https://www.moddb.com/mods/postal-iii-ultrapatch/downloads/postal-iii-angel-v100
+====================
+v1.0.0: (Initial Ultrapatch port)
+* Fixed game crashing with `CPostal3Multiplayer` gamerule error if maxplayers is set above 1
++ Added Postal3Script function `AngelScript`
++ New AngelScript call `void Player::OnHostageReleased_Kicked()`
++ Added new entities: wj_trigger_angelscript, wj_logic_angelscript, wj_prop_fsmitem
