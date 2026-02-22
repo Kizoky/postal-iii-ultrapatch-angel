@@ -1,0 +1,11 @@
+"AddonInfo"
+{
+	"addontitle" "Max Ammo in FreeRoam"
+	"addonauthor" "ABRAoriginal"
+	"addonversion" "v1"
+	"addondescription" "Updated version of my old mod so that it boosts ammo capacity in freeroam for Ultrapatch+Angel"
+	"addonlink" "https://www.moddb.com/mods/postal-iii-ultrapatch"
+	"postal3script" ""
+	"angelscript" ""
+	"addonminimum" "angelv1.3.0"
+}

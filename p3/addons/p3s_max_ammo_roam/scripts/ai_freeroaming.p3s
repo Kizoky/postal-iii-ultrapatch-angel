@@ -1,0 +1,81 @@
+behavior
+{
+	name bh_roaming_logic
+	inherited bh_mission_logic_base
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "PlayerPath PATH_NONE"
+					}
+				}
+			}
+		}
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						PlayerKarma hide
+						MissionLog disable //enable
+						Pattern pt_loop
+					}
+				}
+				pt_loop
+				{
+					actions
+					{
+						Repeat 2
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnNewGame	"ExecutePattern weaponGive.Roam"
+	}
+}
+
+behavior
+{
+	name bh_mexico_roam_police
+	inherited bh_police
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{ 
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						SetAreaGroup AG_DEFAULT,AG_border
+						AvoidProhibitedArea true 
+					}
+				}
+			}
+		}
+	}
+}
+
+behavior
+{
+	name bh_roam_civil
+	inherited bh_hub2_civil
+}
