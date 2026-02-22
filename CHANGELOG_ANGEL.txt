@@ -24,6 +24,17 @@ v1.3.0: (Note: skipped version v1.2.0 on purpose, consider Ultrapatch+Angel v1.3
 - Multiplayer fixes and new features like Teams and Spectator mode
 - Players and NPCs can now open doors just by simply touching them (no need for trigger brushes anymore)
 - Increased engine model (1024->4096) and sound (8192->16384) precache limits (thanks Grizzle!)
+- New UI combined with GameUI2 and ImGui
+- Fixed weapons and some other props not fading out in the same distance as NPCs do
+- Heli can now start smoking and it will intensify the less health it has (feature from CR)
+- Heli now always uses its Postal3Script target as shooting target
+- NPCs while on Alert or Combat state will no longer move away from the Player
+- Motorhead will now stick to where the Laser actually is
+- Fixed save file bloat coming due to level transitions
+- Added about 41+ new P3S functions from CR, you can find some examples from here: https://github.com/WhackJobInt/postal3scriptdocs/commit/8e79d29f859cdc46f4a183a7b14e5f9611a2d545
+- Dogs can now attack the Player
+- Added Left 4 Dead/Alien Swarm instructor system
+- Added in-game Addon/Mod Manager
 
 * AngelScript: Fixed possible crash on server-side
 * Fixed Door's parent entities not disappearing when destroyed
@@ -178,6 +189,54 @@ look inside `p3/scripts/ultrapatch/p3_ultrapatch_inventory.txt` for example
 + Added Imgui, `INSERT` to bring it up and `END` to force it to run in the background
 + Players now store a P3S attribute called `map_<mapname>` which tells if a Player has visited a specific map before or not
 * Attempt fix for Karma & Transition combo, the way karma is handled might need a rewrite
++ Added `PlayerThrower` P3S attribute for cats, default is 0, if higher than 0 then it was thrown by a player
+* Fixed being able to add multiple entries of the same type of a Mission log objective
++ Added `Object:weapon` P3S pointer, gets the pointer to active/held weapon of NPCs and Players
++ Added `Object:inventory` P3S pointer
++ Added `Object:myowner` P3S pointer (called inside held entities like items or weapons)
++ Added `Object:attacker` P3S pointer, only works for Players and NPCs
+* Fixed `Ignore` category type not working (https://whackjobint.github.io/postal3script/objects/ignore/)
++ Extended P3S function Follow with 9 new params (simple, wide, antlion, commander, tight, medium, sidekick, hunter, vortigaunt)
++ It is now possible to use `Item throw` on corpse items
++ Added `p3_ultrapatch_p3s_changeattr_bugfix` cvar, default is 0, creates non-existent attributes first, then checks its value
++ Added `p3_ultrapatch_p3s_ifattr_bugfix` cvar, default is 0, creates non-existent attributes first, then checks its value
+* Fixed Item drop absolutely not working on NPCs
++ You can now hide or unhide Mission log objectives (inside P3S)
++ Added about 41+ new P3S functions from CR, you can find some examples from here: https://github.com/WhackJobInt/postal3scriptdocs/commit/8e79d29f859cdc46f4a183a7b14e5f9611a2d545
++ Mission Log entity can now be forced to travel with the Player (controllable via `p3_ultrapatch_mission_log_transition`, default is 0, remembers the value, NOT RECOMMENDED for Vanilla)
+* Fixed gibbing damage to the ragdolls (basically any kind of explosion near alive Human NPCs) causing a crash
++ Added `weapon_cubemap` that was missing for some reason, this weapon also has an alternative clientclass name `p3_weapon_cubemap` for consistency sake with P3 weapons
+* Fixed game crashing when trying to use AngelScript console commands while it was disabled
+* Fixed game crashing when trying to save/load while AngelScript was disabled
++ Added `p3_func_nav_areagroup`
+With this func entity which manipulates navmesh you can:
+- Set a custom area group for the affected area
+- Whether affected areas should be area prohibited initially or not
+- Toggle prohibit area
+
++ Added `string CP3SObj::GetCurAreaGroup()`, gets last known area group from Players, NPCs, and FSM Prop items (owners/equipped only)
++ Added `string CP3SObj::GetCusCurAreaGroup()`, it'll default to `AG_CUS_NONE` if there is no custom area group set for current area
++ Added `p3_ultrapatch_nav_dump_custom` console command
++ Added `p3_ultrapatch_nav_areagroup_debug` console command
+* Mission log now removes all objectives before proceeding to the next mission (`EndMission` P3S func only)
+- Unlinked p3_prop_physx
+* Various null checks for Tank
+* Fixed weapons having no P3S pointer at all on restore which causes memory leaks all over the place
+* Fixed Valve's ragdoll cleanup system still breathing oxygen
++ Achievements no longer start triggering when starting from `pdb` or `pw`, they will always be active on any map as long as you don't have cheats turned on
+* Missions will now remove past entities to combat save bloat, this might or might not break some things if Player is able to go back to a previous mission area (`EndMission` p3s function only)
+* Fixed Weapon P3S pointers not traveling with the Player's weapons, thus forgetting values/memory after transition
+* Much more aggressive Postal3Script pointer checks, this makes the game more stable and lessens the chance to crash (game still crashes due to outside factors beyond our control i.e. `materialsystem`, `studiorender`, etc..)
++ Added a way to manipulate the main menu TV via gameui2 (check out `resource2/mainmenu.res`)
+* The game now prevents alive ragdolls to be deleted if it's unsafe (Held, used by an NPC when ragdolled, unconscious, etc...)
+* Fixed OnTargetReset not calling for entities that had the deleted P3S entity as their target
+* Fixed weapons (dropped and held by NPCs) not fading out in the same distance as NPCs
+* Fixed other item types (FSM prop, Segway, cars, etc..) not fading out in the same distance as NPCs
++ Added `p3_ultrapatch_cleanup_weapon_threshold` which controls the maximum amount of dropped weapons, older ones always get deleted first
++ Added `p3_ultrapatch_cleanup_ragdoll_threshold` which controls the maximum amount of corpses laying around, older ones always get deleted first
+* Fixed weapon and corpse P3S pointers lingering around which caused entity "leaks" and lags
+* `p3_cam_shake` is now an archived convar
+* Fixed all instances of dropping weapons (Players & NPCs) not properly setting `active` and `dropped` attributes (both of them should be 1)
 
 
 MULTIPLAYER RELATED:
