@@ -186,6 +186,7 @@ behavior
 						EntFireInput "pcc,Command:give p3_weapon_autoshotgun"
 						EntFireInput "pcc,Command:giveammo M136 3"
 						EntFireInput "pcc,Command:give p3_weapon_teargas"
+						EntFireInput "pcc,Command:giveammo teargas 5"						   
 					}
 				}
 				
@@ -253,6 +254,7 @@ behavior
 						EntFireInput "pcc,Command:give p3_weapon_m60"
 						EntFireInput "pcc,Command:give p3_weapon_M249"
 						EntFireInput "pcc,Command:give p3_weapon_teargas"
+						EntFireInput "pcc,Command:giveammo teargas 5"						   
 					}
 				}
 				
