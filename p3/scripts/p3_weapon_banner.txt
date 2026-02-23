@@ -52,15 +52,12 @@ WeaponData
 	// Sounds for the weapon. There is a max of 16 sounds per category (i.e. max 16 "single_shot" sounds)
 	SoundData
 	{
-
-		"reload"		"Weapon_Pistol.Reload"
-		"reload_npc"		"Weapon_Pistol.NPC_Reload"
-		"empty"			"Weapon_Pistol.Empty"
-		"single_shot"		"Weapon_Pistol.Single"
-		"single_shot_npc"	"Weapon_Pistol.NPC_Single"
-		"special1"		"Weapon_Pistol.Special1"
-		"special2"		"Weapon_Pistol.Special2"
-		"burst"			"Weapon_Pistol.Burst"
+		"single_shot"		"Weapon_Banner.Swing"
+		"melee_miss"		"Weapon_Banner.Miss"
+		"melee_hit"			"Weapon_Banner.Hit"
+		"melee_hit_world"	"Weapon_Banner.HitWorld"
+		"deploy"			"Weapon_Banner.Deploy"
+		"holster"			"Weapon_Banner.Holster"
 	}
 
 	// Weapon Sprite data is loaded by the Client DLL.

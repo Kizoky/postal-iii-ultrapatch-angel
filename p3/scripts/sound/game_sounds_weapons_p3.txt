@@ -1196,6 +1196,91 @@
 	}
 }
 
+//-----------------------------------------------------------------------------
+// Banner
+//-----------------------------------------------------------------------------
+
+"Weapon_Banner.Swing"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/bat/Bat_whoosh_01.wav"
+		"wave"		"weapons/bat/Bat_whoosh_02.wav"
+		"wave"		"weapons/bat/Bat_whoosh_03.wav"
+		"wave"		"weapons/bat/Bat_whoosh_04.wav"
+		"wave"		"weapons/bat/Bat_whoosh_05.wav"
+		"wave"		"weapons/bat/Bat_whoosh_06.wav"
+		"wave"		"weapons/bat/Bat_whoosh_07.wav"
+		"wave"		"weapons/bat/Bat_whoosh_08.wav"
+		"wave"		"weapons/bat/Bat_whoosh_09.wav"
+		"wave"		"weapons/bat/Bat_whoosh_10.wav"
+	}
+}
+
+"Weapon_Banner.Hit"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/nightstick/nightstick_hit_01.wav"
+		"wave"		"weapons/nightstick/nightstick_hit_02.wav"
+		"wave"		"weapons/nightstick/nightstick_hit_03.wav"
+		"wave"		"weapons/nightstick/nightstick_hit_04.wav"
+	}
+}
+
+"Weapon_Banner.HitWorld"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/nightstick/nightstick_hit_01.wav"
+		"wave"		"weapons/nightstick/nightstick_hit_02.wav"
+		"wave"		"weapons/nightstick/nightstick_hit_03.wav"
+		"wave"		"weapons/nightstick/nightstick_hit_04.wav"
+	}
+}
+
+"Weapon_Banner.Deploy"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/bat/Bat_draw_01.wav"
+		"wave"		"weapons/bat/Bat_draw_02.wav"
+		"wave"		"weapons/bat/Bat_draw_03.wav"
+		"wave"		"weapons/bat/Bat_draw_04.wav"
+		"wave"		"weapons/bat/Bat_draw_05.wav"
+	}
+}
+
+"Weapon_Banner.Holster"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+
+	"rndwave"
+	{
+		"wave"		"weapons/nailbat/nailbat_holster_01.wav"
+		"wave"		"weapons/nailbat/nailbat_holster_02.wav"
+		"wave"		"weapons/nailbat/nailbat_holster_03.wav"
+		"wave"		"weapons/nailbat/nailbat_holster_04.wav"
+	}
+}
 
 //-----------------------------------------------------------------------------
 // Hammer
