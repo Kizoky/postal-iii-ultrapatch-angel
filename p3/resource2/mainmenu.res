@@ -13,7 +13,7 @@
 	{
 		"text"			"#GameUI2_ContinueGame"
 		"description"	"#GameUI2_ContinueGameDescription"
-		"command"		"cvar playgamesound Cat.Hiss"
+		"command"		"cvar gameui2_continuegame"
 		"priority"		"8"
 		"specifics"		"mainmenu"
 		"tv"			"pc_continue"
@@ -92,7 +92,7 @@
 		"text"			"#GameUI2_Quit"
 		"description"	"#GameUI2_QuitDescription"
 		"command"		"cvar gamemenucommand quit"
-		"priority"		"1"
+		"priority"		"0"
 		"specifics"		"shared"
 		"tv"			"pc_quit"
 		// TODO: do we really have to do this?
