@@ -70,7 +70,7 @@
 	{
 		"text"			"#GameUI2_Options"
 		"description"	"#GameUI2_OptionsDescription"
-		"command"		"cvar gamemenucommand openoptionsdialog"
+		"command"		"cvar gameui2_opensettingsdialog" //"cvar gamemenucommand openoptionsdialog"
 		"priority"		"3"
 		"specifics"		"shared"
 		"tv"			"pc_options"
