@@ -1,5 +1,5 @@
 
-
+[HIDDEN]
 class CGlowCore : IPostal3Script
 {
 	void AttachGlow(CBaseEntity@ Whom, string clr)

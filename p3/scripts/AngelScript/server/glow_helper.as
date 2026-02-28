@@ -4,6 +4,9 @@
 #include "glow/pw.as"
 #include "glow/dcr.as"
 
+// Insane path
+#include "glow/sbe.as"
+
 ConVar@ cv_glow = CreateCVar("p3_ultrapatch_gameplay_glow", "1", FCVAR_GAMEDLL | FCVAR_NOTIFY | FCVAR_ARCHIVE, "Creates glow around mission entities. (Requires restart)", true, true);
 ConVar@ cv_glow_inst = CreateCVar("p3_ultrapatch_gameplay_glow_instant", "0", FCVAR_GAMEDLL | FCVAR_NOTIFY | FCVAR_ARCHIVE, "Whether glow should be created immediately for mission entities or not. (Requires restart)", true, true);
 
@@ -11,7 +14,10 @@ ConVar@ cv_glow_inst = CreateCVar("p3_ultrapatch_gameplay_glow_instant", "0", FC
 array<string> supported_glow = {
 // Pre-path
 "pw",
-"dcr"
+"dcr",
+
+// Insane path
+"sbe" // escort
 };
 
 bool bApplyGlowOnSpawn;
@@ -28,16 +34,17 @@ class CGlowHelper : IPostal3Script
 	CGlowHelper()
 	{
 		//bApplyGlowOnSpawn = cv_glow_inst.GetBool();
+		TimeUntilGlow = -1.0f;
 	}
 	
 	// Level loaded, but before entities spawned in
-	[HOOK SEngine LevelInitPostEntity]
-	void LevelInitPostEntity()
+	[HOOK SEngine LevelInitPreEntity]
+	void LevelInitPreEntity()
 	{
 		// Check for glow support
+		TimeUntilGlow = -1.0f;
 		bGlowSupported = false;
 		bApplyGlowOnSpawn = false;
-		TimeUntilGlow = -1.0f;
 		string map = gpGlobals.mapname;
 		for (uint i = 0; i < supported_glow.size(); i++)
 		{
@@ -95,7 +102,6 @@ class CGlowHelper : IPostal3Script
 		if (bApplyGlowOnSpawn)
 		{
 			EHANDLE handle = pEntity;
-			
 			
 			CreateContextClass(class_format, "OnSpawn", handle);
 		}

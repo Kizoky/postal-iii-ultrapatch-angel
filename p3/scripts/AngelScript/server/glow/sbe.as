@@ -1,22 +1,34 @@
 // dcr
 
 [HIDDEN]
-class CGlow_dcr : CGlowCore
+class CGlow_sbe : CGlowCore
 {
-	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> dcr <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> sbe <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 	void OnSpawn(EHANDLE pEntity)
 	{	
-		if (gpGlobals.curtime < 3.0f)
-			return;
+		//if (gpGlobals.curtime < 3.0f)
+			//return;
 		
 		CBaseEntity@ mission_logic = FindEntByName("mission_logic");
 		if (@mission_logic == @null)
 			return;
+		
+		CP3SObj@ ml = mission_logic.GetP3SObj();
+		if (@ml == @null)
+			return;
 			
+		if (ml.HasAttr("glow"))
+			return;
+		
 		CBaseEntity@ pEnt = pEntity.GetEntity();
-		if (pEnt.GetClassName() == "p3_npc_cat")
+		if (pEnt.GetName() == "npc_slave")
 		{
-			AttachGlow(pEnt, CollectColor());
+			AttachGlow(pEnt, AllyColor());
+			
+			ml.SetAttr("glow", 1);
+			
+			// There's no need to apply any more glows
+			bApplyGlowOnSpawn = false;
 		}
 	}
 	
@@ -33,17 +45,17 @@ class CGlow_dcr : CGlowCore
 		CP3SObj@ ml = mission_logic.GetP3SObj();
 			
 		// Gather every cat
-		array<CBaseEntity@> cats = FindEntsByName("animal_cat");
-		for (uint i = 0; i < cats.length(); i++)
+		CBaseEntity@ slave = FindEntByName("npc_slave");
+		if (slave.GetName() == "npc_slave")
 		{
-			AttachGlow(cats[i], CollectColor());
+			AttachGlow(slave, AllyColor());
 		}
 		
 		// Apply glow to newly spawned entities from now on
 		mission_logic.GetP3SObj().SetAttr("glow", 1);
 		
 		// New spawns should have glow from now on
-		bApplyGlowOnSpawn = true;
+		bApplyGlowOnSpawn = false;
 	}
 	///\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 	///\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
