@@ -1,0 +1,7 @@
+"MapReplace"
+{
+	"npc_movienerd_pistol"
+	{
+		"modeltemplate"		"pf_M_Avg_Nerd"
+	}
+}
