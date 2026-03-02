@@ -1,0 +1,16 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Doors_Windows/metal_door_01"
+	"$basemapalphaphongmask" "1"
+
+//	"$phong" "1"
+//	"$phongexponent" 15
+//	"$phongboost"	"1"
+//	"$phongfresnelranges"	"[0.1 0.1 0.1]"
+	
+	"$basealphaenvmapmask" "1"    
+	"$envmap" "#walls_01"
+	"$envmaptint" "[0.02 0.02 0.02]"
+	"$specularlightmappower" 1
+	"$surfaceprop" "metal"
+}
