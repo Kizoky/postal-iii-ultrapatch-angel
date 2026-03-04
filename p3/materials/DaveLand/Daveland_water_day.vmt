@@ -7,7 +7,7 @@
 
 	"$abovewater" 1
 	"%compilewater" 1
-	"$forcecheap" 1
+//	"$forcecheap" 1
 	"$CHEAPWATERSTARTDISTANCE" 500.0
 	"$CHEAPWATERENDDISTANCE" 1000.0
 	"$envmap" "env_cubemap"
@@ -31,9 +31,9 @@
 	"$bumpframe" "0"
 
 	"$fogenable" 1
-	"$fogcolor" "{22 20 10}"
+	"$fogcolor" "{102 76 40}"
 	"$fogstart" 1.00
-	"$fogend" 200.00
+	"$fogend" 125.00
 
 	"Proxies"
 	{
