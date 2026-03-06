@@ -84,7 +84,7 @@
 		"MainMenu.Button.Text.Glow.Released"			"0 0 0 0" // "255 186 33 0"
 
 		"MainMenu.Button.Description.Out"				"0 0 0 0"
-		"MainMenu.Button.Description.Over"				"180 180 180 200"
+		"MainMenu.Button.Description.Over"				"0 0 0 0"
 		"MainMenu.Button.Description.Pressed"			"0 0 0 0"
 		"MainMenu.Button.Description.Released"			"0 0 0 0"
 	}
