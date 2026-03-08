@@ -8,339 +8,359 @@ Constants
 
 behavior //default_behavior_BRIDGE
 {
-    name default_behavior_BRIDGE
-    inherited bh_human
-    states
-    {
-       	st_ignore
-        {
-            group Neutral
-            patterns
-            {
-                pt_default
-                {
-                     actions 
-                     {
-                        IgnoreTarget 120
-                        ResetTarget 1
-                        State <start_state>
-                     }
-                }
-            }
-        }
-        ut_macros
-        {
-        group Neutral
-        patterns
-        {
-                pt_default
-                {
-                    actions 
-                    {
-                        Timer tLOOKAROUND,0
-                        FreeMovement walk,reset
-                        ResetSequence 1
-                        Face false
-                        IgnoreTarget 4:4
-                        ResetTarget 1
-                        State <start_state>
-                    }
-                }
-                
-                pt_reset
-                {
-                    actions 
-                    {
-                        Timer tLOOKAROUND,0
-                        FreeMovement walk,reset
-                        ResetSequence 1
-                        Face false
-                        IgnoreTarget 0:0.5
-                        ResetTarget 1
-                        State <start_state>
-                    }
-                }
-                pt_actpack
-                {
-                    actions 
-                    {
-                        SetActPack ACT_WALK,walk_neutral
-                        IfAttr "ea_Manner == Manner:SoccerMom SetActPack ACT_WALK,ACT_RUN"
-                        IfAttr "ea_Manner == Manner:JusticeMan SetActPack ACT_WALK,walk_fast"
-                        IfAttr "ea_Manner == Manner:RedNeck SetActPack ACT_WALK,walk_heavy"
-                    }
-                }
-                pt_idle
-                {
-                    actions 
-                    {
-    //					ShowMessage "[CANT FIND SPECIFIC NODE],$P3Debug"
-    //					Headblob 5,DebugAlert
-                        FreeMovementParams hint_all,12,2200,hint_group,hint_face,use_node
-    //					SetHintgroup wish_fun_idle
-                        FreeMovement walk,reset
-                        State <start_state>
-                    }
-                }
-                pt_matrix
-                {
-                    actions 
-                    {
-                        Timer tLOOKAROUND,0
-                        FireEvent MarkMyTarget
-                        Headblob 5,HaveATarget
+	name default_behavior_BRIDGE
+	inherited bh_human
+	states
+	{
+		st_ignore
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions 
+					{
+						IgnoreTarget 120
+						ResetTarget 1
+						State <start_state>
+					}
+				}
+			}
+		}
+		
+		ut_macros
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions 
+					{
+						Timer tLOOKAROUND,0
+						FreeMovement walk,reset
+						ResetSequence 1
+						Face false
+						IgnoreTarget 4:4
+						ResetTarget 1
+						State <start_state>
+					}
+				}
 
-                        StateMatrix faction
+				pt_reset
+				{
+					actions 
+					{
+						Timer tLOOKAROUND,0
+						FreeMovement walk,reset
+						ResetSequence 1
+						Face false
+						IgnoreTarget 0:0.5
+						ResetTarget 1
+						State <start_state>
+					}
+				}
 
-                        StateMatrix social
+				pt_actpack
+				{
+					actions 
+					{
+						SetActPack ACT_WALK,walk_neutral
+						IfAttr "ea_Manner == Manner:SoccerMom SetActPack ACT_WALK,ACT_RUN"
+						IfAttr "ea_Manner == Manner:JusticeMan SetActPack ACT_WALK,walk_fast"
+						IfAttr "ea_Manner == Manner:RedNeck SetActPack ACT_WALK,walk_heavy"
+					}
+				}
 
-                        IgnoreTarget 30
-                        ResetTarget 1
-                    }
-                }
-                pt_caller
-                {
-                    actions 
-                    {
-                        TargetCaller 1
-                        StateMatrix faction
-                        StateMatrix social
-                        IgnoreTarget 30
-                        ResetTarget 1
-                    }
-                }
-                pt_social
-                {
-                    actions 
-                    {
-                        TargetCaller 1
-                        StateMatrix social
-                        IgnoreTarget 30
-                        ResetTarget 1
-                    }
-                }
-                pt_targetCaller
-                {
-                    actions
-                    {
-                        TargetCaller 1
-                        StateMatrix faction
-                        StateMatrix social
-                    }
-                }
-                pt_los
-                {
-                    actions 
-                    {
-                        CheckLOS 1
-                        IfAttr "Object:target == Object:null ExecutePattern ut_macros.pt_default"
-                    }
-                }
-                pt_visible
-                {
-                    actions 
-                    {
-                        CheckTarget 1
-                        IfAttr "Object:target == Object:null ExecutePattern ut_macros.pt_default"
-                    }
-                }
+				pt_idle
+				{
+					actions 
+					{
+//						ShowMessage "[CANT FIND SPECIFIC NODE],$P3Debug"
+//						Headblob 5,DebugAlert
+						FreeMovementParams hint_all,12,2200,hint_group,hint_face,use_node
+//						SetHintgroup wish_fun_idle
+						FreeMovement walk,reset
+						State <start_state>
+					}
+				}
 
+				pt_matrix
+				{
+					actions 
+					{
+						Timer tLOOKAROUND,0
+						FireEvent MarkMyTarget
+						Headblob 5,HaveATarget
 
-                pt_active
-                {
-                     actions 
-                     {
-                        Timer tLOOKAROUND,0
-                        FreeMovement walk,reset
-                        RemoveAttr ea_tased
-                        ClearMem msFRIEND
-                        ResetGesture 1
-                        ResetSequence 1
-                        Busy false
-                        Senses true
-                        Aim false
-                        Follow false
-                        Fear false
-                        Face false
-                        Hate false
-//			 			IfAttr "target.ea_Manner != Manner:LaserDot and ea_Faction != Faction:Animals IgnoreTarget 2,0"
-                        ResetTarget 1
-                        RemoveAttr need_respond
-                        RemoveAttr ea_tased
-                        RemoveAttr ea_tameable
+						StateMatrix faction
 
-                        ChangeAttr "im_busy -1"
+						StateMatrix social
+
+						IgnoreTarget 30
+						ResetTarget 1
+					}
+				}
+
+				pt_caller
+				{
+					actions 
+					{
+						TargetCaller 1
+						StateMatrix faction
+						StateMatrix social
+						IgnoreTarget 30
+						ResetTarget 1
+					}
+				}
+
+				pt_social
+				{
+					actions 
+					{
+						TargetCaller 1
+						StateMatrix social
+						IgnoreTarget 30
+						ResetTarget 1
+					}
+				}
+
+				pt_targetCaller
+				{
+					actions
+					{
+						TargetCaller 1
+						StateMatrix faction
+						StateMatrix social
+					}
+				}
+
+				pt_los
+				{
+					actions 
+					{
+						CheckLOS 1
+						IfAttr "Object:target == Object:null ExecutePattern ut_macros.pt_default"
+					}
+				}
+
+				pt_visible
+				{
+					actions 
+					{
+						CheckTarget 1
+						IfAttr "Object:target == Object:null ExecutePattern ut_macros.pt_default"
+					}
+				}
+
+				pt_active
+				{
+					actions 
+					{
+						Timer tLOOKAROUND,0
+						FreeMovement walk,reset
+						RemoveAttr ea_tased
+						ClearMem msFRIEND
+						ResetGesture 1
+						ResetSequence 1
+						Busy false
+						Senses true
+						Aim false
+						Follow false
+						Fear false
+						Face false
+						Hate false
+//				 		IfAttr "target.ea_Manner != Manner:LaserDot and ea_Faction != Faction:Animals IgnoreTarget 2,0"
+						ResetTarget 1
+						RemoveAttr need_respond
+						RemoveAttr ea_tased
+						RemoveAttr ea_tameable
+
+						ChangeAttr "im_busy -1"
 //						ChangeAttr "item.im_busy -1"
-                        SetAttr "ea_status 0,0,10"
-                        RemoveAttr item.im_busy
-                        RemoveAttr temp
-                        
-                        RemoveAttr ea_takeable
+						SetAttr "ea_status 0,0,10"
+						RemoveAttr item.im_busy
+						RemoveAttr temp
 
-                        IfAttr "ea_armed > 5 Weapon disarm"
-                        
+						RemoveAttr ea_takeable
+
+						IfAttr "ea_armed > 5 Weapon disarm"
+
 //						ExecutePattern ut_macros.pt_actpack
-                        State <start_state>
-                     }
-                }
-            
-                killedme
-                {
-                     actions 
-                     {
-                            TargetCaller 1
-                            SetAttr "target.ea_status 4"
-                     }
-                }
-                
-                
-                pt_status
-                {
-                    actions 
-                    {
-                        IfAttr "ea_status != sNEUTRAL Timer tSTATUS,cStatusPeriod"
-                        
-                        IfAttr "ea_status == sNEUTRAL 	Headblob 1,Debug_sNEUTRAL"
-                        
-    //					IfAttr "ea_status == sNEUTRAL 	Headblob 1,Debug_sCORPSE"
+						State <start_state>
+					}
+				}
 
-                        
-                        IfAttr "ea_status == sPROVOKER 	Headblob 1,Debug_sPROVOKER"
-                        IfAttr "ea_status == sPUNISHER	Headblob 1,Debug_sPUNISHER"					
-                        IfAttr "ea_status == sMILITANT	Headblob 1,Debug_sMILITANT"					
-                        IfAttr "ea_status == sKILLER		Headblob 1,Debug_sKILLER"	
-                        
-    //					IfAttr "ea_status == sKILLER		Timer tSTATUS,2.0:0.0"	
-                        
-                        IfAttr "ea_status == sARRESTED	Headblob 1,Debug_sVICTIM"						
-                        
-                                        
-                        IfAttr "ea_status == sVICTIM		Headblob 1,Debug_sVICTIM"
-                        IfAttr "ea_status == sCORPSE		Headblob 1,Debug_sCORPSE"	
+				killedme
+				{
+					actions 
+					{
+						TargetCaller 1
+						SetAttr "target.ea_status 4"
+					}
+				}
 
-                    }
-                }
-                
-            }
-        }
-    	BAT_MELEE
-        {
-            group Combat
-            patterns
-            {
-                pt_default:ignore_ext_events
-    //			pt_default
-                {
-                    actions 
-                    {
-                        FreeMovement false
-                        SetAttr "testtest 1"
-                        SetActPack ACT_IDLE,melee_idle
+				pt_status
+				{
+					actions 
+					{
+						IfAttr "ea_status != sNEUTRAL Timer tSTATUS,cStatusPeriod"
 
-                        Weapon arm
-                        Face true
-                        CheckTarget 1
-                        Timer tLOOKAROUND,0.4:0.4,repeated
-                        Weapon disarm
-                        Wait 2:1
-                        ExecutePattern ut_macros.pt_active
-                    }
-                    events 
-                    {
-                        OnTimer_tLOOKAROUND "ExecutePattern ut_macros.pt_visible"
-                        OnVisible "Pattern PURSUER"
-                    }
-                }
-                PURSUER:ignore_ext_events
-                {
-                    actions 
-                    {
-    //					SetActPack ACT_IDLE,melee_idle,Combat
-                        MoveToTarget run,1.6
-    //					Aim true
-    //					ExecutePattern ut_inspect.pt_active
-                        Wait 3:1
-                        ExecutePattern ut_macros.pt_active
-                    }
-                    events
-                    {
-                        OnTargetReach "Pattern PUSHER"
-                    }
-                }
-                PUSHER:ignore_ext_events
-                {
-                    actions 
-                    {
-                        IfAttr "target.ea_status == 10 ExecutePattern ut_macros.pt_active"
-                        IfAttr "target.pushed == 1 Block begin"
-                            Wait 0.1,0.2
-                            Repeat 1
-                        Block end
-    //					IfAttr "DistTo:target <= 50 Push target,self,3"
-    //					IfAttr "target.ea_status == 10 ExecutePattern ut_macros.pt_active"
-                        Sequence combat_melee
-                        Push self,target,hard
-    //					IfAttr "DistTo:target <= 50 and DistTo:target > 20 Push 1"
-    //					IfAttr "DistTo:target <= 20 ExecutePattern ut_macros.pt_active"
-                        Wait 1.0
-    //					IfAttr "Object:target != Object:null Pattern PURSUER"
-                        ExecutePattern ut_macros.pt_reset
+						IfAttr "ea_status == sNEUTRAL 	Headblob 1,Debug_sNEUTRAL"
 
-                    }
-                    events
-                    {
-                        OnAnimPUSH_HEAVY "ExecutePattern .xpt_prepushH"
-                        OnAnimPUSH_MEDIUM "ExecutePattern .xpt_prepushM"
-                        OnAnimHIT "ExecutePattern .xpt_prehit"
-                        OnAnimKICK "ExecutePattern .xpt_prekick"
+//						IfAttr "ea_status == sNEUTRAL 	Headblob 1,Debug_sCORPSE"
 
-                        OnTargetLost "ExecutePattern ut_macros.pt_active"
-                        OnTargetReset "ExecutePattern ut_macros.pt_active"
-                    }
-                }
-                xpt_prepushH
-                {	actions 
-                    {	IfAttr "DistTo:target > 70 Return 1"
-                        SetTarget "target.Object:target Object:self"
-                        Push self,target,hard
-                }	}
-                xpt_prepushM
-                {	actions 
-                    {	IfAttr "DistTo:target > 70 Return 1"
-                        SetTarget "target.Object:target Object:self"
-                        Push self,target,medium
-                }	}
-                xpt_prehit
-                {	actions 
-                    {	IfAttr "DistTo:target > 70 Return 1"
-                        SetTarget "target.Object:target Object:self"
-                }	}
-                xpt_prekick
-                {	actions 
-                    {	IfAttr "DistTo:target > 70 Return 1"
-                        SetTarget "target.Object:target Object:self"
-                }	}
-    // end of patterns	
-            }
-    // end of state		
-        }
+						IfAttr "ea_status == sPROVOKER 	Headblob 1,Debug_sPROVOKER"
+						IfAttr "ea_status == sPUNISHER	Headblob 1,Debug_sPUNISHER"					
+						IfAttr "ea_status == sMILITANT	Headblob 1,Debug_sMILITANT"					
+						IfAttr "ea_status == sKILLER	Headblob 1,Debug_sKILLER"	
 
-    }
+//						IfAttr "ea_status == sKILLER	Timer tSTATUS,2.0:0.0"	
+
+						IfAttr "ea_status == sARRESTED	Headblob 1,Debug_sVICTIM"						
+
+						IfAttr "ea_status == sVICTIM	Headblob 1,Debug_sVICTIM"
+						IfAttr "ea_status == sCORPSE	Headblob 1,Debug_sCORPSE"	
+					}
+				}
+			}
+		}
+
+		BAT_MELEE
+		{
+			group Combat
+			patterns
+			{
+				pt_default:ignore_ext_events
+//				pt_default
+				{
+					actions 
+					{
+						FreeMovement false
+						SetAttr "testtest 1"
+						SetActPack ACT_IDLE,melee_idle
+
+						Weapon arm
+						Face true
+						CheckTarget 1
+						Timer tLOOKAROUND,0.4:0.4,repeated
+						Weapon disarm
+						Wait 2:1
+						ExecutePattern ut_macros.pt_active
+					}
+					events 
+					{
+						OnTimer_tLOOKAROUND "ExecutePattern ut_macros.pt_visible"
+						OnVisible "Pattern PURSUER"
+					}
+				}
+
+				PURSUER:ignore_ext_events
+				{
+					actions 
+					{
+//						SetActPack ACT_IDLE,melee_idle,Combat
+						MoveToTarget run,1.6
+//						Aim true
+//						ExecutePattern ut_inspect.pt_active
+						Wait 3:1
+						ExecutePattern ut_macros.pt_active
+					}
+					events
+					{
+						OnTargetReach "Pattern PUSHER"
+					}
+				}
+
+				PUSHER:ignore_ext_events
+				{
+					actions 
+					{
+						IfAttr "target.ea_status == 10 ExecutePattern ut_macros.pt_active"
+						IfAttr "target.pushed == 1 Block begin"
+							Wait 0.1,0.2
+							Repeat 1
+						Block end
+//						IfAttr "DistTo:target <= 50 Push target,self,3"
+//						IfAttr "target.ea_status == 10 ExecutePattern ut_macros.pt_active"
+						Sequence combat_melee
+						Push self,target,hard
+//						IfAttr "DistTo:target <= 50 and DistTo:target > 20 Push 1"
+//						IfAttr "DistTo:target <= 20 ExecutePattern ut_macros.pt_active"
+						Wait 1.0
+//						IfAttr "Object:target != Object:null Pattern PURSUER"
+						ExecutePattern ut_macros.pt_reset
+					}
+					events
+					{
+						OnAnimPUSH_HEAVY "ExecutePattern .xpt_prepushH"
+						OnAnimPUSH_MEDIUM "ExecutePattern .xpt_prepushM"
+						OnAnimHIT "ExecutePattern .xpt_prehit"
+						OnAnimKICK "ExecutePattern .xpt_prekick"
+
+						OnTargetLost "ExecutePattern ut_macros.pt_active"
+						OnTargetReset "ExecutePattern ut_macros.pt_active"
+					}
+				}
+
+				xpt_prepushH
+				{
+					actions 
+					{
+						IfAttr "DistTo:target > 70 Return 1"
+						SetTarget "target.Object:target Object:self"
+						Push self,target,hard
+					}
+				}
+
+				xpt_prepushM
+				{
+					actions 
+					{
+						IfAttr "DistTo:target > 70 Return 1"
+						SetTarget "target.Object:target Object:self"
+						Push self,target,medium
+					}
+				}
+
+				xpt_prehit
+				{
+					actions 
+					{
+						IfAttr "DistTo:target > 70 Return 1"
+						SetTarget "target.Object:target Object:self"
+					}
+				}
+
+				xpt_prekick
+				{
+					actions 
+					{
+						IfAttr "DistTo:target > 70 Return 1"
+						SetTarget "target.Object:target Object:self"
+					}
+				}
+//			end of patterns	
+			}
+//		end of state		
+		}
+	}
 }
 
 behavior //bh_pw_logic
 {
 	name bh_pw_logic
-    inherited bh_mission_logic_base
-    
-    events
-    {
-        OnReduceHP "ExecutePattern st_start.xpt_wazzup?"
+	inherited bh_mission_logic_base
+
+	events
+	{
+		OnReduceHP "ExecutePattern st_start.xpt_wazzup?"
 		OnNewGame	"ExecutePattern WeaponGive.PW"
 		OnRonDead "Pattern st_phaze2.pt_rondead"
-    }
-    
-    states
+	}
+
+	states
 	{
 		st_init
 		{
@@ -352,10 +372,10 @@ behavior //bh_pw_logic
 					actions 
 					{
 						SetAttr "failed 0"
-                       	SetAttr "droches_left 5,on_change_event:OnDrochaBurn"
-                        SetAttr "moms_left 12,on_change_event:OnMomGone"
-                        SetAttr "shop_HP 1000,0,1000,on_change_event:OnReduceHP"
-						
+						SetAttr "droches_left 5,on_change_event:OnDrochaBurn"
+						SetAttr "moms_left 12,on_change_event:OnMomGone"
+						SetAttr "shop_HP 1000,0,1000,on_change_event:OnReduceHP"
+
 						PlayerKarma hide
 						SetAttr "PlayerPath PATH_NONE"
 						SetAttr "HelpersShown 0,0,PW_HELPERS_NUM"
@@ -363,11 +383,10 @@ behavior //bh_pw_logic
 				}
 			}
 		}
-		
-        st_start
-        {
-            Group Neutral
-            
+
+		st_start
+		{
+			Group Neutral
 			Patterns
 			{
 				pt_default
@@ -393,6 +412,7 @@ behavior //bh_pw_logic
 						
 					}
 				}
+
 				xpt_counter
 				{
 					actions
@@ -401,6 +421,7 @@ behavior //bh_pw_logic
 						IfAttr "snotballs == PW_SNOTBALLS_NUM Pattern pt_moms"
 					}
 				}
+
 				pt_moms
 				{
 					actions 
@@ -409,37 +430,37 @@ behavior //bh_pw_logic
 						ExecutePattern .xpt_StopAmbientMusic
 						
 						// ��������� ������, ��������� �����
-                        PlayVideo pw_2,1,1
-                        Wait 1
-                        EntFireUser "moms_spwn,1"
-						
+						PlayVideo pw_2,1,1
+						Wait 1
+						EntFireUser "moms_spwn,1"
+
 						EntFireInput pw_01_inner,Unlock
 						EntFireInput pw_02_inner,Unlock
 						EntFireInput pw_01_outer,Unlock
 						EntFireInput pw_02_outer,Unlock
-						
+
 						EntFireInput pw_01_inner,Open
 						EntFireInput pw_02_inner,Open
 						EntFireInput pw_01_outer,Open
 						EntFireInput pw_02_outer,Open
-						
+
 						EntFireInput pw_01_inner,Lock
 						EntFireInput pw_02_inner,Lock
 						EntFireInput pw_01_outer,Lock
 						EntFireInput pw_02_outer,Lock
 
-                        MissionLog add_primary,moms,#P3_MPW_MOMS_LEFT
-                        AttributeProgressBar "PWHealthPanel,show,shop_HP,show_value"
-						
+						MissionLog add_primary,moms,#P3_MPW_MOMS_LEFT
+						AttributeProgressBar "PWHealthPanel,show,shop_HP,show_value"
+
 						ExecutePattern .xpt_StartAttackMusic
-						
-                        TargetEntByName ron
-                        FireEvent RonScare	
-                        Timer tSpawnMore,20:10
-                        State st_phaze2
+
+						TargetEntByName ron
+						FireEvent RonScare	
+						Timer tSpawnMore,20:10
+						State st_phaze2
 					}
 				}
-				
+
 				xpt_StopAmbientMusic
 				{
 					actions
@@ -450,7 +471,7 @@ behavior //bh_pw_logic
 						EntFireInput muzak.strip,Kill
 					}
 				}
-				
+
 				xpt_StartAttackMusic
 				{
 					actions
@@ -458,82 +479,82 @@ behavior //bh_pw_logic
 						//�� ������ ������, ���� ����� ������ ������ �����������
 						EntFireInput muzak.shop,StopSound
 						EntFireInput muzak.strip,StopSound
-						
+
 						EntFireInput muzak.mission,FadeIn:2
 					}
 				}
-				
+
 				xpt_refreshMomsLeftMessage
 				{
 					actions 
 					{
-                        //IfAttr "moms_left > 0 Block begin"
-                            MissionLog add_primary,moms,#P3_MPW_MOMS_LEFT
-                            //Return 1
-                        //Block end
-                        
-                    }
-                }
-				
+						//IfAttr "moms_left > 0 Block begin"
+							MissionLog add_primary,moms,#P3_MPW_MOMS_LEFT
+							//Return 1
+						//Block end
+					}
+				}
+
 				xpt_wazzup?
-                {
-                    actions 
-                    {
-                        IfAttr "shop_HP <= 10 Pattern st_start.pt_game_over"
-                        IfAttr "shop_HP <= 700 and shop_HP > 650 ShowMessage #P3_MPW_WARNING1"
-                        IfAttr "shop_HP <= 400 and shop_HP > 350 ShowMessage #P3_MPW_WARNING2"
-                        IfAttr "shop_HP <= 200 and shop_HP > 100 ShowMessage #P3_MPW_WARNING3"
-                    }
-                }
-				
+				{
+					actions 
+					{
+						IfAttr "shop_HP <= 10 Pattern st_start.pt_game_over"
+						IfAttr "shop_HP <= 700 and shop_HP > 650 ShowMessage #P3_MPW_WARNING1"
+						IfAttr "shop_HP <= 400 and shop_HP > 350 ShowMessage #P3_MPW_WARNING2"
+						IfAttr "shop_HP <= 200 and shop_HP > 100 ShowMessage #P3_MPW_WARNING3"
+					}
+				}
+
 				pt_game_over
-                {
-                    actions 
-                    {
-                    	IfAttr "failed == 0 Block begin"
-	                    	EntFireInput fader,Fade
-	                    	MissionLog fail,moms
+				{
+					actions 
+					{
+						IfAttr "failed == 0 Block begin"
+							EntFireInput fader,Fade
+							MissionLog fail,moms
 							ShowMessage	#P3_MPW_FAILED
 							Wait 2
 							EntFireInput pcc1,Command:reload
 						Block end
-                    	SetAttr "failed 1"
-                    }
-                }
-            }
-        }
-        
-        st_phaze2
-        {
-            Group Neutral
+						SetAttr "failed 1"
+					}
+				}
+			}
+		}
+
+		st_phaze2
+		{
+			Group Neutral
 			Patterns
 			{
 				pt_default
 				{
 					actions 
 					{
-                        //���� ���� ������� ���� ����� 
-                        ExecutePattern st_start.xpt_refreshMomsLeftMessage
+						//���� ���� ������� ���� ����� 
+						ExecutePattern st_start.xpt_refreshMomsLeftMessage
 					}
-                    
-                    events 
-                    {
-                        OnMomGone "ExecutePattern .pt_thatIsAll?"
-                        OnTimer_tSpawnMore "EntFireInput moms_spwn2,Enable"
-                    }
+
+					events 
+					{
+						OnMomGone "ExecutePattern .pt_thatIsAll?"
+						OnTimer_tSpawnMore "EntFireInput moms_spwn2,Enable"
+					}
 				}
-                
-                pt_thatIsAll?
-                {
+
+				pt_thatIsAll?
+				{
 					actions 
 					{
-                        ExecutePattern st_start.xpt_refreshMomsLeftMessage
-                        IfAttr "moms_left == 0 Block begin"
-                            Pattern .pt_end
-                        Block end
+						ExecutePattern st_start.xpt_refreshMomsLeftMessage
+						IfAttr "moms_left == 0 Block begin"
+							Pattern .pt_end
+						Block end
 					}
 				}
-                pt_rondead
+
+				pt_rondead
 				{
 					actions
 					{
@@ -544,20 +565,21 @@ behavior //bh_pw_logic
 						EntFireInput "pcc1,Command:reload"
 					}
 				}
-                pt_end
-                {
-                    actions
-                    {
-                        MissionLog done,moms
+
+				pt_end
+				{
+					actions
+					{
+						MissionLog done,moms
 						MissionLog done,ron
-                        EntFireInput fade_out,Fade
-                        Wait 2
-                        EntFireInput "pcc1,Command:video_exitcmd pw_3 p3_end_mission"
-                    }
-                }
-            }
-        }
-		
+						EntFireInput fade_out,Fade
+						Wait 2
+						EntFireInput "pcc1,Command:video_exitcmd pw_3 p3_end_mission"
+					}
+				}
+			}
+		}
+
 		st_util
 		{
 			Group Neutral
@@ -568,16 +590,16 @@ behavior //bh_pw_logic
 					actions
 					{
 						Timer tRefreshHelper,10
-						
+
 						ChangeAttr "HelpersShown 1"
-						
+
 						IfAttr "HelpersShown == 1 ShowMessage #P3_PW_HELPER01"
 						IfAttr "HelpersShown == 2 ShowMessage #P3_PW_HELPER02"
 					}
 				}
 			}
 		}
-    }
+	}
 	events
 	{
 		OnTimer_tRefreshHelper	"ExecutePattern st_util.xpt_RefreshHelper"
@@ -588,31 +610,31 @@ behavior //bh_pw_logic
 
 behavior //bh_ron
 {
-    name bh_ron
-    inherited bh_citizen
-    states
-    {
-    	st_init
-    	{
-    		group Neutral
-    		patterns
-    		{
-    			pt_default
-    			{
-    				actions
-    				{
+	name bh_ron
+	inherited bh_citizen
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
 						ExecutePattern bh_base:st_init.pt_default
-    					AvoidProhibitedArea true
-    					SetAttr "Momsattacked 0"
-    					Timer tSay,5:20,Repeated
+						AvoidProhibitedArea true
+						SetAttr "Momsattacked 0"
+						Timer tSay,5:20,Repeated
 						Senses false
 						SetAttr "RonJ 1"
 					}
-    			}
-    		}
-    	}
-        
-        st_idle
+				}
+			}
+		}
+
+		st_idle
 		{
 			Group Neutral
 			Patterns
@@ -624,6 +646,7 @@ behavior //bh_ron
 						IfAttr "Momsattacked == 1 Say RON_SEEMOMSATTACK"
 					}
 				}
+
 				pt_cheer
 				{
 					actions
@@ -632,39 +655,40 @@ behavior //bh_ron
 						Sequence seq.dialogue_yo
 					}
 				}
+
 				pt_default
 				{
 					actions 
 					{
 						TargetEntByName target_ron
 						FreeMovement false
-                        IfAttr "DistTo:target > 50 MoveToTarget walk"
-                        IfAttr "Momsattacked == 1 Block begin"
+						IfAttr "DistTo:target > 50 MoveToTarget walk"
+						IfAttr "Momsattacked == 1 Block begin"
 							AttributeProgressBar "RonPornHealthPanel,show,ea_health,show_value"
-                        	Sequence seq.reaction_afraid,60
-                        	WaitForEnd 1
-                        Block end
-                        State st_start
+							Sequence seq.reaction_afraid,60
+							WaitForEnd 1
+						Block end
+						State st_start
 					}
 				}
-                
-                //pt_spawnDrocha
-                //{
-                //    SpawnItem drocha_spwn,owner,hand_right
-                //    Item drop
-                //}
-            }
-            
-            events
-            {
-                OnFire_RonSpeak "State st_phaze1"
-                OnFire_RonScare "SetAttr Momsattacked 1"
-                OnTimer_tSay "ExecutePattern st_idle.pt_say"
-                //OnFire_RonSpawnMoreDrocha "ExecutePattern .pt_spawnDrocha"
-            }
-        }
-        
-        st_scare
+
+//				pt_spawnDrocha
+//				{
+//					SpawnItem drocha_spwn,owner,hand_right
+//					Item drop
+//				}
+			}
+
+			events
+			{
+				OnFire_RonSpeak "State st_phaze1"
+				OnFire_RonScare "SetAttr Momsattacked 1"
+				OnTimer_tSay "ExecutePattern st_idle.pt_say"
+//				OnFire_RonSpawnMoreDrocha "ExecutePattern .pt_spawnDrocha"
+			}
+		}
+
+		st_scare
 		{
 			Group Neutral
 			Patterns
@@ -673,69 +697,65 @@ behavior //bh_ron
 				{
 					actions 
 					{
-                        RemoveAttr imscare
-                        Sequence "seq.reaction_afraid"
+						RemoveAttr imscare
+						Sequence "seq.reaction_afraid"
 					}
 				}
-            }
-            
-            events
-            {
-                OnFire_RonGlad "State st_idle"
-            }
-        }
-        
-        
-        
-        st_phaze1
-        {
-            Group Neutral
+			}
+
+			events
+			{
+				OnFire_RonGlad "State st_idle"
+			}
+		}
+
+		st_phaze1
+		{
+			Group Neutral
 			Patterns
 			{
 				pt_default
 				{
 					actions 
 					{
-                        
-                        Sequence "seq.dialogue_phrase1"
-                        WaitForEnd 1
+						Sequence "seq.dialogue_phrase1"
+						WaitForEnd 1
 					}
-                    
-                    events 
-                    {
-                        OnFire_RonMove "Pattern pt_move2kassa"
-                    }
+
+					events 
+					{
+						OnFire_RonMove "Pattern pt_move2kassa"
+					}
 				}
-                
-                pt_move2kassa
+
+				pt_move2kassa
 				{
 					actions 
 					{
-                        SetHintGroup gr_ron
-                        FreeMovementParams  hint_all,10,-1,hint_group
-                        FreeMovement walk
+						SetHintGroup gr_ron
+						FreeMovementParams  hint_all,10,-1,hint_group
+						FreeMovement walk
 					}
-                    
-                    events 
-                    {
-                        OnTargetReach "State st_idle"
-                        OnFire_RonScare "ExecutePattern .xpt_mustScare"
-                    }
-				}
-                
-                xpt_mustScare
-                {
-                    actions 
+
+					events 
 					{
-                        FreeMovementParams  hint_all,10,-1,hint_group
-                        FreeMovement run
-                        SetAttr "imscare 1"
+						OnTargetReach "State st_idle"
+						OnFire_RonScare "ExecutePattern .xpt_mustScare"
 					}
-                }
-                
-            }
-        }
-		
+				}
+
+				xpt_mustScare
+				{
+					actions 
+					{
+						FreeMovementParams  hint_all,10,-1,hint_group
+						FreeMovement run
+						SetAttr "imscare 1"
+					}
+				}
+			}
+		}
+
 		st_deactivate
 		{
 			Group Alert
@@ -752,21 +772,21 @@ behavior //bh_ron
 				}
 			}
 		}
-    }
-    events
-    {
-    	OnFire_Momshot "ExecutePattern st_idle.pt_cheer"
-    }
+	}
+	events
+	{
+		OnFire_Momshot "ExecutePattern st_idle.pt_cheer"
+	}
 }
 
 behavior //bh_strip_girl
 {
 	name bh_strip_girl
-    inherited bh_human
-    
+	inherited bh_human
+
 	states
 	{
-        st_init
+		st_init
 		{
 			Group Neutral
 			Patterns
@@ -775,57 +795,59 @@ behavior //bh_strip_girl
 				{
 					actions 
 					{
-                        ExecutePattern bh_base:st_init.pt_default              
-                        AvoidProhibitedArea false
-                        SetAreaGroup AG_STRIP,AG_DEFAULT,ag_2nd_floor,ag_1st_floor
-                   		FreeMovementParams area_all,20,5000,area_group
-                   		SetAttr "said 0"
+						ExecutePattern bh_base:st_init.pt_default
+						AvoidProhibitedArea false
+						SetAreaGroup AG_STRIP,AG_DEFAULT,ag_2nd_floor,ag_1st_floor
+						FreeMovementParams area_all,20,5000,area_group
+						SetAttr "said 0"
 					}
 				}
 			}
 		}
-        st_dancing
-        {
-        	group Neutral
-        	patterns
-        	{
-        		pt_default
-        		{
-        			actions
-        			{
+
+		st_dancing
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
 						Sequence "seq.Cut_Nude_Dansing"
 						WaitForEnd 1
 						Repeat 0
-        			}
-        			events
-        			{
+					}
+					events
+					{
 						OnNasty "Pattern st_idle.pt_runaway"
 						OnSuperNasty "Pattern st_idle.pt_runaway"
 						OnHit "Pattern st_idle.pt_runaway"
 						OnKicked "Pattern st_idle.pt_runaway"
 						OnFallToGround "Pattern st_idle.pt_runaway"
-        			}
-        		}
-        	}
-        }
-        st_start
+					}
+				}
+			}
+		}
+
+		st_start
 		{
-        	Group Neutral
+			Group Neutral
 			Patterns
 			{
-                pt_default
+				pt_default
 				{
 					actions 
 					{
-                      //  FreeMovementParams area_all,20,600,area_group
-//                        SetAreaGroup AG_1ST_FLOOR,AG_DEFAULT:walkable,AG_2ND_FLOOR
-  //                      FreeMovement run
-                        State st_idle
+//						FreeMovementParams area_all,20,600,area_group
+//						SetAreaGroup AG_1ST_FLOOR,AG_DEFAULT:walkable,AG_2ND_FLOOR
+//						FreeMovement run
+						State st_idle
 					}
 				}
-
 			}
 		}
+
 		st_bar
 		{
 			group Neutral
@@ -846,6 +868,7 @@ behavior //bh_strip_girl
 						OnHit "Pattern pt_afraid"
 					}
 				}
+
 				pt_afraid:ignore_ext_events
 				{
 					actions
@@ -856,6 +879,7 @@ behavior //bh_strip_girl
 						State st_bar
 					}
 				}
+
 				pt_barf:ignore_ext_events
 				{
 					actions
@@ -868,27 +892,29 @@ behavior //bh_strip_girl
 				}
 			}
 		}
-        st_response
-        {
-        	group Neutral
-        	patterns
-        	{
-        		pt_default
-        		{
-        			actions
-        			{
-        				TargetEntByName stripgirl
+
+		st_response
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetEntByName stripgirl
 						TargetToMem msENEMY
-        				Face true
-        			}
-        			events
-        			{
-        				OnFire_Response "State st_idle"
-        			}
-        		}
-        	}
-        }
-        st_idle
+						Face true
+					}
+					events
+					{
+						OnFire_Response "State st_idle"
+					}
+				}
+			}
+		}
+
+		st_idle
 		{
 			Group Neutral
 			Patterns
@@ -913,6 +939,7 @@ behavior //bh_strip_girl
 						OnHit "Pattern pt_afraid"
 					}
 				}
+
 				pt_afraid:ignore_ext_events
 				{
 					actions
@@ -923,6 +950,7 @@ behavior //bh_strip_girl
 						State st_idle
 					}
 				}
+
 				pt_barf:ignore_ext_events
 				{
 					actions
@@ -937,12 +965,14 @@ behavior //bh_strip_girl
 						OnFire_Response "State st_idle"
 					}
 				}
+
 				pt_death
 				{
 					actions
 					{
 					}
 				}
+
 				pt_meet
 				{
 					actions
@@ -951,7 +981,7 @@ behavior //bh_strip_girl
 						TargetEntByName stripper_friend
 						TargetToMem msENEMY
 						Face true
-						Say GREET    
+						Say GREET
 						Wait 1:2
 						FireEvent Response 
 					}
@@ -963,6 +993,7 @@ behavior //bh_strip_girl
 						OnHit "Pattern pt_afraid"
 					}
 				}
+
 				pt_getcaller
 				{
 					actions
@@ -972,6 +1003,7 @@ behavior //bh_strip_girl
 						Pattern st_idle.pt_default
 					}
 				}
+
 				pt_runaway:ignore_ext_events
 				{
 					actions
@@ -999,15 +1031,12 @@ behavior //bh_strip_girl
 						OnTargetReach "Pattern pt_meet"
 					}
 				}
-                
-            
-            }
-            
-        }
-    }
-    events
-    {
-    }
+			}
+		}
+	}
+	events
+	{
+	}
 }
 
 behavior
@@ -1027,11 +1056,11 @@ behavior
 					{
 						ExecutePattern bh_base:st_init.pt_default
 						SetAttr "fee 0"
-            SetAttr "rigidity 0"
-            SetAttr "Moveout 0"
-            ChangeAttr "rigidity 20:50"					             
-            AvoidProhibitedArea true
-            Timer tShout,1:20
+						SetAttr "rigidity 0"
+						SetAttr "Moveout 0"
+						ChangeAttr "rigidity 20:50"
+						AvoidProhibitedArea true
+						Timer tShout,1:20
 					}
 				}
 			}
@@ -1057,71 +1086,75 @@ behavior
 						OnTargetClose "State st_start"
 					}
 				}
+
 				pt_barf:ignore_ext_events
-        {
-                    actions
-                    {
-                    	TargetEntByName ron
-                    	FireEvent MomShot
-                    	AreaEvent MomShot,ED_MIDDLE
-                        FreeMovement false
-                        Face false
-                        Sequence "seq.confusion_active"
-                        WaitForEnd 1
-                        Say VOMIT
-                        Sequence "seq.reaction_vomit"
-                        WaitForEnd 1
-                        Pattern pt_moveOut
-	                }
-			events 
-			{
-            OnNasty "Wait 0"
-			OnSuperNasty "Wait 0"
-			}
-        }
-        pt_moveOut:ignore_ext_events
-        {
-                    actions
-                    {
-                    	Crouch false
-                    	Aim false
-                    	WaitForEnd 1
-                    	Face false
-                    	WaitForEnd 1
-                    	Relationship all_enemy,Neutral
-                    	SetAttr "Moveout 1"
-                        FreeMovement false
-                        TargetEntByName exit_point
-                        MoveToTarget run
-                        Wait 1:5
-                        Say LAWSUIT
-                        Repeat 1
-                    }
-                    
-                    events
-                    {
-                        OnTargetReach "ExecutePattern .pt_KillMe"
+				{
+					actions
+					{
+						TargetEntByName ron
+						FireEvent MomShot
+						AreaEvent MomShot,ED_MIDDLE
+						FreeMovement false
+						Face false
+						Sequence "seq.confusion_active"
+						WaitForEnd 1
+						Say VOMIT
+						Sequence "seq.reaction_vomit"
+						WaitForEnd 1
+						Pattern pt_moveOut
+					}
+					events 
+					{
 						OnNasty "Wait 0"
 						OnSuperNasty "Wait 0"
-                    }
-                }
-                pt_death
-                {
-                	actions
-                	{
-                		TargetEntByName pw_logic
+					}
+				}
+
+				pt_moveOut:ignore_ext_events
+				{
+					actions
+					{
+						Crouch false
+						Aim false
+						WaitForEnd 1
+						Face false
+						WaitForEnd 1
+						Relationship all_enemy,Neutral
+						SetAttr "Moveout 1"
+						FreeMovement false
+						TargetEntByName exit_point
+						MoveToTarget run
+						Wait 1:5
+						Say LAWSUIT
+						Repeat 1
+					}
+					events
+					{
+						OnTargetReach "ExecutePattern .pt_KillMe"
+						OnNasty "Wait 0"
+						OnSuperNasty "Wait 0"
+					}
+				}
+
+				pt_death
+				{
+					actions
+					{
+						TargetEntByName pw_logic
 						ChangeAttr "target.moms_left -1"
-                	}
-                }
-                pt_KillMe
-                {
-                    actions
-                    {
-                        TargetEntByName pw_logic
-                        ChangeAttr "target.moms_left -1"
-                        NPC kill,0.5
-                    }
-        }
+					}
+				}
+
+				pt_KillMe
+				{
+					actions
+					{
+						TargetEntByName pw_logic
+						ChangeAttr "target.moms_left -1"
+						NPC kill,0.5
+					}
+				}
+
 				pt_shout
 				{
 					actions
@@ -1132,23 +1165,24 @@ behavior
 						Timer tShout,1:20
 					}
 				}
+
 				pt_UpdateNastyLevel:ignore_ext_events
-                {
-                    actions
-                    {
-                        Say PISSEDON
-                        ResetSequence 1
-                        TargetCaller 1
-                        Face true
-                        ChangeAttr "fee 10:20"
-                        IfAttr "fee > 20 Block begin"
-                            ChangeAttr "rnd fee:40"
-                            IfAttr "rnd > rigidity Pattern .pt_barf"
-                        Block end
+				{
+					actions
+					{
+						Say PISSEDON
+						ResetSequence 1
+						TargetCaller 1
+						Face true
+						ChangeAttr "fee 10:20"
+						IfAttr "fee > 20 Block begin"
+							ChangeAttr "rnd fee:40"
+							IfAttr "rnd > rigidity Pattern .pt_barf"
+						Block end
 						Sequence "seq.confusion_active"
 						WaitForEnd 1
-                        Face false
-                        ResetTarget 1
+						Face false
+						ResetTarget 1
 						State st_start
 					}
 					events 
@@ -1158,6 +1192,7 @@ behavior
 						OnSuperNasty "ChangeAttr fee 10:5"
 					}
 				}
+
 				pt_UpdateSuperNastyLevel:ignore_ext_events
 				{
 					actions
@@ -1195,14 +1230,16 @@ behavior
 		OnSuperNasty "Pattern st_idle.pt_UpdateSuperNastyLevel"
 	}
 }
+
+
 behavior //bh_mom
 {
 	name bh_mom
-    inherited default_behavior_BRIDGE
+	inherited default_behavior_BRIDGE
 
 	states
 	{
-        st_init
+		st_init
 		{
 			Group Neutral
 			Patterns
@@ -1211,79 +1248,80 @@ behavior //bh_mom
 				{
 					actions 
 					{
-                        SetAttr "fee 0"
-                        //,on_change_event:OnFeeChange"
-                        SetAttr "agression 0"
-                        ChangeAttr "agression 20:40"
-                        SetAttr "rigidity 0"
-                        SetAttr "Moveout 0"
-                        ChangeAttr "rigidity 20:50"					
-                        ExecutePattern bh_base:st_init.pt_default      
-                        AvoidProhibitedArea true
-                        Timer tShout,1:20
+						SetAttr "fee 0"
+//						,on_change_event:OnFeeChange"
+						SetAttr "agression 0"
+						ChangeAttr "agression 20:40"
+						SetAttr "rigidity 0"
+						SetAttr "Moveout 0"
+						ChangeAttr "rigidity 20:50"					
+						ExecutePattern bh_base:st_init.pt_default
+						AvoidProhibitedArea true
+						Timer tShout,1:20
 						Timer tFireAE,5,repeated
-                        
 					}
 				}
 			}
 		}
-        
-        st_start
+
+		st_start
 		{
-        	Group Neutral
+			Group Neutral
 			Patterns
 			{
-                pt_default
+				pt_default
 				{
 					actions 
 					{
 						IfAttr "Moveout == 1 Pattern st_idle.pt_MoveOut"
-                        ExecutePattern .pt_CrazyRun
-                        ExecutePattern bh_base:st_start.pt_default
+						ExecutePattern .pt_CrazyRun
+						ExecutePattern bh_base:st_start.pt_default
 					}
 				}
-                pt_shout
-                {
-                	actions
-                	{
-                		SetAttr "rnd 0"
-                		ChangeAttr "rnd 0:10"
-                		IfAttr "rnd > 3 Say FIGHT"
-                		Timer tShout,1:20
-                	}
-                }
-                pt_CrazyRun
-                {
-                    actions
-                    {
-                        ResetTarget 1
-                        Face false
-                        FreeMovementParams area_all,120,700,area_group
-                        Weapon arm
-                        TargetEntByName pw_logic
-                        SetAttr "dice_check target.shop_HP,0,1000"
-                        ResetTarget 1
-                        ChangeAttr "dice_check /5"
-//                        ChangeAttr "dice_check +agression"
-                        ExecutePattern st_idle.xpt_Dice100
-                        IfAttr "dice_res == 1 SetAreaGroup AG_1ST_FLOOR,AG_DEFAULT:walkable"
-                        IfAttr "dice_res == 0 SetAreaGroup AG_1ST_FLOOR,AG_DEFAULT:walkable,AG_2ND_FLOOR"
-                        
-                        FreeMovement run,reset
-                    }
-                    events
-                    {
-                    	OnVisible "ExecutePattern st_idle.pt_wantAttackTarget?"
-                    }
-                }
+
+				pt_shout
+				{
+					actions
+					{
+						SetAttr "rnd 0"
+						ChangeAttr "rnd 0:10"
+						IfAttr "rnd > 3 Say FIGHT"
+						Timer tShout,1:20
+					}
+				}
+
+				pt_CrazyRun
+				{
+					actions
+					{
+						ResetTarget 1
+						Face false
+						FreeMovementParams area_all,120,700,area_group
+						Weapon arm
+						TargetEntByName pw_logic
+						SetAttr "dice_check target.shop_HP,0,1000"
+						ResetTarget 1
+						ChangeAttr "dice_check /5"
+//						ChangeAttr "dice_check +agression"
+						ExecutePattern st_idle.xpt_Dice100
+						IfAttr "dice_res == 1 SetAreaGroup AG_1ST_FLOOR,AG_DEFAULT:walkable"
+						IfAttr "dice_res == 0 SetAreaGroup AG_1ST_FLOOR,AG_DEFAULT:walkable,AG_2ND_FLOOR"
+
+						FreeMovement run,reset
+					}
+					events
+					{
+						OnVisible "ExecutePattern st_idle.pt_wantAttackTarget?"
+					}
+				}
 			}
 			events
 			{
 				OnTimer_tShout "ExecutePattern st_start.pt_shout"
 			}
 		}
-        
-        st_idle
+
+		st_idle
 		{
 			Group Neutral
 			Patterns
@@ -1292,321 +1330,309 @@ behavior //bh_mom
 				{
 					actions 
 					{
-                        //Gesture march_banner
-                        Face false
-                        ExecutePattern st_start.pt_CrazyRun
+//						Gesture march_banner
+						Face false
+						ExecutePattern st_start.pt_CrazyRun
 						ExecutePattern .pt_selectSchedule
-                        
-                        SetAttr "dice_check 70"
-                        ExecutePattern .xpt_Dice100
-                        IfAttr "dice_res == 1 Gesture march_banner"
-                        
-                        Repeat 20
+
+						SetAttr "dice_check 70"
+						ExecutePattern .xpt_Dice100
+						IfAttr "dice_res == 1 Gesture march_banner"
+
+						Repeat 20
 					}
-                    
-                    events 
-                    {
-                        OnTargetReach "Repeat 0"
-                        OnNasty "Pattern .pt_UpdateNastyLevel"
+					events 
+					{
+						OnTargetReach "Repeat 0"
+						OnNasty "Pattern .pt_UpdateNastyLevel"
 						OnSuperNasty "Pattern .pt_UpdateNastyLevel"
-                        OnVisible "ExecutePattern .pt_wantAttackTarget?"
-                        OnTimer_tShout "ExecutePattern st_start.pt_shout"
-                    }
+						OnVisible "ExecutePattern .pt_wantAttackTarget?"
+						OnTimer_tShout "ExecutePattern st_start.pt_shout"
+					}
 				}
-                
-                pt_UpdateNastyLevel:ignore_ext_events
-                {
-                    actions
-                    {
-                    	
-                        Say PISSEDON
-                        ResetSequence 1
-                        TargetCaller 1
-                        Face true
-                        ChangeAttr "fee 10:20"
-                        IfAttr "fee > 20 Block begin"
-                            ChangeAttr "rnd fee:40"
-                            IfAttr "rnd > rigidity Pattern .pt_barf"
-                        Block end
-                        Face false
+
+				pt_UpdateNastyLevel:ignore_ext_events
+				{
+					actions
+					{
+						Say PISSEDON
+						ResetSequence 1
+						TargetCaller 1
+						Face true
+						ChangeAttr "fee 10:20"
+						IfAttr "fee > 20 Block begin"
+							ChangeAttr "rnd fee:40"
+							IfAttr "rnd > rigidity Pattern .pt_barf"
+						Block end
+						Face false
 						Sequence "seq.confusion_active"
 						WaitForEnd 1
-                        ResetTarget 1
-                        State st_start
-                    }
-                    
-                    events 
-                    {
-                    	OnTimer_tShout "ExecutePattern st_start.pt_shout"
-                        OnNasty "ChangeAttr fee 1:5"
+						ResetTarget 1
+						State st_start
+					}
+					events 
+					{
+						OnTimer_tShout "ExecutePattern st_start.pt_shout"
+						OnNasty "ChangeAttr fee 1:5"
 						OnSuperNasty "ChangeAttr fee 10:5"
-                    }
-                }
-                
-                
-                pt_wantAttackTarget?
-                {
-                    actions
-                    {
-                    	TargetCaller 1
-                    	IgnoreTarget 20
-                        IfAttr "DistTo:target <= ED_MIDDLE Block begin"
-                        	IfAttr "target.ea_Manner == Manner:LameWanker Block begin"
-                        		Pattern pt_gotoPush
-                        	Block end
-                        Block end
-                    }
-                }
-                
-                pt_AfterAttack:ignore_ext_events
-                {
-                    actions
-                    {
-                        FreeMovement false
-                        SetAttr "afterKick 0"
-                        //Sequence seq.confusion_agressive
-                        //WaitForEnd 1
-                        ResetTarget 1
-                        
-                        State st_start
-                    }
-                    
-                    events
-                    {
-                    	OnTimer_tShout "ExecutePattern st_start.pt_shout"
-                        OnNasty "Pattern .pt_UpdateNastyLevel"
-						OnSuperNasty "Pattern .pt_UpdateNastyLevel"
-                    }
-                }
-                
-                pt_selectSchedule
-                {
-                    actions
-                    {
-                        ExecutePattern .pt_wantDestroySomething?
-                        //ExecutePattern .pt_wantAttackTarget?
-                    }
-                }
-                
-                xpt_Dice100
-                {
-                    actions
-                    {
-                        SetAttr "dice_rnd 0"
-                        ChangeAttr "dice_rnd 0:100"
-                        SetAttr "dice_res 0"
-                        IfAttr "dice_rnd < dice_check SetAttr dice_res 1"
-                    }
-                }
-                
-                pt_wantDestroySomething?
-                {
-                    actions
-                    {
-                        TargetEntByName pw_logic
-                        SetAttr "dice_check target.shop_HP,0,1000"
-                        ResetTarget 1
-                        ChangeAttr "dice_check /15"
-                        ChangeAttr "dice_check +10"
-//                        ChangeAttr "dice_check +agression"
-                        ExecutePattern .xpt_Dice100
-//                        IfAttr "dise_res == 0 Return 1"
-                        IfAttr "dice_rnd < 10 Block begin"
-							TargetEntByName ron
-							Pattern pt_gotoPush
+					}
+				}
+
+				pt_wantAttackTarget?
+				{
+					actions
+					{
+						TargetCaller 1
+						IgnoreTarget 20
+						IfAttr "DistTo:target <= ED_MIDDLE Block begin"
+							IfAttr "target.ea_Manner == Manner:LameWanker Block begin"
+								Pattern pt_gotoPush
+							Block end
 						Block end
-                        Pattern pt_selectToDestroySomething
-	                }
-                }
-                
-                pt_selectToDestroySomething
-                {
-                    actions
-                    {
-                        ResetGesture all
-                        SetHintGroup wish_fun_watch
-                        FreeMovementParams  hint_all,ED_MIDDLE,9999,hint_group,hint_face
-                        FreeMovement run,reset
-						Gesture march_banner
-						Repeat 10
-                    }
-                    
-                    events
-                    {
-						OnInvalidRoute	"State st_start"
-                    	OnVisible "ExecutePattern .pt_wantAttackTarget?"
-                        OnTargetReach "Pattern pt_destroySomething"
-                        OnNasty "Pattern .pt_UpdateNastyLevel"
-						OnSuperNasty "Pattern .pt_UpdateNastyLevel"
-                    }
-                    
-                }
-                
-                pt_destroySomething:ignore_ext_events
-                {
-                    actions
-                    {
-                        Sequence seq.melee_attack2,seq.melee_attack3,seq.melee_attack4
-						WaitForEnd 1
-						ChangeAttr "smash_count +1"
-                        IfAttr "smash_count < 2 Repeat 0"
-                        EntFireInput hit_effect,Explode,65
-                        SetAttr "smash_count 0"
-                        TargetEntByName pw_logic
-                        ChangeAttr "target.shop_HP -7"
-                        ResetTarget 1
+					}
+				}
+
+				pt_AfterAttack:ignore_ext_events
+				{
+					actions
+					{
+						FreeMovement false
+						SetAttr "afterKick 0"
+//						Sequence seq.confusion_agressive
+//						WaitForEnd 1
+						ResetTarget 1
+
 						State st_start
 					}
 					events
 					{
 						OnTimer_tShout "ExecutePattern st_start.pt_shout"
-                        OnNasty "Pattern .pt_UpdateNastyLevel"
-						OnSuperNasty "Pattern .pt_UpdateNastyLevel"
-					}
-                }
-                
-                pt_smash:ignore_ext_events
-                {
-                    actions
-                    {
-                        ChangeAttr "smash_count +1"
-                        IfAttr "smash_count < 2 Return 1"
-                        EntFireInput hit_effect,Explode,65
-                        RemoveAttr smash_count
-                        TargetEntByName pw_logic
-                        ChangeAttr "target.shop_HP -7"
-                        ResetTarget 1
-                    }
-                    events
-                    {
 						OnNasty "Pattern .pt_UpdateNastyLevel"
 						OnSuperNasty "Pattern .pt_UpdateNastyLevel"
-                    	OnTimer_tShout "ExecutePattern st_start.pt_shout"
-                    }
-                }
-                
-                pt_barf:ignore_ext_events
-                {
-                    actions
-                    {
-                    	TargetEntByName ron
-                    	FireEvent MomShot
-                    	Weapon disarm
-                    	AreaEvent MomShot,ED_MIDDLE
-                        FreeMovement false
-                        Face false
-                        Say VOMIT
-                        Sequence "seq.reaction_vomit"
-                        WaitForEnd 1
-                        Pattern pt_moveOut
-	                }
-                    
-                    events 
-                    {
-                        OnNasty "Wait 0"
-						OnSuperNasty "Wait 0"
-                    }
-                }
-                
-                pt_gotoPush
-                {
-                    actions
-                    {
-                        FreeMovement false
-                        
-                        MoveToTarget run,1
-                        IfAttr "DistTo:target < 64 Pattern pt_push"
-                        Repeat 1
-                    }
-                    
-                    events 
-                    {
-                    	OnInvalidRoute "State st_start"
-                    	OnTargetReach "Pattern pt_push"
-                    	OnNasty "Pattern .pt_UpdateNastyLevel"
+					}
+				}
+
+				pt_selectSchedule
+				{
+					actions
+					{
+						ExecutePattern .pt_wantDestroySomething?
+//						ExecutePattern .pt_wantAttackTarget?
+					}
+				}
+
+				xpt_Dice100
+				{
+					actions
+					{
+						SetAttr "dice_rnd 0"
+						ChangeAttr "dice_rnd 0:100"
+						SetAttr "dice_res 0"
+						IfAttr "dice_rnd < dice_check SetAttr dice_res 1"
+					}
+				}
+
+				pt_wantDestroySomething?
+				{
+					actions
+					{
+						TargetEntByName pw_logic
+						SetAttr "dice_check target.shop_HP,0,1000"
+						ResetTarget 1
+						ChangeAttr "dice_check /15"
+						ChangeAttr "dice_check +10"
+//						ChangeAttr "dice_check +agression"
+						ExecutePattern .xpt_Dice100
+//						IfAttr "dise_res == 0 Return 1"
+						IfAttr "dice_rnd < 10 Block begin"
+							TargetEntByName ron
+							Pattern pt_gotoPush
+						Block end
+						Pattern pt_selectToDestroySomething
+					}
+				}
+
+				pt_selectToDestroySomething
+				{
+					actions
+					{
+						ResetGesture all
+						SetHintGroup wish_fun_watch
+						FreeMovementParams  hint_all,ED_MIDDLE,9999,hint_group,hint_face
+						FreeMovement run,reset
+						Gesture march_banner
+						Repeat 10
+					}
+					events
+					{
+						OnInvalidRoute	"State st_start"
+						OnVisible "ExecutePattern .pt_wantAttackTarget?"
+						OnTargetReach "Pattern pt_destroySomething"
+						OnNasty "Pattern .pt_UpdateNastyLevel"
 						OnSuperNasty "Pattern .pt_UpdateNastyLevel"
-                    }
-                }
-                
-                pt_push
-                {
-                    actions
-                    {
-						IgnoreTarget 20
-						MoveToTarget false
-                        Sequence "seq.melee_attack"
-						IfAttr "target.RonJ == 1 ChangeAttr target.ea_health -2"
-                        Push self,target,medium
-                        WaitForEnd 1
-                        Face false
-                        State st_start
-                    }
-                    
-                    events 
-                    {
-                       OnNasty "Pattern .pt_UpdateNastyLevel"
-					   OnSuperNasty "Pattern .pt_UpdateNastyLevel"
-                    }
-                }
-                
-                pt_moveOut:ignore_ext_events
-                {
-                    actions
-                    {
-                    	SetAttr "Moveout 1"
-                        FreeMovement false
-                        TargetEntByName exit_point
-                        MoveToTarget run
-                        Wait 1:5
-                        Say LAWSUIT
-                        Repeat 1
-                    }
-                    
-                    events
-                    {
+					}
+				}
+
+				pt_destroySomething:ignore_ext_events
+				{
+					actions
+					{
+						Sequence seq.melee_attack2,seq.melee_attack3,seq.melee_attack4
+						WaitForEnd 1
+						ChangeAttr "smash_count +1"
+						IfAttr "smash_count < 2 Repeat 0"
+						EntFireInput hit_effect,Explode,65
+						SetAttr "smash_count 0"
+						TargetEntByName pw_logic
+						ChangeAttr "target.shop_HP -7"
+						ResetTarget 1
+						State st_start
+					}
+					events
+					{
+						OnTimer_tShout "ExecutePattern st_start.pt_shout"
+						OnNasty "Pattern .pt_UpdateNastyLevel"
+						OnSuperNasty "Pattern .pt_UpdateNastyLevel"
+					}
+				}
+
+				pt_smash:ignore_ext_events
+				{
+					actions
+					{
+						ChangeAttr "smash_count +1"
+						IfAttr "smash_count < 2 Return 1"
+						EntFireInput hit_effect,Explode,65
+						RemoveAttr smash_count
+						TargetEntByName pw_logic
+						ChangeAttr "target.shop_HP -7"
+						ResetTarget 1
+					}
+					events
+					{
+						OnNasty "Pattern .pt_UpdateNastyLevel"
+						OnSuperNasty "Pattern .pt_UpdateNastyLevel"
+						OnTimer_tShout "ExecutePattern st_start.pt_shout"
+					}
+				}
+
+				pt_barf:ignore_ext_events
+				{
+					actions
+					{
+						TargetEntByName ron
+						FireEvent MomShot
+						Weapon disarm
+						AreaEvent MomShot,ED_MIDDLE
+						FreeMovement false
+						Face false
+						Say VOMIT
+						Sequence "seq.reaction_vomit"
+						WaitForEnd 1
+						Pattern pt_moveOut
+					}
+					events 
+					{
 						OnNasty "Wait 0"
 						OnSuperNasty "Wait 0"
-                        OnTargetReach "ExecutePattern .pt_KillMe"
-                    }
-                }
-                pt_KillMe
-                {
-                    actions
-                    {
-                        TargetEntByName pw_logic
-                        ChangeAttr "target.moms_left -1"
-                        NPC kill,0.5
-                    }
-                }
+					}
+				}
+
+				pt_gotoPush
+				{
+					actions
+					{
+						FreeMovement false
+
+						MoveToTarget run,1
+						IfAttr "DistTo:target < 64 Pattern pt_push"
+						Repeat 1
+					}
+					events 
+					{
+						OnInvalidRoute "State st_start"
+						OnTargetReach "Pattern pt_push"
+						OnNasty "Pattern .pt_UpdateNastyLevel"
+						OnSuperNasty "Pattern .pt_UpdateNastyLevel"
+					}
+				}
+
+				pt_push
+				{
+					actions
+					{
+						IgnoreTarget 20
+						MoveToTarget false
+						Sequence "seq.melee_attack"
+						IfAttr "target.RonJ == 1 ChangeAttr target.ea_health -2"
+						Push self,target,medium
+						WaitForEnd 1
+						Face false
+						State st_start
+					}
+					events 
+					{
+						OnNasty "Pattern .pt_UpdateNastyLevel"
+						OnSuperNasty "Pattern .pt_UpdateNastyLevel"
+					}
+				}
+
+				pt_moveOut:ignore_ext_events
+				{
+					actions
+					{
+						SetAttr "Moveout 1"
+						FreeMovement false
+						TargetEntByName exit_point
+						MoveToTarget run
+						Wait 1:5
+						Say LAWSUIT
+						Repeat 1
+					}
+					events
+					{
+						OnNasty "Wait 0"
+						OnSuperNasty "Wait 0"
+						OnTargetReach "ExecutePattern .pt_KillMe"
+					}
+				}
+				pt_KillMe
+				{
+					actions
+					{
+						TargetEntByName pw_logic
+						ChangeAttr "target.moms_left -1"
+						NPC kill,0.5
+					}
+				}
 			}
 			events
 			{
 				OnTimer_tShout "ExecutePattern st_start.pt_shout"
 			}
 		}
-        BAT_MELEE
-        {
-            Group Combat
-            Patterns
-            {
-                pt_default:ignore_ext_events
+
+		BAT_MELEE
+		{
+			Group Combat
+			Patterns
+			{
+				pt_default:ignore_ext_events
 				{
 					actions 
 					{
-                        SetAttr "afterKick 1"
-                        FireEvent IKillU
-                        Pattern bh_base:BAT_MELEE.pt_default	
+						SetAttr "afterKick 1"
+						FireEvent IKillU
+						Pattern bh_base:BAT_MELEE.pt_default	
 					}
 				}
-                
-            }
-            
-            events
-            {
-                OnNasty "Pattern st_idle.pt_UpdateNastyLevel"
+			}
+			events
+			{
+				OnNasty "Pattern st_idle.pt_UpdateNastyLevel"
 				OnSuperNasty "Pattern st_idle.pt_UpdateNastyLevel"
-            }
-        }
+			}
+		}
 		st_deactivate
 		{
 			Group Alert
@@ -1623,11 +1649,11 @@ behavior //bh_mom
 				}
 			}
 		}
-    }
-    events
-    {
+	}
+	events
+	{
 		OnTimer_tFireAE	"AreaEvent MomIsHere,8"
-    }
+	}
 }
 
 behavior
@@ -1655,6 +1681,7 @@ behavior
 				}
 			}
 		}
+
 		st_idle
 		{
 			group Neutral
@@ -1671,6 +1698,7 @@ behavior
 				}
 			}
 		}
+
 		st_fire
 		{
 			group Combat
@@ -1690,18 +1718,20 @@ behavior
 							SetAttr "target.ea_health 0"
 						Block end
 						Wait 0.1:0.4
-                        //Call 1
+//						Call 1
 					}
 				}
 			}
 		}
 	}
 }
+
+
 behavior //bh_drocher
 {
 	name bh_drocher
 	inherited bh_civil
-  
+
 	States
 	{
 		st_init
@@ -1715,13 +1745,13 @@ behavior //bh_drocher
 					{
 						ExecutePattern bh_base:st_init.pt_default
 						AvoidProhibitedArea true
-						//FreeMovementParams area_all,300,3000
-                        //FreeMovement walk
-                        Face false
-                        SetHintGroup wish_fun_watch
-                        FreeMovement false
-                        SetAttr "Patience 0"
-						
+//						FreeMovementParams area_all,300,3000
+//						FreeMovement walk
+						Face false
+						SetHintGroup wish_fun_watch
+						FreeMovement false
+						SetAttr "Patience 0"
+
 						TargetEntByName pw_logic
 						TargetToMem msGP
 						ResetTarget 1
@@ -1732,10 +1762,10 @@ behavior //bh_drocher
 				}
 			}
 		}
-        
-        st_start
+
+		st_start
 		{
-        	Group Neutral
+			Group Neutral
 			Patterns
 			{
 				xpt_checkmom
@@ -1747,6 +1777,7 @@ behavior //bh_drocher
 						IfAttr "target.ea_Manner == Manner:SoccerMom SetAttr NewReaction RE_FEAR" //Pattern pt_agitate"
 					}
 				}
+
 				xpt_momshot
 				{
 					actions
@@ -1760,13 +1791,14 @@ behavior //bh_drocher
 						//State st_start
 					}
 				}
+
 				pt_agitate
 				{
 					actions
 					{
 						Pattern pt_swear
-				//		FreeMovement false
-			//			MoveToTarget run
+//						FreeMovement false
+//						MoveToTarget run
 					}
 					events
 					{
@@ -1774,6 +1806,7 @@ behavior //bh_drocher
 						OnInvalidRoute "Pattern pt_swear"
 					}
 				}
+
 				pt_swear
 				{
 					actions
@@ -1790,12 +1823,12 @@ behavior //bh_drocher
 				}
 			}
 		}
-		
-        st_alert
-        {
-        	group Neutral
-        	patterns
-        	{
+
+		st_alert
+		{
+			group Neutral
+			patterns
+			{
 				pt_calm
 				{
 					actions
@@ -1805,23 +1838,23 @@ behavior //bh_drocher
 						State st_start
 					}
 				}
-        	}
-      	}
-		
-        st_fear
-        {
+			}
+		}
+
+		st_fear
+		{
 			Group Alert
 			Patterns
 			{
-                xpt_SetParams
-                {
-                    actions 
-                    {
-                        SetAreaGroup AG_1ST_FLOOR:walkable,AG_DEFAULT:walkable,AG_2ND_FLOOR
-                        ExecutePattern bh_base:st_fear.xpt_SetParams
-                    } 
-                }
-				
+				xpt_SetParams
+				{
+					actions 
+					{
+						SetAreaGroup AG_1ST_FLOOR:walkable,AG_DEFAULT:walkable,AG_2ND_FLOOR
+						ExecutePattern bh_base:st_fear.xpt_SetParams
+					} 
+				}
+
 				xpt_SayRun
 				{
 					actions
@@ -1834,7 +1867,7 @@ behavior //bh_drocher
 						ExecutePattern bh_base:st_fear.xpt_SayRun
 					}
 				}
-				
+
 				xpt_SayBeg
 				{
 					actions
@@ -1843,37 +1876,39 @@ behavior //bh_drocher
 						IfAttr "Object:target == Object:player ExecutePattern bh_base:st_fear.xpt_SayBeg"
 					}
 				}
-            }
+			}
 		}
-        
-        st_idle
+
+		st_idle
 		{
 			Group Neutral
 			Patterns
 			{
-                pt_roam
-                {
-                	actions
-                	{
+				pt_roam
+				{
+					actions
+					{
 						Face false
 						FreeMovementParams  area_all,0,-1,area_group
 						FreeMovement walk,reset
 						Wait 2:10
 						State st_idle
-                	}
-                }
-                xpt_IstRealyBusy?
-                {
-                    actions
-                    {
-                        TargetCaller 1
-                        IfAttr "Visible:target == 1 Block begin" //and DistTo:target < 5
-                            ResetTarget 1
-                            State st_idle
-                        Block end
-                        ResetTarget 1
-                    }
-                }
+					}
+				}
+
+				xpt_IstRealyBusy?
+				{
+					actions
+					{
+						TargetCaller 1
+						IfAttr "Visible:target == 1 Block begin" //and DistTo:target < 5
+							ResetTarget 1
+							State st_idle
+						Block end
+						ResetTarget 1
+					}
+				}
+
 				xpt_SetHintGroup
 				{
 					actions
@@ -1887,6 +1922,7 @@ behavior //bh_drocher
 						RemoveAttr rand
 					}
 				}
+
 				xpt_OnVisible
 				{
 					actions
@@ -1900,24 +1936,25 @@ behavior //bh_drocher
 				OnAE_ViewBUSY "ExecutePattern .xpt_IstRealyBusy?"
 			}
 		}
-        
-        ev_funWatcher
+
+		ev_funWatcher
 		{
 			Group Neutral
 			Patterns
 			{
-                pt_default
+				pt_default
 				{
 					actions 
 					{
-                        FreeMovement false
-                        Sequence "idle_common,idle_2"
-                        WaitForEnd 1
-                        SetHintGroup wish_fun_idle
+						FreeMovement false
+						Sequence "idle_common,idle_2"
+						WaitForEnd 1
+						SetHintGroup wish_fun_idle
 						Wait 0:2
-                        Pattern pt_end
+						Pattern pt_end
 					}
 				}
+
 				pt_end
 				{
 					actions
@@ -1928,6 +1965,7 @@ behavior //bh_drocher
 						State st_start
 					}
 				}
+
 				xpt_ReactionChange
 				{
 					actions
@@ -1937,25 +1975,25 @@ behavior //bh_drocher
 				}
 			}
 		}
-        
-        ev_drink
+
+		ev_drink
 		{
 			Group Neutral
 			Patterns
 			{
-                pt_default
+				pt_default
 				{
 					actions 
 					{
-                        FreeMovement false
-                        Sequence "emote_hi"
+						FreeMovement false
+						Sequence "emote_hi"
 						Say SLEEZ
-                        WaitForEnd 1
-                        
-                        Pattern pt_end
+						WaitForEnd 1
+
+						Pattern pt_end
 					}
 				}
-				
+
 				pt_end
 				{
 					actions
@@ -1966,7 +2004,7 @@ behavior //bh_drocher
 						State st_start
 					}
 				}
-				
+
 				xpt_ReactionChange
 				{
 					actions
@@ -1976,32 +2014,32 @@ behavior //bh_drocher
 				}
 			}
 		}
-        
-        ev_watchStrip
+
+		ev_watchStrip
 		{
 			Group Neutral
 			Patterns
 			{
-                pt_default
+				pt_default
 				{
 					actions 
 					{
-                        FreeMovement false
-                        TargetEntByName stripgirl
-                        LookAt true
-                        Face true
+						FreeMovement false
+						TargetEntByName stripgirl
+						LookAt true
+						Face true
 						Wait 1:1
-                        Sequence idle_common,idle_2,5:15
-                        WaitForEnd 1
+						Sequence idle_common,idle_2,5:15
+						WaitForEnd 1
 						Wait 1:2
 						Say CHEER
-                        Sequence emote_aggro,5:15
-                        WaitForEnd 1
+						Sequence emote_aggro,5:15
+						WaitForEnd 1
 						Wait 1:1
-                        Pattern pt_end
+						Pattern pt_end
 					}
 				}
-				
+
 				pt_end
 				{
 					actions
@@ -2015,7 +2053,7 @@ behavior //bh_drocher
 						State st_start
 					}
 				}
-				
+
 				xpt_ReactionChange
 				{
 					actions
@@ -2025,8 +2063,8 @@ behavior //bh_drocher
 				}
 			}
 		}
-        
-        ev_drocher
+
+		ev_drocher
 		{
 			Group Neutral
 			Patterns
@@ -2035,57 +2073,56 @@ behavior //bh_drocher
 				{
 					actions 
 					{
-                        Timer sayBusy,0.2,repeated
-                        FreeMovement false
-                        Wait 0:3
-                        Sequence seq.droch_med,5:15
-                        Wait 5:10
-                        SpawnItem drocha_spwn,owner,hand_right
-                        Item drop
-                        Sequence seq.idle_ScratchHair2
-                        WaitForEnd 1
-                        Sequence idle_common,idle_2,0:3
-                        WaitForEnd 1
-                        Pattern pt_end
+						Timer sayBusy,0.2,repeated
+						FreeMovement false
+						Wait 0:3
+						Sequence seq.droch_med,5:15
+						Wait 5:10
+						SpawnItem drocha_spwn,owner,hand_right
+						Item drop
+						Sequence seq.idle_ScratchHair2
+						WaitForEnd 1
+						Sequence idle_common,idle_2,0:3
+						WaitForEnd 1
+						Pattern pt_end
 					}
-                    
-                    events
-                    {
-                        OnTimer_sayBusy "AreaEvent ViewBUSY,5"
-                    }
+					events
+					{
+						OnTimer_sayBusy "AreaEvent ViewBUSY,5"
+					}
 				}
-                
-//                pt_sayHereEmployed!
-//                {
-//                    actions 
+
+//				pt_sayHereEmployed!
+//				{
+//					actions 
 //					{
-//                        TargetCaller 1
-//                        IfAttr "checkCount < 4 and DistTo:target < 5 and Visible:target == 1 Block begin"
-//                            ChangeAttr "checkCount 1"
-//                            Pattern pt_default
-//                        Block end
-//                        Face true
-//                        Sequence "seq.confusion_active"
-//                        WaitForEnd 1
-//                        Face false
-//                        Timer "sayBusy,0"
-//                        SetHintGroup wish_fun_idle
-//                        Pattern pt_end
+//						TargetCaller 1
+//						IfAttr "checkCount < 4 and DistTo:target < 5 and Visible:target == 1 Block begin"
+//							ChangeAttr "checkCount 1"
+//							Pattern pt_default
+//						Block end
+//						Face true
+//						Sequence "seq.confusion_active"
+//						WaitForEnd 1
+//						Face false
+//						Timer "sayBusy,0"
+//						SetHintGroup wish_fun_idle
+//						Pattern pt_end
 //					}
-//                }
-				
+//				}
+
 				pt_end
 				{
 					actions
 					{
 						Timer "sayBusy,0"
-                        SetHintGroup wish_fun_idle
+						SetHintGroup wish_fun_idle
 						ResetSequence 1
-						
+
 						State st_start
 					}
 				}
-				
+
 				xpt_ReactionChange
 				{
 					actions
@@ -2099,7 +2136,6 @@ behavior //bh_drocher
 				OnTimer_sayBusy "AreaEvent ViewBUSY,5"
 			}
 		}
-     
 	}
 	events
 	{
