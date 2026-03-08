@@ -99,6 +99,9 @@
 				"tall"			"36" // "65"
 				"weight"		"400"
 				"antialias"		"1"
+				"dropshadow"	"1"
+				"outline"		"1"
+				"GAUSSIANBLUR"	"1"
 			}
 		}
 		
