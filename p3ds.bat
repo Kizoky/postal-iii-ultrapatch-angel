@@ -1,1 +1,1 @@
-p3ds.exe -game p3 +sv_lan 1 +maxplayers 6 +map bdk -console +developer 2 -nosteam
+p3ds.exe -game p3 +sv_lan 1 +maxplayers 6 +map bdk -console +developer 2 -dedicated

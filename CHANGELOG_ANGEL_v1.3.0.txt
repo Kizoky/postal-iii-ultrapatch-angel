@@ -237,6 +237,39 @@ With this func entity which manipulates navmesh you can:
 * Fixed weapon and corpse P3S pointers lingering around which caused entity "leaks" and lags
 * `p3_cam_shake` is now an archived convar
 * Fixed all instances of dropping weapons (Players & NPCs) not properly setting `active` and `dropped` attributes (both of them should be 1)
+* Fixed `notarget` cheat not working with Postal3Script
+* Fixed Player holding limbs/props weirdly after save/load
+* AngelScript: Fixed `QAngle` missing `x` variable
++ AngelScript: Added `Vector CP3Player::GetP3CameraOrigin()`
++ AngelScript: Added `QAngle CP3Player::GetP3CameraAngles()`
+* AngelScript: `gpGlobals.eLoadType` is now a variable type (previously it was a function)
++ AngelScript: Added `MapLoadType_t` enum (MapLoad_Transition, MapLoad_Background, etc...)
+* Fixed AngelScript crashing the game on save with empty `CBaseEntity@` (and derived from) pointers
++ Added `p3_ultrapatch_continuegame_auto`, if it's on Continue game also considers auto saves when loading latest saved game
++ Added `p3_ultrapatch_continuegame_quick`, if it's on Continue game also considers quick saves when loading latest saved game
+* Fixed game crashing when NPC tries to throw invalid/corrupted item
++ Added `mapreplace` feature (made by Grizzle, and modified a little bit, check example file to see how it works)
+* Completely removed restrictions where you couldn't shoot or jump while attacking
+* Reduced the wait time before next possible kicking
+* Kicking no longer caps the maximum speed to Walking speed
+* Jumping animation now uses `ACT_DEAGLE_JUMP_AIM` for all weapons instead of the beehive jump one which was a lot more awkward
+* Added safeguards for SetPlayerSkin function when skin name is NULL to prevent crashes, it will now revert to `coat` skin by default
++ Added `p3_ultrapatch_skin_mission`, enforces Skin from map onto Players on spawn or restore (enabled by default)
++ Added `p3_ultrapatch_skin_restore`, attempts to restore Skin when on a transition or save/load (enabled by default), should be disabled for open world mods that handle their own skin usage
+* Fixed Use Target finder not finding nearby useable entities near crosshair's end trace
+   `func_` entities will now properly glow if they have a prop attached to them as parent
+* Fixed entities with P3S pointers always glowing if they don't have scripting (default_behavior) attached to them
+* Fixed area portal bugs with Doors
+* Fixed Doors that should not move at all on first interaction (either via touch or input functions) would move
+* Increased Player ragdoll cooldown from 1 to 3 seconds (this should give plenty of time to get unstuck)
++ `dumpentityfactories` now highlight overridden classes
++ Added `-nooverride` which disables certain Angel class overrides (ragdoll, area portal, doors, etc.. check `dumpentityfactories` for more) only meant for debugging broken Angel features
+* Fixed being able to kick while being dead
+* Rocket no longer pops in and out of existence in the distance
+* Fade distance values are now 100% consistent between all 7 types (NPCs, Boltons, Cars/P3 Animated props, P3 FSM props, Weapons, Ragdolls, Segways)
+* Increased maximum active sound slots from 128 to 512, fixes AllocSound errors on mtz and possibly on other maps as well
++ AngelScript: Added hook `SEngine OnEntityCreated`
++ AngelScript: Added hook `SEngine OnEntityDeleted`
 
 
 MULTIPLAYER RELATED:
@@ -263,5 +296,9 @@ v1.3.0 (Multiplayer changes):
 * Fixed covering not working
 * "Fixed" black textures issue (band aid solution)
 + Added limited Dedicated server support, it is still recommended to host in-game
-
+* Fixed disconnected or kicked players/bots leaving behind ragdolls and flying boltons
+* Fixed newly connected Players screwing up storyline controller's instance
+* Fixed bots crashing the game when respawned because they were far away in the void
+* ""Fixed"" UTIL_GetLocalPlayer assert errors
+- Players can no longer manually respawn 
 
