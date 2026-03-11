@@ -443,7 +443,7 @@ behavior //bh_pw_logic
 						EntFireInput pw_02_inner,Open
 						EntFireInput pw_01_outer,Open
 						EntFireInput pw_02_outer,Open
-
+						Wait 1
 						EntFireInput pw_01_inner,Lock
 						EntFireInput pw_02_inner,Lock
 						EntFireInput pw_01_outer,Lock
@@ -629,6 +629,7 @@ behavior //bh_ron
 						Timer tSay,5:20,Repeated
 						Senses false
 						SetAttr "RonJ 1"
+						SetAttr "voice_pitch 1"
 					}
 				}
 			}
