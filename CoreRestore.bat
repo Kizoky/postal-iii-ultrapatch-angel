@@ -171,7 +171,6 @@ RD "%SourceFolder%\materials\Decals\bloodyflesh" /Q
 RD "%SourceFolder%\materials\Decals\flesh" /Q
 RD "%SourceFolder%\materials\Decals\GLASS" /Q
 RD "%SourceFolder%\materials\Decals\Sand" /Q
-RD "%SourceFolder%\materials\Editor" /Q
 RD "%SourceFolder%\materials\Effects\AdvisorEffect" /Q
 RD "%SourceFolder%\materials\Effects\comball" /Q
 RD "%SourceFolder%\materials\Effects\CombineShield" /Q
