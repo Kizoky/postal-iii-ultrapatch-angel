@@ -2,6 +2,12 @@
 
 @include "postal3.fgd"
 
+@PointClass base(Targetnameza, Angles) studio("models/editor/landmarkpos.mdl") = info_landmark_pos :
+	"Forces the Player's position and angles to be of this entity's if there is a landmark of the same name. "
+[
+
+]
+
 @SolidClass base(Trigger) = wj_trigger_angelscript :
 	"A trigger volume that can execute AngelScript calls."
 [
