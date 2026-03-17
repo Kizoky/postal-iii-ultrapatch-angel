@@ -1,0 +1,9 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Objects_interior/handrail_01_a"
+	"$basemapalphaphongmask" "1"
+	"$phong" "1"
+	"$phongexponent" "10"
+	"$phongboost"	"1"
+	"$phongfresnelranges"	"[1.0 0.5 1]"
+}
