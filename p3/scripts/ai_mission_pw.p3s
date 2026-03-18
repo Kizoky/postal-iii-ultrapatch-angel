@@ -1059,6 +1059,7 @@ behavior
 						SetAttr "fee 0"
 						SetAttr "rigidity 0"
 						SetAttr "Moveout 0"
+						SetAttr	"MoveIn 1"
 						ChangeAttr "rigidity 20:50"
 						AvoidProhibitedArea true
 						Timer tShout,1:20
@@ -1076,6 +1077,7 @@ behavior
 					actions
 					{
 						IfAttr "Moveout == 1 Pattern st_idle.pt_MoveOut"
+						IfAttr "MoveIn == 1 Pattern st_idle.pt_MoveIn"
 						TargetEntByName ron
 						Relationship target,enemy
 						TargetPlayer 1
@@ -1134,6 +1136,31 @@ behavior
 						OnTargetReach "ExecutePattern .pt_KillMe"
 						OnNasty "Wait 0"
 						OnSuperNasty "Wait 0"
+					}
+				}
+
+				pt_MoveIn
+				{
+					actions
+					{
+						FreeMovement false
+						TargetEntByName entry_point
+						MoveToTarget run
+					}
+					events
+					{
+						OnTargetReach "Pattern st_idle.pt_EnteredPW"
+					}
+				}
+
+				pt_EnteredPW
+				{
+					actions
+					{
+						SetAttr "MoveIn 0"
+						ResetTarget 1
+//						FreeMovement true
+						Pattern st_idle.pt_default
 					}
 				}
 
@@ -1255,6 +1282,7 @@ behavior //bh_mom
 						ChangeAttr "agression 20:40"
 						SetAttr "rigidity 0"
 						SetAttr "Moveout 0"
+						SetAttr "MoveIn 1"
 						ChangeAttr "rigidity 20:50"					
 						ExecutePattern bh_base:st_init.pt_default
 						AvoidProhibitedArea true
@@ -1275,6 +1303,7 @@ behavior //bh_mom
 					actions 
 					{
 						IfAttr "Moveout == 1 Pattern st_idle.pt_MoveOut"
+						IfAttr "MoveIn == 1 Pattern st_idle.pt_MoveIn"
 						ExecutePattern .pt_CrazyRun
 						ExecutePattern bh_base:st_start.pt_default
 					}
@@ -1597,6 +1626,32 @@ behavior //bh_mom
 						OnTargetReach "ExecutePattern .pt_KillMe"
 					}
 				}
+
+				pt_MoveIn
+				{
+					actions
+					{
+						FreeMovement false
+						TargetEntByName entry_point
+						MoveToTarget run
+					}
+					events
+					{
+						OnTargetReach "Pattern st_idle.pt_EnteredPW"
+					}
+				}
+
+				pt_EnteredPW
+				{
+					actions
+					{
+						SetAttr "MoveIn 0"
+						ResetTarget 1
+//						FreeMovement true
+						Pattern st_start.pt_default
+					}
+				}
+
 				pt_KillMe
 				{
 					actions
