@@ -29,6 +29,7 @@ class CBackgroundMap : IPostal3Script
 		Vector pos = p3player.GetP3CameraOrigin();
 		QAngle ang = p3player.GetP3CameraAngles();
 		
+		// NOTE: Recommended to do this while in FPS mode
 		Warning("CreateCamera( Vector(%f,%f,%f), QAngle(%f,%f,%f) );\n", pos.x, pos.y, pos.z, ang.x, ang.y, ang.z);
 	}
 	
@@ -94,11 +95,12 @@ class CBackgroundMap : IPostal3Script
 	[HIDDEN]
 	void background_jwb()
 	{
-		CBaseEntity@ jen = FindEntByName("npc_jen");
+		CBaseEntity@ jen = gEntList.FindEntByName(null, "npc_jen");
 		
 		CP3SObj@ p3s_jen = jen.GetP3SObj();
 		// Make jen immortal
 		p3s_jen.SetAttr("ea_health", 999999);
+		p3s_jen.SetAttr("ea_invulnerable", 1);
 		
 		// Shove the player somewhere else where NPCs can't target them
 		HidePlayer( Vector(716.626465,4766.279297,40.263702) );

@@ -9,7 +9,7 @@ class CGlow_dcr : CGlowCore
 		if (gpGlobals.curtime < 3.0f)
 			return;
 		
-		CBaseEntity@ mission_logic = FindEntByName("mission_logic");
+		CBaseEntity@ mission_logic = gEntList.FindEntByName(null, "mission_logic");
 		if (@mission_logic == @null)
 			return;
 			
@@ -22,7 +22,7 @@ class CGlow_dcr : CGlowCore
 	
 	void DelayedApplyGlow()
 	{
-		CBaseEntity@ mission_logic = FindEntByName("mission_logic");
+		CBaseEntity@ mission_logic = gEntList.FindEntByName(null, "mission_logic");
 		if (@mission_logic == @null)
 			return;
 		
@@ -33,7 +33,7 @@ class CGlow_dcr : CGlowCore
 		CP3SObj@ ml = mission_logic.GetP3SObj();
 			
 		// Gather every cat
-		array<CBaseEntity@> cats = FindEntsByName("animal_cat");
+		array<CBaseEntity@> cats = gEntList.FindEntsByName("animal_cat");
 		for (uint i = 0; i < cats.length(); i++)
 		{
 			AttachGlow(cats[i], CollectColor());

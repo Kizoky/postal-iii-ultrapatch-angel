@@ -50,7 +50,7 @@ class CTearGas : IPostal3Script
 			}
 		}
 		
-		array<CP3SObj@> arr = server.GetArrayOfEntitiesSphere(be_self.WorldSpaceCenter(), fTearGas_Radius);
+		array<CP3SObj@> arr = GetArrayOfEntitiesSphere(be_self.WorldSpaceCenter(), fTearGas_Radius);
 		for (uint i = 0; i < arr.length(); i++)
 		{
 			//Printf("'%s'\n", arr[i].GetBaseEntity().GetClassName());

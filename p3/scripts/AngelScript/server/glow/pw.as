@@ -9,19 +9,19 @@ class CGlow_pw : CGlowCore
 			return;
 		
 		// Only pw has "pw_logic", rest of the missions have mission_logic
-		CBaseEntity@ mission_logic = FindEntByName("pw_logic");
+		CBaseEntity@ mission_logic = gEntList.FindEntByName(null, "pw_logic");
 		if (@mission_logic == @null)
 			return;
 			
 		CP3SObj@ ml = mission_logic.GetP3SObj();
 		if (ml.GetCurPattern() == "pt_moms" || ml.GetCurState() == "st_phaze2")
 		{
-			CP3SObj@ ron = FindEntByName("ron").GetP3SObj();
+			CP3SObj@ ron = gEntList.FindEntByName(null, "ron").GetP3SObj();
 			// Give Ron a white glow
 			if (ron.HasAttr("glow") == false)
 			{
 				ron.SetAttr("glow", 1);
-				AttachGlow(FindEntByName("ron"), AllyColor());
+				AttachGlow(gEntList.FindEntByName(null, "ron"), AllyColor());
 				PrintInstructorHint("Defend Ron", "icon_caution", "icon_alert", "ron");
 			}
 			
@@ -36,7 +36,7 @@ class CGlow_pw : CGlowCore
 	void DelayedApplyGlow()
 	{
 		// Only pw has "pw_logic", rest of the missions have mission_logic
-		CBaseEntity@ mission_logic = FindEntByName("pw_logic");
+		CBaseEntity@ mission_logic = gEntList.FindEntByName(null, "pw_logic");
 		if (@mission_logic == @null)
 			return;
 		
@@ -47,12 +47,12 @@ class CGlow_pw : CGlowCore
 		CP3SObj@ ml = mission_logic.GetP3SObj();
 		if (ml.GetCurPattern() == "pt_moms" || ml.GetCurState() == "st_phaze2")
 		{
-			CP3SObj@ ron = FindEntByName("ron").GetP3SObj();
-			AttachGlow(FindEntByName("ron"), AllyColor());
+			CP3SObj@ ron = gEntList.FindEntByName(null, "ron").GetP3SObj();
+			AttachGlow(gEntList.FindEntByName(null, "ron"), AllyColor());
 			PrintInstructorHint("Defend Ron", "icon_caution", "icon_alert", "ron");
 			
 			// Gather every hockey mom and attach glow onto them
-			array<CBaseEntity@> moms = FindEntsByName("mom");
+			array<CBaseEntity@> moms = gEntList.FindEntsByName("mom");
 			for (uint i = 0; i < moms.length(); i++)
 			{
 				AttachGlow(moms[i], EnemyColor());

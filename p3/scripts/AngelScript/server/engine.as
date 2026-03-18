@@ -17,7 +17,7 @@ class SEngine : IPostal3Script
 		PrecacheScriptSound("SprayCan.Paint");
 		
 		// Spawn in pcc if it doesn't exist already
-		CBaseEntity@ pcc = FindEntByName("pcc");
+		CBaseEntity@ pcc = gEntList.FindEntByName(null, "pcc");
 		if ( @pcc == null )
 		{
 			@pcc = CreateEnt("point_clientcommand");
@@ -30,7 +30,7 @@ class SEngine : IPostal3Script
 		}
 		
 		// Spawn in lpp if it doesn't exist already
-		CBaseEntity@ lpp = FindEntByName("lpp");
+		CBaseEntity@ lpp = gEntList.FindEntByName(null, "lpp");
 		if ( @lpp == null )
 		{
 			@lpp = CreateEnt("logic_playerproxy");
