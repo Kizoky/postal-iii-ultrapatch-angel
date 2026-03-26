@@ -3,7 +3,7 @@ Constants
 	Const DCR_NPC_SHOP_CHANSE,10
 	Const DCR_CATS_SUSHI,3
 	Const DCR_CATS_MAX,10
-	Const DCR_SUSHI_TOTAL,10
+	Const DCR_SUSHI_TOTAL,15
 }
 
 behavior

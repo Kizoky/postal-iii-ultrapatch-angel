@@ -1,0 +1,14 @@
+"MapReplace"
+{
+	"npc_spawner_sushi_m"
+	{
+		"MaxNPCCount"		"9"
+		"spawnflags"		"0"
+	}
+
+	"npc_spawner_sushi_r"
+	{
+		"MaxNPCCount"		"6"
+		"spawnflags"		"0"
+	}
+}
