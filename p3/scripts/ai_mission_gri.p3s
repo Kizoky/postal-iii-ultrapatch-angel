@@ -371,10 +371,26 @@ behavior
 				}
 			}
 		}
+		st_downedRhino
+		{
+			Group Neutral
+			patterns
+			{
+				xpt_RhinoGone
+				{
+					actions
+					{
+						EntFireUser gri_logic,4
+						EntFireUser mission_logic,4
+					}
+				}
+			}
+		}
 	}
 	events
 	{
-		OnDeath "EntFireUser gri_logic,4"
+		OnDeath "ExecutePattern st_downedRhino.xpt_RhinoGone"
+		OnUnconscious "ExecutePattern st_downedRhino.xpt_RhinoGone"
 	}
 }
 behavior
