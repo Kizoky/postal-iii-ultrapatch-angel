@@ -28,6 +28,8 @@ WeaponData
 	"CanBeDropped"			"0"
 	"IsMelee"				"1"
 	"IsRanged"				"0"
+	"IsLethal"				"0" 	// not lethal, shouldn't kill NPCs
+	"ConsciousRate"			"0.0" 	// conscious rate per hit/shoot
 	// Not dangerous just disgusting
 	"Dangerous"				"0"
 
