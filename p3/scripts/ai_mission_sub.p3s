@@ -443,6 +443,7 @@ behavior
 						SetAttr "TaserDamage 15"
 						SetAttr "SprayDamage 15"
 						SetAttr "ea_takeable 0"
+						SetAttr "voice_pitch 1"
 						SetAttr "AttackBoxSequenceAmmount 5"
 						SetAttr "AttackBoxLogic 1" // Активатор выбора комбо ударов
 						SetAttr "agressiveSpliter AttackBoxSequenceAmmount"

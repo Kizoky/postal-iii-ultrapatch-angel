@@ -412,6 +412,7 @@ behavior
 						SetAttr "ea_clubdmg_absorb RESIST_HIGH"
 						SetAttr "ea_blastdmg_absorb RESIST_MED"
 						SetAttr "ea_flamedmg_absorb 80"
+						SetAttr "voice_pitch 1"
 						
 						Timer tCheckWang,5,repeated
 						Timer tSayWang,0

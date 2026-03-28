@@ -1565,6 +1565,7 @@ behavior
 						SetAttr "TaserDamage 20"
 						SetAttr "SprayDamage 20"
 						SetAttr "TrainingInProgress 1"
+						SetAttr "voice_pitch 1"
 						
 						SetAreaGroup AG_DEFAULT,AG_BATTLEA,AG_BATTLEB,AG_BATTLEC,AG_BATTLED
 						SetHintGroup hg_douchebag_f1

@@ -355,6 +355,7 @@ behavior
 						SetSquadRelation sq_police:enemy
 						ExecutePattern bh_base:st_init.pt_default
 						SetAttr "ea_crit_disabled 1"
+						SetAttr "voice_pitch 1"
 					}
 				}
 			}
