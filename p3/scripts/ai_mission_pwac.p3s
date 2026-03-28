@@ -411,6 +411,7 @@ behavior
 						SetAttr "ea_bulletdmg_absorb RESIST_HIGH"
 						SetAttr "ea_clubdmg_absorb RESIST_HIGH"
 						SetAttr "ea_blastdmg_absorb RESIST_MED"
+						SetAttr "ea_flamedmg_absorb 80"
 						
 						Timer tCheckWang,5,repeated
 						Timer tSayWang,0
