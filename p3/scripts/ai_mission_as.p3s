@@ -1,0 +1,972 @@
+Constants
+{
+	Const AS_MOM_TOTAL,21
+	Const AS_BABE_SHOT_THRESHOLD,8
+	
+	//Nerd spread values
+	Const SPRD_SNIPE_NERD,5
+	Const SPRD_NORM_NERD,10
+	Const SPRD_MOVE_NERD,20
+	Const SPRD_LEAN_NERD,40
+}
+
+behavior
+{
+	name bh_mission_as
+	inherited bh_mission_logic_base
+	
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "MomNum AS_MOM_TOTAL,0,100,on_change_event"
+						SetAttr "PlayerPath PATH_GOOD"
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			Patterns 
+			{
+				pt_default
+				{
+					actions
+					{
+						PlayerKarma show
+						//Wait 0.1
+						//EntFireInput "pcc,Command:p3_dude_is_good 1"
+						//EntFireInput "pcc,Command:p3_player_skin cop"
+						
+						//MissionBriefing "[#P3_AS_BRIEF]"
+						//Wait 0.5
+						MissionLog add_primary,KillMoms,#P3_AS_PRI_MOMS
+						MissionLog add_primary,Jen,#P3_AS_PRI_JEN
+						MissionLog add_secondary,Babes,#P3_AS_SEC_BABES
+						MissionLog add_secondary,Mavrodi,#P3_AS_SEC_MAVRODI
+						
+						TargetPlayer 1
+						SetAttr "target.ach_NerdsAlive 1"
+						SetAttr "target.ach_Mavrodi 1"
+						
+						Wait 1
+						ShowMessage #P3_AS_MSG1
+					}
+				}
+			}
+			events
+			{
+				OnFire_MomDead			"ChangeAttr MomNum -1"
+				OnAttrChange_MomNum	"ExecutePattern st_util.xpt_refresh"
+				OnAttrMin_MomNum		"State st_end"
+			}
+		}
+		
+		st_end
+		{
+			Group Neutral
+			Patterns 
+			{
+				pt_default
+				{
+					actions
+					{
+						MissionLog done,KillMoms
+						EntFireInput fade_in,fade
+						Wait 1
+						TargetPlayer 1
+						IfAttr "Karma:target >  0 EntFireInput pcc,Command:video_exitcmd as_2 p3_end_mission"
+						IfAttr "Karma:target <= 0 EntFireInput pcc,Command:video_exitcmd as_3 p3_end_mission"
+					}
+				}
+			}
+		}
+		
+		st_fail
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ShowMessage #P3_AS_FAILMSG
+						EntFireInput fade_in,Fade
+						Wait 1
+						EntFireInput "pcc,Command:reload"
+					}
+				}
+			}
+		}
+		
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_refresh
+				{
+					actions
+					{
+						MissionLog add_primary,KillMoms,#P3_AS_PRI_MOMS
+					}
+				}
+				
+				xpt_OnMavrodiDead
+				{
+					actions
+					{
+						TargetPlayer 1
+						RemoveAttr target.ach_Mavrodi
+						MissionLog fail,Mavrodi
+						PlayerKarma -KARMA_FULL
+					}
+				}
+				
+				xpt_OnBabeDead
+				{
+					actions
+					{
+						MissionLog fail,Babes
+						PlayerKarma -KARMA_HALF
+					}
+				}
+				
+				xpt_OnJenDead
+				{
+					actions
+					{
+						MissionLog fail,Jen
+						State st_fail
+					}
+				}
+			}
+		}
+		
+	}
+	events
+	{
+		OnFire_MavrodiDead	"ExecutePattern st_util.xpt_OnMavrodiDead"
+		OnFire_BabeDead		"ExecutePattern st_util.xpt_OnBabeDead"
+		OnFire_JenDead		"ExecutePattern st_util.xpt_OnJenDead"
+		
+		OnNewGame			"ExecutePattern weaponGive.AS"
+	}
+}
+
+
+
+behavior
+{
+	name bh_arcade_military
+	inherited bh_civil
+	
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						//TargetEntByName mission_logic
+						//TargetToMem msGP
+						//ResetTarget 1
+						
+						//SetAttr "TaskCombat TC_NONE"
+						SetAttr "flag_protected 1"
+						SetAttr "ReactionThreshold RE_DANGER"
+						
+						//flags
+						SetAttr "flag_IgnoreWeapon 1"
+						SetAttr "flag_IgnoreCombat 1"
+						SetAttr "flag_IgnorePlayerFear 1"
+						
+						Timer tCanSay,2:3
+					}
+				}
+			}
+		}
+		
+		st_OnIgnite
+		{
+			Group Alert
+			Patterns
+			{
+				xpt_SelectWeapon
+				{
+					actions
+					{
+						Weapon disarm
+					}
+				}
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						FreeMovementParams area_all,ED_MIDDLE,ED_FAR,area_group
+						FreeMovement run,reset
+						Wait 3:3
+						State st_start
+					}
+				}
+				
+				xpt_SelectWeapon
+				{
+					actions
+					{
+					}
+				}
+				
+				xpt_OnVisible
+				{
+					actions
+					{
+						IfAttr "RelationTo:target == Relation:enemy State st_start"
+					}
+				}
+			}
+		}
+		
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_retarget
+				{
+					actions
+					{
+						IgnoreTarget 1
+						TargetEnemy 1
+						State st_start
+					}
+				}
+			}
+		}
+
+		
+	}
+	events
+	{
+		//OnDamaged "ExecutePattern st_util.xpt_OnHit"
+		//OnHearCombat "Wait 0"
+		//OnAE_HaveWeapon "Wait 0"
+	}
+}
+
+
+behavior
+{
+	name bh_crazynerd
+	inherited bh_arcade_military
+	
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						SetAttr "SpreadNormal	SPRD_NORM_NERD"
+						SetAttr "SpreadMove		SPRD_MOVE_NERD"
+						SetAttr "SpreadLean		SPRD_LEAN_NERD"
+						SetAttr "SpreadSnipe	SPRD_SNIPE_NERD"
+						
+						SetSquad nerd_squad
+						SetSquadRelation Player_squad:enemy:5,Babe_squad:enemy:2,mavrodi_squad:enemy:2
+						
+						SetAttr "rnd 0,0,100"
+						ChangeAttr "rnd 0:100"
+						IfAttr "rnd < 20 RemoveAttr flag_protected"
+						RemoveAttr rnd
+						
+						SetAttr "flag_VitalEnemy 1"
+					}
+				}
+			}
+		}
+		
+		st_seeweapon
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						State st_start
+					}
+				}
+				pt_check
+				{
+					actions
+					{
+						State st_start
+					}
+				}
+			}
+		}
+		
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_SayHit
+				{
+					actions
+					{
+						IfAttr "Timer:tHitSound > 0 Return 1"
+						Say WM_HIT
+						Timer tHitSound,5:5
+					}
+				}
+			}
+		}
+		
+		st_OnDeath
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "Object:caller == Object:player Block begin"
+							SetAttr "rnd 0"
+							ChangeAttr "rnd 0:2"
+							IfAttr "rnd == 0 EntFireInput lpp,Say:ARCADE"
+							RemoveAttr rnd
+							RemoveAttr caller.ach_NerdsAlive
+						Block end
+						
+						ExecutePattern bh_base:st_OnDeath.pt_default
+					}
+				}
+			}
+		}
+		
+	}
+}
+
+
+behavior
+{
+	name bh_arcade_mom
+	inherited bh_arcade_military
+	
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						SetSquad mom_squad
+						SetSquadRelation Player_squad:enemy:5,Babe_squad:enemy:4,mavrodi_squad:enemy:4
+						
+						SetAttr "flag_VitalEnemy 1"
+					}
+				}
+			}
+		}
+		
+		st_attack_melee
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_SayHit
+				{
+					actions
+					{
+						IfAttr "Timer:tCanSay > 0 Return 1"
+						Say STARTFIGHT,FIGHT
+						Timer tCanSay,7:8
+					}
+				}
+			}
+		}
+		
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetFromMem msGP
+						FireEvent MomDead
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+	}
+}
+
+behavior
+{
+	name bh_arcade_military_good
+	inherited bh_arcade_military
+	
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						SetAttr "ea_crit_disabled 1"
+						SetAttr "TaserDamage 20"
+						SetAttr "SprayDamage 25"
+						SetSquadRelation nerd_squad:enemy:3,mom_squad:enemy:3
+						
+						//PlayerFriendly 1
+						SetAttr "ea_takeable 0"
+						
+						Timer tRegen,2,repeated
+					}
+				}
+			}
+		}
+		
+		st_combat_logic
+		{
+			Group Combat
+			Patterns
+			{
+				xpt_SetTaskDefault
+				{
+					actions
+					{
+						SetAttr "TaskCombat TC_HIDE"
+					}
+				}
+				
+				xpt_SetTimer
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_combat_logic.xpt_SetTimer
+						IfAttr "TaskCombat == TC_SEARCH		Timer tTaskCombat,3"
+					}
+				}
+			}
+		}
+		
+		st_combat_pressure
+		{
+			Group Combat
+			Patterns
+			{
+				xpt_OnTaskTimer
+				{
+					actions
+					{
+						IfAttr "ea_NumVisibleEnemy == 0 ExecutePattern st_combat_logic.xpt_RestartCurrentTask"
+						ExecutePattern bh_base:st_combat_pressure.xpt_OnTaskTimer
+					}
+				}
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Face false
+						Crouch false
+						LookAt false
+						
+						SetHintGroup hg_babes
+						FreeMovementParams hint_all,-1,-1,hint_group
+						FreeMovement run
+					}
+					events
+					{
+						OnInvalidRoute	"Repeat 1"		//"Pattern bh_base:st_idle.pt_default"
+						OnTargetReach		"Repeat 1"		//"Pattern bh_base:st_idle.pt_default"
+					}
+				}
+			}
+		}
+		
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_Regenerate
+				{
+					actions
+					{
+						IfAttr "ea_health < 100 ChangeAttr ea_health +1"
+					}
+				}
+				
+				xpt_deprotect
+				{
+					actions
+					{
+						RemoveAttr flag_Protected
+					}
+				}
+			}
+		}
+		
+		ChangeKarma
+		{
+			Group Neutral
+			Patterns
+			{
+				Lethal
+				{
+					actions
+					{
+					}
+				}
+				NonLethal
+				{
+					actions
+					{
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnTimer_tRegen	"ExecutePattern st_util.xpt_Regenerate"
+	}
+}
+
+behavior
+{
+	name bh_postal_babe
+	inherited bh_arcade_military_good
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						SetSquad Babe_suqad
+						SetAttr "flag_PlayerFriendly 1"
+					}
+				}
+			}
+		}
+		
+		st_combat_move
+		{
+			Group Combat
+			Patterns
+			{
+				xpt_SayShoot
+				{
+					actions
+					{
+						IfAttr "Timer:tCanSay > 0 Return 1"
+						Say SHOTBLOCKED
+						Timer tCanSay,3:3
+					}
+				}
+			}
+		}
+		
+		st_combat_fightoff
+		{
+			Group Combat
+			Patterns
+			{
+				xpt_SayKick
+				{
+					actions
+					{
+						IfAttr "Timer:tCanSay > 0 Return 1"
+						Say POSTAL
+						Timer tCanSay,3:3
+					}
+				}
+			}
+		}
+		
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_AddPlayerToEnemy
+				{
+					actions
+					{
+						TargetPlayer 1
+						SetSquadRelation Player_squad:enemy:9
+						SetAttr "ea_bulletdmg_absorb 70"
+						SetAttr "ea_clubdmg_absorb 70"
+						SetAttr "ea_flamedmg_absorb 20"
+						SetAttr "ea_blastdmg_absorb 30"
+						//State st_start
+					}
+				}
+				
+				xpt_OnHit
+				{
+					actions
+					{
+						IfAttr "RelationTo:Player == Relation:Enemy Return 1"
+						
+						ExecutePattern bh_base:st_util.xpt_OnHit
+					}
+				}
+			}
+		}
+		
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "Object:caller == Object:player Block begin"
+							ExecutePattern st_util.xpt_AddPlayerToEnemy
+							AreaEvent PlayerBad,1024
+							
+							TargetFromMem msGP
+							FireEvent BabeDead
+							//PlayerKarma -KARMA_HALF
+						Block end
+						
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnAttrMax_HitsByPlayer "ExecutePattern st_util.xpt_AddPlayerToEnemy"
+		OnTimer_tDecreaseHitsNum "ChangeAttr HitsByPlayer -1"
+		OnAE_PlayerBad "ExecutePattern st_util.xpt_AddPlayerToEnemy"
+	}
+}
+
+behavior
+{
+	name bh_arcade_jen
+	inherited bh_arcade_military_good
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						SetAttr "HitsByPlayer 0,0,AS_BABE_SHOT_THRESHOLD"
+						SetSquad Babe_suqad
+						SetAttr "voice_pitch 1"
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						AttributeProgressBar "JenHealthPanel,show,ea_health"
+						ExecutePattern bh_base:st_start.pt_default
+					}
+				}
+			}
+		}
+		
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetFromMem msGP
+						FireEvent JenDead
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+	}
+}
+
+
+behavior
+{
+	name bh_arcade_mavrodi
+	inherited bh_arcade_military_good
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						SetAttr "TaserDamage 20"
+						SetAttr "SprayDamage 25"
+						SetAttr "ICantCrouch 1"
+						
+						SetSquad mavrodi_squad
+						SetSquadRelation nerd_squad:enemy:3,mom_squad:enemy:3
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						AttributeProgressBar "MavrodiHealthPanel,show,ea_health"
+						ExecutePattern bh_base:st_start.pt_default
+					}
+				}
+			}
+		}
+		
+		st_combat_logic
+		{
+			Group Combat
+			Patterns
+			{
+				xpt_SetTaskDefault
+				{
+					actions
+					{
+						SetAttr "TaskCombat TC_MOVE"
+					}
+				}
+			}
+		}
+		
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetFromMem msGP
+						FireEvent MavrodiDead
+						
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+	}
+}
+
+
+behavior
+{
+	name bh_arcade_civil
+	inherited bh_civil
+	
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						//SetAttr "tolerance 0,0,10"
+						//ChangeAttr "tolerance 5:5"
+						ExecutePattern bh_base:st_init.pt_default
+						SetAttr "flag_bystander 1"
+					}
+				}
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_SetAreaGroup
+				{
+					actions
+					{
+						SetAreaGroup AG_DEFAULT
+					}
+				}
+				
+				xpt_SetHintGroup
+				{
+					actions
+					{
+						SetHintGroup "wish_fun_idle"
+					}
+				}
+			}
+		}
+		
+		ev_arcade
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						//Sequence ev_video
+						//WaitForEnd 1
+						FreeMovement false
+						Face false
+						FireInput self,InputHeadTurningOff
+						
+						Pattern pt_play
+					}
+				}
+				
+				pt_play
+				{
+					actions
+					{
+						Sequence ev_arcade,900
+						Wait 30:60
+						//WaitForEnd 1
+						Pattern pt_gameover
+					}
+				}
+				
+				pt_gameover
+				{
+					actions
+					{
+						Sequence ev_reaction_arcade
+						WaitForEnd 1
+						Pattern pt_end
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						ResetSequence 1
+						FireInput self,InputHeadTurningOn
+						
+						IfAttr "reaction < RE_DANGER Block begin"
+							SetAttr "reaction RE_NONE"
+							SetAttr "NewReaction RE_NONE"
+						Block end
+						
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction >= RE_DANGER	Pattern pt_end"
+					}
+				}
+			}
+		}
+		
+	}
+	
+}
