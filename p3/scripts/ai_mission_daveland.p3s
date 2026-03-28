@@ -605,6 +605,7 @@ behavior
 						SetAttr "ea_takeable 0"
 						SetAttr "flag_zombie 1"
 						SetAttr "flag_boss 1"
+						SetAttr "voice_pitch 1"
 						
 						SetSquad boss_squad
 						SetSquadRelation Player_squad:enemy:8

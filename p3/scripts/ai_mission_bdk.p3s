@@ -383,6 +383,7 @@ behavior
 						SetAttr "SprayDamage 0"
 						SetAttr "flag_zombie 1"
 						SetAttr "flag_boss 1"
+						SetAttr "voice_pitch 1"
 						
 						AvoidProhibitedArea true
 						TargetPlayer 1

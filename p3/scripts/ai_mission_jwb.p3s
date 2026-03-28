@@ -1,0 +1,2002 @@
+// JEN MISSION
+
+Constants
+{
+	Const JWB_MOM_MAX,5
+	Const JWB_MOM_TOTAL,15
+	Const JWB_COPS_MAX,7
+	Const JWB_COPS_TOTAL,10
+	
+	Const JWB_JEN_ATTACKERS_MAX,2
+	Const JWB_DUDE_ATTACKERS_MAX,3
+	
+	Const JWB_MOM_TI_NONE,0
+	Const JWB_MOM_TI_JEN,1
+	Const JWB_MOM_TI_DUDE,2
+	Const JWB_MOM_TI_SCENE,3
+}
+
+behavior
+{
+	name bh_mis_jen
+	inherited bh_mission_logic_base
+	
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns 
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "SoccerMomTotal JWB_MOM_TOTAL"
+						SetAttr "SoccerMomLeft SoccerMomTotal"
+						SetAttr "SoccerMomOnline 0"
+						
+						SetAttr "MomsAttackJen 0,0,JWB_JEN_ATTACKERS_MAX"
+						SetAttr "MomsAttackDude 0,0,JWB_DUDE_ATTACKERS_MAX"
+
+						//SetAttr "SoccerMomMaxNumber JWB_MOM_MAX"
+						
+						SetAttr "CopSpawned 0"
+						SetAttr "CopMaxNumber JWB_COPS_TOTAL"
+						SetAttr "CopsLeft CopMaxNumber"
+						SetAttr "MustSpawnCop 0"
+						SetAttr "PoliceIsHere 0"
+						
+						SetAttr "PlayerKillSoccerMom 0"
+						
+						//EntFireInput "npc_spawner_mom,SetMaxLiveChildren:0"
+						//EntFireInput "npc_spawner_mom,SetMaxChildren:10"
+						
+						SetAttr "PlayerPath PATH_NONE"
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			group Neutral
+			patterns 
+			{
+				pt_default
+				{
+					actions
+					{
+						PlayerKarma hide
+						
+						EntFireInput "lpp,GiveWeapon:p3_weapon_taser"
+						EntFireInput "pcc,Command:use p3_weapon_taser"
+						
+						ExecutePattern .xpt_show_momleft
+						ExecutePattern st_util.xpt_ShowMissionDesc
+						MissionLog add_primary,JenSurvive,#P3_JWB_PRIMARY_JEN
+						ExecutePattern .xpt_secondary
+						ShowMessage #P3_JWB_START
+						ShowMessage #P3_JWB_HELPER01
+						
+						Pattern pt_loop
+					}
+				}
+				
+				pt_loop
+				{
+					actions
+					{
+						IfAttr "SoccerMomToSpawn > 0 Pattern pt_mom_spawn"
+						IfAttr "MustSpawnCop == 1 and CopSpawned < CopMaxNumber Pattern pt_cop_spawn"
+
+						IfAttr "SoccerMomLeft == 0 Block begin"
+							Wait 1
+							IfAttr "PoliceIsHere == 0 Pattern pt_end"
+							IfAttr "PoliceIsHere == 1 Block begin"
+								IfAttr "CopsLeft == 0 Pattern pt_end"
+							Block end
+						Block end
+						Repeat 1
+					}
+				}
+				
+				pt_mom_spawn
+				{
+					actions
+					{
+						IfAttr "SoccerMomToSpawn == 0 Pattern pt_loop"
+						EntFireInput "npc_spawner_mom,Spawn"
+						//ChangeAttr "SoccerMomToSpawn -1"
+						//ChangeAttr "SoccerMomOnline +1"
+						Repeat 0.1
+					}
+				}
+				
+				pt_cop_spawn
+				{
+					actions
+					{
+						IfAttr "CopSpawned >= CopMaxNumber Block begin"
+							IfAttr "SoccerMomLeft <= 0 SetAttr MustSpawnCop 0"
+							Pattern pt_loop
+						Block end
+						EntFireInput "CopSpawner,Spawn"
+						Repeat 0.1
+					}
+				}				
+				pt_end
+				{
+					actions
+					{
+						MissionLog done,MomsLeft
+						MissionLog done,JenSurvive
+						
+						SetAttr "NonLethalDone 1"
+						IfAttr "PoliceIsHere == 1 RemoveAttr NonLethalDone"
+						CheckAttr "NonLethalDone MissionLog done,NonLethal"
+						
+						EntFireInput fade_in,fade
+						Wait 1
+						EntFireInput "pcc,Command:video_exitcmd jwb_3 p3_end_mission"
+					}
+				}
+				xpt_show_momleft
+				{
+					actions
+					{
+						IfAttr "SoccerMomLeft >= 0 Block begin" 
+							MissionLog add_primary,MomsLeft,#P3_JWB_PRIMARY_MOMS
+						Block end
+						IfAttr "SoccerMomLeft == 0 and CopSpawned >= 0 Block begin"
+							MissionLog done,MomsLeft
+							IfAttr "PoliceIsHere == 1 MissionLog add_primary,CopsLeft,#P3_JWB_PRIMARY_COPS"
+							IfAttr "CopSpawned == 0 and MustSpawnCops == 0 Block begin"
+								IfAttr "PoliceIsHere == 1 MissionLog done,CopsLeft"
+							Block end
+						Block end
+					}
+				}
+				xpt_secondary
+				{
+					actions
+					{
+						MissionLog add_secondary,NonLethal,#P3_JWB_SECONDARY_LETHAL
+					}
+				}
+			}
+		}
+		st_util
+		{
+			group Neutral
+			patterns
+			{
+				xpt_OnCopSpawn
+				{
+					actions
+					{
+						ChangeAttr "CopSpawned +1"
+					}
+				}
+				xpt_OnMomSpawn
+				{
+					actions
+					{
+						ChangeAttr "SoccerMomOnline +1"
+						ChangeAttr "SoccerMomToSpawn -1"
+					}
+				}
+				xpt_OnMomDeath
+				{
+					actions
+					{
+						ChangeAttr "SoccerMomOnline -1"
+						IfAttr "SoccerMomOnline <= 2 Block begin"
+							SetAttr "tmp_sm_num SoccerMomLeft"
+							ChangeAttr "tmp_sm_num -SoccerMomOnline"
+							
+							IfAttr "tmp_sm_num >  JWB_MOM_MAX SetAttr SoccerMomToSpawn JWB_MOM_MAX"
+							IfAttr "tmp_sm_num <= JWB_MOM_MAX SetAttr SoccerMomToSpawn tmp_sm_num"
+							
+							RemoveAttr tmp_sm_num
+						Block end
+						//EntFireInput "npc_spawner_mom,AddMaxChildren:1"
+						//EntFireInput "npc_spawner_mom,Enable"
+						//ShowMessage "[Someone kills a soccer mom!],$P3Mission"
+					}
+				}
+				xpt_OnMomDeathByPlayer
+				{
+					actions
+					{
+						ChangeAttr "SoccerMomLeft -1"
+						ExecutePattern st_start.xpt_show_momleft
+						//IfAttr "SoccerMomLeft <= 0 SetAttr MustSpawnCop 0"
+						IfAttr "PlayerKillSoccerMom == 0 Block begin"
+							AreaEvent HatePlayer,100000,SoccerMom 
+							SetAttr "PlayerKillSoccerMom 1"
+						Block end
+						ExecutePattern st_util.xpt_OnMomDeath
+					}
+				}
+				xpt_OnCopDeath
+				{
+					actions
+					{
+						ChangeAttr "CopSpawned -1"
+						IfAttr "SoccerMomLeft == 0 Block begin"
+							ChangeAttr "CopsLeft -1"
+							ExecutePattern st_start.xpt_show_momleft
+						Block end
+					}
+				}
+				xpt_OnHearWar
+				{
+					actions
+					{
+						IfAttr "PoliceIsHere == 0 Block begin"
+							IfAttr "MustSpawnCop == 0 Block begin"
+								SetAttr "MustSpawnCop 1"
+								SetAttr "PoliceIsHere 1"
+								PlayVideo "JWB_2,1,1"
+								//Wait 1.2
+								MissionLog fail,NonLethal
+								ShowMessage #P3_JWB_SECONDARY_LETHAL_FAILED
+							Block end
+						Block end
+					}
+				}
+				pt_OnMissionFailed
+				{
+					actions
+					{
+						ShowMessage #P3_JWB_MISSION_FAILED
+						//EntFireInput "fade_out,Fade"
+						Wait 3
+						EntFireInput "pcc,Command:reload"
+					}
+				}
+				xpt_ShowMissionDesc
+				{
+					actions
+					{
+						ShowMessage #P3_JWB_DESC
+					}
+				}
+				
+				xpt_CheckJenAttackers
+				{
+					actions
+					{
+						TargetCaller 1
+						IfAttr "MomsAttackJen >= JWB_JEN_ATTACKERS_MAX Block begin"
+							FireEvent Deny
+							Return 1
+						Block end
+						
+						IfAttr "MomsAttackJen <  JWB_JEN_ATTACKERS_MAX Block begin"
+							ChangeAttr "MomsAttackJen +1"
+							FireEvent Accept
+						Block end
+					}
+				}
+				
+				xpt_CheckDudeAttackers
+				{
+					actions
+					{
+						TargetCaller 1
+						IfAttr "MomsAttackDude >= JWB_DUDE_ATTACKERS_MAX Block begin"
+							FireEvent Deny
+							Return 1
+						Block end
+						
+						IfAttr "MomsAttackDude <  JWB_DUDE_ATTACKERS_MAX Block begin"
+							ChangeAttr "MomsAttackDude +1"
+							FireEvent Accept
+						Block end
+					}
+				}
+			}
+		}
+		
+		st_spawncontrol
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				xpt_RiseMaxChildren
+				{
+					actions
+					{
+						//ChangeAttr "SoccerMomMaxNumber 1"
+						
+						//IfAttr "SoccerMomMaxNumber == 1 ExecutePattern st_spawncontrol.xpt_SetMax1"
+						//IfAttr "SoccerMomMaxNumber == 2 ExecutePattern st_spawncontrol.xpt_SetMax2"
+						//IfAttr "SoccerMomMaxNumber == 3 ExecutePattern st_spawncontrol.xpt_SetMax3"
+						//IfAttr "SoccerMomMaxNumber == 4 ExecutePattern st_spawncontrol.xpt_SetMax4"
+						//IfAttr "SoccerMomMaxNumber == 5 ExecutePattern st_spawncontrol.xpt_SetMax5"
+					}
+				}
+				
+				xpt_SetMax1
+				{
+					actions
+					{
+						EntFireInput "npc_spawner_mom,SetMaxLiveChildren:1"
+						//EntFireInput "npc_spawner_mom,Enable"
+						//ShowMessage "[Max 1],$P3Mission"
+					}
+				}
+				xpt_SetMax2
+				{
+					actions
+					{
+						EntFireInput "npc_spawner_mom,SetMaxLiveChildren:2"
+						//ShowMessage "[Max 2],$P3Mission"
+					}
+				}
+				xpt_SetMax3
+				{
+					actions
+					{
+						EntFireInput "npc_spawner_mom,SetMaxLiveChildren:3"
+						//ShowMessage "[Max 3],$P3Mission"
+					}
+				}
+				xpt_SetMax4
+				{
+					actions
+					{
+						EntFireInput "npc_spawner_mom,SetMaxLiveChildren:4"
+						//ShowMessage "[Max 4],$P3Mission"
+					}
+				}
+				xpt_SetMax5
+				{
+					actions
+					{
+						EntFireInput "npc_spawner_mom,SetMaxLiveChildren:5"
+						//ShowMessage "[Max 5],$P3Mission"
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnFire_CopSpawned 			"ExecutePattern st_util.xpt_OnCopSpawn"
+		
+		OnFire_MomDead	  				"ExecutePattern st_util.xpt_OnMomDeath"
+		OnFire_MomDeadByPlayer	  "ExecutePattern st_util.xpt_OnMomDeathByPlayer"
+		OnFire_MomSpawned			"ExecutePattern st_util.xpt_OnMomSpawn"
+		OnFire_CopDead	  "ExecutePattern st_util.xpt_OnCopDeath"
+
+		OnFire_HearWar		"ExecutePattern st_util.xpt_OnHearWar"
+		OnFire_PlayerKills	"ExecutePattern st_util.xpt_OnHearWar"
+		OnFire_JenDead 		"Pattern st_util.pt_OnMissionFailed"
+		//OnMissionStart 		"ExecutePattern st_util.xpt_ShowMissionDesc"
+		
+		OnFire_PrespawnMomDeath		"ExecutePattern st_spawncontrol.xpt_RiseMaxChildren"
+		
+		//soccer mom tasks
+		OnFire_WantToAttackDude	"ExecutePattern st_util.xpt_CheckDudeAttackers"
+		OnFire_WantToAttackJen	"ExecutePattern st_util.xpt_CheckJenAttackers"
+		//OnAllMomsDead "ShowMessage [No more moms!],$P3Debug"
+		
+		OnNewGame "ExecutePattern weaponGive.JWB"
+	}
+}
+
+behavior
+{
+	name bh_jwb_bridge
+	inherited bh_civil
+	States
+	{
+		st_OnDeath
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default:ignore_ext_events
+				{
+					actions
+					{
+						IfAttr "Object:caller == Object:player Block begin"
+							TargetFromMem msGP
+							FireEvent PlayerKills
+						Block end
+						ExecutePattern bh_base:st_OnDeath.pt_default
+					}
+				}
+			}
+		}
+	}
+}
+
+
+behavior
+{
+	name bh_mall_military
+	inherited bh_jwb_bridge
+	
+	states
+	{
+		st_init
+		{
+			Group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						SetAttr "pushed 0"
+						SetAttr "push_chance 20"
+						SetAttr "ReactionThreshold RE_DANGER"
+						
+						SetAttr "flag_IgnoreWeapon 1"
+						SetAttr "flag_IgnoreCombat 1"
+						SetAttr "flag_IgnorePlayerFear 1"
+						
+						Timer tCanSay,5:10 //таймер, чтобы во время боя орали пореже
+						SetAttr "military 1"
+					}
+				}
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_OnHit
+				{
+					actions 
+					{
+						IfAttr "Object:caller == Object:player and caller.ea_ActiveWeapon >= 6	AreaEvent NPCUnderFire,384"
+						ExecutePattern bh_base:st_idle.xpt_OnHit
+					}
+				}
+				
+				xpt_OnVisible
+				{
+					actions
+					{
+						ResetTarget 1
+					}
+				}
+			}
+		}
+		
+		st_OnKicked
+		{
+			Group Alert
+			Patterns
+			{
+				pt_fear
+				{
+					actions
+					{
+						Pattern pt_attack
+					}
+				}
+			}
+		}
+		
+		st_attack_melee
+		{
+			Group Combat
+			Patterns
+			{         
+				pt_attack  // дубасим цель и возвращаемся к старт стейту
+				{
+					actions 
+					{
+						ExecutePattern .xpt_SayFight
+						IfAttr "Object:target == Object:player Pattern bh_base:st_attack_melee.pt_attack"
+						SetAttr "rnd 0"
+						ChangeAttr "rnd 0:100"
+						IfAttr "rnd > push_chance Pattern bh_base:st_attack_melee.pt_attack"
+						IfAttr "target.pushed == 1 Block begin"
+							Wait 0.2:0.4
+							State st_start
+						Block end
+						Sequence seq.melee_push,seq.melee_kick2,seq.melee_kick1
+						WaitForEnd 1
+						State st_start
+					}
+					events
+					{
+						OnAnimPUSH_HEAVY "ExecutePattern .xpt_prepush"
+						OnNewEnemy "Wait 0"
+					}
+				}
+				xpt_prepush
+				{
+					actions 
+					{
+						IfAttr "DistTo:target < 128 Block begin"
+							SetTarget "target.Object:target Object:self"
+							Push self,target,hard
+							FireEvent "MeleePush"
+						Block end
+					}
+				}
+				xpt_prehit
+				{
+					actions 
+					{
+						SetTarget "target.Object:target Object:self"
+						FireEvent "MeleeHit"
+					}
+				}
+				
+				xpt_LeaveTarget
+				{
+					actions
+					{
+						//IgnoreTarget 3
+						ResetTarget 1
+						State st_start
+					}
+				}
+				
+				xpt_SayFight
+				{
+					actions
+					{
+						IfAttr "Timer:tCanSay > 0 Return 1"
+						Say FIGHT
+						Timer tCanSay,7:8
+					}
+				}
+				
+				
+			}
+			events
+			{
+				OnTargetReset "State st_start"
+				OnNewEnemy "State st_start"
+				OnInvalidRoute "ExecutePattern .xpt_LeaveTarget"
+			}
+		}		
+		
+		st_seeweapon
+		{
+			Group Alert
+			Patterns
+			{
+				pt_check
+				{
+					actions
+					{
+						State st_start
+					}
+				}
+			}
+		}
+		
+		st_push
+		{
+			Group Alert
+			patterns
+			{
+				xpt_OnPushStart
+				{
+					actions
+					{
+						FreeMovement false
+						SetAttr "pushed 1"
+					}
+				}
+				pt_hited
+				{
+					actions
+					{
+						ExecutePattern .xpt_OnPushStart
+						Wait 5
+						Pattern pt_OnPushEnd
+					}
+				}
+				pt_pushed
+				{
+					actions
+					{
+						ExecutePattern .xpt_OnPushStart
+						//Sequence seq.a_heavy_CHEST_left,seq.a_heavy_CHEST_right
+						//Wait 0.3:0.5
+						//Pattern .pt_OnPushEnd
+						
+					}
+				}
+				pt_OnPushEnd
+				{
+					actions
+					{
+						SetAttr "pushed 0"
+						Pattern pt_end
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						IfAttr "reaction <= RE_SNATCHED and reaction != RE_NASTY Block begin"
+							SetAttr "reaction RE_NONE"
+							SetAttr "NewReaction RE_NONE"
+						Block end
+						
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{	
+					actions
+					{
+						IfAttr "reaction >= RE_SNATCHED Pattern pt_end"
+					}
+				}
+			}
+			events
+			{
+				OnRecover "Pattern .pt_OnPushEnd"
+				OnKicked  "Wait 0"
+			}				
+		}
+		
+	}
+	events
+	{
+		OnHit "ExecutePattern st_idle.xpt_OnHit"
+		OnFire_MeleeHit "Pattern st_push.pt_hited"
+		OnFire_MeleePush "Pattern st_push.pt_pushed"
+		OnHearCombat "Wait 0"
+		OnAE_HasWeapon "Wait 0"
+	}
+}
+
+behavior
+{
+	name bh_mall_mom
+	inherited bh_mall_military
+	states
+	{
+
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						SetHintGroup hg_smash
+						SetAreaGroup AG_DEFAULT:walkable,AG_SHOP:walkable,AG_BATTLE
+						
+						TargetFromMem msGP
+						SetSquad SoccerMom
+						FireEvent MomSpawned
+
+						TargetEntByName "npc_jen"
+						TargetToMem msENEMY
+						
+						SetAttr "TaskIdle JWB_MOM_TI_NONE"
+					}
+				}
+			}
+		}
+
+		st_start
+		{
+			group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Weapon arm
+						ExecutePattern bh_base:st_start.pt_default
+					}
+				}
+				xpt_ChooseEnemy
+				{
+					actions
+					{
+						IfAttr "TaskIdle == JWB_MOM_TI_JEN TargetFromMem msENEMY"
+						IfAttr "TaskIdle == JWB_MOM_TI_DUDE TargetPlayer 1"
+						ExecutePattern bh_base:st_start.xpt_ChooseEnemy
+					}
+				}
+			}
+		}
+		
+		st_idle
+		{
+			group Neutral
+			patterns 
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "TaskIdle JWB_MOM_TI_NONE"
+						Wait 0:0.5 //рандомная задержка
+						
+						IfAttr "slot#msGP.PlayerKillSoccerMom == 0 Block begin"
+							IfAttr "slot#msGP.MomsAttackJen < JWB_JEN_ATTACKERS_MAX SetAttr TaskIdle JWB_MOM_TI_JEN"
+							IfAttr "TaskIdle == JWB_MOM_TI_NONE SetAttr TaskIdle JWB_MOM_TI_SCENE"
+						Block end
+						
+						IfAttr "slot#msGP.PlayerKillSoccerMom == 1 Block begin"
+							IfAttr "slot#msGP.MomsAttackJen < JWB_JEN_ATTACKERS_MAX Block begin"
+								IfAttr "slot#msGP.MomsAttackDude == JWB_DUDE_ATTACKERS_MAX SetAttr TaskIdle JWB_MOM_TI_JEN"
+								IfAttr "slot#msGP.MomsAttackDude < JWB_DUDE_ATTACKERS_MAX ExecutePattern .xpt_ChooseRandomTarget"
+							Block end
+							IfAttr "TaskIdle == JWB_MOM_TI_NONE and slot#msGP.MomsAttackDude < JWB_DUDE_ATTACKERS_MAX SetAttr TaskIdle JWB_MOM_TI_DUDE"
+							IfAttr "TaskIdle == JWB_MOM_TI_NONE SetAttr TaskIdle JWB_MOM_TI_SCENE"
+						Block end
+						
+						Pattern pt_decide
+					}
+				}
+				
+				xpt_ChooseRandomTarget
+				{
+					actions
+					{
+						SetAttr "target_rnd 0"
+						ChangeAttr "target_rnd 0:1"
+						
+						IfAttr "target_rnd == 0 SetAttr TaskIdle JWB_MOM_TI_JEN"
+						IfAttr "target_rnd == 1 SetAttr TaskIdle JWB_MOM_TI_DUDE"
+						
+						RemoveAttr target_rnd
+					}
+				}
+				
+				pt_decide
+				{
+					actions
+					{
+						IfAttr "TaskIdle == JWB_MOM_TI_DUDE Pattern pt_AttackPlayer"
+						IfAttr "TaskIdle == JWB_MOM_TI_JEN Pattern pt_AttackJen"
+						IfAttr "TaskIdle == JWB_MOM_TI_SCENE Pattern pt_CrushScene"
+						IfAttr "TaskIdle == JWB_MOM_TI_NONE State st_start"
+						State st_start
+					}
+				}
+				
+				pt_CrushScene
+				{
+					actions
+					{
+						FreeMovementParams hint_all,0,-1,hint_group,hint_face,use_node,once
+						FreeMovement run,reset
+					}
+					events
+					{
+						//OnTargetReach "State st_start"
+						OnInvalidRoute "Pattern pt_MoveToScene"
+					}
+				}
+				
+				pt_MoveToScene
+				{
+					actions
+					{
+						FreeMovementParams area_all,ED_CLOSE,-1,area_group,once
+						FreeMovement run
+						Wait 5:5
+						State st_start
+					}
+					events
+					{
+						OnTargetReach "State st_start"
+					}
+				}
+				
+				pt_AttackPlayer
+				{
+					actions
+					{
+						TargetFromMem msGP
+						FireEvent WantToAttackDude
+						Wait 0.2
+						State st_start
+					}
+					events
+					{
+						OnFire_Accept	"ExecutePattern st_util.xpt_OnAddPlayerToEnemy"
+						OnFire_Deny		"State st_start"
+					}
+				}
+				
+				pt_AttackJen
+				{
+					actions
+					{
+						TargetFromMem msGP
+						FireEvent WantToAttackJen
+						Wait 0.2
+						State st_start
+					}
+					events
+					{
+						OnFire_Accept	"ExecutePattern st_util.xpt_OnAddJenToEnemy"
+						OnFire_Deny		"State st_start"
+					}
+				}
+				
+				pt_Aggitate
+				{
+					actions
+					{
+						FreeMovementParams area_all,128,768,area_group,once
+						SetAreaGroup AG_DEFAULT:walkable,AG_BATTLE
+						FreeMovement run,reset
+						Pattern pt_onMoving
+					}
+					events
+					{
+						OnTargetReach "State st_start"
+						OnInvalidRoute "State st_start"
+					}
+				}
+				pt_OnMoving
+				{
+					actions
+					{
+						Gesture g_shake_banner,3:1
+						Repeat 3.0
+					}
+					events
+					{
+						OnTargetReach "ExecutePattern .xpt_OnStopMoving"
+						OnInvalidRoute "ExecutePattern .xpt_OnStopMoving"
+					}
+				}
+				xpt_OnStopMoving
+				{
+					actions
+					{
+						ResetGesture all
+						State st_start
+					}
+				}
+				xpt_OnHit
+				{
+					actions
+					{
+						IfAttr "caller.ea_manner != Manner:SoccerMom Relationship caller,enemy"
+						ExecutePattern bh_base:st_idle.xpt_OnHit
+					}
+				}
+			}
+			events
+			{
+				OnAE_TasedByPlayer "ExecutePattern st_util.xpt_OnAddPlayerToEnemy"
+				OnAE_HitSound "ExecutePattern st_util.xpt_OnHearHitSound"
+			}
+		}
+		
+		st_OnKicked
+		{
+			Group Alert
+			Patterns
+			{
+				pt_decide
+				{
+					actions
+					{
+						IfAttr "Object:caller != Object:Player and Name:target != String:npc_jen Pattern pt_end"
+						ExecutePattern bh_base:st_OnKicked.pt_decide
+					}
+				}
+			}
+		}
+		
+		st_push
+		{
+			Group Alert
+			patterns
+			{
+				xpt_OnPushStart
+				{
+					actions
+					{
+						SetSquad NULL
+						ExecutePattern bh_base:st_push.xpt_OnPushStart
+					}
+				}
+				pt_OnPushEnd
+				{
+					actions
+					{
+						SetSquad SoccerMom
+						Pattern bh_base:st_push.pt_OnPushEnd
+					}
+				}
+			}
+		}
+		
+		st_OnTased
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern st_util.xpt_OnAddPlayerToEnemy
+						ExecutePattern bh_base:st_OnTased.pt_default
+					}
+				}
+			}
+		}
+		
+		st_OnTasing
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions 
+					{
+						AreaEvent TasedByPlayer,4
+						ExecutePattern st_util.xpt_OnAddPlayerToEnemy
+						SetSquad NULL
+						
+						ExecutePattern bh_base:st_OnTasing.pt_default
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						SetSquad SoccerMom
+						ExecutePattern bh_base:st_OnTasing.pt_end
+					}
+				}
+			}
+			events
+			{
+				//OnFallToGround "Wait 0"
+			}
+		}
+		
+		st_util
+		{
+				group Neutral
+				patterns
+				{
+					xpt_OnAddPlayerToEnemy
+					{
+						actions
+						{
+							TargetPlayer 1
+							Relationship target,enemy,3
+						}
+					}
+					xpt_OnAddJenToEnemy
+					{
+						actions
+						{
+							TargetFromMem msENEMY
+							Relationship target,enemy,3
+						}
+					}
+					xpt_OnHearHitSound
+					{
+						actions
+						{
+							IfAttr "Object:caller == Object:slot#msENEMY Block begin"
+								TargetToMem msTEMP
+								TargetCaller 1
+								Relationship target,enemy
+								TargetFromMem msTEMP
+							Block end
+							IfAttr "Object:caller == Object:Player Block begin"
+								TargetToMem msTEMP
+								TargetCaller 1
+								Relationship target,enemy
+								TargetFromMem msTEMP
+							Block end
+						}
+					}
+				}
+				
+		}
+		
+		st_smash
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Sequence combat_melee
+						WaitForEnd 1
+						State st_start
+					}
+					events
+					{
+						OnAnimHit "ExecutePattern .pt_smash"
+					}
+				}
+				pt_smash
+				{
+					actions
+					{
+						IfAttr "SmashNum == 1 EntFireInput hit_effect1_1,Explode"
+						IfAttr "SmashNum == 2 EntFireInput hit_effect2_2,Explode"
+						IfAttr "SmashNum == 3 Block begin"
+							SetAttr "HitNo 0"
+							ChangeAttr "HitNo 1:5"
+							IfAttr "HitNo == 1 EntFireInput hit_effect3_1,Explode"
+							IfAttr "HitNo == 2 EntFireInput hit_effect3_2,Explode"
+							IfAttr "HitNo == 3 EntFireInput hit_effect3_3,Explode"
+							IfAttr "HitNo == 4 EntFireInput hit_effect3_4,Explode"
+							IfAttr "HitNo == 5 EntFireInput hit_effect3_5,Explode"
+							RemoveAttr HitNo
+						Block end
+						IfAttr "SmashNum == 4 EntFireInput hit_effect4_1,Explode"
+						IfAttr "SmashNum == 5 EntFireInput hit_effect5_1,Explode"
+						IfAttr "SmashNum == 6 Block begin"
+							SetAttr "HitNo 0"
+							ChangeAttr "HitNo 1:5"
+							IfAttr "HitNo == 1 EntFireInput hit_effect6_1,Explode"
+							IfAttr "HitNo == 2 EntFireInput hit_effect6_2,Explode"
+							IfAttr "HitNo == 3 EntFireInput hit_effect6_3,Explode"
+							IfAttr "HitNo == 4 EntFireInput hit_effect6_4,Explode"
+							IfAttr "HitNo == 5 EntFireInput hit_effect6_5,Explode"
+						Block end
+						IfAttr "SmashNum == 7 EntFireInput hit_effect7_1,Explode"
+						IfAttr "SmashNum == 8 EntFireInput hit_effect8_1,Explode"
+						
+						RemoveAttr SmashNum
+						
+						Pattern pt_end
+					}
+				}
+					
+				pt_end
+				{
+					actions
+					{
+						ResetSequence 1
+						State st_start
+					}
+				}
+					
+				xpt_ReactionChange
+				{
+					actions
+					{
+						Pattern pt_end
+						//Есть затычки на хиркомбат и оружие у дуда, так что доп проверок не нужно
+					}
+				}
+			}
+			events
+			{
+				OnNewEnemy "Pattern pt_end"
+				OnHit "ExecutePattern st_idle.xpt_OnHit"
+				OnAE_TasedByPlayer "ExecutePattern st_util.xpt_OnAddPlayerToEnemy"
+				//OnAE_HitSound "ExecutePattern st_util.xpt_OnHearHitSound"
+			}
+		}
+
+		st_smash1
+		{
+			group Alert
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "SmashNum 1"
+						State st_smash
+					}
+				}
+			}
+		}
+
+		st_smash2
+		{
+			group Alert
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "SmashNum 2"
+						State st_smash
+					}
+				}
+			}
+		}
+
+		st_smash3
+		{
+			group Alert
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "SmashNum 3"
+						State st_smash
+					}
+				}
+			}
+		}
+
+		st_smash4
+		{
+			group Alert
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "SmashNum 4"
+						State st_smash
+					}
+				}
+			}
+		}		
+		
+		st_smash5
+		{
+			group Alert
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "SmashNum 5"
+						State st_smash
+					}
+				}			
+			}
+		}
+		
+		st_smash6
+		{
+			group Alert
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "SmashNum 6"
+						State st_smash
+					}
+				}			
+			}
+		}
+
+		st_smash7
+		{
+			group Alert
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "SmashNum 7"
+						State st_smash
+					}
+				}			
+			}
+		}
+		
+		st_smash8
+		{
+			group Alert
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "SmashNum 8"
+						State st_smash
+					}
+				}
+			}
+		}
+		
+		
+		st_deactivate		
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions 
+					{
+						IfAttr "TaskIdle == JWB_MOM_TI_JEN ChangeAttr slot#msGP.MomsAttackJen -1"
+						IfAttr "TaskIdle == JWB_MOM_TI_DUDE ChangeAttr slot#msGP.MomsAttackDude -1"
+						
+						CallerToMem msSUSPECTED
+						TargetFromMem msGP
+						IfAttr "Object:Slot#msSUSPECTED == Object:Player FireEvent MomDeadByPlayer"
+						IfAttr "Object:Slot#msSUSPECTED != Object:Player FireEvent MomDead"
+						
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+	}
+}
+
+behavior //бихевиор для соккермам, которые появляются сразу
+{
+	name bh_mall_mom_prespawn
+	inherited bh_mall_mom
+	
+	States
+	{
+		st_deactivate
+		{
+			Group Alert
+			
+			Patterns
+			{
+				pt_default:ignore_ext_events
+				{
+					actions
+					{
+						TargetFromMem msGP
+						FireEvent PrespawnMomDeath
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+		
+	}
+	
+}
+
+behavior
+{
+	name bh_jwb_civil
+	inherited bh_jwb_bridge
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns 
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						IfAttr "Name:self == String:npc_shopper SetAttr shopping 1"
+						SetSquadRelation SoccerMom:fear
+						
+						SetAttr "flag_bystander 1"
+					}
+				}
+			}
+		}
+		st_init_static
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						SetAttr "flag_static 1"
+					}
+				}
+			}
+		}
+		st_idle
+		{
+			group Neutral
+			patterns
+			{
+				xpt_SetAreaGroup
+				{
+					actions
+					{
+						SetAreaGroup AG_DEFAULT,AG_BATTLE
+						CheckAttr "shopping SetAreaGroup AG_SHOP"
+					}
+				}
+				xpt_SetHintGroup
+				{
+					actions
+					{
+						CheckAttr "flag_static Return 1"
+						SetHintGroup wish_fun_idle
+						CheckAttr "shopping SetHintGroup wish_fun_shop"
+					}
+				}
+				
+				xpt_OnHit
+				{
+					actions 
+					{
+						IfAttr "caller.ea_ActiveWeapon >= 6 AreaEvent NPCUnderFire,384"
+						ExecutePattern bh_base:st_idle.xpt_OnHit
+					}
+				}
+				xpt_OnHearCombat
+				{
+					actions 
+					{
+						//ExecutePattern .xpt_callForPolice
+						//ExecutePattern bh_base:st_idle.xpt_OnHearCombat
+					}
+				}
+				xpt_OnHearDanger
+				{
+					actions 
+					{
+						//ExecutePattern .xpt_callForPolice
+						//ExecutePattern bh_base:st_idle.xpt_OnHearDanger
+					}
+				}
+				xpt_callForPolice
+				{
+					actions
+					{
+						TargetToMem msTEMP
+						TargetFromMem msGP
+						FireEvent HearWar
+						TargetFromMem msTEMP
+					}
+				}
+				
+			}
+		}
+		
+	}
+	
+	events
+	{
+		OnHit "ExecutePattern st_idle.xpt_OnHit"
+		OnAE_NPCUnderFire "ExecutePattern st_idle.xpt_CallForPolice"
+		//OnShopSpawn "SetAttr shopping 1"    
+	}
+}
+
+behavior
+{
+	name bh_jwb_civil_static
+	inherited bh_jwb_civil
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						SetAttr "flag_static 1"
+					}
+				}
+			}
+		}
+		
+	}
+}
+
+Constants
+{
+	Const JEN_BREED,0
+	Const JEN_STAY,1
+	Const JEN_CHANGE_PLACE,2
+	Const JEN_CALL_PLAYER,3
+	
+	Const JEN_DAMAGE_THRESHOLD,12
+	Const JEN_HITNUM_THRESHOLD,5
+}
+
+behavior
+{
+	name bh_jwb_jen
+	inherited bh_mall_military
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns 
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+
+						//SetAttr "ea_dmg_absorb 90"
+						SetAttr "ea_bulletdmg_absorb 95"
+						SetAttr "ea_clubdmg_absorb 95"
+						SetAttr "TaserDamage 10"
+						SetAttr "SprayDamage 20"
+						SetAttr "voice_pitch 1"
+						SetAttr "ea_noknockout 1"
+						
+						ExecutePattern st_combat.xpt_Aggro
+						SetAttr "IdleTask JEN_CHANGE_PLACE"
+						SetAttr "EnemyContacted 0"
+						SetAttr "push_chance 100"
+						SetAttr "ea_takeable 0"
+						//SetAttr "has_shovel 0"
+						SetAreaGroup AG_DEFAULT:walkable,AG_BATTLE
+						
+						Timer tCheckHealth,0
+						Timer tSyncHealth,2,repeated
+						Timer tIgnoreAngry,0
+						SetAttr "hp_loss 0"
+						SetAttr "JenIsAngry 0"
+						
+						SetAttr "flag_IgnorePlayerAttack 1"
+						
+						Timer tCanSay,3:3
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						AttributeProgressBar "JenHealthPanel,show,ea_health"
+						Timer tChangeTarget,20
+                        CheckAttr "slot#7.onfire Item drop"
+						ExecutePattern bh_base:st_start.pt_default
+						Repeat 1
+					}
+				}
+				
+				xpt_FirstRun
+				{
+					actions
+					{
+						SpawnItem "spawner_melee_weapon_jen,owner,hand_right"
+						TargetItem 1
+						FireEvent ImOwner
+						TargetToMem 7
+						ResetTarget 1
+						ExecutePattern bh_base:st_start.xpt_FirstRun
+					}
+				}
+				
+				xpt_combat
+				{
+					actions
+					{
+						ExecutePattern bh_social:st_start.xpt_combat
+					}
+				}
+			}
+		}
+        
+		st_idle
+		{
+			Group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						
+						ResetTarget 1
+						IfAttr "IdleTask == JEN_BREED Pattern .pt_runByArea"
+						IfAttr "IdleTask == JEN_STAY Pattern .pt_stay"
+						IfAttr "Idletask == JEN_CHANGE_PLACE Pattern .pt_runByArea"
+						//IfAttr "IdleTask == JEN_CALL_PLAYER Pattern .pt_CallPlayer"
+					}
+				}
+				pt_runByArea
+				{
+					actions
+					{
+						Face false
+						SetAreaGroup AG_BATTLE,AG_DEFAULT:walkable
+						FreeMovementParams area_all,256,768,area_group //,once
+						FreeMovement run
+					}
+					events
+					{
+						OnInvalidRoute "State st_start"
+						OnTargetReach "Pattern .pt_OnReach"
+					}
+				}
+				pt_OnReach
+				{
+					actions
+					{
+						IfAttr "IdleTask == JEN_CHANGE_PLACE Block begin"
+							SetAttr "IdleTask JEN_STAY"
+							State st_start
+						Block end
+						
+						SetAttr "IdleTask JEN_STAY"
+						State st_start
+					}
+				}
+				pt_CallPlayer
+				{
+					actions
+					{
+						TargetPlayer 1
+						Face True
+						Wait 0.3
+						Face false
+						Sequence seq.emotions_greet
+						WaitForEnd 1
+						ExecutePattern st_combat.xpt_Aggro
+						SetAttr "IdleTask JEN_STAY"
+						State st_start
+					}
+				}
+				pt_stay
+				{
+					actions
+					{
+						Sequence seq.idle
+						IfAttr "EnemyContacted == 1 Block begin"
+							ExecutePattern st_combat.xpt_Aggro
+							SetAttr "IdleTask JEN_BREED"
+						Block end
+						Wait 1:1
+						IfAttr "EnemyContacted == 0 SetAttr IdleTask JEN_CHANGE_PLACE"
+						IfAttr "EnemyContacted == 1 SetAttr IdleTask JEN_BREED"
+						State st_start
+					}
+				}
+				xpt_OnNewEnemy
+				{
+					actions
+					{
+						SetAttr "EnemyContacted 1"
+						Say FIGHT
+						ExecutePattern bh_base:st_idle.xpt_OnNewEnemy
+					}
+				}
+			
+			}
+		}
+		
+		st_OnKicked
+		{
+			Group Alert
+			Patterns
+			{
+				pt_decide
+				{
+					actions
+					{
+						Pattern pt_blame
+					}
+				}
+			}
+		}
+		
+		st_OnNasty
+		{
+			Group Alert
+			
+			Patterns
+			{
+				pt_react
+				{
+					actions
+					{
+						Pattern pt_comment,pt_puke
+					}
+				}
+				
+				pt_attack
+				{
+					actions
+					{
+						Pattern pt_puke,pt_end
+					}
+				}
+			}
+		}
+		
+		st_combat
+		{
+			Group Neutral
+			patterns
+			{
+				xpt_Aggro
+				{
+					actions
+					{
+						SetAttr "aggro 1"
+						SetAttr "attackUntilHP ea_health"
+						ChangeAttr "attackUntilHP -15"
+						SetSquadRelation SoccerMom:enemy
+					}
+				}
+				xpt_fear
+				{
+					actions
+					{
+						SetAttr "aggro 0"
+						SetAttr "IdleTask JEN_CHANGE_PLACE"
+						SetSquadRelation SoccerMom:neutral
+					}
+				}
+			}
+		}
+		st_attack_melee
+		{
+			Group Combat
+			Patterns
+			{
+				
+				pt_default  // снимаем с себя ограничение на перемещения, наводимся на цель, и бежим к ней
+				{
+					actions 
+					{
+						Pattern bh_base:st_attack_melee.pt_default
+					}
+				}
+				pt_decide
+				{
+					actions
+					{
+						Pattern pt_attack
+					}
+				}
+				pt_attack  // дубасим цель и возвращаемся к старт стейту
+				{
+					actions 
+					{
+						ExecutePattern .xpt_SayFight
+						//AreaEvent HitSound,4
+						//Pattern bh_base:st_attack_melee.pt_attack
+						Hit 1
+						Wait 1
+						State st_start
+					}
+				}
+				
+				pt_change_target
+				{
+					actions
+					{
+						IgnoreTarget 3
+						ResetTarget 1
+						TargetEnemy 1
+						state st_start
+					}
+				}
+				
+				xpt_SayFight
+				{
+					actions
+					{	
+						IfAttr "Timer:tCanSay > 0 Return 1"
+						Say FIGHT
+						Timer tCanSay,3:5
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction == RE_NASTY Pattern pt_end"
+						ExecutePattern bh_base:st_attack_melee.xpt_ReactionChange
+					}
+				}
+			}
+			events
+			{
+				OnEnemiesDead "state st_start"
+				OnTargetReset "state st_start"
+				OnInvalidRoute	"Pattern pt_change_target"
+				OnTimer_tChangeTarget "pattern pt_change_target"
+			}
+		}
+
+		ut_reactions
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_Angry
+				{
+					actions
+					{
+						State st_angry
+					}
+				}
+				
+			}
+		}
+		
+		st_angry
+		{
+			Group Alert
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetPlayer 1
+						Face true
+						LookAt true
+						Wait 0.3
+						
+						IfAttr "JenIsAngry == 0 Block begin"
+							EmitSound female_blame
+							Sequence "seq.confusion_active,seq.confusion_agressive"
+							WaitForEnd 1
+						Block end
+						
+						IfAttr "JenIsAngry == 1 Block begin"
+							Timer tCheckHealth,0
+							
+							EmitSound female_scream
+							Sequence "seq.reaction_shocked,seq.reaction_shocked_2,seq.reaction_afraid"
+							WaitForEnd 1
+							
+							SetAttr "JenIsAngry 0"
+						Block end
+						
+						Timer tIgnoreAngry,2
+						
+						State st_start
+					}
+				}
+			}
+		}
+
+		st_deactivate	
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions 
+					{
+						TargetEntByName "mission_logic"
+						FireEvent "JenDead"
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+		
+		st_util
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				xpt_CheckHealth
+				{
+					actions
+					{
+						SetAttr "hp ea_health"
+					}
+				}
+				
+				xpt_OnHit
+				{
+					actions 
+					{
+						ExecutePattern bh_base:st_util.xpt_OnHit
+						
+						//CheckAttr "JenReactAngry Block begin"
+							IfAttr "Object:Caller == Object:Player and JenIsAngry == 0 and Timer:tIgnoreAngry <= 0 Block begin"
+						
+								IfAttr "Timer:tCheckHealth <= 0 Block begin"
+									Timer tCheckHealth,5
+									SetAttr "hp_loss 0"
+									SetAttr "num_hits 0"
+								Block end
+							
+								SetAttr "hp_diff hp"
+								ChangeAttr "hp_diff -ea_health"
+								ChangeAttr "hp_loss hp_diff"
+								ChangeAttr "num_hits 1"
+							
+								IfAttr "hp_loss  >= JEN_DAMAGE_THRESHOLD SetAttr JenIsAngry 1"
+								IfAttr "num_hits >= JEN_HITNUM_THRESHOLD SetAttr JenIsAngry 1"
+							Block end
+						//Block end
+						
+						//IfAttr "aggro == 1 Block begin"
+						//	IfAttr "ea_health <= attackUntilHP ExecutePattern st_combat.xpt_Fear"
+						//Block end
+					}
+				}
+			}
+		}
+		
+	}
+	events
+	{
+		//OnUnconscious	"State st_OnUnconscious"
+		OnTimer_tSyncHealth "ExecutePattern st_util.xpt_CheckHealth"
+		//OnTimer_tCheckHealth "ExecutePattern ut_reactions.xpt_Angry"
+		OnHit "ExecutePattern st_idle.xpt_OnHit"
+	}
+}
+
+
+behavior
+{
+	name bh_jen_cop
+	inherited bh_mall_military
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns 
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						TargetEntByName "mission_logic"
+						TargetToMem msGP
+						FireEvent CopSpawned
+						SetSquad cop_squad
+						SetSquadRelation Player_squad:enemy:3,SoccerMom:enemy:1
+						SetAttr "IdleTask 0"
+						SetAreaGroup AG_DEFAULT,AG_BATTLE,AG_SHOP
+					}
+				}
+			}
+		}		
+		st_idle
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "Object:Anchor != Object:Null Pattern pt_anchor"
+						Pattern pt_breed
+					}
+				}
+				pt_anchor
+				{
+					actions
+					{
+						TargetAnchor 1
+						MoveToTarget run
+						WaitForEnd 1
+						Anchor false
+					}
+					events
+					{
+						OnInvalidRoute "Pattern .pt_breed"
+					}
+				}
+				pt_breed
+				{
+					actions
+					{
+						FreeMovementParams area_all,ED_CLOSE,ED_FAR,area_group
+						FreeMovement run
+					}
+					events
+					{
+						OnTargetReach "State st_start"
+						OnInvalidRoute "Pattern .pt_agitate"
+					}
+				}
+				pt_agitate
+				{
+					actions
+					{
+						FreeMovementParams area_all,0,256,once
+						FreeMovement walk
+					}
+					events
+					{
+						OnTargetReach "State st_start"
+						OnInvalidRoute "State st_start"
+					}
+				}
+				xpt_OnHit
+				{
+					actions 
+					{
+						Anchor true,caller
+						ExecutePattern bh_base:st_idle.xpt_OnHit
+					}
+				}
+				xpt_OnHearCombat
+				{
+					actions 
+					{
+						//Anchor true,caller
+						ExecutePattern bh_base:st_idle.xpt_OnHearCombat
+					}
+				}
+				xpt_OnHearDanger
+				{
+					actions 
+					{
+						//Anchor true,caller
+						ExecutePattern bh_base:st_idle.xpt_OnHearDanger
+					}
+				}
+			}
+		}
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions 
+					{
+						TargetFromMem msGP
+						FireEvent CopDead
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+	}
+
+}
