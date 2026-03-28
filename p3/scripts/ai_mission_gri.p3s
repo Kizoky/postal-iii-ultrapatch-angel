@@ -1170,6 +1170,7 @@ behavior
 						SetAttr "ea_crit_disabled 1"
 						SetAttr "ea_no_gibs 1"
 						SetAttr "Conscious 1"
+						SetAttr "voice_pitch 1"
 					}
 				}
 			}
