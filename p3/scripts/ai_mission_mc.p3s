@@ -1,0 +1,691 @@
+behavior
+{
+	name bh_mc_citizen
+	inherited bh_citizen
+	states
+	{
+		
+	}
+}
+behavior
+{
+	name bh_hobo_citizen
+	inherited bh_citizen
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						Timer tBeg,5:60
+					}
+				}
+			}
+		}
+		st_idle
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						FreeMovementParams area_all,0,5000,area_group
+						FreeMovement walk
+					}
+				}
+				pt_beg_sequence
+				{
+					actions
+					{
+						Sequence seq.env_charity,40
+						Wait 0:20
+						IfAttr "DistTo:player < ED_FAR SAY BEG"
+						Wait 0:10
+						Timer tBeg,5:60
+						Pattern pt_out
+					}
+				}
+				pt_out
+				{
+					actions
+					{
+						Sequence seq.env_charity_out
+						Wait 1.2
+						State st_idle
+					}
+				}
+				pt_death
+				{
+					actions
+					{
+						PlayerKarma 1
+					}
+				}
+			}
+			events
+			{
+				OnTimer_tBeg "Pattern st_idle.pt_beg_sequence"
+			}
+		}
+	}
+}
+behavior
+{
+	name bh_mc_escort
+	inherited bh_human
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						SetAttr "ea_bulletdmg_absorb 50"
+						SetAttr "ea_clubdmg_absorb 50"
+						FireUser 2
+						SetAttr "OnSegway 1"
+						SetAttr "SprayDamage SPRAY_DMG_DEFAULT"
+						AvoidProhibitedArea false
+						
+						TargetEntByName mission_logic
+						TargetToMem msGP
+						ResetTarget 1
+					}
+				}
+			}
+		}
+		st_return_to_vehicle
+		{
+			group Neutral
+			patterns
+			{
+				pt_default:ignore_ext_events
+				{
+					actions
+					{
+						SetAttr "OnSegway 0"
+						TargetVehicle vehicle_driver_exit
+						MoveToTarget true,0.5
+						Repeat 3
+					}
+					events
+					{
+						OnTargetReach "EnterVehicle 1"
+						OnEnteredVehicle "Pattern pt_vehicle"
+					}
+				}
+				pt_vehicle
+				{
+					actions
+					{
+						SetAttr "OnSegway 1"
+						State st_start
+					}
+				}
+			}
+		}
+		st_start
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "OnSegway == 0 State st_return_to_vehicle"
+						State st_idle
+					}
+				}
+			}
+		}
+		st_idle
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Senses true
+					}
+				}
+				pt_stop
+				{
+					actions
+					{
+						FireInput self,Stop
+					}
+				}
+				pt_continue
+				{
+					actions
+					{
+						FireInput self,StartForward
+					}
+				}
+			}
+		}
+		st_OnSprayStunned
+		{	
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						//ExecutePattern .xpt_DecreaseConsciousness
+						Senses false
+						SetAttr	"ea_tased 1"
+						//SetAttr "ea_takeable 1"
+						Pattern pt_stunned
+					}
+				}
+				pt_tased:ignore_ext_events
+				{
+					actions
+					{
+						SetAttr "OnSegway 0"
+						FireInput self,LeaveVehicle
+						TargetPlayer 1
+						Push target,self,hard
+						Wait 2
+						State st_start
+					}
+				}
+				pt_stunned
+				{
+					actions
+					{
+						Sequence seq.reaction_spray,9000
+						ExecutePattern .xpt_SayScream
+						Timer tScream,5,repeated
+						Timer tUnstun,SPRAY_UNSTUN_TIMER
+						Pattern pt_stunloop
+					}
+				}
+				
+				pt_stunloop
+				{
+					actions
+					{
+						IfAttr "Timer:tUnstun <= 0 Pattern pt_end"
+						Repeat 3
+						//Wait 20
+						//Pattern pt_end
+					}
+					events
+					{
+						OnDeath "ExecutePattern st_OnDeath.pt_default"
+						OnTimer_tUnstun	"Pattern pt_end"
+						OnUnconscious "Pattern pt_unconscious"
+						OnHostaged "Pattern pt_hostaged"
+						OnSprayStunned "Timer tUnstun,SPRAY_UNSTUN_TIMER"
+						OnTimer_tScream "ExecutePattern .xpt_SayScream"
+						OnUnstunned "Pattern pt_end"
+						OnStandUpEnd	"Pattern pt_end"
+						//OnTimer_tStopAction "Pattern pt_end"
+					}
+				}
+				
+				pt_hostaged
+				{
+					actions
+					{
+						SetAttr "hostaged 1"
+						Pattern pt_end
+					}
+				}
+				
+				pt_unconscious:ignore_ext_events
+				{
+					actions
+					{
+						SetAttr "ea_takeable 0"
+						RemoveAttr ea_tased
+						State st_OnUnconscious
+					}
+					events
+					{
+						OnDeath "ExecutePattern st_OnDeath.pt_default"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						Senses true
+						SetAttr "ea_takeable 0"
+						RemoveAttr ea_tased
+						Timer tScream,0
+						
+						IfAttr "reaction <= RE_SPRAYED Block begin"
+							SetAttr "reaction RE_NONE"
+							SetAttr "NewReaction RE_NONE"
+						Block end
+						
+						CheckAttr "hostaged State st_OnHostaged"
+						
+						ResetSequence 1
+						State st_start
+					}
+				}
+				
+				xpt_SayScream
+				{
+					actions
+					{
+						IfAttr "VoicePrefix:self == String:PM Say WM_SCREAM,2"
+						IfAttr "VoicePrefix:self == String:PF Say WF_SCREAM,2"
+						ifAttr "VoicePrefix:self != String:PM and VoicePrefix:self != String:PF Say SCREAM,2"
+					}
+				}
+			}
+		}
+		st_OnDeath
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "Object:caller == Object:player Block begin"
+							EntFireInput proxy,Say:KILLBYSTANDER
+							TargetFromMem msGP
+							FireEvent EscortDeadByPlayer
+						Block end
+						ExecutePattern bh_base:st_OnDeath.pt_default
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnTased "Pattern st_OnSprayStunned.pt_tased"
+		OnSprayStunned "State st_OnSprayStunned"
+		OnAE_Stop "Pattern st_idle.pt_stop"
+		OnAE_Continue "Pattern st_idle.pt_continue"
+		OnLeaveVehicle "State st_return_to_vehicle"
+		OnEnteredVehicle "State st_start"
+	}
+}
+
+behavior
+{
+	name bh_mc_ron
+	inherited bh_mc_escort
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						SetAttr "ea_dmg_absorb 50"
+						SetAttr "ea_crit_disabled 1"
+						SetAttr "ea_takeable 0"
+						SetAttr "ea_noknockout 1"
+						SetAttr "ea_noragdoll 1"
+						SetAttr "voice_pitch 1"
+						Senses false
+						AvoidProhibitedArea false
+						FireUser 2
+						AttributeProgressBar "RonHealthPanel,show,ea_health"
+					}
+				}
+			}
+		}
+		st_idle
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+					 	IfAttr "DistTo:player > ED_FAR Block begin"
+					 		FireInput self,Stop
+					 		Say RON_LEAD
+							ShowMessage #P3_MC_WARNING
+					 		AreaEvent Stop,5000
+					 	Block end
+					 	IfAttr "DistTo:player < ED_FAR Block begin"
+					 		FireInput self,StartForward
+					 		AreaEvent Continue,5000
+					 	Block end
+					 	Repeat 2
+					}
+				}
+				pt_hit
+				{
+					actions
+					{
+						SetAttr "rnd 0"
+						ChangeAttr "rnd 0:10"
+						IfAttr "rnd >= 4 Block begin"
+							Say RON_HIT
+						Block end
+					}
+				}
+				pt_cheer
+				{
+					actions
+					{
+						SetAttr "rnd 0"
+						ChangeAttr "rnd 0:5"
+						IfAttr "rnd >= 4 Block begin"
+							Say RON_CHEER
+						Block end
+					}
+				}
+				pt_fire
+				{
+					actions
+					{
+						SetAttr "rnd 0"
+						ChangeAttr "rnd 0:10"
+						IfAttr "rnd >= 8 Block begin"
+							Say RON_ONFIRE
+						Block end
+					}
+				}
+				pt_pissed
+				{
+					actions
+					{
+						SetAttr "rnd 0"
+						ChangeAttr "rnd 0:10"
+						IfAttr "rnd >= 8 Block begin"
+							Say RON_PISSEDON
+						Block end
+					}
+				}
+			}
+		}
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						EntFireInput mission_logic,FireFSMScriptEvent:OnRonDead
+						EntFireInput proxy,Say:ALKILL
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnHit "ExecutePattern st_idle.pt_hit"
+		OnIgnite "ExecutePattern st_idle.pt_fire"
+		OnNasty "ExecutePattern st_idle.pt_pissed"
+		OnSuperNasty "ExecutePattern st_idle.pt_pissed"
+		OnAE_TalibDead "ExecutePattern st_idle.pt_cheer"
+	}
+}
+behavior
+{
+	name bh_mc_talib
+	inherited bh_citizen
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_citizen:st_init.pt_default
+						SetSquadRelation player_squad:enemy,2
+						TargetEntByName ron
+						Relationship target,enemy
+						SetAttr "TaskCombat TC_POSITION"
+						AvoidProhibitedArea false
+						Timer tThrow,5:10,repeated
+						
+						SetAttr "flag_VitalEnemy 1"
+					}
+				}
+			}
+		}
+		st_idle
+		{
+			group Alert
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetEntByName Ron
+						MoveToTarget run,ED_FAR
+					}
+				}
+				pt_throw
+				{
+					actions
+					{
+						IfAttr "ea_NumEnemy > 0 Block begin"
+							Say REBEL
+							TargetEnemy 1
+							SetAttr "rnd 0"
+							ChangeAttr "rnd 0:2"
+							IfAttr "DistTo:target < ED_FAR Block begin"
+								IfAttr "rnd == 0 ThrowGrenade 1,molotov"
+								IfAttr "rnd == 1 ThrowGrenade 1,frag"
+								IfAttr "rnd == 2 ThrowGrenade 1,krotchy_toy"
+								Wait 1
+							Block end
+						Block end
+						State st_start
+					}
+				}
+				pt_hit
+				{
+					actions
+					{
+						SetAttr "rnd 0"
+						ChangeAttr "rnd 0:10"
+						Say HIT
+						IfAttr "rnd >= 4 and ea_health < 50 Block begin"
+							Say AQ_DONTKILLME
+						Block end
+					}
+				}
+				pt_startfight
+				{
+					actions
+					{
+						TargetEnemy 1
+						IfAttr "DistTo:target > ED_FAR State st_start"
+						SetAttr "rnd 0"
+						ChangeAttr "rnd 0:20"
+						IfAttr "rnd >= 5 Block begin"
+							Say AQ_STARTFIGHT
+						Block end
+						State st_start
+					}
+				}
+			}
+		}
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						AreaEvent TalibDead,32
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnTimer_tThrow "Pattern st_idle.pt_throw"
+		OnNewEnemy "Pattern st_idle.pt_startfight"
+		OnHit "ExecutePattern st_idle.pt_hit"
+	}
+}
+behavior
+{
+	name bh_mc_logic
+	inherited bh_mission_logic_base
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "PlayerPath PATH_GOOD"
+					}
+				}
+			}
+		}
+		st_start
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						PlayerKarma show
+						MissionLog add_primary,main,#P3_MC_MISSION1
+						MissionLog add_secondary,escort,#P3_MC_SEC1
+					}
+				}
+				pt_warn
+				{
+					actions
+					{
+						ShowMessage #P3_MC_WARNING
+					}
+				}
+				pt_rondead
+				{
+					actions
+					{
+						MissionLog fail,main
+						Wait 2
+						EntFireInput fader_out,Fade
+						Wait 2
+						EntFireInput cc1,Command:reload
+					}
+				}
+			}
+		}
+		st_part2
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						PlayerKarma show
+						MissionLog add_primary,main,#P3_MC_MISSION1
+						MissionLog add_secondary,escort,#P3_MC_SEC1
+					}
+				}
+			}
+		}
+		st_part3
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						PlayerKarma show
+						MissionLog add_primary,main,#P3_MC_MISSION1
+						MissionLog add_secondary,escort,#P3_MC_SEC1
+					}
+				}
+				pt_done
+				{
+					actions
+					{
+						MissionLog done,main
+						EntFireInput proxy,Say:TASKFINISH
+						Wait 2
+						EntFireInput fader,Fade
+						Wait 2
+						TargetPlayer 1
+						IfAttr "Karma:Player >  0 EntFireInput cc1,Command:video_exitcmd mc_2 p3_end_mission"
+						IfAttr "Karma:Player == 0 EntFireInput cc1,Command:video_exitcmd mc_3 p3_end_mission"
+					}
+				}
+			}
+		}
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_OnPlayerKillEscort
+				{
+					actions
+					{
+						MissionLog fail,escort
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnRonDead "Pattern st_start.pt_rondead"
+		OnWarn "ExecutePattern st_start.pt_warn"
+		OnComplete "Pattern st_part3.pt_done"
+		OnFire_EscortDeadByPlayer		"ExecutePattern st_util.xpt_OnPlayerKillEscort"
+		
+		OnNewGame "ExecutePattern weaponGive.MC"
+	}
+}
