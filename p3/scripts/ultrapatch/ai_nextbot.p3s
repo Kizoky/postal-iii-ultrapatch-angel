@@ -1,6 +1,7 @@
 // Used as a "vessel", most of the code is inside AngelScript
 // NPC functions won't work here!! - Kizoky
 
+// scripted NextBot
 behavior
 {
 	name bh_nextbot
@@ -15,8 +16,6 @@ behavior
 				{
 					actions
 					{
-						// Allow NPCs to target this nextbot
-						SetAttr "active 1"
 					}
 				}
 			}
@@ -31,7 +30,46 @@ behavior
 				{
 					actions
 					{
-					
+						// Allow NPCs to target this nextbot
+						SetAttr "active 1"
+					}
+				}
+			}
+		}
+	}
+}
+
+// p3_ultrapatch_nextbot_*
+behavior
+{
+	name bh_npc_nextbot
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						// Allow NPCs to target this nextbot
+						SetAttr "active 1"
 					}
 				}
 			}
