@@ -1455,7 +1455,7 @@ behavior
 						SetAttr "TaserDamage 10"
 						SetAttr "SprayDamage 20"
 						SetAttr "voice_pitch 1"
-						SetAttr "ea_noknockout 1"
+//						SetAttr "ea_noknockout 1"
 						
 						ExecutePattern st_combat.xpt_Aggro
 						SetAttr "IdleTask JEN_CHANGE_PLACE"
@@ -1860,6 +1860,17 @@ behavior
 						//Block end
 					}
 				}
+				
+				xpt_OnHitConciousness
+				{
+					actions
+					{
+						//Placeholder till we can fine tune consciousness damage
+						//Currently does the same amount of health damage as the banner damages consciousness
+						ChangeAttr "ea_health -5"
+						ExecutePattern "st_idle.xpt_OnHit"
+					}
+				}
 			}
 		}
 		
@@ -1870,6 +1881,7 @@ behavior
 		OnTimer_tSyncHealth "ExecutePattern st_util.xpt_CheckHealth"
 		//OnTimer_tCheckHealth "ExecutePattern ut_reactions.xpt_Angry"
 		OnHit "ExecutePattern st_idle.xpt_OnHit"
+		OnConsciousChanged "ExecutePattern st_util.xpt_OnHitConciousness"
 	}
 }
 

@@ -630,7 +630,7 @@ behavior //bh_ron
 						Senses false
 						SetAttr "RonJ 1"
 						SetAttr "voice_pitch 1"
-						SetAttr "ea_noknockout 1"
+//						SetAttr "ea_noknockout 1"
 					}
 				}
 			}
@@ -679,6 +679,16 @@ behavior //bh_ron
 //					SpawnItem drocha_spwn,owner,hand_right
 //					Item drop
 //				}
+
+				xpt_OnHitConciousness
+				{
+					actions
+					{
+						//Placeholder till we can fine tune consciousness damage
+						//Currently does the same amount of health damage as the banner damages consciousness
+						ChangeAttr "ea_health -5"
+					}
+				}
 			}
 
 			events
@@ -778,6 +788,7 @@ behavior //bh_ron
 	events
 	{
 		OnFire_Momshot "ExecutePattern st_idle.pt_cheer"
+		OnConsciousChanged "ExecutePattern st_idle.xpt_OnHitConciousness"
 	}
 }
 
