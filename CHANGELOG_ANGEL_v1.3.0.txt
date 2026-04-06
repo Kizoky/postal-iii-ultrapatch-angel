@@ -3,6 +3,7 @@ https://www.moddb.com/mods/postal-iii-ultrapatch/downloads/postal-iii-ultrapatch
 v1.3.0: (Note: skipped version v1.2.0 on purpose, consider Ultrapatch+Angel v1.3.0 to be the main version of Ultrapatch from now on)
 
 ## Highlights  
+- Made PhysX disabled by default and completely non-functional (won't fix in the future)
 - New features and fixes for the AngelScript implementation
 - New features and fixes for Postal3Script
 - Fixed buggy Door destruction
@@ -12,8 +13,7 @@ v1.3.0: (Note: skipped version v1.2.0 on purpose, consider Ultrapatch+Angel v1.3
 - Added new weapons (Colt, Autoshotgun, M249, Tear Gas)
 - Fixed several crashes and memory corruptions
 - Improved and fixed the Addon System
-- Made PhysX completely non-functional (can't fix it, please don't ask in the future about it)
-- Added FPS camera (p3_ultrapatch_cam_fps_toggle)
+- Added FPS camera with FPS animations (p3_ultrapatch_cam_fps_toggle)
 - Added `-novid`, skips intro videos
 - Intro and credits can now be skipped
 - `p3_cam_shake` console command no longer disables quake/explosion effects
@@ -24,17 +24,21 @@ v1.3.0: (Note: skipped version v1.2.0 on purpose, consider Ultrapatch+Angel v1.3
 - Multiplayer fixes and new features like Teams and Spectator mode
 - Players and NPCs can now open doors just by simply touching them (no need for trigger brushes anymore)
 - Increased engine model (1024->4096) and sound (8192->16384) precache limits (thanks Grizzle!)
+- Fixed several crashes inside materialsystem.dll and studiorender.dll (thanks Grizzle!)
 - New UI combined with GameUI2 and ImGui
 - Fixed weapons and some other props not fading out in the same distance as NPCs do
 - Heli can now start smoking and it will intensify the less health it has (feature from CR)
 - Heli now always uses its Postal3Script target as shooting target
 - NPCs while on Alert or Combat state will no longer move away from the Player
 - Motorhead will now stick to where the Laser actually is
-- Fixed save file bloat coming due to level transitions
 - Added about 41+ new P3S functions from CR, you can find some examples from here: https://github.com/WhackJobInt/postal3scriptdocs/commit/8e79d29f859cdc46f4a183a7b14e5f9611a2d545
 - Dogs can now attack the Player
 - Added Left 4 Dead/Alien Swarm instructor system
 - Added in-game Addon/Mod Manager
+- Added Ragdoll and Weapon manager which clean up lingering entities, this helps massively with performance on "battle royale" maps like `mtz`
+- Implemented non-lethal attacks that is similar in implementation like Catharsis Reborn's
+
+### All Changes in Detail
 
 * AngelScript: Fixed possible crash on server-side
 * Fixed Door's parent entities not disappearing when destroyed
@@ -156,7 +160,7 @@ look inside `p3/scripts/ultrapatch/p3_ultrapatch_inventory.txt` for example
 + Added scripted anim events for Human NPCs: `KICK` and `PUSH_HEAVY`, models need to be modified if you want to use them
 * Human NPCs when performing attacks with melee weapons will now always grab damage values from active weapon, previously this was hardcoded to use their melee weapon pointer which is not always correct and could cause issues
 + Human NPCs with melee weapons when attacking now properly play melee hit sounds based on weapon sound (if this is gone wrong for some reason it fallbacks to `P3_NPC_Military.WeaponBash`)
-* Human NPCs now perform Ranged or Melee attacks based on IsRanged and IsMelee weapon script flags from active weapon (previously this was also hardcoded to ranged or melee weapon pointers)
+* Human NPCs now perform Ranged or Melee attacks based on `IsRanged` and `IsMelee` weapon script flags from active weapon (previously this was also hardcoded to ranged or melee weapon pointers)
 * Fixed rare crash when Human NPCs trying to pick up non-existent FSM prop/item
 * Cat Dervish period increased from 12 seconds to 24 seconds
 * Cat Dervish target pathing now takes FSM/P3S targets as first priority, previously it would only target enemies first (which would randomly disappear....) and then after FSM targets
@@ -270,6 +274,58 @@ With this func entity which manipulates navmesh you can:
 * Increased maximum active sound slots from 128 to 512, fixes AllocSound errors on mtz and possibly on other maps as well
 + AngelScript: Added hook `SEngine OnEntityCreated`
 + AngelScript: Added hook `SEngine OnEntityDeleted`
++ Added `physics_prop_statue` entity
+* Sniper Rifle for Players and NPCs is now always in "aim mode"
+* Various fixes for non-Human NPCs not being able to pick up and store weapons
++ Added `info_landmark_pos` which controls the Player's position and angle on transition, for now if there is no such entity found on the map it will retain vanilla behavior
+* ChangeLevel triggers are now disabled for 2 seconds before they are re-enabled, this time the "2 seconds" is now always consistent, possibly preventing the Player in a loop
++ AngelScript: Added hook `SEngine LevelInitComplete` (Called on Frame 1 when everything finished initializing, safe to move the Player around, or do sensitive things)
++ AngelScript: Added global var `gEntList`, and moved all Find Entity related functions inside of this global variable
++ AngelScript: Added hook `SEngine OnDoorDestroyed` and `SEngine OnDoorSpawned`
+* Fixed Lock and Unlock inputs for Doors not (un)blocking the nav meshes around them making NPCs think they can pass through locked doors
+* Fixed Door delay being broken
+* Fixed light not illuminating Players and Viewmodels
+* Fixed Unconscious Rhino popping out of existence without leaving a ragdoll behind
+* Fixed ammo not giving weapon when at full ammo but Player doesn't have any weapon
+* `lpp::RemoveAllWeapon` now also removes all ammo from the Player and Double
++ Added Ragdoll and Weapon managers which clean up lingering weapons and ragdolls on the ground, massively helps with performance
++ Implemented non-lethal attacks that behaves alike to Catharsis Reborn's implementation
+* Removed burn damage without weapon pointer registering as Player action (the game always forced the attacker to be the Player if they died due to burn damage)
+* All non-lethal attacks now cause 0 damage, and will instead deplete consciousness according to conscious rate found inside weapon scripts
+* Ragdoll damage is now chained to hidden NPC (for Knocked out NPCs only)
++ Added `IsLethal` weapon script key value, by default it is 1, if it's zero then all attacks will deal 0 damage (even for NPCs)
++ Added `ConsciousRate` weapon script key value, by default it is -1.0, if `IsLethal` is zero then this value will act like Damage but to the NPC's consciousness instead
+* Removed Conscious recovery from NPCs (The amount of time required to knock out an NPC will no longer increase after a period of time has passed)
+* Baton is now non-lethal with a rate of 25.0 consciousness (4 attacks will knock out the NPC)
+* Fixed game crashing when it tries to unsnatch a ""non-existing"" animal when a human NPC was killed
++ Added embedded P3S attribute `ea_noknockout`, prevents weapons like Spray, Taser and as such forcing the NPC into an unconscious ragdoll
++ Added embedded P3S attribute `ea_noragdoll`, prevents ragdoll for the NPC (it still allows the NPC to be knocked out, use with ea_noknockout in conjunction to prevent total ragdolling)
++ Added P3S event `OnRhinoUnconscious` (Rider only)
++ Added P3S event `OnRhinoKilled` (Rider only)
++ Added P3S event `OnRiderUnconscious` (Rhino only)
++ Added P3S event `OnRiderKilled` (Rhino only)
++ Added P3S attribute `ea_rhinochain` (Rhino only, chains knockout to the Rider as well)
+* Fixed a vanilla bug where Rhino's rider would never be set to null if Rider stopped riding
+* Fixed NPCs not being able to target NextBots
++ Added weapon script key value `IsDangerous`, returns true if NPCs should be wary of this weapon (unused on normal Postal 3 gameplay, meant more for modders)
++ Added embedded P3S attribute `ea_WeaponDangerous`
++ Added embedded P3S attribute `ea_WeaponRanged`
++ Added embedded P3S attribute `ea_WeaponMelee`
++ Added embedded P3S attribute `ea_WeaponLethal`
++ Added embedded P3S attribute `ea_WeaponID` (same as `ea_armed`)
++ Added embedded P3S attribute `ea_WeaponCanDrop`
++ Added embedded P3S attribute `ea_multiplayer` (returns 1 if maxplayers is higher than 1, otherwise 0 if it's single player)
++ Added embedded P3S event `OnConsciousChanged`, fires whenever `ea_consciousness` changes
+* Fixed game crashing inconsistently whenever anything physics-related stuff is happening (p3_prop_fsmitem)
+* Changed default fluid tickrate (p3_fluid_spread_speed) from 0.01 to 0.022
++ Added embedded P3S attribute `ea_consc_absorb` (behaves like `ea_dmg_absorb` but for consciousness absorption)
++ Added embedded P3S attribute `ea_DropItemOnRagdoll`, makes NPCs drop items when ragdolled
++ Added embedded P3S attribute `ea_DropWeaponOnRagdoll`, makes NPCs drop weapons when ragdolled (active weapon only, only when no Item is being held)
+* NPCs no longer drop items by default anymore when ragdolled (vanilla behavior, they also don't drop corpse items by default which is NOT vanilla behavior)
+* Fixed last unconscious hit from non-Player attacks not registering properly
+* Unused `weapon_type` in weapon scripts is now automatically adjusted to (non)lethal melee/ranged according to `IsLethal`;`IsMelee`;`IsRanged` if weapon type wasn't flesh, animal, gadget, or big gun
++ Added P3S event `OnConsciousHit`, acts like `OnHit` but for consciousness instead, this event will not fire when NPC was knocked out
+
 
 
 MULTIPLAYER RELATED:
@@ -301,4 +357,4 @@ v1.3.0 (Multiplayer changes):
 * Fixed bots crashing the game when respawned because they were far away in the void
 * ""Fixed"" UTIL_GetLocalPlayer assert errors
 - Players can no longer manually respawn 
-
+* Various dedicated server bugfixes, like NPCs not working, or voice not initializing properly
