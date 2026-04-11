@@ -246,6 +246,8 @@
 
 	"cat_pickup"
 	{
+		"cat_id"		"long"
+		"player_id"		"long"
 	}
 
 	"whistle_start"
