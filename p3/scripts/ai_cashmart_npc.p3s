@@ -84,7 +84,7 @@ behavior
 						IfAttr "Object:caller == Object:Player Block begin"
 							IfAttr "slot#msGP.PlayerSide == SIDE_GOOD Block begin"
 								Say FRIENDLYFIRE
-								SetAttr "slot#msGP.PlayerSide SIDE_INANE" //а еще тут должна была быть эта строчка имхо
+								SetAttr "slot#msGP.PlayerSide SIDE_INSANE" //а еще тут должна была быть эта строчка имхо
 							Block end
 							IfAttr "slot#msGP.PlayerSide == SIDE_NONE Block begin"		//if the player hits police first
 								SetAttr "slot#msGP.PlayerSide SIDE_BAD"					//change his alignment to "bad"
