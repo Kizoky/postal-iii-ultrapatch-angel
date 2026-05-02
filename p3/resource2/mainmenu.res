@@ -91,7 +91,8 @@
 	{
 		"text"			"#GameUI2_Quit"
 		"description"	"#GameUI2_QuitDescription"
-		"command"		"cvar gamemenucommand quit"
+		// NOTE: Don't re-enable the quit dialog because it is broken
+		"command"		"cvar gameui2_openquitdialog" //"cvar gamemenucommand quit"
 		"priority"		"0"
 		"specifics"		"shared"
 		"tv"			"pc_quit"
