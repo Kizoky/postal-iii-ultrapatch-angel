@@ -10,6 +10,7 @@ p3_registry
 	"player_hurt_comment_rare_chance"	"8"
 	"fire_spread_duration"			"5"
 	"last_landmark"			""
+	"p3_weapon_pickup_radius"		"40.0"
 
 	//-------------------------------------------------------------------------
 	// Sound
