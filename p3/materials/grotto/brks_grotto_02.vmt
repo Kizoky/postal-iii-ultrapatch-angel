@@ -1,6 +1,5 @@
 "LightmappedGeneric"
 {
-    "$basetexture" "grotto/brks_grotto_02"
+	"$basetexture" "grotto/brks_grotto_02"
 	"$surfaceprop" "brick"
 }
-

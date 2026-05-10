@@ -1,6 +1,5 @@
 "LightmappedGeneric"
 {
-    "$basetexture" "grotto/metal_grid_01"
+	"$basetexture" "grotto/metal_grid_01"
 	"$surfaceprop" "metalgrate"
 }
-
