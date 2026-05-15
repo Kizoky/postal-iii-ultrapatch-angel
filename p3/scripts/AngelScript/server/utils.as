@@ -1,9 +1,28 @@
 // Collection of utils made for Catharsis Reborn originally - Kizoky
-#include "Utils_enums.as"
+//#include "utils_enums.as"
+
+// Vanilla P3S
+void AreaEvent(CP3SObj@ center, string EventName, float Radius)
+{
+    Radius = Radius * 32;
+    EventName.insert(0, "OnAE_");
+
+    array<CP3SObj@> aNPC = GetArrayOfEntitiesRadius(@center, Radius);
+    for (uint i = 0; i < aNPC.length(); i++)
+    {
+        if ( @aNPC[i] == @null )
+            continue;
+
+        if ( @aNPC[i] == @center )
+            continue;
+
+        aNPC[i].FireEvent(EventName, center);
+    }
+}
 
 CBaseEntity@ SpawnAmbient(string name, string sound)
 {
-	CBaseEntity@ ambient = FindEntByName(name);
+	CBaseEntity@ ambient = gEntList.FindEntByName(null, name);
 	if (@ambient == null)
 	{
 		@ambient = CreateEnt("ambient_generic");
@@ -39,7 +58,7 @@ CBaseEntity@ SpawnAmbient(string name, string sound)
 
 CBaseEntity@ SpawnAmbientEx(string name, string sound)
 {
-	CBaseEntity@ ambient = FindEntByName(name);
+	CBaseEntity@ ambient = gEntList.FindEntByName(null, name);
 	if (@ambient == null)
 	{
 		@ambient = CreateEnt("ambient_generic");
@@ -75,11 +94,11 @@ CBaseEntity@ SpawnAmbientEx(string name, string sound)
 
 CP3SObj@ SpawnLogicEnt(string name, string behavior, bool bTransit = false)
 {
-	CBaseEntity@ logic = FindEntByName(name);
-	if ( @logic == null )
+	CBaseEntity@ logic = gEntList.FindEntByName(null, name);
+	if ( @logic == @null )
 	{
 		@logic = CreateEnt("p3_fsm_logic_entity");
-		if ( @logic != null )
+		if ( @logic != @null )
 		{
 			logic.KeyValue( "targetname", name );
 			//logic.KeyValue( "globalname", name );
@@ -99,7 +118,7 @@ CP3SObj@ SpawnLogicEnt(string name, string behavior, bool bTransit = false)
 			{
 				logic.GetP3SObj().SetAttr("ea_transition", 1);
 				CP3SObj@ player = GetPlayer();
-				if (player != null)
+				if (@player != @null)
 				{
 					logic.SetOwnerEntity(player.GetBaseEntity());
 					logic.GetP3SObj().SetTarget(player);
@@ -115,7 +134,7 @@ CP3SObj@ SpawnLogicEnt(string name, string behavior, bool bTransit = false)
 
 CBaseEntity@ SpawnSmoke(string name, Vector pos)
 {
-	CBaseEntity@ smoke = FindEntByName(name);
+	CBaseEntity@ smoke = gEntList.FindEntByName(null, name);
 	if (@smoke == null)
 	{
 		CBaseEntity@ ent = CreateEnt("env_smokestack");
@@ -175,11 +194,11 @@ CBaseEntity@ SpawnPathnode(string name, Vector pos, string dest)
 
 CBaseEntity@ SpawnDummy(string name, Vector pos)
 {
-	CBaseEntity@ dummy = FindEntByName(name);
-	if (@dummy == null)
+	CBaseEntity@ dummy = gEntList.FindEntByName(null, name);
+	if (@dummy == @null)
 	{
 		@dummy = CreateEnt("p3_fsm_dummy");
-		if ( @dummy != null )
+		if ( @dummy != @null )
 		{
 			dummy.KeyValue( "targetname", name );
 			dummy.SetAbsOrigin( pos );
@@ -194,7 +213,7 @@ CBaseEntity@ SpawnDummy(string name, Vector pos)
 CBaseEntity@ SpawnDynamicProp(string model, int health = 0, string parent = "null")
 {
 	CBaseEntity@ prop = CreateEnt("prop_dynamic_override");
-	if (@prop != null)
+	if (@prop != @null)
 	{
 		string sHealth; sHealth.format("%d", health);
 		prop.KeyValue( "health", sHealth );
@@ -238,7 +257,7 @@ CBaseEntity@ SpawnProp(string model)
 	PrecacheModel(model);
 	
 	CBaseEntity@ prop = CreateEnt("prop_physics");
-	if (@prop != null)
+	if (@prop != @null)
 	{
 		prop.KeyValue( "model", model );
 		
@@ -277,11 +296,11 @@ CBaseEntity@ SpawnSprite(string name)
 {
 	PrecacheModel("sprites/glow06.spr");
 	
-	CBaseEntity@ sprite = FindEntByName(name);
-	if (@sprite == null)
+	CBaseEntity@ sprite = gEntList.FindEntByName(null, name);
+	if (@sprite == @null)
 	{
 		@sprite = CreateEnt("env_sprite");
-		if ( @sprite != null )
+		if ( @sprite != @null )
 		{
 			sprite.KeyValue( "targetname", name );
 			

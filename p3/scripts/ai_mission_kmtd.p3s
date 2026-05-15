@@ -584,28 +584,42 @@ behavior
 				{
 					actions
 					{
-						AreaEvent GreenLight,12000
-						EntFireInput trafficlight_logic,InValue:green
-						EntFireInput trafficlight_logic1,InValue:green
-						EntFireInput trafficlight_logic2,InValue:green
-						EntFireInput trafficlight_logic3,InValue:green
-						EntFireInput trafficlight_logic4,InValue:green
-						EntFireInput trafficlight_logic5,InValue:green
-						EntFireInput trafficlight_logic6,InValue:green
-						EntFireInput trafficlight_logic7,InValue:green
-						EntFireInput trafficlight_logic8,InValue:green
-						EntFireInput trafficlight_logic9,InValue:green
+						// vanilla fallback if AngelScript is disabled
+						IfAttr "ea_angelscript == 0 Block begin"
+							AreaEvent GreenLight,12000
+							EntFireInput trafficlight_logic,InValue:green
+							EntFireInput trafficlight_logic1,InValue:green
+							EntFireInput trafficlight_logic2,InValue:green
+							EntFireInput trafficlight_logic3,InValue:green
+							EntFireInput trafficlight_logic4,InValue:green
+							EntFireInput trafficlight_logic5,InValue:green
+							EntFireInput trafficlight_logic6,InValue:green
+							EntFireInput trafficlight_logic7,InValue:green
+							EntFireInput trafficlight_logic8,InValue:green
+							EntFireInput trafficlight_logic9,InValue:green
+						Block end
+						IfAttr "ea_angelscript == 1 Block begin"
+							AngelScript "Object:self CTrafficLight OnGreen"
+						Block end
+						
 						Wait 10:5
-						EntFireInput trafficlight_logic,InValue:yellow
-						EntFireInput trafficlight_logic1,InValue:yellow
-						EntFireInput trafficlight_logic2,InValue:yellow
-						EntFireInput trafficlight_logic3,InValue:yellow
-						EntFireInput trafficlight_logic4,InValue:yellow
-						EntFireInput trafficlight_logic5,InValue:yellow
-						EntFireInput trafficlight_logic6,InValue:yellow
-						EntFireInput trafficlight_logic7,InValue:yellow
-						EntFireInput trafficlight_logic8,InValue:yellow
-						EntFireInput trafficlight_logic9,InValue:yellow
+						
+						IfAttr "ea_angelscript == 0 Block begin"
+							EntFireInput trafficlight_logic,InValue:yellow
+							EntFireInput trafficlight_logic1,InValue:yellow
+							EntFireInput trafficlight_logic2,InValue:yellow
+							EntFireInput trafficlight_logic3,InValue:yellow
+							EntFireInput trafficlight_logic4,InValue:yellow
+							EntFireInput trafficlight_logic5,InValue:yellow
+							EntFireInput trafficlight_logic6,InValue:yellow
+							EntFireInput trafficlight_logic7,InValue:yellow
+							EntFireInput trafficlight_logic8,InValue:yellow
+							EntFireInput trafficlight_logic9,InValue:yellow
+						Block end
+						IfAttr "ea_angelscript == 1 Block begin"
+							AngelScript "Object:self CTrafficLight OnYellow"
+						Block end
+						
 						Wait 3
 						State st_red
 					}
@@ -621,28 +635,41 @@ behavior
 				{
 					actions
 					{
-						AreaEvent RedLight,12000
-						EntFireInput trafficlight_logic,InValue:red
-						EntFireInput trafficlight_logic1,InValue:red
-						EntFireInput trafficlight_logic2,InValue:red
-						EntFireInput trafficlight_logic3,InValue:red
-						EntFireInput trafficlight_logic4,InValue:red
-						EntFireInput trafficlight_logic5,InValue:red
-						EntFireInput trafficlight_logic6,InValue:red
-						EntFireInput trafficlight_logic7,InValue:red
-						EntFireInput trafficlight_logic8,InValue:red
-						EntFireInput trafficlight_logic9,InValue:red
+						IfAttr "ea_angelscript == 0 Block begin"
+							AreaEvent RedLight,12000
+							EntFireInput trafficlight_logic,InValue:red
+							EntFireInput trafficlight_logic1,InValue:red
+							EntFireInput trafficlight_logic2,InValue:red
+							EntFireInput trafficlight_logic3,InValue:red
+							EntFireInput trafficlight_logic4,InValue:red
+							EntFireInput trafficlight_logic5,InValue:red
+							EntFireInput trafficlight_logic6,InValue:red
+							EntFireInput trafficlight_logic7,InValue:red
+							EntFireInput trafficlight_logic8,InValue:red
+							EntFireInput trafficlight_logic9,InValue:red
+						Block end
+						IfAttr "ea_angelscript == 1 Block begin"
+							AngelScript "Object:self CTrafficLight OnRed"
+						Block end
+						
 						Wait 10:5
-						EntFireInput trafficlight_logic,InValue:yellow
-						EntFireInput trafficlight_logic1,InValue:yellow
-						EntFireInput trafficlight_logic2,InValue:yellow
-						EntFireInput trafficlight_logic3,InValue:yellow
-						EntFireInput trafficlight_logic4,InValue:yellow
-						EntFireInput trafficlight_logic5,InValue:yellow
-						EntFireInput trafficlight_logic6,InValue:yellow
-						EntFireInput trafficlight_logic7,InValue:yellow
-						EntFireInput trafficlight_logic8,InValue:yellow
-						EntFireInput trafficlight_logic9,InValue:yellow
+						
+						IfAttr "ea_angelscript == 0 Block begin"
+							EntFireInput trafficlight_logic,InValue:yellow
+							EntFireInput trafficlight_logic1,InValue:yellow
+							EntFireInput trafficlight_logic2,InValue:yellow
+							EntFireInput trafficlight_logic3,InValue:yellow
+							EntFireInput trafficlight_logic4,InValue:yellow
+							EntFireInput trafficlight_logic5,InValue:yellow
+							EntFireInput trafficlight_logic6,InValue:yellow
+							EntFireInput trafficlight_logic7,InValue:yellow
+							EntFireInput trafficlight_logic8,InValue:yellow
+							EntFireInput trafficlight_logic9,InValue:yellow
+						Block end
+						IfAttr "ea_angelscript == 1 Block begin"
+							AngelScript "Object:self CTrafficLight OnYellow"
+						Block end
+						
 						Wait 3
 						State st_green
 					}
