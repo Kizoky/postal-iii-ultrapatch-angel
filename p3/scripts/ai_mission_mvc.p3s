@@ -1,0 +1,307 @@
+Constants
+{
+	Const MVC_NUM_FRAGS,20
+	Const MVC_NUM_BALLS,8
+	Const MVC_NUM_BALLS_MAX,100
+}
+
+behavior
+{
+	name bh_mvc_logic
+	inherited bh_mission_logic_base
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "launched 0"
+						SetAttr "fakelaunch MVC_NUM_BALLS_MAX"
+						SetAttr "part 1"
+						SetAttr "hothanded 0"
+						SetAttr "Policekilled 0,on_change_event"
+						
+						SetAttr "PlayerPath PATH_INSANE"
+					}
+				}
+			}
+		}
+		st_start
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						PlayerKarma show
+						MissionLog add_primary,main,#P3_MVC_MISSION1
+						
+					}
+				}
+				pt_farmacia
+				{
+					actions
+					{
+						playvideo mvc_2,1,1
+						SetAttr "part 2"
+						Wait 2
+						ShowMessage #P3_MVC_MISSION2
+						MissionLog done,main
+						MissionLog add_primary,main2,#P3_MVC_COUNTER
+					}
+					events
+					{
+						OnFire_CrimeDetected "Pattern pt_fight"
+					}
+				}
+				xpt_ballscounter
+				{
+					actions
+					{
+						IfAttr "part == 2 Block begin"
+							ChangeAttr "fakelaunch -1"
+							MissionLog add_primary,main2,#P3_MVC_COUNTER
+							ChangeAttr "launched +1"
+							SetAttr "hothanded 1"
+							Timer tHot,2:1
+							IfAttr "launched == MVC_NUM_BALLS Pattern pt_fight"
+						Block end
+					}
+				}
+				pt_fight
+				{
+					actions
+					{
+						EntFireUser muzak.ambient,1
+						SetAttr "part 3"
+						playvideo mvc_3,1,1
+						Wait 1
+						EntFireInput muzak.mission,PlaySound
+						Wait 1
+						ShowMessage #P3_MVC_MISSION3
+						MissionLog done,main2
+						MissionLog add_primary,main3,#P3_MVC_MISSION3_OBJ
+						EntFireInput spawner_police2,enable
+					}
+				}
+				xpt_policecounter
+				{
+					actions
+					{
+						IfAttr "Policekilled == MVC_NUM_FRAGS Pattern pt_end"
+					}
+				}
+				pt_end
+				{
+					actions
+					{
+						EntFireInput fade_out,fade
+						Wait 1
+						EntFireInput "ccommand,Command:video_exitcmd mvc_4 p3_end_mission"
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnTimer_tHot "SetAttr hothanded 0"
+		OnFoundFarm "Pattern st_start.pt_farmacia"
+		OnLaunched "ExecutePattern st_start.xpt_ballscounter"
+		OnAttrChange_Policekilled "ExecutePattern st_start.xpt_policecounter"
+		
+		OnNewGame	"ExecutePattern weaponGive.MVC"
+	}
+}
+behavior
+{
+	name bh_mexico_police
+	inherited bh_mexico_patrol
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						SetSquadRelation player_squad:enemy:3
+					}
+				}
+			}
+		}
+		st_idle
+		{
+			group Alert
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetPlayer 1
+						
+						IfAttr "Object:target != Object:player Pattern bh_base:st_idle.pt_default"
+						IfAttr "target.ea_health == 0 Pattern bh_base:st_idle.pt_default"
+						
+						//Face true
+						Aim true
+						Pattern pt_idle
+					}
+				}
+				pt_idle
+				{
+					actions
+					{
+						MoveToTarget walk,1
+						IfAttr "DistTo:target < ED_FAR State st_start"
+						Repeat 1
+					}
+				}
+			}
+		}
+	}
+}
+behavior
+{
+	name bh_mexico_patrol
+	inherited bh_civil
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						TargetEntByName mission_logic
+						TargetToMem msGP
+						SetAttr "Said 0"
+						
+						SetAttr "flag_IgnorePlayerFear 1"
+						SetAttr "flag_IgnoreCombat 1"
+						SetAttr "flag_IgnoreWeapon 1"
+						SetAttr "ReactionThreshold RE_DANGER"
+					}
+				}
+			}
+		}
+		st_idle
+		{
+			group Alert
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						FreeMovementParams area_all,-1,-1,area_group
+						FreeMovement walk
+						Pattern pt_distcheck
+					}
+				}
+				pt_distcheck
+				{
+					actions
+					{
+						TargetPlayer 1
+						IfAttr "DistTo:target < ED_FAR ExecutePattern .xpt_CheckPlayerBehaviour"
+						
+						Repeat 1
+					}
+				}
+				xpt_aggro
+				{
+					actions
+					{
+						SetAttr "rnd 0"
+						ChangeAttr "rnd 0:4"
+						IfAttr "rnd == 0 and Said == 0 Block begin"
+							Say FREEZE,ARREST
+							SetAttr "Said 1"
+						Block end
+						SetSquadRelation player_squad:enemy:3
+						SetAreaGroup AG_DEFAULT,AG_town,AG_border
+						//Face true
+						State st_start
+					}
+				}
+				xpt_OnVisible
+				{
+					actions
+					{
+						TargetCaller 1
+						IgnoreTarget 1
+						
+						IfAttr "Object:caller == Object:player ExecutePattern .xpt_CheckPlayerBehaviour"
+					}
+				}
+				xpt_CheckPlayerBehaviour
+				{
+					actions
+					{
+						IfAttr "slot#msGP.part < 2 Return 1"
+						IfAttr "slot#msGP.hothanded == 0 Return 1"
+						IfAttr "slot#msGP.part == 2 Block begin"
+							TargetFromMem msGP
+							FireEvent CrimeDetected //,slot#msGP
+							TargetPlayer 1
+						Block end
+						ExecutePattern .xpt_aggro
+					}
+				}
+			}
+			events
+			{
+				OnVisible "ExecutePattern st_idle.xpt_OnVisible"
+				OnHit "Pattern st_idle.xpt_aggro"
+				OnHearDanger "Pattern st_idle.xpt_aggro"
+				OnHearCombat "Pattern st_idle.xpt_aggro"
+			}
+		}
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ChangeAttr "slot#msGP.Policekilled +1"
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+		ChangeKarma
+		{
+			Group Neutral
+			Patterns
+			{
+				Lethal
+				{
+					actions
+					{
+						PlayerKarma -KARMA_MED
+					}
+				}
+			}
+		}
+	}
+}

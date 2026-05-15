@@ -1,0 +1,792 @@
+Constants
+{
+	Const AA_BOMBARD_CHANSE,30
+}
+
+
+behavior
+{
+	name bh_aa_logic
+	inherited bh_mission_logic_base
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "PlayerPath PATH_NONE"
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						PlayerKarma hide
+						EntFireInput muzak.battle,Volume:0
+						//EntFireInput "pcc,Command:p3_player_skin coat"
+						MissionLog add_primary,escape,#P3_AA_LOG1
+						MissionLog add_primary,survive,#P3_AA_LOG2
+					}
+				}
+				pt_transfer
+				{
+					actions
+					{
+						EntFireInput fade_in,fade
+						Wait 1
+						EndMission 1
+					}
+				}
+			}
+			events
+			{
+				OnTankReached	"State st_tank"
+			}
+		}
+		
+		st_start1
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ShowMessage #P3_AA_MSG1
+						Timer tSayPhrase,4:2
+						State st_start
+					}
+				}
+			}
+		}
+		
+		st_start2
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ShowMessage #P3_AA_MSG2
+						State st_start
+					}
+				}
+			}
+		}
+		
+		st_start3
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						State st_start
+					}
+				}
+			}
+		}
+		
+		st_tank
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						PlayVideo aa_2,1,1
+						Wait 1.2
+						MissionLog add_primary,tank,#P3_AA_LOG3
+						EntFireInput muzak.battle,FadeIn:1
+						EntFireInput hugo_spawner,Enable
+						EntFireInput spawner_invaders,Enable
+						ShowMessage #P3_AA_MSG3
+						//EntFireInput Tank,Unlock
+					}
+				}
+			}
+		}
+		
+		st_end
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						MissionLog done,escape
+						MissionLog done,survive
+						MissionLog done,tank
+						//ShowMessage "[Tank dead],$P3Mission"
+						Wait 1
+						EntFireInput muzak.battle,FadeOut:1
+						SetAttr "PlayerPath PATH_GOOD"
+						PlayerKarma =100
+						EndMission 1
+						//EntFireInput Fade_in,fade
+						//Wait 1
+						//EntFireInput "pcc,Command:video_exitcmd aa_3 p3_end_mission"
+					}
+				}
+			}
+		}
+		
+	}
+	events
+	{
+		OnNewGame "ExecutePattern weaponGive.AA"
+		OnFire_TankDead	"State st_end"
+		OnTimer_tSayPhrase	"EntFireInput lpp,Say:ENDEVENTGOOD"
+		OnEndLevel	"Pattern st_start.pt_transfer" 
+	}
+}
+
+behavior
+{
+	name bh_aa_military
+	inherited bh_civil
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						SetAttr "flag_IgnorePlayerFear 1"
+						SetAttr "flag_IgnoreCombat 1"
+						SetAttr "flag_IgnoreWeapon 1"
+						SetAttr "flag_Protected 1"
+						SetAttr "ReactionThreshold RE_DANGER"
+					}
+				}
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_decide
+				{
+					actions
+					{
+						Pattern pt_idle
+					}
+				}
+			}
+		}
+	}
+}
+
+behavior
+{
+	name bh_aa_invader
+	inherited bh_aa_military
+	States
+	{
+		st_init
+		{
+			Group Neutral 
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						SetSquad venezuela_squad
+						SetSquadRelation Player_squad:enemy:9
+						//SetSquadRelation defender_suqad:enemy:4
+						SetSquadRelation citizen_squad:enemy:1,local
+						
+						SetAttr "GrenadeType GRND_TYPE_FRAG"
+						SetAttr "flag_ThrowSafe 1"
+						SetAttr "flag_VitalEnemy 1"
+					}
+				}
+			}
+		}
+		
+		st_combat_logic
+		{
+			Group Combat
+			Patterns
+			{
+				xpt_SayAttack
+				{
+					actions
+					{
+						IfAttr "Timer:tCanSay > 0 Return 1"
+						Say CATCH,HEROIC
+						Timer tCanSay,5:3
+					}
+				}
+				
+				xpt_SaySnipe
+				{
+					actions
+					{
+						ExecutePattern st_combat_logic.xpt_SayAttack
+					}
+				}
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_SelectWeapon
+				{
+					actions
+					{
+						Weapon arm
+					}
+				}
+				
+				xpt_OnHearCombat
+				{
+					actions
+					{
+						IfAttr "RelationTo:caller == Relation:enemy Block begin"
+							TargetCaller 1
+							State st_start
+						Block end
+						
+						IfAttr "caller.ea_faction == self.ea_faction Block begin"
+							TargetCaller 1
+							AssistTarget 1
+							IfAttr "RealtionTo:target == Relation:enemy State st_start"
+						Block end
+						
+						ResetTarget 1
+					}
+				}
+				
+				xpt_OnVisible
+				{
+					actions
+					{
+						TargetCaller 1
+						CheckAttr "target.flag_bystander Block begin"
+							ExecutePattern st_util.xpt_AddTargetToEnemy
+							Return 1
+						Block end
+						
+						ExecutePattern bh_base:st_idle.xpt_OnVisible
+					}
+				}
+			}
+			events
+			{
+				OnHearCombat "ExecutePattern .xpt_OnHearCombat"
+			}
+		}
+		
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_OnPlayerDetected
+				{	
+					actions
+					{
+						AreaEvent PlayerDetected,8
+						ExecutePattern st_util.xpt_StartAttackPlayer
+					}
+				}
+				
+				xpt_StartAttackPlayer
+				{
+					actions
+					{
+						TargetPlayer 1
+						Relationship target,enemy,9
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		//OnSpawnedWithTank	"ExecutePattern st_util.xpt_AddPlayerToEnemy"
+		OnNewEnemy	"IfAttr Object:caller == Object:player ExecutePattern st_util.xpt_OnPlayerDetected"
+		OnAE_PlayerDetected	"ExecutePattern st_util.xpt_StartAttackPlayer"
+	}
+}
+
+behavior
+{
+	name bh_aa_invader_roofer
+	inherited bh_aa_invader
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						SetAttr "MovingToPosition 1"
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						CheckAttr "MovingToPosition ExecutePattern .xpt_idle"
+						ExecutePattern bh_base:st_start.pt_default
+					}
+				}
+				
+			}
+		}
+		
+		st_combat_logic
+		{
+			Group Combat
+			Patterns
+			{
+				xpt_SetTaskDefault
+				{
+					actions
+					{
+						IfAttr "Timer:tThrowGrenade <= 0 SetAttr TaskCombat TC_THROW"
+						SetAttr "TaskCombat TC_POSITION"
+					}
+				}
+				
+			}
+		}
+		
+		st_combat_position
+		{
+			Group Combat
+			Patterns
+			{
+				xpt_OnTaskFail
+				{
+					actions
+					{
+						SetAttr "TaskCombat TC_NONE"
+					}
+				}
+				xpt_OnTaskTimer
+				{
+					actions
+					{
+						SetAttr "TaskCombat TC_NONE"
+					}
+				}
+				xpt_TryCrouch
+				{
+					actions
+					{
+						SetAttr "combat_rnd 0"
+						ChangeAttr "combat_rnd 0:1"
+						IfAttr "combat_rnd == 0 Block begin"
+							Crouch true
+							SetAttr "crouched 1"
+						Block end
+						IfAttr "combat_rnd == 1 Crouch false"
+					}
+				}
+			}
+		}
+		
+		st_combat_bombard
+		{
+			Group Combat
+			Patterns
+			{
+				xpt_OnTaskFail
+				{
+					actions
+					{
+						SetAttr "TaskCombat TC_NONE"
+					}
+				}
+				xpt_OnTaskTimer
+				{
+					actions
+					{
+						SetAttr "TaskCombat TC_NONE"
+					}
+				}
+				xpt_OnTaskComplete
+				{
+					actions
+					{
+						SetAttr "TaskCombat TC_NONE"
+					}
+				}
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						FreeMovement false
+						CheckAttr "MovingToPosition pattern pt_moving"
+						Crouch false
+						Aim true
+						Wait 3
+						State st_start
+					}
+					events
+					{
+						OnNewEnemy "State st_start"
+						OnSawEnemy "State st_start"
+					}
+				}
+				
+				pt_moving:ignore_ext_events
+				{
+					actions
+					{
+						SetHintGroup hg_roof
+						FreeMovementParams hint_all,0,128,hint_group,nearest
+						FreeMovement run
+					}
+					events
+					{
+						OnTargetReach "Pattern pt_positioned"
+						OnInvalidRoute "Repeat 1"
+					}
+				}
+				
+				pt_positioned
+				{
+					actions
+					{
+						RemoveAttr "MovingToPosition"
+						State st_start
+					}
+				}
+			}
+		}
+	}
+}
+
+behavior
+{
+	name bh_aa_invader_tank
+	inherited bh_aa_invader
+	States
+	{
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetPlayer 1
+						FreeMovementParams area_all,0,ED_VERY_CLOSE,from_target
+						FreeMovement run
+					}
+				}
+				
+				xpt_OnVisible
+				{
+					actions
+					{
+						IfAttr "Object:caller == Object:player State st_start"
+					}
+				}
+			}
+		}
+	}
+}
+
+behavior
+{
+	name bh_aa_zealot
+	inherited bh_aa_military
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						SetAttr "GrenadeType GRND_TYPE_BEENEST"
+						SetAttr "BombardChanse AA_BOMBARD_CHANSE"
+					}
+				}
+			}
+		}
+	}
+}
+
+behavior
+{
+	name bh_aa_taliban
+	inherited bh_aa_military
+}
+
+behavior
+{
+	name bh_aa_hobo
+	inherited bh_aa_military
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						SetAttr "GrenadeType GRND_TYPE_MOLOTOV"
+						SetAttr "BombardChanse AA_BOMBARD_CHANSE"
+					}
+				}
+			}
+		}
+	}
+}
+
+behavior
+{
+	name bh_aa_cop
+	inherited bh_aa_military
+	
+	States 
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						SetSquadRelation venezuela_squad:enemy:5
+						
+						SetAttr "GrenadeType GRND_TYPE_FRAG"
+						SetAttr "BombardChanse AA_BOMBARD_CHANSE"
+						SetAttr "flag_ThrowSafe 1"
+					}
+				}
+			}
+		}
+		
+	}
+}
+
+behavior
+{
+	name bh_aa_gay
+	inherited bh_aa_miltary
+}
+
+
+behavior
+{
+	name bh_aa_protector
+	inherited bh_aa_military
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						SetSquad protector_suqad
+						SetSquadRelation venezuela_squad:enemy:4
+						
+						SetAttr "GrenadeType GRND_TYPE_FRAG"
+						SetAttr "flag_ThrowSafe 1"
+					}
+				}
+			}
+		}
+		
+		st_combat_logic
+		{
+			Group Combat
+			Patterns
+			{
+				xpt_SayAttack
+				{
+					actions
+					{
+						IfAttr "Timer:tCanSay > 0 Return 1"
+						Say SW_CATCH,SW_HEROIC
+						Timer tCanSay,5:3
+					}
+				}
+			}
+		}
+		
+		st_OnDeath
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "Object:caller == Object:player SetSquadRelation player_squad:enemy:3"
+						ExecutePattern bh_base:st_OnDeath.pt_default
+					}
+				}
+			}
+		}
+	}
+}
+
+
+behavior
+{
+	name bh_aa_civil
+	inherited bh_civil
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						SetSquad citizen_squad
+						SetSquadRelation venezuela_suqad:fear:5,local
+						
+						SetAttr "flag_bystander 1"
+					}
+				}
+			}
+		}
+		
+	}
+}
+
+behavior
+{
+	name bh_aa_civil_scared
+	inherited bh_aa_civil
+	States
+	{
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "NewReaction RE_FEAR"
+						State st_start
+					}
+				}
+			}
+		}
+		
+		st_fear
+		{
+			Group Alert
+			Patterns
+			{
+				pt_decide
+				{
+					actions
+					{
+						Pattern pt_runaway
+					}
+				}
+				
+				xpt_SetParams
+				{
+					actions
+					{
+						
+					}
+				}
+			}
+		}
+	}
+}
+
+behavior
+{
+	name bh_aa2_champ
+	inherited bh_pdb_champ
+}

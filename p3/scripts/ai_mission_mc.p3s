@@ -355,6 +355,9 @@ behavior
 						AvoidProhibitedArea false
 						FireUser 2
 						AttributeProgressBar "RonHealthPanel,show,ea_health"
+						
+						// Play kill escort line if killed by the Player
+						SetAttr "ea_escort 1"
 					}
 				}
 			}

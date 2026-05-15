@@ -1,0 +1,773 @@
+behavior
+{
+	name bh_kmtd_logic
+	inherited bh_mission_logic_base
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "Gayskilled 0"
+						SetAttr "PlayerPath PATH_INSANE" 
+					}
+				}
+			}
+		}
+		st_start
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						PlayerKarma show
+						Pattern pt_talibannigans
+					}
+				}
+				pt_talibannigans
+				{
+					actions
+					{
+						MissionLog add_primary,main,#P3_KMTD_MISSION2_OBJ
+						EntFireUser driver1,4
+						Wait 2
+						EntFireUser driver2,4
+						Wait 2
+						EntFireUser driver3,4
+						Wait 2
+						EntFireUser driver4,4
+						Wait 2
+						EntFireUser driver6,4
+						Wait 2
+						EntFireUser driver7,4
+						Wait 2
+						EntFireUser driver8,4
+						Wait 2
+						EntFireUser driver9,4
+						Wait 2
+						EntFireUser driver10,4
+						Wait 2
+						EntFireUser driver11,4
+					}
+				}
+				pt_mall
+				{
+					actions
+					{
+						MissionLog done,main
+						MissionLog add_primary,main2,#P3_KMTD_MISSION3_OBJ
+						EntFireInput trigger_mall,Enable
+					}
+				}
+				pt_end
+				{
+					actions
+					{
+						EntFireInput "fader,Fade"
+						Wait 1
+						EndMission 1
+					}
+				}
+				pt_randy
+				{
+					actions
+					{
+						ChangeAttr "Gayskilled +1"
+						IfAttr "Gayskilled == 8 Block begin"
+							EntFireUser randy,4
+						Block end
+					}
+				}
+			}
+		}
+		st_part2
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						PlayerKarma show
+						MissionLog add_primary,main,#P3_KMTD_MISSION3_OBJ
+						SetAttr "PlayerPath PATH_INSANE"
+					}
+				}
+				pt_end
+				{
+					actions
+					{
+						MissionLog done,main
+						EntFireInput fade_out,Fade
+						Wait 2
+						EntFireInput "cmdLine,Command:video_exitcmd kmtd_3 p3_end_mission"
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnUser1 "Pattern st_start.pt_talibannigans"
+		OnUser4 "ExecutePattern st_start.pt_randy"
+		OnUser3 "Pattern st_start.pt_mall"
+		OnUser2 "Pattern st_start.pt_end"
+		OnKrotchy "Pattern st_part2.pt_end"
+		
+		OnNewGame	"ExecutePattern weaponGive.KMTD"
+	}
+}
+behavior
+{
+	name bh_gay_escort
+	inherited bh_mc_escort
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "Conscious 1"
+						SetSquadRelation player_squad:enemy
+						ExecutePattern bh_base:st_init.pt_default
+						Timer tTargetCheck,2,repeated
+						
+						TargetEntByName mission_logic
+						TargetToMem msGP
+					}
+				}
+			}
+		}
+		st_idle
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Senses true
+						Aim false
+						Weapon disarm
+					}
+				}
+			}
+			events
+			{
+				OnVisible "Pattern st_aggro.pt_check"
+			}
+		}
+		st_aggro
+		{
+			group Neutral
+			patterns
+			{
+				pt_shoot
+				{
+					actions
+					{
+						SetAttr "rnd 0"
+						ChangeAttr "rnd 0:10"
+						IfAttr "rnd > 7 Say GB1_KMTD,GB2_KMTD,GB3_KMTD,GB4_KMTD"
+						Weapon arm
+						Aim true
+						TargetEnemy 1
+						Hit 1
+						Repeat 1
+					}
+				}
+				pt_check
+				{
+					actions
+					{
+						TargetCaller 1
+						IgnoreTarget 2
+						IfAttr "target.ea_Manner == Manner:Player Pattern pt_shoot"
+						ResetTarget 1
+					}
+				}
+				pt_checktarget
+				{
+					actions
+					{
+						TargetPlayer 1
+						IfAttr "DistTo:target < ED_FAR Pattern pt_shoot"
+						ResetTarget 1
+					}
+				}
+			}
+			events
+			{
+				OnLost "State st_idle"
+				OnTargetReset "State st_idle"
+			}
+		}
+		st_OnUnconscious
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default:ignore_ext_events
+				{
+					actions
+					{
+						SetAttr "Conscious 0"
+						EntFireUser mission_logic,4
+						
+						Pattern bh_base:st_OnUnconscious.pt_default
+					}
+				}
+			}
+		}
+		st_OnDeath
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "Conscious == 1 Block begin"
+							EntFireUser mission_logic,4
+						Block end
+						
+						ExecutePattern bh_base:st_OnDeath.pt_default
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnTimer_tTargetCheck "ExecutePattern st_aggro.pt_checktarget"
+		OnHit "Pattern st_aggro.pt_check"
+		OnVisible "Pattern st_aggro.pt_check"
+		OnHearCombat "Pattern st_aggro.pt_check"
+		OnHearDanger "Pattern st_aggro.pt_check"
+	}
+}
+behavior
+{
+	name bh_randy_segway
+	inherited bh_gay_escort
+	states
+	{
+		st_death
+		{
+			group Neutral
+			patterns
+			{
+				pt_unconscious
+				{
+					actions
+					{
+						SetAttr "Conscious 0"
+						EntFireUser mission_logic,3
+						//ExecutePattern bh_base:st_OnUnconscious.pt_default
+					}
+				}
+				pt_death
+				{
+					actions
+					{
+						IfAttr "Conscious == 1 Block begin"
+							EntFireUser mission_logic,3
+						Block end
+						
+						//ExecutePattern bh_base:st_OnDeath.pt_default
+					}
+				}
+				pt_say
+				{
+					actions
+					{
+						IfAttr "DistTo:player < ED_FAR Say KROTCHYTOY"
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnTimer_tComment "ExecutePattern st_death.pt_say"
+		OnDeath "ExecutePattern st_death.pt_death"
+		OnUnconscious "ExecutePattern st_death.pt_unconscious"
+	}
+}
+
+behavior
+{
+	name bh_kmtd_citizen
+	inherited bh_civil
+	states
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						SetAttr "flag_bystander 1"
+					}
+				}
+			}
+		}
+		st_init_male
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern st_init.pt_default
+						AvoidProhibitedArea true
+						SetAttr "ImAMan 1"
+					}
+				}
+			}
+		}
+		st_init_female
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern st_init.pt_default
+						AvoidProhibitedArea true
+					}
+				}
+			}
+		}
+		st_idle
+		{
+			group Neutral
+			patterns
+			{
+				xpt_SetHintParams
+				{
+					actions
+					{
+						FreeMovementParams hint_all,ED_MIDDLE,ED_VERY_FAR,hint_group,hint_face,use_node,once
+						CheckAttr "flag_static FreeMovementParams hint_all,-1,-1,hint_group,hint_face,use_node,once"
+					}
+				}
+			}
+		}
+		ev_beg
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						FreeMovement false
+						Sequence seq.env_charity,40
+						Wait 0:20
+						IfAttr "DistTo:player < ED_FAR SAY BEG"
+						Wait 5:20
+						IfAttr "DistTo:player < ED_FAR SAY BEG"
+						Wait 5:20
+						IfAttr "DistTo:player < ED_FAR SAY BEG"
+						Wait 5:20
+						State st_start
+					}
+				}
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction > RE_DANGER State st_start"
+					}
+				}
+			}
+		}
+		st_special
+		{
+			group neutral
+			patterns
+			{
+				pt_default:ignore_ext_events
+				{
+					actions
+					{
+						SetAttr "ea_dmg_absorb 100"
+						SetAttr "ea_crit_disabled 1"
+						Sequence seq.env_chair,9000
+						Wait 5000:4000
+						Repeat 0
+					}
+				}
+			}
+		}
+		ev_garbage
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Sequence seq.env_inspect_ground
+						WaitForEnd 1
+						State st_start
+					}
+				}
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction > RE_DANGER State st_start"
+					}
+				}
+			}
+		}
+		st_OnDeath
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						EntFireInput CopSpawner,Enable
+						ExecutePattern bh_base:st_OnDeath.pt_default
+					}
+				}
+			}
+		}
+		st_trafficlight
+		{
+			group Neutral
+			patterns
+			{
+				pt_green
+				{
+					actions
+					{
+						SetAreaGroup AG_DEFAULT,AG_red:walkable
+					}
+				}
+				pt_red
+				{
+					actions
+					{
+						SetAreaGroup AG_DEFAULT,AG_green:walkable
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnAE_GreenLight "ExecutePattern st_trafficlight.pt_green"
+		OnAE_RedLight "ExecutePattern st_trafficlight.pt_red"
+	}
+}
+behavior
+{
+	name bh_kmtd_cop
+	inherited bh_police
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_police:st_init.pt_default
+						AvoidProhibitedArea true
+						SetAttr "ImAMan 1"
+					}
+				}
+			}
+		}
+		st_idle
+		{
+			group Neutral
+			patterns
+			{
+				xpt_SetHintParams
+				{
+					actions
+					{
+						FreeMovementParams hint_all,ED_MIDDLE,ED_VERY_FAR,hint_group,hint_face,use_node,once
+						CheckAttr "flag_static FreeMovementParams hint_all,-1,-1,hint_group,hint_face,use_node,once"
+					}
+				}
+			}
+		}
+		st_trafficlight
+		{
+			group Neutral
+			patterns
+			{
+				pt_green
+				{
+					actions
+					{
+						SetAreaGroup AG_DEFAULT,AG_red:walkable
+					}
+				}
+				pt_red
+				{
+					actions
+					{
+						SetAreaGroup AG_DEFAULT,AG_green:walkable
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnAE_GreenLight "ExecutePattern st_trafficlight.pt_green"
+		OnAE_RedLight "ExecutePattern st_trafficlight.pt_red"
+	}
+}
+behavior
+{
+	name bh_trafficlight
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+					}
+				}
+			}
+		}
+		st_green
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						AreaEvent GreenLight,12000
+						EntFireInput trafficlight_logic,InValue:green
+						EntFireInput trafficlight_logic1,InValue:green
+						EntFireInput trafficlight_logic2,InValue:green
+						EntFireInput trafficlight_logic3,InValue:green
+						EntFireInput trafficlight_logic4,InValue:green
+						EntFireInput trafficlight_logic5,InValue:green
+						EntFireInput trafficlight_logic6,InValue:green
+						EntFireInput trafficlight_logic7,InValue:green
+						EntFireInput trafficlight_logic8,InValue:green
+						EntFireInput trafficlight_logic9,InValue:green
+						Wait 10:5
+						EntFireInput trafficlight_logic,InValue:yellow
+						EntFireInput trafficlight_logic1,InValue:yellow
+						EntFireInput trafficlight_logic2,InValue:yellow
+						EntFireInput trafficlight_logic3,InValue:yellow
+						EntFireInput trafficlight_logic4,InValue:yellow
+						EntFireInput trafficlight_logic5,InValue:yellow
+						EntFireInput trafficlight_logic6,InValue:yellow
+						EntFireInput trafficlight_logic7,InValue:yellow
+						EntFireInput trafficlight_logic8,InValue:yellow
+						EntFireInput trafficlight_logic9,InValue:yellow
+						Wait 3
+						State st_red
+					}
+				}
+			}
+		}
+		st_red
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						AreaEvent RedLight,12000
+						EntFireInput trafficlight_logic,InValue:red
+						EntFireInput trafficlight_logic1,InValue:red
+						EntFireInput trafficlight_logic2,InValue:red
+						EntFireInput trafficlight_logic3,InValue:red
+						EntFireInput trafficlight_logic4,InValue:red
+						EntFireInput trafficlight_logic5,InValue:red
+						EntFireInput trafficlight_logic6,InValue:red
+						EntFireInput trafficlight_logic7,InValue:red
+						EntFireInput trafficlight_logic8,InValue:red
+						EntFireInput trafficlight_logic9,InValue:red
+						Wait 10:5
+						EntFireInput trafficlight_logic,InValue:yellow
+						EntFireInput trafficlight_logic1,InValue:yellow
+						EntFireInput trafficlight_logic2,InValue:yellow
+						EntFireInput trafficlight_logic3,InValue:yellow
+						EntFireInput trafficlight_logic4,InValue:yellow
+						EntFireInput trafficlight_logic5,InValue:yellow
+						EntFireInput trafficlight_logic6,InValue:yellow
+						EntFireInput trafficlight_logic7,InValue:yellow
+						EntFireInput trafficlight_logic8,InValue:yellow
+						EntFireInput trafficlight_logic9,InValue:yellow
+						Wait 3
+						State st_green
+					}
+				}
+			}
+		}
+	}
+}
+behavior
+{
+	name bh_kmtd_nerd
+	inherited bh_civil
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						Timer tSay,1:30
+						Timer tCheckPlayer,10,repeated
+						SetSquad Nerd_squad
+						SetSquadRelation Player_squad:enemy:3
+						//Timer tCheckPlayer,2,repeated
+					}
+				}
+			}
+		}
+		st_init_ranged
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern st_init.pt_default
+						SetAttr "flag_IgnoreCombat 1"
+						SetAttr "flag_IgnoreWeapon 1"
+						SetAttr "ReactionThreshold RE_DANGER"
+					}
+				}
+			}
+		}
+		st_idle
+		{
+			group Neutral
+			patterns
+			{
+				pt_decide
+				{
+					actions
+					{
+						Pattern pt_idle
+					}
+				}
+				xpt_report
+				{
+					actions
+					{
+						IfAttr "target.ea_Manner == Manner:Player and DistTo:target < ED_MIDDLE Say POSTAL"
+						IfAttr "target.ea_Faction == Faction:Police Say COPREPORT"
+						Timer tSay,1:60
+					}
+				}
+				xpt_check
+				{
+					actions
+					{
+						TargetPlayer 1
+						IfAttr "DistTo:target < ED_FAR State st_start"
+						ResetTarget 1
+					}
+				}
+				xpt_OnVisible
+				{
+					actions
+					{
+						TargetCaller 1
+						IfAttr "RelationTo:target == Relation:enemy State st_start"
+						IgnoreTarget 10
+						ResetTarget 1
+					}
+				}
+				xpt_OnHearCombat
+				{
+					actions
+					{
+						IfAttr "RelationTo:caller == Relation:enemy Block begin"
+							TargetCaller 1
+							State st_start
+						Block end
+					}
+				}
+			}
+			events
+			{
+				OnHearCombat		"ExecutePattern .xpt_OnHearCombat"
+				OnTimer_tCheckPlayer "ExecutePattern .xpt_check"
+			}
+		}
+		st_OnDeath
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Say DYING
+						ExecutePattern bh_base:st_OnDeath.pt_default
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnTimer_tSay "ExecutePattern st_idle.xpt_report"
+	}
+}

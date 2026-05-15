@@ -1,0 +1,1274 @@
+Constants
+{
+	Const MTZ_MAX_APPLES,3000
+	Const MTZ_TALIBAN_FRAGS,20
+	Const MTZ_ZEALOT_FRAGS,20
+	
+	Const TC_MOVETO_HOUSE,40
+    Const TC_GETIN_HOUSE,41
+}
+
+behavior
+{
+	name bh_mz_logic
+    inherited bh_mission_logic_base
+    
+    states
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions 
+					{
+						SetAttr "numApples 0,0,MTZ_MAX_APPLES,on_change_event:OnNewApple"
+                        //SetAttr "needApples MTZ_MAX_APPLES,0,10000"
+						SetAttr "rndMaxApples 0"
+                        ChangeAttr "rndMaxApples 15:10"
+						
+                        SetAttr "numFrags 0,on_change_event:OnEnemyDied"
+                        SetAttr "numNPCs 0"
+                        SetAttr "Talibspawned 0"
+                        SetAttr "ZealotsLeft MTZ_ZEALOT_FRAGS,on_change_event:OnZealotDied"
+                        SetAttr "TalibsLeft MTZ_TALIBAN_FRAGS,on_change_event:OnTalibDied"
+                        SetAttr "StoppedSpawners 0"
+						
+						SetAttr "PlayerPath PATH_INSANE"
+					}
+				}
+			}
+		}
+        
+        st_start
+		{
+        	Group Neutral
+			Patterns
+			{
+                pt_default
+				{
+					actions 
+					{
+						PlayerKarma =0
+						PlayerKarma show
+						EntFireInput "pcc,Command:use p3_weapon_shopvac"
+						ExecutePattern st_util.xpt_ShowKarmaTutorial
+						
+						TargetPlayer 1
+						CheckAttr "target.wpn_HaveBadger EntFireInput lpp,GiveWeapon:p3_weapon_wolverine"
+                        
+                        State st_collectSomeApples 
+					}
+				}
+			}
+		}
+        
+        st_collectSomeApples
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions 
+					{
+                        MissionLog add_primary,getApples,#P3_MTZ_GETAPPLES_OBJ
+                        Timer tTalib,90:30
+                        Pattern pt_idle
+                	}
+                }
+                
+                pt_idle
+                {
+                	actions 
+					{
+    				}
+                    
+                    events
+                    {
+						OnTimer_tTalib "State st_killAllTalibans"
+						OnNewApple "ExecutePattern .xpt_endOfTask?"
+						OnFire_Insane "State st_fail"
+                    }
+                }
+                
+                xpt_endOfTask?
+                {
+                    actions 
+					{
+						IfAttr "numApples == rndMaxApples State st_killAllTalibans"
+                        ExecutePattern .xpt_refreshMessage
+                    }
+                }
+                
+                xpt_refreshMessage
+				{
+					actions 
+					{
+						//ChangeAttr "needApples -1"
+						MissionLog add_primary,getApples,#P3_MTZ_GETAPPLES_OBJ
+                    }
+                }
+            }
+        }
+        
+        
+        st_killAllTalibans
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions 
+					{
+                        PlayVideo "mtz_2,1,1"
+						Wait 1
+						EntFireInput "muzak.battle,PlaySound"
+                        Wait 0.5
+						ShowMessage "#P3_MTZ_KILLTALIBS"
+                        MissionLog done,getApples
+                        MissionLog add_primary,killTalibs,#P3_MTZ_KILLTALIBS_OBJ
+                        EntFireInput "spvn_taliban_ah,Enable"
+						EntFireInput "spvn_taliban_ah_inf,Enable"
+                        EntFireInput "spvn_taliban_bg,Enable"
+						EntFireInput "spvn_taliban_bg_inf,Enable"
+                        SetAttr "Talibspawned 1"
+                        Wait 1
+                        EntFireInput "lpp,GiveWeapon:p3_weapon_beenest"
+						EntFireInput "pcc,Command:giveammo Beehive 10"
+    				}
+				}
+                
+                pt_idle
+                {
+                	actions 
+					{
+                        ExecutePattern .xpt_endOfMission?
+                        //ExecutePattern .xpt_refreshMessage
+    				}
+                    
+                }
+                
+                xpt_endOfMission?
+                {
+                    actions
+                    {
+						//ChangeAttr "enemiesleft -1"
+						MissionLog add_primary,killTalibs,#P3_MTZ_KILLTALIBS_OBJ
+						IfAttr "TalibsLeft == 0 Pattern pt_end"
+                    }
+                }
+                
+                pt_end:ignore_ext_events
+                {
+                	actions 
+					{
+                        MissionLog done,killTalibs
+                        EntFireInput fade_out,Fade
+                        Wait 1
+						EntFireInput "lpp,GiveWeapon:p3_weapon_beenest"
+						EntFireInput "pcc,Command:giveammo Beehive 10"
+						TargetPlayer 1
+						SetAttr "wpn_HaveBees 1"
+                        EntFireInput "pcc,Command:video_exitcmd mtz_3 p3_end_mission"
+                    }
+					events
+					{
+						OnTalibDied		"Wait 0"
+						OnFire_Insane	"Wait 0"
+					}
+                }
+            }
+            events
+            {
+            	OnTalibDied "ExecutePattern .xpt_endOfMission?"
+            	OnFire_Insane "State st_killAll"
+            }
+        }
+        
+        st_killAll
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions 
+					{
+						//ChangeAttr "enemiesleft +20"
+						ShowMessage "#P3_MTZ_KILLZEA"
+						//MissionLog fail,killTalibs
+                        ExecutePattern .xpt_RefreshZeaMessage
+                       	
+                        Pattern pt_idle
+    				}
+				}
+                
+                pt_idle
+                {
+                	actions 
+					{
+						//IfAttr "stage == 0 State st_tutorial"
+                        //ExecutePattern .xpt_refreshZeaMessage
+                        ExecutePattern .xpt_endOfMission?
+						Repeat 1
+    				}
+                }
+                
+                xpt_endOfMission?
+                {
+                    actions
+                    {
+                    	//ChangeAttr "enemiesleft -1"
+                        //MissionLog add_primary,killAll,#P3_MTZ_KILLALL_OBJ
+                        
+						IfAttr "TalibsLeft == 0 MissionLog done,killTalibs"
+						IfAttr "ZealotsLeft == 0 MissionLog done,killZea"
+						IfAttr "ZealotsLeft == 0 and TalibsLeft == 0 Pattern pt_end"
+                    }
+                }
+                
+                pt_end:ignore_ext_events
+                {
+                	actions 
+					{
+                        MissionLog done,killZea
+                        
+                        EntFireInput fade_out,Fade
+                        Wait 1
+                        EntFireInput "pcc,Command:video_exitcmd mtz_4 p3_end_mission"
+                        //EntFireInput "pcc1,Command:changelevel hub_1"
+                    }
+                }
+				
+				xpt_refreshTalibanMessage
+				{
+					actions 
+					{
+						CheckAttr "TaliDone Return 1"
+                        MissionLog add_primary,killTalibs,#P3_MTZ_KILLTALIBS_OBJ
+						IfAttr "TalibsLeft == 0 SetAttr TaliDone 1"
+                    }
+                }
+                
+                xpt_refreshZeaMessage
+				{
+					actions 
+					{
+						CheckAttr "ZeaDone Return 1"
+                        MissionLog add_primary,killZea,#P3_MTZ_KILLZEA_OBJ
+						IfAttr "ZealotsLeft == 0 SetAttr ZeaDone 1"
+                    }
+                }
+            }
+            events
+            {
+            	OnTalibDied		"ExecutePattern .xpt_refreshTalibanMessage"
+            	OnZealotDied	"ExecutePattern .xpt_refreshZeaMessage"
+            }
+        }
+		
+		st_fail
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						MissionLog fail,getApples
+						ShowMessage #P3_MTZ_FAILMSG
+						Wait 1
+						EntFireInput "fade_out,Fade"
+						Wait 1
+						EntFireInput "pcc,Command:reload"
+					}
+				}
+			}
+		}
+		
+    }
+	events
+	{
+		OnNewGame	"ExecutePattern weaponGive.MTZ"
+	}
+}
+
+
+behavior 
+{
+    name bh_military_mz
+    inherited bh_civil
+    
+    states
+    {
+        st_init
+        {
+            Group Neutral
+            Patterns
+            {
+                pt_default
+                {
+                    actions
+                    {
+                        ExecutePattern bh_base:st_init.pt_default
+						
+						//SetAttr "TaskCombat TC_POSITION"
+                 		//Timer tSay,5:10,Repeated
+						
+						SetAttr "flag_IgnorePlayerFear 1"
+						SetAttr "flag_IgnoreWeapon 1"
+						SetAttr "flag_IgnoreCombat 1"
+						//SetAttr "flag_protected 1"
+						SetAttr "ReactionThreshold RE_DANGER"
+                    }
+                }
+            }
+        }
+        
+
+        st_idle
+        {
+			Group Neutral
+            
+            Patterns
+            {
+            	xpt_say
+            	{
+            		actions
+            		{
+            			IfAttr "slot#msGP.Talibspawned == 1 and DistTo:player < ED_FAR Say TOUGH"
+            		}
+            	}
+            	xpt_insane
+            	{
+            		actions
+            		{
+	            		IfAttr "ea_Faction == Faction:Zealots Block begin"
+	            			SetAttr "rnd 0"
+	            			ChangeAttr "rnd 0:10"
+	            			IfAttr "rnd > 8 Say FRIENDLYFIREFINAL"
+	            		Block end
+            		}
+            	}
+                xpt_agro
+                {
+                    actions 
+                    {
+                    	
+                        IfAttr "TaskCombat_mz >= TC_MOVETO_HOUSE SetAttr globalTask TaskCombat_mz"
+                        IfAttr "DistTo:caller < ED_MIDDLE ExecutePattern st_util.xpt_TryTargetAnotherEnemy"
+                        IfAttr "Visible:caller == 0 ExecutePattern st_util.xpt_TryTargetAnotherEnemy"
+                        
+
+                    }
+                }
+				xpt_OnHit
+				{
+					actions
+					{
+						ExecutePattern st_idle.xpt_agro
+						ExecutePattern bh_base:st_idle.xpt_OnHit
+					}
+				}
+            }
+        }
+		
+		st_OnHostaged
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "ea_Faction == Faction:Zealots Block begin"
+							SetSquadRelation player_squad:enemy
+							TargetFromMem msGP
+							FireEvent Insane
+							IfAttr "target.Talibspawned == 1 AreaEvent Insane,ED_FAR"
+						Block end
+						ExecutePattern bh_base:st_OnHostaged.pt_default
+					}
+				}
+			}
+		}
+        
+        st_attack_melee
+		{
+			Group Combat
+			Patterns
+			{
+				pt_default
+				{
+					actions 
+					{
+						TargetEnemy 1
+						IfAttr "HasWeapon:Ranged > 0 Block begin"
+							Weapon select,ranged
+							State st_start
+						Block end
+						AvoidProhibitedArea false
+						ExecutePattern st_util.pt_reset_movement
+						SetAttr "ea_status 2"
+						Face true
+						SetAttr "WaitCheck 0"
+						Timer tCHECK,0
+						Weapon select,melee
+						//IfAttr "ea_status < 1 SetAttr ea_status 1"
+						Pattern pt_run
+					}
+				}
+				pt_runloop
+				{
+					actions
+					{
+						IfAttr "RelationTo:target != Relation:enemy State st_start"
+						MoveToTarget run,2
+						Repeat 1
+					}
+					events
+					{ 
+						OnTargetReach "Pattern pt_face"
+						OnInvalidRoute "Pattern pt_fail"
+					}
+				}
+                
+                pt_fail
+                {
+                	actions 
+					{
+						SetAttr "TaskCombat TC_SEARCH"
+						Timer tTaskCombat,10
+						State st_start
+					}
+                }
+			}
+			events
+			{
+				OnTargetReset "State st_start"
+				OnNewEnemy "State st_start"
+			}
+		}
+		
+		st_deactivate
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "Object:caller == Object:player Block begin"
+							TargetFromMem msGP
+							IfAttr "ea_faction == Faction:Zealots Block begin"
+								FireEvent Insane
+								AreaEvent Insane,ED_FAR
+								SetSquadRelation player_squad:enemy:1
+								ChangeAttr "target.ZealotsLeft -1"
+							Block end
+							IfAttr "ea_Manner == Manner:JihadBeard Block begin"
+								ChangeAttr "target.TalibsLeft -1"
+							Block end
+						Block end
+						
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+		
+		st_util
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				xpt_OnHit
+				{
+					actions 
+					{
+						IfAttr "Object:caller == Object:player and slot#msGP.Talibspawned == 0 Block begin"
+							SetSquadRelation player_squad:enemy
+						Block end
+						IfAttr "ea_Faction == Faction:Zealots and Object:caller == Object:player Block begin"
+							IfAttr "RelationTo:player == Relation:enemy Return 1"
+							Say FRIENDLYFIRE
+						Block end
+						ExecutePattern bh_base:st_util.xpt_OnHit
+					}
+				}
+                xpt_TryTargetAnotherEnemy
+                {
+                    actions
+                    {
+                       // ExecutePattern ut_util.xpt_AddCallerToEnemy
+                        ResetTarget 1
+                        TargetEnemy 1
+                        SetAttr "TaskCombat TC_MOVE"
+                        Timer tTaskCombat,3:3
+                        State st_start
+                    }
+                }
+                
+				xpt_AddCallerToEnemy
+				{
+					actions
+					{
+						Relationship caller,enemy
+					}
+				}
+			}
+		}
+    }
+	events
+	{
+		OnTimer_tSay "ExecutePattern st_idle.xpt_say"
+		OnAE_Insane "ExecutePattern st_idle.xpt_insane"
+	}
+}
+
+behavior
+{
+	name bh_mtz_talib_base
+	inherited bh_military_mz
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						SetSquadRelation "sqd_zealots:enemy:1"
+						AvoidProhibitedArea true
+						
+						SetAttr "flag_VitalEnemy 1"
+						//SetAttr "flag_CombatUsesAG 1"
+					}
+				}
+			}
+		}
+		
+		st_combat_logic
+		{
+			Group Alert
+			Patterns
+			{
+				xpt_SayAttack
+				{
+					actions
+					{
+						IfAttr "Timer:tCanSay > 0 Return 1"
+						Say REBEL,TOUGH
+						Timer tCanSay,5:3
+					}
+				}
+			}
+		}
+		
+		st_combat_search
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "flag_CombatUsesAG 1"
+						Pattern bh_base:st_combat_search.pt_default
+					}
+				}
+				pt_end
+				{
+					actions
+					{
+						RemoveAttr "flag_CombatUsesAG"
+						Pattern bh_base:st_combat_search.pt_end
+					}
+				}
+			}
+		}
+	}
+}
+
+behavior //bh_talibAttackHouse
+{
+	name bh_talibAttackHouse
+    inherited bh_mtz_talib_base
+    
+	states
+	{
+        st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions 
+					{
+						ExecutePattern bh_base:st_init.pt_default
+                        SetAttr "agrro 0"
+                        SetSquadRelation "player_squad:enemy:1"
+                        
+                        SetAttr "TaskCombat_mz TC_MOVETO_HOUSE"
+						SetAttr "TaskCombat TC_MOVETO_HOUSE"
+						SetAreaGroup ag_battle_ground,AG_DEFAULT:walkable,ag_House_Entrance
+						Timer tTaskCombat,150
+					}
+				}
+			}
+		}
+        
+        st_start
+		{
+        	Group Neutral
+			Patterns
+			{
+                xpt_combat
+				{
+					actions 
+					{
+                        //IfAttr "UnderFire == 0 and Visible:target != 1 State st_idle"
+                        IfAttr "globalTask > 0 and UnderFire == 0 and Visible:target != 1 Block begin"
+                            SetAttr "TaskCombat_mz globalTask"
+                            SetAttr "globalTask 0"
+                        Block end
+                        IfAttr "TaskCombat_mz == TC_MOVETO_HOUSE 	State st_move_to_house"  //бежим к дому
+                        IfAttr "TaskCombat_mz == TC_GETIN_HOUSE 	State st_clear_house"  
+                        TargetEnemy 1
+                        ExecutePattern bh_base:st_start.xpt_combat
+                        
+					}
+				}
+			}
+		}
+       
+        st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+                {
+                    actions 
+					{
+						TargetEnemy 1
+						State st_start
+                        //ExecutePattern st_start.xpt_combat
+                        Wait 2
+                        Repeat 2
+                    }
+                }
+            }
+        }
+        
+        st_combat_logic  /// стейт где вся боевая логика, т.е. указываются переходы из одних боевых стейтов в другие
+		{
+			Group Combat
+			Patterns
+			{
+				xpt_setTaskDefault  // дефолтное задание
+				{
+					actions 
+					{
+                        //SetAttr "TaskCombat_mz TC_MOVETO_HOUSE"
+						ExecutePattern bh_base:st_combat_logic.xpt_SetTaskDefault
+					}
+				}
+				
+				xpt_SetTimer
+				{
+					actions
+					{
+						IfAttr "TaskCombat == TC_MOVETO_HOUSE Timer tTaskCombat,150"
+						IfAttr "TaskCombat == TC_GETIN_HOUSE  Timer tTaskCombat,50"
+					}
+				}
+            }
+        }
+        
+        st_clear_house
+        {
+            Group Combat
+			Patterns
+			{
+                pt_default
+				{
+					actions 
+					{
+                        ResetTarget 1
+                        TargetEnemy 1
+                        IfAttr "Visible:target == 1 SetAttr TaskStatus TASK_ST_FAIL" 
+                        SetAttr "combat_rnd 0"
+                        ChangeAttr "combat_rnd 0:100"
+                        IfAttr "combat_rnd >= 30 SetAreaGroup ag_1t_floor,ag_2d_floor,ag_1t_terassa,AG_DEFAULT:walkable,ag_House_Entrance"
+                        IfAttr "combat_rnd < 30 SetAreaGroup ag_battle_ground,AG_DEFAULT:walkable,ag_House_Entrance"
+                        SetAttr "TaskStatus TASK_ST_DONE"
+					}
+					events
+					{
+						OnHearCombat "SetAttr FailType FAIL_INTERRUPT"
+						OnHit "SetAttr FailType FAIL_INTERRUPT"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						IfAttr "TaskStatus == TASK_ST_DONE ExecutePattern .xpt_OnTaskComplete"
+						IfAttr "TaskStatus == TASK_ST_FAIL ExecutePattern .xpt_onTaskFail"
+						IfAttr "TaskStatus == TASK_ST_TIME ExecutePattern .xpt_onTaskTimer"
+					}
+				}
+				
+				xpt_OnTaskFail
+				{
+					actions
+					{
+						SetAttr "TaskCombat_mz TC_POSITION"
+						SetAttr "TaskCombat TC_POSITION"
+					}
+				}
+				
+				xpt_OnTaskTimer
+				{
+					actions
+					{
+						SetAttr "TaskCombat_mz TC_POSITION"
+						SetAttr "TaskCombat TC_POSITION"
+					}
+				}
+				
+				xpt_OnTaskComplete
+				{
+					actions
+					{
+						SetAttr "globalTask 0"
+						SetAttr "TaskCombat_mz TC_SEARCH"
+                        SetAttr "TaskCombat TC_SEARCH"
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						SetAttr "FailType FAIL_INTERRUPT"
+					}
+				}
+			}
+			events
+			{
+				OnAttrChange_TaskStatus "IfAttr TaskStatus != TASK_ST_NONE Pattern pt_end"
+				OnAttrChange_FailType "IfAttr FailType != FAIL_NONE SetAttr TaskStatus TASK_ST_FAIL"
+				OnAttrChange_TaskCombat "ExecutePattern st_combat_logic.xpt_ResetTaskStatus"
+			}
+        }
+                
+        st_move_to_house
+        {
+        	Group Alert
+			Patterns
+			{
+                pt_default
+				{
+					actions 
+					{
+                        FreeMovement false
+                        Face false
+                        Aim false
+                        WaitForEnd 1
+                        Pattern pt_move_to_attack_point
+					}
+				}
+                
+                pt_move_to_attack_point
+				{
+					actions 
+					{
+						SetAreaGroup ag_House_Entrance,AG_DEFAULT:walkable
+						FreeMovementParams area_all,-1,-1,area_group
+						FreeMovement run
+					}
+                    events
+                    {
+                        OnInvalidRoute "SetAttr TaskStatus TASK_ST_FAIL"
+                        OnTargetReach "SetAttr TaskStatus TASK_ST_DONE"
+                        OnNewEnemy "SetAttr TaskStatus TASK_ST_FAIL"
+                        OnVisible "SetAttr TaskStatus TASK_ST_FAIL"
+						
+						OnHearCombat "SetAttr FailType FAIL_INTERRUPT"
+						OnHearDanger "SetAttr FailType FAIL_INTERRUPT"
+                    }
+				}
+                
+				pt_end 
+                {
+                    actions
+                    {
+                        FreeMovement false
+                        IfAttr "TaskStatus == TASK_ST_DONE ExecutePattern .xpt_OnTaskComplete"
+						IfAttr "TaskStatus == TASK_ST_FAIL ExecutePattern .xpt_onTaskFail"
+						IfAttr "TaskStatus == TASK_ST_TIME ExecutePattern .xpt_onTaskTimer"
+                    }
+                }
+				
+				xpt_OnTaskFail
+				{
+					actions
+					{
+						SetAttr "TaskCombat_mz TC_SEARCH"
+						IfAttr "FailType == FAIL_INTERRUPT SetAttr TaskCombat TC_NONE"
+						IfAttr "FailType != FAIL_INTERRUPT SetAttr TaskCombat TC_SEARCH"
+					}
+				}
+				
+				xpt_OnTaskComplete
+				{
+					actions
+					{
+						SetAttr "globalTask 0"
+						SetAttr "TaskCombat_mz TC_GETIN_HOUSE"
+						SetAttr "TaskCombat TC_GETIN_HOUSE"
+					}
+				}
+				
+				xpt_OnTaskTimer
+				{
+					actions
+					{
+						SetAttr "TaskCombat_mz TC_SEARCH"
+						SetAttr "TaskCombat TC_SEARCH"
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						SetAttr "FailType FAIL_INTERRUPT"
+					}
+				}
+			}
+			events
+			{
+				OnAttrChange_TaskStatus "IfAttr TaskStatus != TASK_ST_NONE Pattern pt_end"
+				OnAttrChange_FailType "IfAttr FailType != FAIL_NONE SetAttr TaskStatus TASK_ST_FAIL"
+				OnAttrChange_TaskCombat "ExecutePattern st_combat_logic.xpt_ResetTaskStatus"
+			}
+        }
+		
+        ut_reactions
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_OnHearDanger   /// ставим флаг, что нпс под обстрелом, и ставим таймер- через сколько секунд нпс успокоится
+				{
+					actions 
+					{
+						ExecutePattern bh_base:ut_reactions.xpt_OnHearDanger
+                        ExecutePattern st_idle.xpt_agro
+					}
+				}
+                
+                xpt_OnHearCombat   /// ставим флаг, что нпс под обстрелом, и ставим таймер- через сколько секунд нпс успокоится
+				{
+					actions 
+					{
+						ExecutePattern bh_base:ut_reactions.xpt_OnHearDanger
+                        ExecutePattern st_idle.xpt_agro
+					}
+				}
+			}
+		}
+        
+    }
+}
+
+
+behavior //bh_talibBattleGround
+{
+	name bh_talibBattleGround
+    inherited bh_mtz_talib_base
+    
+	states
+	{
+        st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions 
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						SetAreaGroup ag_battle_ground,AG_DEFAULT:walkable
+						SetAttr "TaskCombat TC_SEARCH"
+					}
+				}
+			}
+		}
+        
+       
+        st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_decide
+				{
+					actions
+					{
+						Pattern pt_idle
+					}
+				}
+				xpt_SelectWeapon
+				{
+					actions
+					{
+					}
+				}
+				xpt_SetIdleParams
+				{
+					actions
+					{
+						FreeMovementParams area_all,-1,-1,area_group
+					}
+				}
+				xpt_SetAreaGroup
+				{
+					actions
+					{
+						SetAreaGroup ag_battle_ground,AG_DEFAULT:walkable
+					}
+				}
+            }
+        }
+        
+        ut_reactions
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_OnHearDanger   /// ставим флаг, что нпс под обстрелом, и ставим таймер- через сколько секунд нпс успокоится
+				{
+					actions 
+					{
+						ExecutePattern bh_base:ut_reactions.xpt_OnHearDanger
+                        ExecutePattern st_idle.xpt_agro
+					}
+				}
+                
+                xpt_OnHearCombat   /// ставим флаг, что нпс под обстрелом, и ставим таймер- через сколько секунд нпс успокоится
+				{
+					actions 
+					{
+						ExecutePattern bh_base:ut_reactions.xpt_OnHearDanger
+                        ExecutePattern st_idle.xpt_agro
+					}
+				}
+			}
+		}
+    }
+}
+
+behavior
+{
+	name bh_mtz_zealot_base
+	inherited bh_military_mz
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+                        SetSquadRelation "sqd_talibans:enemy:1"
+						AvoidProhibitedArea true
+						SetAttr "flag_PlayerFriendly 1"
+					}
+				}
+			}
+		}
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_SetIdleParams
+				{
+					actions
+					{
+						FreeMovementParams area_all,-1,-1,area_group
+					}
+				}
+			}
+		}
+		st_combat_logic
+		{
+			Group Alert
+			Patterns
+			{
+				xpt_SayAttack
+				{
+					actions
+					{
+						IfAttr "Timer:tCanSay > 0 Return 1"
+						Say REBEL,POSTAL
+						Timer tCanSay,5:3
+					}
+				}
+			}
+		}
+		st_combat_search
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "flag_CombatUsesAG 1"
+						Pattern bh_base:st_combat_search.pt_default
+					}
+				}
+				pt_end
+				{
+					actions
+					{
+						RemoveAttr "flag_CombatUsesAG"
+						Pattern bh_base:st_combat_search.pt_end
+					}
+				}
+			}
+		}
+	}
+}
+
+behavior
+{
+	name bh_zealotBattleGround
+    inherited bh_mtz_zealot_base
+    
+	states
+	{
+        st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions 
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						SetAttr "flag_CombatUsesAG 1"
+                        SetAreaGroup ag_battle_ground,AG_DEFAULT
+					}
+				}
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_SetAreaGroup
+				{
+					actions
+					{
+						SetAreaGroup ag_battle_ground,AG_DEFAULT
+					}
+				}
+			}
+		}
+        
+		st_combat_logic
+		{
+			Group Combat
+			Patterns
+			{
+				xpt_setTaskDefault  // дефолтное задание
+				{
+					actions 
+					{
+                        SetAttr "TaskCombat TC_HIDE"
+						Timer tTaskCombat,15
+						State st_start
+					}
+				}
+            }
+        }                
+        
+    }
+}    
+
+behavior
+{
+	name bh_zealotPatrol
+    inherited bh_mtz_zealot_base
+    
+	states
+	{
+        st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions 
+					{
+						ExecutePattern bh_base:st_init.pt_default
+                        SetAreaGroup ag_battle_ground,AG_DEFAULT,ag_House_Entrance
+					}
+				}
+			}
+		}
+        
+        st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_SetAreaGroup
+				{
+					actions
+					{
+						SetAreaGroup ag_battle_ground,AG_DEFAULT,ag_House_Entrance
+					}
+				}
+            }
+        }
+    }
+}
+
+behavior
+{
+	name bh_zealotHouse
+    inherited bh_mtz_zealot_base
+    
+	states
+	{
+        st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions 
+					{
+						ExecutePattern bh_base:st_init.pt_default
+                        SetAreaGroup ag_1t_floor,ag_2d_floor,ag_1t_terrassa,AG_DEFAULT:walkable
+						SetAttr "flag_CombatUsesAG 1"
+					}
+				}
+			}
+		}
+       
+        st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_SetAreaGroup
+				{
+					actions
+					{
+						SetAreaGroup ag_1t_floor,ag_2d_floor,ag_1t_terrassa,AG_DEFAULT:walkable
+					}
+				}
+            }
+        }
+        
+        st_combat_logic
+		{
+			Group Combat
+			Patterns
+			{
+				xpt_setTaskDefault
+				{
+					actions 
+					{
+                        SetAttr "TaskCombat TC_HIDE"
+					}
+				}
+            }
+		}
+    }
+}
+
+
+
+
+
+behavior					/// ДА! У нас можно мочить террористов в сортире! :)
+{
+	name bh_toilet_talib
+	inherited bh_citizen
+	states
+	{
+		ev_chair
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						FreeMovement false
+						Sequence seq.weemote_idle,9000
+						Wait 9000
+						State st_start
+					}
+					events
+					{
+						OnHearDanger "Pattern pt_fear"
+						OnHearCombat "Pattern pt_fear"
+						OnHit "Pattern pt_fear"
+					}
+				}
+				pt_fear
+				{
+					actions
+					{
+						Say FEARFUL
+						SetAttr "scared 1"
+						ResetSequence 1
+						FreeMovementParams area_all,0,ED_MIDDLE,area_group
+						FreeMovement run
+					}
+					events
+					{
+						OnHit "Say DONTKILLME"
+					}
+				}
+			}
+		}
+	}
+}

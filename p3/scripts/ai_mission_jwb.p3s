@@ -1474,6 +1474,9 @@ behavior
 						SetAttr "flag_IgnorePlayerAttack 1"
 						
 						Timer tCanSay,3:3
+						
+						// Play kill escort line if killed by the Player
+						SetAttr "ea_escort 1"
 					}
 				}
 			}

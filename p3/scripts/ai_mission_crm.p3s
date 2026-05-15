@@ -1,0 +1,563 @@
+behavior
+{
+	name bh_grotto_mexi
+	inherited bh_civil
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						TargetPlayer 1
+						Relationship target,enemy,5
+						SetSquadRelation sq_champ:enemy:1
+						Timer tShout,5:20,Repeated
+					}
+				}
+			}
+		}
+		st_idle
+		{
+			group Neutral
+			patterns
+			{
+				xpt_shout
+				{
+					actions
+					{
+						SetAttr "rnd 0"
+						ChangeAttr "rnd 0:10"
+						IfAttr "DistTo:player < ED_MIDDLE and rnd > 5 Say STARTFIGHT"
+					}
+				}
+				pt_default
+				{
+					actions
+					{
+						FreeMovement false
+						TargetPlayer 1
+						//Face true
+						IfAttr "DistTo:target < 1200 MoveToTarget run,8"
+						Repeat 2
+					}
+				}
+				pt_aggro
+				{
+					actions
+					{
+						TargetCaller 1
+						//Face true
+						State st_start
+					}
+				}
+				xpt_OnVisible
+				{
+					actions
+					{
+						IfAttr "Object:caller == Object:Player Block begin"
+							State st_start
+						Block end
+					}
+				}
+			}
+			events
+			{
+				OnHearDanger "Pattern pt_aggro"
+				OnHearCombat "Pattern pt_aggro"
+			}
+		}
+		
+		st_OnSnacthed
+		{
+			Group Alert
+			Patterns
+			{
+				xpt_scream
+				{
+					actions
+					{
+						Say HATEANIMAL,SCREAM
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnTimer_tShout "ExecutePattern st_idle.xpt_shout"
+		//OnVisible "Pattern st_idle.pt_aggro"
+	}
+}
+behavior
+{
+	name bh_champ_grotto
+	inherited bh_champ
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						TargetEntByName mission_logic
+						TargetToMem msGP
+						SetSquadRelation sq_sushi:enemy
+						SetAreaGroup AG_DEFAULT
+						SetAttr "ea_dmg_absorb 70"
+						SetAttr "ea_crit_disabled 1"
+						Timer tCheckPlayer,5,repeated
+					}
+				}
+			}
+		}
+		st_start
+		{
+			group Neutral
+			patterns
+			{
+				pt_death
+				{
+					actions
+					{
+						TargetEntByName mission_logic
+						FireEvent ChampDead
+					}
+				}
+				pt_default
+				{
+					actions
+					{
+						AttributeProgressBar "ChampHealthPanel,show,ea_health"
+						Timer tFollow,10:5
+						Timer tCheck,2,repeated
+						Pattern pt_follow
+					}
+				}
+				pt_follow
+				{
+					actions
+					{
+						HeadBlob 1,false
+						TargetPlayer 1
+						MoveToTarget run,2
+						Repeat 1
+					}
+				}
+				pt_checkplayer
+				{
+					actions
+					{
+						TargetToMem msENEMY
+						TargetPlayer 1
+						IfAttr "DistTo:target > ED_FAR Block begin"
+							Pattern pt_follow
+						Block end
+						TargetFromMem msENEMY
+						State st_start
+					}
+				}
+				pt_checkdot
+				{
+					actions
+					{
+						TargetEntByName LaserDot
+						IfAttr "target.ea_Faction == Faction:LaserDot Block begin"
+							State st_follow_dot
+						Block end
+					}
+				}
+				xpt_checktarget
+				{
+					actions
+					{
+						TargetCaller 1
+						IgnoreTarget 3
+						IfAttr "target.ea_Manner == Manner:SushiNinja State st_attack_sushi"
+						IfAttr "target.ea_Manner == Manner:Player State st_start"
+						ExecutePattern bh_base:st_util.xpt_Checktarget
+					}
+				}
+			}
+			events
+			{
+				OnVisible "ExecutePattern st_start.xpt_checktarget"
+				OnHearCombat "ExecutePattern st_start.xpt_checktarget"
+				OnHearDanger "ExecutePattern st_start.xpt_checktarget"
+				OnTimer_tFollow "State st_start"
+				OnTimer_tCheck "ExecutePattern pt_checkdot"
+				OnAE_LaserdotIsNear "ExecutePattern st_util.xpt_LaserdotIsNear"
+			}
+		}
+		st_attack_sushi
+		{
+			group Alert
+			patterns
+			{
+				pt_default:ignore_ext_events
+				{
+					actions
+					{
+						MoveToTarget run,2
+						Wait 5
+						State st_start
+					}
+					events
+					{
+						OnTargetReset "Pattern st_start.pt_follow"
+						OnTargetUnconscious "Pattern st_start.pt_follow"
+						OnTargetClose "State st_attack"
+						OnTargetReach "State st_attack"
+						OnInvalidRoute "State st_start"
+						OnTimer_tFollow "State st_start"
+						OnAE_LaserdotIsNear "ExecutePattern st_util.xpt_LaserdotIsNear"
+					}
+				}
+			}
+		}
+		st_attack
+		{
+			group Alert
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Headblob 2,Attention
+						Pattern pt_moveto
+					}
+				}
+				pt_moveto
+				{
+					actions
+					{
+						IfAttr "target.ea_Manner == Manner:Player State st_start"
+						MoveToTarget run,0
+						Wait 5:5
+						Pattern st_start.pt_follow
+					}
+					events
+					{
+						OnTargetReset "Pattern st_start.pt_follow"
+						OnTargetUnconscious "Pattern st_start.pt_follow"
+						OnTargetClose "Pattern st_attack.pt_snatch"
+						OnTargetReach "Pattern st_attack.pt_snatch"
+					}
+				}
+				pt_snatch
+				{
+					actions
+					{
+						SetAttr "rnd 0"
+						ChangeAttr "rnd 0:3"
+						IfAttr "target.ea_Manner == Manner:Player State st_start"
+						IfAttr "rnd == 0	Snatch true,snatch0"
+						IfAttr "rnd == 1	Snatch true,snatch1"
+						IfAttr "rnd == 2	Snatch true,snatch2"
+						IfAttr "rnd == 3	Snatch true,snatch3"
+						
+						//ShowMessage "[Attacking target!],$P3Mission"
+						Wait 1.0
+						
+						ChangeAttr "SnatchTries +1"
+						Wait 0.1
+						Pattern pt_moveto
+					}
+					events
+					{
+						OnTargetReset "Pattern st_start.pt_follow"
+						OnTargetUnconscious "Pattern st_start.pt_follow"
+						OnSnatch "Pattern pt_snatched"
+						OnAttrMax_SnatchTries "Pattern pt_end"
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnDeath "ExecutePattern st_start.pt_death"
+	}
+}
+behavior
+{
+	name bh_grotto_monkey
+	inherited bh_testlab_monkey
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAreaGroup AG_DEFAULT
+					}
+				}
+			}
+		}
+	}
+}
+behavior
+{
+	name bh_grotto_logic
+	inherited bh_mission_logic_base
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "PlayerPath PATH_INSANE"
+						Timer tAutoSave,600,repeated
+					}
+				}
+			}
+		}
+		st_start
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						PlayerKarma show
+						EntFireInput muzak1,Volume:0
+						MissionLog add_primary,main,#P3_CRM_MISSION1_OBJ
+					}
+				}
+				pt_end
+				{
+					actions
+					{
+						EntFireInput proxy,Say:TASKFINISH
+						Wait 2
+						EntFireInput fade_out,Fade
+						Wait 2
+						EntFireInput "console_proxy,Command:video_exitcmd crm_3 p3_end_mission"
+					}
+				}
+				pt_champ
+				{
+					actions
+					{
+						EntFireInput muzak1,Kill
+						playvideo crm_2,1,1
+						Wait 0.9
+						EntFireInput spawner_champ,Enable
+						Wait 0.5
+						ShowMessage #P3_CRM_MISSION2
+						MissionLog done,main
+						MissionLog add_primary,main2,#P3_CRM_MISSION2_OBJ
+						MissionLog add_primary,champ,#P3_CRM_CHAMP
+						EntFireInput muzak2,PlaySound
+					}
+				}
+				pt_champdead
+				{
+					actions
+					{
+						MissionLog fail,champ
+						EntFireInput fade_out,Fade
+						Wait 2
+						EntFireInput console_proxy,Command:reload
+					}
+				}
+				pt_button
+				{
+					actions
+					{
+						ShowMessage #P3_CRM_EXTRA
+						EntFireInput spawner_zombies,Enable
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnButton "ExecutePattern st_start.pt_button"
+		OnChamp "Pattern st_start.pt_champ"
+		OnFire_ChampDead "Pattern st_start.pt_champdead"
+		OnEndMission "Pattern st_start.pt_end"
+		
+		OnNewGame "ExecutePattern weaponGive.CRM"
+		OnTimer_tAutosave	"EntFireInput las,Save"
+	}
+}
+behavior
+{
+	name bh_grotto_bums
+	inherited bh_citizen
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default	
+						AvoidProhibitedArea true					
+					}
+				}
+			}
+		}
+		st_sitting
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Sequence seq.env_chair_2,9000
+						Wait 9000
+						Repeat 0
+					}
+					events
+					{
+						OnHit "ExecutePattern pt_hit"
+						OnHearDanger "Wait 0"
+						OnHearCombat "Wait 0"
+						OnVisible "ExecutePattern pt_beg"
+					}
+				}
+				pt_beg
+				{
+					actions
+					{
+						IfAttr "Object:caller == Object:player Say BEGMONEY"
+					}
+				}
+				pt_hit
+				{
+					actions
+					{
+						Say DONTKILLME
+					}
+				}
+			}
+		}
+		st_death
+		{
+			group Neutral
+			patterns
+			{
+				pt_beg
+				{
+					actions
+					{
+						TargetCaller 1
+						IgnoreTarget 5
+						IfAttr "target.ea_Manner == Manner:Player and DistTo:player < ED_CLOSE Block begin"
+							FreeMovement false
+							Face true
+							Say BEG
+							Wait 1:2
+							Face false
+						Block end
+						State st_start
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnVisible "Pattern st_death.pt_beg"
+	}
+}
+
+behavior
+{
+	name bh_grotto_zombie
+	inherited bh_human
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						Timer tMoan,5:60
+						SetAttr "flag_zombie 1"
+					}
+				}
+			}
+		}
+		st_start
+		{
+			group Neutral
+			patterns
+			{
+				pt_default:ignore_ext_events
+				{
+					actions
+					{
+						SetActPack ACT_WALK,walk_zombie
+						TargetPlayer 1
+						MoveToTarget walk,1
+						Repeat 1
+					}
+					events
+					{
+						OnTimer_tMoan "ExecutePattern st_start.pt_moan"
+						OnTargetReach "Pattern st_start.pt_reached"
+					}
+				}
+				pt_moan
+				{
+					actions
+					{
+						Say ZOMB_MOAN
+						Timer tMoan,5:60
+					}
+				}
+				pt_reached:ignore_ext_events
+				{
+					actions
+					{
+						IfAttr "DistTo:target > 64 State st_start"
+						Sequence seq.stunout_idle
+						Repeat 2:5
+					}
+					events
+					{
+						OnTimer_tMoan "ExecutePattern st_start.pt_moan"
+					}
+				}
+			}
+		}
+	}
+}

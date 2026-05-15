@@ -457,6 +457,9 @@ behavior
 						
 						Timer EndKino,15
 						//SetAttr "ea_takeable 0"
+						
+						// Play kill escort line if killed by the Player
+						SetAttr "ea_escort 1"
 					}
 				}
 			}

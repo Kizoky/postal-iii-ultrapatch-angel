@@ -1,0 +1,412 @@
+behavior
+{
+	name bh_cashmart_logic
+	inherited bh_mission_logic_base
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{					
+					actions
+					{
+						SetAttr "PlayerPath PATH_NONE"
+					}
+				}
+			}
+		}
+		st_start
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{						
+						SetAttr "PlayerSide SIDE_NONE,0,10,on_change_event"
+						SetAttr "GoodProgress 0,0,100"
+						SetAttr "BadProgress 0,0,100"
+						SetAttr "CopsKilled 0,0,1000,on_change_event"
+						SetAttr "Copsdead 0"
+						SetAttr "Totaldead 0"
+						SetAttr "ZealotsKilled 0,0,1000,on_change_event"
+						SetAttr "Zealotsdead 0"
+						SetAttr "helispawned 0"
+						SetAttr "badgerspawned 0"
+						SetAttr "badgerdead 0"
+						SetAttr "setbadger 0"
+						EntFireInput "lpp,GiveWeapon:p3_weapon_shovel"
+						PlayerKarma hide
+						PlayerKarma =100
+						MissionLog add_primary,main,#P3_CM_MISSION1
+					}
+				}
+			}
+		}
+		st_logic
+		{
+			group Neutral
+			patterns
+			{
+				xpt_killcounter
+				{
+					actions
+					{
+						//Switch to stage2 - SIDE_GOOD
+						IfAttr "Zealotskilled == 10 and GoodProgress <= 1 Block begin"
+							IfAttr "PlayerSide == SIDE_GOOD Block begin"
+								MissionLog done,KillZealots
+								MissionLog add_primary,KillZealots2,#P3_CM_GOOD2_OBJ
+								ShowMessage "#P3_CM_GOOD2"
+							Block end
+							ChangeAttr "GoodProgress +1"
+							ExecutePattern st_logic.xpt_cashlower
+						Block end
+						IfAttr "Copskilled == 10 and BadProgress <= 1 Block begin"
+							ChangeAttr "BadProgress +1"
+							playvideo cm_3,1,1
+							Pattern st_logic.xpt_swat
+						Block end
+						IfAttr "Copskilled == 15 and PlayerSide == SIDE_BAD Block begin"
+						//badger cutscene here
+							IfAttr "badgerspawned == 0 Block begin"
+								SetAttr "badgerspawned 1"
+								playvideo cm_2,1,1
+								EntFireUser spawner_badger,2
+							Block end
+						Block end
+						IfAttr "Copskilled == 30 and helispawned == 0 Block begin"
+							SetAttr "helispawned 1"
+							playvideo cm_5,1,1
+							Pattern st_logic.xpt_helicopter
+						Block end
+						IfAttr "Zealotskilled == 30 and badgerdead == 1 Block begin"
+							MissionLog done,KillZealots4
+							IfAttr "BadProgress == 6 State st_end"
+							IfAttr "BadProgress < 6 ShowMessage #P3_CM_INSANE3"
+							SetAttr "GoodProgress 6"
+						Block end
+						IfAttr "Zealotskilled == 30 and badgerdead == 0 Block begin"
+							SetAttr "setbadger 1"
+							ShowMessage "#P3_CM_GOOD3"
+							MissionLog done,KillZealots2
+							MissionLog done,KillZealots
+							MissionLog add_primary,KillZealots3,#P3_CM_GOOD3
+							IfAttr "badgerspawned == 0 Block begin"
+								playvideo cm_2,1,1
+								SetAttr "badgerspawned 1"
+								EntFireUser spawner_badger,2
+								//badger cutscene here
+							Block end
+						Block end
+					}
+				}
+				xpt_sidechange
+				{
+					actions
+					{
+						IfAttr "PlayerSide == SIDE_GOOD Block begin"
+							SetAttr "GoodProgress 1"
+							MissionLog done,main
+							ShowMessage "#P3_CM_GOOD1"
+							MissionLog add_primary,KillZealots,#P3_CM_GOOD1_OBJ
+						Block end
+						IfAttr "PlayerSide == SIDE_BAD Block begin"		
+							SetAttr "BadProgress 1"		
+							MissionLog done,main							
+							MissionLog add_primary,KillCops,#P3_CM_BAD1_OBJ
+							ShowMessage "#P3_CM_BAD1"
+						Block end
+						IfAttr "PlayerSide == SIDE_INSANE Block begin"
+							IfAttr "BadProgress >= 1 MissionLog add_primary,KillZealots,#P3_CM_INSANEZ_OBJ"
+							IfAttr "GoodProgress >= 1 MissionLog add_primary,KillCops,#P3_CM_BAD1_OBJ"
+							IfAttr "helispawned == 1 MissionLog add_primary,KillZealots,#P3_CM_INSANEZ_OBJ"
+							IfAttr "setbadger == 1 MissionLog add_primary,KillCops,#P3_CM_BAD1_OBJ"
+							IfAttr "setbadger == 1 and Zealotskilled == 0 Block begin"
+								MissionLog add_primary,KillZealots,#P3_CM_INSANE2_OBJ
+								MissionLog done,KillZealots
+							Block end
+							IfAttr "badgerspawned == 1 SetAttr setbadger 1"
+							ShowMessage "#P3_CM_INSANE1"
+						Block end
+						AreaEvent playertookside,ED_FAR
+					}
+				}
+				xpt_cashlower
+				{
+					actions
+					{
+						
+						IfAttr "GoodProgress <= 2 and BadProgress <= 1 Block begin"
+							EntFireInput "door_24,Unlock"
+							EntFireInput "door_25,Unlock"
+							EntFireInput "door_24,OpenAwayFrom:!player"
+							EntFireInput "door_25,OpenAwayFrom:!player"
+							EntFireUser spawner_zealots_cash_low,2
+							AreaEvent cashlowspawned,5000
+						Block end
+						SetAttr "GoodProgress 2"
+					}
+				}
+				xpt_cashupper
+				{
+					actions
+					{
+						IfAttr "BadProgress == 2 Block begin"
+							SetAttr "BadProgress 3"
+							IfAttr "GoodProgress < 4 Block begin"
+								EntFireUser spawner_zealots_cash_hi,2
+							Block end
+							AreaEvent cashupperspawned,5000
+						Block end
+						IfAttr "BadProgress == 5 Block begin"
+							SetAttr "BadProgress 4"
+							IfAttr "GoodProgress < 4 Block begin"
+								SetAttr "GoodProgress 4"
+								EntFireUser spawner_zealots_cash_hi,2
+							Block end
+							AreaEvent cashupperspawned,5000
+						Block end
+						IfAttr "GoodProgress == 2 Block begin"
+							ChangeAttr "GoodProgress +1"
+							IfAttr "BadProgress < 3 Block begin"
+								EntFireUser spawner_zealots_cash_hi,2
+							Block end
+							AreaEvent cashupperspawned,5000
+						Block end						
+						IfAttr "BadProgress == 6 Block begin"
+							IfAttr "GoodProgress < 4 Block begin"
+								SetAttr "GoodProgress 4"
+								EntFireUser spawner_zealots_cash_hi,2
+								AreaEvent cashupperspawned,5000
+							Block end
+						Block end
+						EntFireInput "door_12,Unlock"
+						EntFireInput "door_12,OpenAwayFrom:!player"
+					}
+				}
+				xpt_secondfloor
+				{
+					actions
+					{
+						IfAttr "GoodProgress == 3 Block begin"
+							ChangeAttr "GoodProgress +1"
+							IfAttr "BadProgress < 4 Block begin"
+//								ShowMessage "[Objective: clear second floor hall],$P3Mission"
+								EntFireInput "door_20,Unlock"
+								EntFireInput "door_21,Unlock"
+								EntFireInput "door_20,OpenAwayFrom:!player"
+								EntFireInput "door_21,OpenAwayFrom:!player"
+								EntFireUser spawner_zealots_2floor,2
+							Block end
+							AreaEvent secondfloorspawned,5000
+						Block end						
+						IfAttr "BadProgress == 3 Block begin"
+							SetAttr "BadProgress 4"
+							IfAttr "GoodProgress < 4 Block begin"
+								EntFireInput "door_20,Unlock"
+								EntFireInput "door_21,Unlock"
+								EntFireInput "door_20,OpenAwayFrom:!player"
+								EntFireInput "door_21,OpenAwayFrom:!player"
+								EntFireUser spawner_zealots_2floor,2
+							Block end
+							AreaEvent secondfloorspawned,5000
+						Block end
+						IfAttr "BadProgress == 2 Block begin"
+							SetAttr "BadProgress 5"
+							IfAttr "GoodProgress < 3 Block begin"
+								EntFireInput "door_20,Unlock"
+								EntFireInput "door_21,Unlock"
+								EntFireInput "door_20,OpenAwayFrom:!player"
+								EntFireInput "door_21,OpenAwayFrom:!player"
+								EntFireUser spawner_zealots_2floor,2
+							Block end
+							AreaEvent secondfloorspawned,5000
+						Block end
+						IfAttr "BadProgress == 6 Block begin"
+							EntFireInput "door_20,Unlock"
+							EntFireInput "door_21,Unlock"
+							EntFireInput "door_20,OpenAwayFrom:!player"
+							EntFireInput "door_21,OpenAwayFrom:!player"
+							EntFireUser spawner_zealots_2floor,2
+							AreaEvent secondfloorspawned,5000
+						Block end
+					}
+				}
+				xpt_swat
+				{
+					actions
+					{
+						IfAttr "BadProgress <= 2 and GoodProgress <= 1 Block begin"
+							EntFireInput "door_24,Unlock"
+							EntFireInput "door_25,Unlock"
+							EntFireInput "door_24,OpenAwayFrom:!player"
+							EntFireInput "door_25,OpenAwayFrom:!player"
+							EntFireUser spawner_zealots_cash_low,2
+						Block end
+						SetAttr "BadProgress 2"
+						EntFireInput explode_roofglass,Explode
+//						EntFireInput "rappel_start,Fade"
+						
+						Wait 0.9
+						EntFireInput spawner_swat,FireUser1
+						Wait 1
+						IfAttr "PlayerSide == SIDE_BAD Block begin"
+							ShowMessage "#P3_CM_BAD2"
+							MissionLog done,KillCops
+							MissionLog add_primary,KillCops2,#P3_CM_BAD2_OBJ
+						Block end
+						IfAttr "PlayerSide == SIDE_INSANE Block begin"
+							ShowMessage "#P3_CM_BAD2"
+							MissionLog done,KillCops
+							MissionLog add_primary,KillCops2,#P3_CM_BAD2_OBJ
+						Block end
+						AreaEvent cashlowspawned,5000
+					}
+				}
+				xpt_helicopter_death
+				{
+					actions
+					{
+						IfAttr "PlayerSide == SIDE_BAD Block begin"
+							MissionLog done,KillCops3
+							State st_end
+							//Cutscene + zealot ending
+						Block end
+						IfAttr "PlayerSide == SIDE_INSANE and GoodProgress == 6 Block begin"
+							MissionLog done,KillCops3
+							State st_end
+							//EntFireInput "ccommand,Command:changelevel meet_the_zealots cm" 
+							//Cutscene + insane ending
+						Block end
+						IfAttr "PlayerSide == SIDE_INSANE and GoodProgress < 6 Block begin"
+							SetAttr "BadProgress 6"
+							ShowMessage "#P3_CM_INSANE2"
+							MissionLog done,KillCops3
+						Block end
+					}
+				}
+				xpt_badger_death
+				{
+					actions
+					{
+						IfAttr "PlayerSide == SIDE_GOOD Block begin"
+							MissionLog done,KillZealots3
+							//PlayerKarma evil
+							State st_end
+							//EndMission 1
+						Block end
+						IfAttr "Zealotskilled < 30 Block begin"
+							SetAttr "badgerdead 1"
+							SetAttr "setbadger 1"
+							MissionLog add_primary,KillZealots,#P3_CM_INSANE2_OBJ
+							MissionLog done,KillZealots
+							MissionLog add_primary,KillZealots4,#P3_CM_INSANERZ_OBJ
+						Block end
+						IfAttr "PlayerSide == SIDE_INSANE and BadProgress == 6 Block begin"
+							IfAttr "Zealotskilled >= 30 Block begin"
+								MissionLog done,KillZealots3
+								State st_end
+							Block end
+							//EndMission 1
+						Block end
+						IfAttr "PlayerSide == SIDE_INSANE and BadProgress < 6 Block begin"
+							IfAttr "Zealotskilled >= 30 Block begin"
+								SetAttr "GoodProgress 6"
+								ShowMessage #P3_CM_INSANE3
+								MissionLog done,KillZealots4
+							Block end
+							MissionLog done,KillZealots3
+						Block end
+					}
+				}
+				xpt_helicopter
+				{
+					actions
+					{
+						EntFireInput "spawner_helicopter,FireUser1"
+						Wait 2
+						IfAttr "PlayerSide == SIDE_BAD Block begin"
+							ShowMessage "#P3_CM_BAD3"
+							MissionLog done,KillCops2
+							MissionLog add_primary,KillCops3,#P3_CM_BAD3
+						Block end
+						IfAttr "PlayerSide == SIDE_INSANE Block begin"
+							ShowMessage "#P3_CM_BAD3"
+							MissionLog done,KillCops2
+							MissionLog add_primary,KillCops3,#P3_CM_BAD3
+						Block end
+					}
+				}
+			}
+		}
+		st_end
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetPlayer 1
+						//SetAttr "target.NeedToShowKarmaTut 1"
+						
+						EntFireInput proxy,Say:TASKFINISH
+						EntFireInput fade_out,Fade
+						Wait 1
+						
+						IfAttr "PlayerSide == SIDE_GOOD Pattern pt_good"
+						IfAttr "PlayerSide == SIDE_BAD Pattern pt_bad"
+						IfAttr "PlayerSide == SIDE_INSANE Pattern pt_insane"
+					}
+				}
+				
+				pt_good
+				{
+					actions
+					{
+						PlayerKarma =100
+						EntFireInput "pcc,Command:video_exitcmd cm_6 video_exitcmd karma_tut p3_end_mission"
+					}
+				}
+				
+				pt_bad
+				{
+					actions
+					{
+						PlayerKarma =0
+						TargetPlayer 1
+						SetAttr "target.wpn_HaveBadger 1"
+						EntFireInput "pcc,Command:video_exitcmd cm_7 video_exitcmd karma_tut p3_end_mission"
+					}
+				}
+				
+				pt_insane
+				{
+					actions
+					{
+						PlayerKarma =0
+						EntFireInput "pcc,Command:video_exitcmd cm_8 video_exitcmd karma_tut p3_end_mission"
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnAttrChange_PlayerSide "ExecutePattern st_logic.xpt_sidechange"
+		OnAttrChange_Copskilled "ExecutePattern st_logic.xpt_killcounter"
+		OnAttrChange_Zealotskilled "ExecutePattern st_logic.xpt_killcounter"
+		OnForceTriggerZCH "ExecutePattern st_logic.xpt_cashupper"
+		OnForceTriggerZ2F "ExecutePattern st_logic.xpt_secondfloor"
+		OnHelicopterDeath "Pattern st_logic.xpt_helicopter_death"
+		OnBadgerDeath "Pattern st_logic.xpt_badger_death"
+		
+		OnNewGame		"ExecutePattern weaponGive.CM"
+	}
+}

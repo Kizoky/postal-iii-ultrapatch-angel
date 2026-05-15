@@ -732,6 +732,9 @@ behavior
 						SetAttr "HitsByPlayer 0,0,AS_BABE_SHOT_THRESHOLD"
 						SetSquad Babe_suqad
 						SetAttr "voice_pitch 1"
+						
+						// Play kill escort line if killed by the Player
+						SetAttr "ea_escort 1"
 					}
 				}
 			}
@@ -796,6 +799,9 @@ behavior
 						
 						SetSquad mavrodi_squad
 						SetSquadRelation nerd_squad:enemy:3,mom_squad:enemy:3
+						
+						// Play kill escort line if killed by the Player
+						SetAttr "ea_escort 1"
 					}
 				}
 			}

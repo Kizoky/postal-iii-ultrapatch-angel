@@ -1,0 +1,521 @@
+
+
+behavior
+{
+	name bh_segwayr	//поведение сигвеистов
+					//имена энтити - от citizen_sw_01 до citizen_sw_07
+					//
+					//идея поведения - просто катаются до тех пор пока плеер не выстрелит в одного из них. После этого они при виде плеера начинают в него стрелять
+					//Если игрок сбивает сигвеиста с транспорта, тот пытается сесть на него снова. Если это ему не удается, то начинает стрелять в игрока. 
+					//После этого по таймеру снова пытается залезть на свой сигвей, и так по цилку
+	inherited bh_citizen
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions 
+					{
+						SetSquad sq_seg
+						//TargetPlayer 1
+						//Relationship target,enemy
+						ExecutePattern bh_base:st_init.pt_default
+						SetAttr "Riding 1"
+						Timer tSay,2:10,Repeated
+						
+						TargetEntByName mission_logic
+						TargetToMem msGP
+						
+						SetAttr "flag_VitalEnemy 1"
+						//сделаю пока вот так, чтобы грязными руками внутрь не лезть,
+						//но вообще лучше релейшены нормально выставлять
+					}
+				}
+			}
+		}
+
+		st_mystart
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions 
+					{
+						Timer runtimer,0 //Таймер, который заставляет закончить бежать за сигвеем и начать стрелять
+						Timer attacktimer,0 //Таймер, который заставляет прекратить стрельбу и начать бежать за сигвеем
+						SetAttr "Riding 1"
+						Weapon disarm
+						Face false
+					//State st_mystart
+					}
+				}
+				pt_say
+				{
+					actions
+					{
+						IfAttr "Riding == 1 Say CHEER"
+					}
+				}
+				pt_tased:ignore_ext_events
+				{
+					actions
+					{
+						SetAttr "OnSegway 0"
+						FireInput self,LeaveVehicle
+						TargetPlayer 1
+						Push target,self,hard
+						Wait 2
+						State st_start
+					}
+				}
+			}
+		}
+	
+		st_fire
+		{
+			Group Combat
+			Patterns
+			{
+				pt_spread  // устанавливаем разброс для текущего выстрела
+				{
+					actions 
+					{
+						SetAttr "check 0"
+						CheckAttr "SpreadWide SetAttr check 1"
+						IfAttr "check != 1 SetAttr SpreadWide 0"
+						RemoveAttr check
+
+						SetAttr "FireSpread 1"
+						
+						
+					}
+				}
+				}
+		}
+	
+		st_hitit //Стреляем в игрока до тех пор пока не сработает attacktimer
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default  // устанавливаем разброс для текущего выстрела
+				{
+					actions 
+					{
+								SetAttr "ea_status sMILITANT"
+								SetAttr "rnd 0"
+								ChangeAttr "rnd 0:10"
+								IfAttr "rnd >= 5 Say TOUGH"
+								IfAttr "DistTo:Player < ED_FAR Hit 1"
+								//Wait 0:1
+								Repeat 1:2
+
+					}
+					events
+					{
+					OnTimer_attacktimer "Pattern st_return_to_vehicle.pt_settimer"
+							//OnTimer_runtimer "Pattern st_return_to_vehicle.pt_attack"		
+							//OnTimer_attacktimer "State st_return_to_vehicle"
+					}
+				}
+			}
+		}
+	
+		st_return_to_vehicle  //пытаемся вернуться на сигвей пока не сработает runtimer
+		{
+			Group Neutral
+		group Neutral
+		Patterns
+		{
+		
+			pt_settimer:ignore_ext_events 
+			{
+				actions
+				{
+					SetAttr "Riding 0"
+					Timer runtimer,4:5,repeated
+					Pattern pt_default
+				}
+			}
+			//move to vehicle entry point
+			pt_default:ignore_ext_events
+			{
+				actions
+				{
+					Aim false
+					
+					TargetVehicle vehicle_driver_exit
+					Face true
+					MoveToTarget run,0.5
+					Repeat 3
+				}
+				events
+				{
+					OnTargetReach "Pattern pt_approach_vehicle"
+					OnTimer_runtimer "Pattern st_return_to_vehicle.pt_attack"			
+
+				}
+			}
+			
+			//move to vehicle
+			pt_approach_vehicle:ignore_ext_events
+			{
+				actions
+				{
+					TargetVehicle null
+					Face true
+					MoveToTarget run,0.5
+					Repeat 3
+				}
+				events
+				{
+					OnTargetReach "Pattern pt_enter_vehicle"
+					
+				}
+			}
+			
+			//try to enter the vehicle
+			pt_enter_vehicle:ignore_ext_events
+			{
+				actions
+				{
+
+					EnterVehicle 1
+				}
+				events
+				{
+					OnEnteredVehicle "State st_mystart"
+					OnFailedToEnterVehicle "Pattern pt_attack"
+				}
+			}
+			
+			pt_attack //подготовка к началу атаки
+			{
+				actions
+				{
+						
+										
+						Timer attacktimer,2:3,repeated
+						TargetPlayer 1
+						MoveToTarget false
+						FreeMovement false
+						Weapon Arm
+						Aim true
+						//WaitforEnd 1
+					//	SetAttr "TaskCombat TC_MOVE"
+						//Face true
+						State st_hitit
+				}
+
+			}
+			
+
+
+			
+			pt_attack1 //атака на сигвее при виде плеера
+			{
+				actions
+				{
+						
+										
+						TargetPlayer 1
+						Weapon Arm
+						Aim true
+					//	SetAttr "TaskCombat TC_MOVE"
+						Face true
+						MoveToTarget false
+						FreeMovement false
+						State st_hitit
+				}
+
+			}
+			
+			
+			
+
+		}
+
+		}
+		
+			st_idle //чтобы вдруг не было ступоров из idle переходим в паттерн где устанавливается таймер
+		{
+			  group Neutral
+       patterns
+       {
+			    pt_default
+         {
+             actions 
+            
+						{
+							Pattern st_return_to_vehicle.pt_settimer
+						}
+				}
+				}
+		}
+	
+		st_hateplayer //Плеер объявляется врагом сигвеистов
+		{
+			  group Neutral
+       patterns
+       {
+					
+					
+						pt_readyrun
+						{
+							actions
+							{
+
+							
+
+							TargetEntByName mission_logic
+							IfAttr "target.publicenemy == 0 Block Begin"
+							ChangeAttr "target.publicenemy +1"
+							Block End
+							
+							TargetPlayer 1
+							SetSquadRelation Player_squad:enemy
+							//ExecutePattern bh_military:st_start.xpt_combat
+							//SetSquadRelation Player_squad:enemy
+							Pattern st_return_to_vehicle.pt_settimer
+							
+
+							
+							}
+							
+						}
+
+					
+			}
+		}
+		
+		
+
+			
+		}
+		events
+		{
+			OnTased "Pattern st_mystart.pt_tased"
+			OnTimer_tSay "ExecutePattern st_mystart.pt_say"
+			OnHit "ExecutePattern st_hateplayer.pt_readyrun"
+			OnSawEnemyEnt "Pattern st_return_to_vehicle.pt_attack1"
+			OnLostEnemyEnt "State st_mystart"
+			OnLeaveVehicle "Pattern st_return_to_vehicle.pt_settimer"
+			OnTimer_runtimer "Pattern st_return_to_vehicle.pt_attack"	
+			OnFallToGround "ExecutePattern st_hateplayer.pt_readyrun"			
+			//OnFailedToEnterVehicle "Pattern pt_default"
+			//OnTimer_runawaytimer "Pattern st_hateplayer.pt_readyrun"
+		}
+		
+		
+	}	
+
+behavior
+{
+	name bh_weird_cat
+	states
+	{
+		st_start
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TravelByPathTrack track_sw4_1
+					}
+				}
+			}
+		}
+	}
+}
+behavior
+{
+	name bh_creepy_cat
+	states
+	{
+		st_start
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "ea_autokill 0"
+						TargetPlayer 1
+						Face true
+					}
+					events
+					{
+						OnDeath "ExecutePattern pt_death"
+					}
+				}
+				pt_death
+				{
+					actions
+					{
+						EntFireUser mission_logic,4
+					}
+				}
+			}
+		}
+		st_segwaycat
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "ea_autokill 0"
+					}
+				}
+			}
+		}
+	}
+}
+behavior
+{
+	name bh_logic1
+	inherited bh_mission_logic_base
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions 
+					{
+						SetAttr "segways 7" //сколько осталось сигвеев
+						SetAttr "publicenemy 0"
+						SetAttr "catfrags 0"
+						
+						SetAttr "PlayerPath PATH_INSANE"
+					}
+				}
+			}
+		}
+			
+		st_mystart //начальное состояние
+		{
+			  group Neutral
+       patterns
+       {
+			    pt_default
+         {
+             actions 
+            
+						{
+							PlayerKarma show
+							MissionLog add_primary,segway,#P3_MISSION_SRM1
+						}
+					}
+				}
+			}
+			st_cats
+			{
+				group Neutral
+				patterns
+				{
+					pt_counter
+					{
+						actions
+						{
+							ChangeAttr "catfrags +1"
+							IfAttr "catfrags == 5 Pattern pt_kittygoboom"
+						}
+					}
+					pt_kittygoboom
+					{
+						actions
+						{
+							EntFireUser segway_cat_01,1
+							Wait 2
+							EntFireUser segway_cat_02,1
+							Wait 2
+							EntFireUser segway_cat_03,1
+							Wait 2
+							EntFireUser segway_cat_04,1
+							Wait 2
+							EntFireUser segway_cat_05,1
+						}
+					}
+				}
+			}
+			st_write //еще один сигвей возвращен
+			{
+			  group Neutral
+       patterns
+       {
+			    pt_default
+         {
+             actions 
+            
+						{
+
+								//ShowMessage "[Lawyered], $P3Mission"
+								ChangeAttr "segways -1"
+								IfAttr "segways > 4 MissionLog add_primary,segway,#P3_MISSION_SRM1"
+								IfAttr "segways < 5 and segways > 1 MissionLog add_primary,segway,#P3_MISSION_SRM2"
+								IfAttr "segways == 1 MissionLog add_primary,segway,#P3_MISSION_SRM3"
+								IfAttr "segways == 0 Block Begin"
+									Pattern st_write.pt_end
+								Block End
+								//Item kill,1
+								
+						}
+					}
+					pt_end:ignore_ext_events
+					{
+						actions
+						{
+							MissionLog done,segway
+							EntFireInput fade_out,Fade
+							Wait 2
+							EntFireInput "client,Command:video_exitcmd srm_2 p3_end_mission"
+						}
+					}
+			}
+			}
+			st_unwrite //Возвращенный сигвей вновь убран из хранилища
+			{
+			  group Neutral
+       patterns
+       {
+			    pt_default
+         {
+             actions 
+            
+						{
+								ChangeAttr "segways +1"
+								IfAttr "segways > 4 MissionLog add_primary,segway,#P3_MISSION_SRM1"
+								IfAttr "segways < 5 and segways > 1 MissionLog add_primary,segway,#P3_MISSION_SRM2"
+								IfAttr "segways == 1 MissionLog add_primary,segway,#P3_MISSION_SRM3"
+
+								
+						}
+					}
+			}
+		}
+	}
+	events
+	{
+		OnGotSegway "ExecutePattern st_write.pt_default"
+		OnLostSegway "ExecutePattern st_unwrite.pt_default"
+		OnUser4 "ExecutePattern st_cats.pt_counter"
+		OnNewGame	"ExecutePattern weaponGive.SRM"
+	}
+}

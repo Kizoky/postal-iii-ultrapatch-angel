@@ -257,6 +257,9 @@ behavior
 						//SetAttr "flag_IgnorePlayerFear 1"
 						
 						Timer tNasty,0
+						
+						// Play kill escort line if killed by the Player
+						SetAttr "ea_escort 1"
 					}
 				}
 			}

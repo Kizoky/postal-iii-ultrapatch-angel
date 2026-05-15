@@ -1,0 +1,1835 @@
+Constants
+{
+	Const CW_SUSHI_MAX,20
+	Const CW_SUSHI_LIVE_MAX,7
+	Const CW_SUSHI_HATE_THRESHOLD,5
+	Const CW_SUSHI_ATTACK_CHANSE,60
+	
+	//Idle Tasks for Mexi Sushi
+	Const TI_CW_NONE,0
+	Const TI_CW_PATROL,1
+	Const TI_CW_OPEN,2
+	Const TI_CW_ASSAULT,3
+	
+	Const CW_HELPERS_NUM,3
+	
+	Const CHAMP_AGGRO_TIMER_DEFAULT,15
+}
+
+behavior
+{
+	name bh_mission_dogschool
+	inherited bh_mission_logic_base
+	
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "CagesOpened 0,0,10"
+						SetAttr "Cage_02_opened 0,0,1,on_change_event:OnCageOpened"
+						SetAttr "Cage_03_opened 0,0,1,on_change_event:OnCageOpened"
+						SetAttr "Cage_04_opened 0,0,1,on_change_event:OnCageOpened"
+						SetAttr "Cage_05_opened 0,0,1,on_change_event:OnCageOpened"
+						SetAttr "Cage_06_opened 0,0,1,on_change_event:OnCageOpened"
+						SetAttr "Cage_07_opened 0,0,1,on_change_event:OnCageOpened"
+						SetAttr "Cage_08_opened 0,0,1,on_change_event:OnCageOpened"
+						SetAttr "SushiLeft CW_SUSHI_MAX,0,CW_SUSHI_MAX,on_change_event"
+						SetAttr "SushiLive 0,0,CW_SUSHI_LIVE_MAX"
+						SetAttr "DogsNum 0,0,10"
+						
+						SetAttr "HelpersShown 0,0,CW_HELPERS_NUM"
+						SetAttr "PlayerPath PATH_INSANE"
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						EntFireInput muzak.escape,Volume:0
+						PlayerKarma show
+						//блаблабла
+						//EntFireInput "pcc,Command:"
+						//EntFireInput "lpp,RemoveAllWeapon"
+						EntFireInput "lpp,GiveWeapon:p3_weapon_laserpen"
+						EntFireInput "pcc,Command:use p3_weapon_laserpen"
+						EntFireInput "pcc,Command:p3_npc_fadedistance 120"
+						//EntFireInput "pcc,Command:p3_player_skin coat"
+						//EntFireInput "pcc,Command:p3_dude_is_good 0"
+						ExecutePattern st_util.xpt_RefreshHelper
+						
+						State st_harass
+					}
+				}
+				
+				xpt_OnDogLeft
+				{
+					actions
+					{
+						ChangeAttr "DogsNum 1"
+						//MissionLog "add_secondary,dogs,#P3_CW_LOG_DOGS"
+						CheckAttr "NoMoreDogs Block begin"
+							//PlayerKarma -KARMA_HIGH
+							//MissionLog fail,dogs
+						Block end
+					}
+				}
+				
+			}
+		}
+		
+		st_training
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						//State st_harass
+						//Wait 2
+						//MissionBriefing "[#P3_CW_BRIEF_01]"
+						MissionLog "add_primary,train,#P3_CW_LOG01"
+						ShowMessage #P3_CW_MSG01
+						SetAttr "TrainingInProgress 1"
+					}
+					events
+					{
+						OnFinishReached "Pattern pt_return_init"
+					}
+				}
+				
+				pt_return_init
+				{
+					actions
+					{
+						//EntFireInput "trigger_END,Disable"
+						EntFireInput arrow01,TurnOff
+						EntFireInput arrow02,TurnOn
+						EntFireInput "tg_START,Enable"
+						Pattern pt_return
+					}
+				}
+				
+				pt_return
+				{
+					actions
+					{
+						ShowMessage #P3_CW_MSG02
+					}
+					events
+					{
+						OnStartReached "Pattern pt_end"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						EntFireInput arrow02,TurnOff
+						RemoveAttr TrainingInProgress
+						EntFireInput "trigger_START,Disable"
+						State st_harass
+					}
+				}
+			}
+		}
+		
+		st_harass
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						//MissionLog done,train
+						//Wait 1.2
+						ShowMessage #P3_CW_MSG03
+						//EntFireInput "fence_door_01a,OpenAwayFrom:door_orienter"
+						//EntFireInput "fence_door_01b,OpenAwayFrom:door_orienter"
+						//EntFireInput "door_02,OpenAwayFrom:door_orienter"
+						
+						//EntFireInput "sushi_spawner,AddMaxChildren:CW_SUSHI_MAX"
+						//EntFireInput "sushi_spawner,Enable"
+						
+						//EntFireInput "fence_door_01a,Lock"
+						//EntFireInput "fence_door_01b,Lock"
+						//EntFireInput "door_02,Lock"
+						
+						MissionLog "add_primary,sushi,#P3_CW_LOG02"
+						MissionLog "add_primary,champ,#P3_CW_LOG03"
+						//MissionLog "add_secondary,dogs,#P3_CW_LOG_DOGS"
+						
+						Pattern pt_loop
+					}
+				}
+				
+				pt_loop
+				{
+					actions
+					{
+						IfAttr "SushiLeft == 0 State st_escape"
+						
+						//вот эта вот хуита решает проблему проебывающегося последнего непися
+						IfAttr "SushiLeft > SushiLive and SushiLive < CW_SUSHI_LIVE_MAX Block begin"
+							EntFireInput sushi_spawner,Spawn
+							ChangeAttr "SushiLive +1"
+						Block end
+						
+						Repeat 1
+					}
+				}
+				
+				xpt_UpdateSushiInfo
+				{
+					actions
+					{
+						MissionLog add_primary,sushi,#P3_CW_LOG02
+					}
+				}
+				
+				xpt_OnSushiDead
+				{
+					actions
+					{
+						ChangeAttr "SushiLeft -1"
+						ChangeAttr "SushiLive -1"
+					}
+				}
+			}
+			events
+			{
+				OnFire_SushiDead	"ExecutePattern .xpt_OnSushiDead"	
+				OnAttrMin_SushiLeft	"State st_escape"
+				OnAttrChange_SushiLeft "ExecutePattern .xpt_UpdateSushiInfo"
+			}
+		}
+		
+		
+		st_escape
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						EntFireInput muzak.mission,FadeOut:1
+						EntFireInput muzak.escape,FadeIn:1
+						ShowMessage #P3_CW_MSG04
+						ExecutePattern st_harass.xpt_UpdateSushiInfo
+						MissionLog done,sushi
+						MissionLog add_primary,escape,#P3_CW_LOG04
+						EntFireInput tg_escape,Enable
+					}
+					events
+					{
+						OnSchoolEscaped "State st_end"
+					}
+				}
+			}
+		}
+		
+		
+		st_end
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						MissionLog done,champ
+						MissionLog done,escape
+						IfAttr "NumDogs > 0 MissionLog done,dogs"
+						EntFireInput fade_in,Fade
+						Wait 1
+						EntFireInput "pcc,Command:video_exitcmd cw_2 p3_end_mission"
+					}
+				}
+			}
+		}
+		
+		st_fail
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ShowMessage #P3_CW_FAILMSG
+						Wait 1
+						EntFireInput fade_in,Fade
+						Wait 1
+						EntFireInput "pcc,Command:reload"
+					}
+				}
+			}
+		}
+		
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_RefreshHelper
+				{
+					actions
+					{
+						Timer tRefreshHelper,10
+						ChangeAttr "HelpersShown 1"
+						
+						IfAttr "HelpersShown ==  1 ShowMessage #P3_CW_HELPER01"
+						IfAttr "HelpersShown ==  2 ShowMessage #P3_CW_HELPER02"
+						IfAttr "HelpersShown ==  3 ShowMessage #P3_CW_HELPER03"
+					}
+				}
+			}
+		}
+		
+	}
+	events
+	{
+		OnAttrMax_DogsNum "SetAttr NoMoreDogs 1"
+		OnFire_DogLeft "ExecutePattern st_start.xpt_OnDogLeft"
+		OnFire_ChampDead	"State st_fail"
+		
+		OnCage02Open "SetAttr Cage_02_opened 1"
+		OnCage03Open "SetAttr Cage_03_opened 1"
+		OnCage04Open "SetAttr Cage_04_opened 1"
+		OnCage05Open "SetAttr Cage_05_opened 1"
+		OnCage06Open "SetAttr Cage_06_opened 1"
+		OnCage07Open "SetAttr Cage_07_opened 1"
+		OnCage08Open "SetAttr Cage_08_opened 1"
+		
+		OnCageOpened "ChangeAttr CagesOpened 1"
+		//OnAllSushiDead "State st_end"
+		
+		OnTimer_tRefreshHelper "ExecutePattern st_util.xpt_RefreshHelper"
+		OnAttrMax_HelpersShown	"Timer tRefreshHelper,0"
+		
+		OnNewGame	"ExecutePattern weaponGive.CW"
+	}
+}
+
+
+behavior
+{
+	name bh_champ
+	inherited bh_dog
+	
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						SetAttr "SnatchBiteDamage 15"
+						SetAreaGroup AG_FLOOR1 //,AG_DEFAULT:walkable
+						ExecutePattern bh_base:st_init.pt_default
+						SetAttr "ea_dmg_absorb RESIST_MED"
+						SetAttr "ea_crit_disabled 1"
+						SetAreaGroup AG_FLOOR1,AG_FLOOR2,AG_DEFAULT //,AG_DEFAULT:walkable
+						
+						TargetEntByName mission_logic
+						TargetToMem msGP
+						ResetTarget 1
+						
+						TargetPlayer 1
+						TargetToMem msOWNER
+						ResetTarget 1
+						
+						TurnSpeed run,50
+						TurnSpeed walk,50
+						TurnSpeed attack,50
+						TurnSpeed default,50
+						
+						Timer tRegen,2,repeated
+						Timer tAggro,0
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						//CheckAttr "EnableFreemove Pattern bh_base:st_start.pt_default"
+						AttributeProgressBar "ChampHealthPanel,show,ea_health"
+						ExecutePattern st_util.xpt_TryTargetDot
+						CheckAttr "LeadedByPlayer RemoveAttr LeadedByPlayer"
+						ExecutePattern bh_base:st_start.pt_default
+					}
+				}
+				
+			}
+			events
+			{
+				//OnInvalidRoute "ShowMessage [Invalid route],$P3Mission"
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Timer tTargetDot,2,repeated
+						ExecutePattern bh_base:st_idle.pt_default
+					}
+				}
+				
+				pt_decide
+				{
+					actions
+					{
+						CheckAttr "Returning Pattern pt_return"
+						CheckAttr "slot#msGP.TrainingInProgress Pattern pt_sit"
+						Pattern pt_move
+					}
+				}
+				
+				pt_move
+				{
+					actions
+					{
+						//Wait 0.5 //иначе в начале бегать начинает
+						//CheckAttr "slot#msGP.TrainingInProgress Pattern pt_sit"
+						
+						TargetPlayer 1
+						FreeMovementParams area_all,0,ED_VERY_CLOSE,from_target //,area_group
+						FreeMovement run
+						
+						Repeat 5
+					}
+					events
+					{
+						OnInvalidRoute "Pattern pt_sit"
+					}
+				}
+				
+				pt_sit
+				{
+					actions
+					{
+						Timer tCheckPlayerDistance,2,repeated
+						Sequence seq.idle_smell,seq.idle_bury,seq.idle_dig,seq.idle_look,1
+						WaitForEnd 1
+						Sequence seq.idle_sit,30
+						Wait 5:5
+						Pattern pt_decide
+					}
+					events
+					{
+						OnTimer_tCheckPlayerDistance "ExecutePattern .xpt_CheckPlayerDistance"
+					}
+				}
+				
+				pt_return
+				{
+					actions
+					{
+						TargetPlayer 1
+						MoveToTarget run,1,0
+					}
+					events
+					{
+						OnTargetReach "Pattern pt_returned"
+						OnInvalidRoute "Pattern pt_returned"
+					}
+				}
+				
+				pt_returned
+				{
+					actions
+					{
+						RemoveAttr "Returning"
+						ResetTarget 1
+						State st_start
+					}
+				}
+				
+				xpt_OnHit
+				{
+					actions
+					{
+						//ExecutePattern st_util.xpt_OnHit
+						//IfAttr "Object:caller == Object:Player Return 1"
+						
+						IfAttr "caller.RelationTo:self == Relation:enemy Block begin"
+							TargetCaller 1
+							Relationship target,enemy,1
+							State st_attack
+						Block end
+					}
+				}
+				
+				xpt_OnVisible
+				{
+					actions
+					{
+						TargetCaller 1
+						
+						IfAttr "target.ea_status == sCORPSE Return 1"
+						IfAttr "target.ea_manner == Manner:LaserDot Block begin"
+							//Face true
+							//ShowMessage "[laserdot detected],$P3Mission"
+							State st_follow_dot
+						Block end
+						
+						IfAttr "target.RelationTo:player == Relation:enemy and Timer:tAggro <= 0 and DistTo:target < ED_MIDDLE Block begin"
+							Relationship target,enemy,1
+							State st_attack
+						Block end
+						IgnoreTarget 5
+					}
+				}
+				
+				xpt_CheckPlayerDistance
+				{
+					actions
+					{
+						CheckAttr "slot#msGP.TrainingInProgress Return 1"
+						IfAttr "DistTo:player > ED_CLOSE Pattern pt_move"
+					}
+				}
+			}
+			events
+			{
+				OnAE_LaserdotIsNear "ExecutePattern st_util.xpt_LaserdotIsNear"
+				OnTimer_tTargetDot	"ExecutePattern st_util.xpt_TryTargetDot"
+				OnHearCombat		"ExecutePattern .xpt_OnVisible"
+				OnHit				"ExecutePattern .xpt_OnHit"
+			}
+		}
+		
+		st_OnKicked
+		{
+			Group Alert
+			Patterns
+			{
+				pt_end
+				{
+					actions
+					{
+						IfAttr "Object:target != Object:player State st_attack"
+						State st_start
+					}
+				}
+			}
+		}
+		
+		st_follow_dot
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						FreeMovement false
+						LookAt true
+						Face false
+						//IfAttr "target:ea_manner != Manner:LaserDot State st_start"
+						Timer tCheckDot,1,repeated
+						Pattern pt_stay
+					}
+				}
+				
+				pt_follow
+				{
+					actions
+					{
+						//Face true
+						MoveToTarget run,0,0,to_target
+						Repeat 1
+					}
+					events
+					{
+						OnTargetReach "Pattern pt_stay"
+					}
+				}
+				
+				pt_stay
+				{
+					actions
+					{
+						IfAttr "DistTo:target >= 16 Pattern pt_follow"
+						Face true
+						LookAt true
+						
+						Repeat 1
+					}
+				}
+				
+				xpt_CheckDot
+				{
+					actions
+					{
+						IfAttr "Name:target != String:LaserDot State st_start"
+						IfAttr "target.laserpen_on == 0 State st_start"
+						IfAttr "target.Object:slot#S_LASER_TARGET != Object:Null and target.Object:slot#S_LASER_TARGET != Object:self Block begin"
+							SetTarget "Object:self target.Object:slot#S_LASER_TARGET"
+							SetAttr "LeadedByPlayer 1"
+							State st_attack
+						Block end
+					}
+				}
+				
+				xpt_CheckDotDistance
+				{
+					actions
+					{
+						IfAttr "DistTo:target < 16 Return 1"
+						ResetTarget 1
+						State st_start
+					}
+				}
+			}
+			events
+			{
+				OnTimer_tCheckDot "ExecutePattern .xpt_CheckDot"
+				//OnLost "ShowMessage [Dot Lost],$P3Debug"
+				OnTargetReset "State st_start"
+			}
+		}
+		
+		st_attack
+		{
+			Group Combat
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Headblob 2,Attention
+						Timer tResetHeadblob,3
+						SetAttr "SnatchTries 0,0,3"
+						Pattern pt_moveto
+						//Timer tSnatchTime,10
+						IfAttr "DistTo:target < 32 Pattern pt_snatch"
+					}
+				}
+				
+				pt_moveto
+				{
+					actions
+					{
+						MoveToTarget run,0,0
+						Wait 10
+						Pattern pt_end
+						
+					}
+					events
+					{
+						OnTargetClose "Pattern pt_snatch"
+						OnTargetReach "Pattern pt_snatch"
+					}
+				}
+				
+				pt_snatch
+				{
+					actions
+					{
+						SetAttr "rnd 0"
+						ChangeAttr "rnd 0:3"
+						
+						IfAttr "rnd == 0	Snatch true,snatch0"
+						IfAttr "rnd == 1	Snatch true,snatch1"
+						IfAttr "rnd == 2	Snatch true,snatch2"
+						IfAttr "rnd == 3	Snatch true,snatch3"
+						
+						//ShowMessage "[Attacking target!],$P3Mission"
+						Wait 1.0
+						
+						ChangeAttr "SnatchTries +1"
+						Wait 0.1
+						Pattern pt_default
+					}
+					events
+					{
+						OnSnatch	 "Pattern pt_snatched"
+						OnAttrMax_SnatchTries "Pattern pt_end"
+					}
+				}
+				
+				pt_snatched
+				{
+					actions
+					{
+						Wait 3:2
+						Snatch false
+					}
+					events
+					{
+						OnUnsnatch "Pattern pt_end"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						RemoveAttr rnd
+						IfAttr "Timer:tAggro <= 0 Timer tAggro,CHAMP_AGGRO_TIMER_DEFAULT"
+						
+						ResetTarget 1
+						CheckAttr "LeadedByPlayer RemoveAttr LeadedByPlayer"
+						State st_start
+					}
+				}
+			}
+			events
+			{
+				OnTargetReset "Pattern pt_end"
+			}
+		}
+		
+		st_util
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				xpt_LaserdotIsNear
+				{
+					actions
+					{
+						TargetCaller 1
+						State st_follow_dot
+					}
+				}
+				
+				xpt_TryTargetDot
+				{
+					actions
+					{
+						IfAttr "Object:slot#msLEADER == Object:Null Block begin"
+							TargetEntByName LaserDot
+							IfAttr "Object:target != Object:null and Name:target == String:LaserDot Block begin"
+								TargetToMem msLEADER
+							Block end
+						Block end
+						
+						IfAttr "slot#msLEADER.laserpen_on == 1 Block begin"
+							TargetFromMem msLEADER
+							State st_follow_dot
+						Block end
+						ResetTarget 1
+					}
+				}
+				
+				xpt_OnWhistle
+				{
+					actions
+					{
+						//ShowMessage "[whistle],$P3Debug"
+						TargetPlayer 1
+						SetAttr "Returning 1"
+						State st_start
+					}
+				}
+				
+			}
+		}
+		
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetFromMem msGP
+						FireEvent ChampDead
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+		
+	}
+	Events
+	{
+		OnAE_Whistle "ExecutePattern st_util.xpt_OnWhistle"
+		OnTimer_tRegen	"IfAttr ea_health < 100 ChangeAttr ea_health +1"
+		OnTimer_tResetHeadblob "Headblob 1,false"
+	}
+}
+
+
+behavior
+{
+	name bh_dog_locked
+	inherited bh_dog
+	
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						SetAreaGroup AG_DEFAULT
+						AvoidProhibitedArea true
+						SetAttr "Locked 1"
+						SetAttr "Taken 0,0,1"
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Follow false
+						SetAttr "Taken 0"
+						
+						ExecutePattern bh_base:st_start.pt_default
+					}
+				}
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				pt_decide
+				{
+					actions
+					{
+						CheckAttr "Locked Pattern pt_rest"
+						ExecutePattern bh_base:st_idle.pt_decide
+					}
+				}
+			}
+			events
+			{
+				OnFire_FollowMe "State st_follow"
+			}
+		}
+		
+		st_follow
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						RemoveAttr "Locked"
+						FreeMovement false
+						TargetCaller 1
+						TargetToMem msLEADER
+						FireEvent FollowOK
+						SetAttr "Taken 1"
+						Pattern pt_loop
+					}
+				}
+				
+				pt_loop
+				{
+					actions
+					{
+						//MoveToTarget walk,1
+						Follow true
+						Wait 1
+						IfAttr "target.LeadingDog == 0 State st_start"
+						CheckAttr "target.active Repeat 1"
+						Wait 2
+						State st_start
+					}
+				}
+			}
+			events
+			{
+				OnInvalidRoute "Wait 0"
+			}
+		}
+		
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						CheckAttr "taken Block begin"
+							TargetFromMem msLEADER
+							FireEvent Cancel
+						Block end
+						
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+		
+		st_left
+		{
+			Group Alert
+			
+			Patterns
+			{
+				pt_default
+				{	
+					actions
+					{
+						TargetEntByName "mission_logic"
+						FireEvent DogLeft
+						Wait 1
+						Npc kill,1.0
+					}
+				}
+			}
+		}
+		
+	}
+	events
+	{
+		OnDogSchoolLeft "State st_left"
+	}
+	
+}
+
+
+behavior
+{
+	name bh_sushi_carrier
+	inherited bh_civil
+	
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						SetAttr "rnd 0,0,100"
+						ChangeAttr "rnd 0:100"
+						IfAttr "rnd <= CW_SUSHI_ATTACK_CHANSE SetAttr HatesPlayer 1"
+						RemoveAttr rnd
+						SetAttr "flag_VitalEnemy 1"
+						
+						SetAttr "ReactionThreshold RE_KICKED"
+						SetAttr "TaskIdle TI_CW_NONE"
+						SetAreaGroup AG_FLOOR1,AG_FLOOR2,AG_DEFAULT,AG_ATTIC:walkable
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "LeadingDog 0"
+						
+						IfAttr "slot#msGP.SushiLeft < CW_SUSHI_HATE_THRESHOLD SetAttr HatesPlayer 1"
+						
+						CheckAttr "HatesPlayer Block begin"
+							SetSquadRelation player_squad:enemy:3
+							TargetPlayer 1
+							//Relationship target,enemy
+							//RemoveAttr HatePlayer
+						Block end
+						
+						ExecutePattern bh_base:st_start.pt_default
+					}
+				}
+			}
+		}
+		
+		st_combat_logic
+		{
+			Group Combat
+			Patterns
+			{
+				xpt_SetTaskDefault
+				{
+					actions
+					{
+						SetAttr "rnd 0"
+						ChangeAttr "rnd 0:2"
+						
+						IfAttr "rnd == 0 Block begin"
+							SetAttr "TaskCombat TC_HIDE"
+							Timer tTaskCombat,15
+						Block end
+						IfAttr "rnd == 1 Block begin"
+							SetAttr "TaskCombat TC_POSITION"
+							Timer tTaskCombat,5:5
+						Block end
+						IfAttr "rnd == 2 Block begin"
+							SetAttr "TaskCombat TC_MOVE"
+							Timer tTaskCombat,10
+						Block end
+						
+						RemoveAttr rnd
+						State st_start
+					}
+				}
+			}
+		}
+		
+		st_attack_melee
+		{
+			Group Combat
+			Patterns
+			{
+				pt_runloop
+				{
+					actions
+					{
+						MoveToTarget run,1
+						Repeat 3
+					}
+					events
+					{
+						OnInvalidRoute "Pattern pt_TryUnstuck"
+					}
+				}
+				
+				pt_TryUnstuck
+				{
+					actions
+					{
+						FreeMovementParams area_all,16,ED_CLOSE,from_target,area_group
+						FreeMovement run
+						Wait 1:2
+						Pattern pt_runloop
+					}
+					events
+					{
+						OnInvalidRoute "Pattern pt_end"
+					}
+				}
+				
+				pt_decide
+				{
+					actions
+					{
+						IfAttr "target.ea_faction == Faction:Animals Pattern pt_kick"
+						IfAttr "HasWeapon:melee == 2 Pattern pt_attack"
+						Pattern pt_push
+					}
+				}
+				
+				pt_kick
+				{
+					actions
+					{
+						Sequence seq.melee_kick1
+						WaitForEnd 1
+						Pattern pt_end
+					}
+					events
+					{
+						OnAnimPUSH_HEAVY "Push self,target,easy"
+					}
+				}
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_decide
+				{
+					actions
+					{
+						IfAttr "TaskIdle == TI_CW_PATROL Pattern pt_patrol"
+						IfAttr "TaskIdle == TI_CW_OPEN Pattern pt_OpenCages"
+						IfAttr "TaskIdle == TI_CW_ASSAULT Pattern pt_assault"
+						IfAttr "TaskIdle == TI_CW_NONE ExecutePattern .xpt_SetTaskDefault"
+					}
+				}
+					
+				pt_patrol
+				{
+					actions
+					{
+						SetAreaGroup AG_FLOOR1,AG_FLOOR2,AG_DEFAULT,AG_ATTIC:walkable
+						FreeMovementParams area_all,ED_MIDDLE,-1,area_group
+						FreeMovement true,reset
+						
+						Wait 10:20
+						State st_start
+					}
+					events
+					{
+						OnInvalidRoute "State st_start"
+					}
+				}
+				
+				pt_assault
+				{
+					actions
+					{
+						SetAreaGroup AG_FLOOR2:walkable,AG_DEFAULT:walkable,AG_FLOOR1,AG_ATTIC:walkable
+						FreeMovementParams area_all,ED_MIDDLE,-1,area_group
+						FreeMovement run
+						
+						Wait 5:5
+						State st_start
+					}
+				}
+				
+				pt_TakeDog
+				{
+					actions
+					{
+						State st_start
+						// нахуй это всё не нужно
+						
+						CheckAttr "iterations Block begin"
+							IfAttr "iterations > 6 Block begin"
+							//не получилось взять собаку по какой-то причине
+							//чистим ненужное
+								RemoveAttr cage_num
+								RemoveAttr iterations
+								State st_start
+							Block end
+						Block end
+						
+						CheckAttr "slot#msGP.NoMoreDogs State st_start"
+						
+						CheckAttr "cage_num   Block begin"
+							ChangeAttr "cage_num 1"
+							IfAttr "cage_num > 8 SetAttr cage_num 2"
+						Block end
+						CheckAttr "iterations ChangeAttr iterations 1"
+							
+						SetAttr "NeedToSetAttrs 1"
+							
+						CheckAttr "cage_num SetAttr NeedToSetAttrs 0"
+							
+						IfAttr "NeedToSetAttrs == 1 Block begin"
+							SetAttr "cage_num 2"
+							SetAttr "iterations 0"
+							ChangeAttr "cage_num 0:6"
+						Block end
+						
+						RemoveAttr NeedToSetAttrs
+							
+						//ShowMessage "[Want to take dog],$P3Debug"
+							
+						IfAttr "cage_num == 2 Block begin"
+							IfAttr "slot#msGP.Cage_02_opened == 0 Repeat 0"
+							IfAttr "slot#msGP.Cage_02_opened == 1 Block begin"
+								TargetEntByName npc_dog_02
+								IfAttr "Object:target == Object:Null Repeat 0"
+								IfAttr "Name:target != String:npc_dog_02 Repeat 0"
+								IfAttr "target.Taken == 1 Repeat 0"
+								State st_take
+							Block end
+						Block end
+							
+						IfAttr "cage_num == 3 Block begin"
+							IfAttr "slot#msGP.Cage_03_opened == 0 Repeat 0"
+							IfAttr "slot#msGP.Cage_03_opened == 1 Block begin"
+								TargetEntByName npc_dog_03
+								IfAttr "Object:target == Object:Null Repeat 0"
+								IfAttr "Name:target != String:npc_dog_03 Repeat 0"
+								IfAttr "target.Taken == 1 Repeat 0"
+								State st_take
+							Block end
+						Block end
+							
+						IfAttr "cage_num == 4 Block begin"
+							IfAttr "slot#msGP.Cage_04_opened == 0 Repeat 0"
+							IfAttr "slot#msGP.Cage_04_opened == 1 Block begin"
+								TargetEntByName npc_dog_04
+								IfAttr "Object:target == Object:Null Repeat 0"
+								IfAttr "Name:target != String:npc_dog_04 Repeat 0"
+								IfAttr "target.Taken == 1 Repeat 0"
+								State st_take
+							Block end
+						Block end
+							
+						IfAttr "cage_num == 5 Block begin"
+							IfAttr "slot#msGP.Cage_05_opened == 0 Repeat 0"
+							IfAttr "slot#msGP.Cage_05_opened == 1 Block begin"
+								TargetEntByName npc_dog_05
+								IfAttr "Object:target == Object:Null Repeat 0"
+								IfAttr "Name:target != String:npc_dog_05 Repeat 0"
+								IfAttr "target.Taken == 1 Repeat 0"
+								State st_take
+							Block end
+						Block end
+							
+						IfAttr "cage_num == 6 Block begin"
+							IfAttr "slot#msGP.Cage_06_opened == 0 Repeat 0"
+							IfAttr "slot#msGP.Cage_06_opened == 1 Block begin"
+								TargetEntByName npc_dog_06
+								IfAttr "Object:target == Object:Null Repeat 0"
+								IfAttr "Name:target != String:npc_dog_06 Repeat 0"
+								IfAttr "target.Taken == 1 Repeat 0"
+								State st_take
+							Block end
+						Block end
+							
+						IfAttr "cage_num == 7 Block begin"
+							IfAttr "slot#msGP.Cage_07_opened == 0 Repeat 0"
+							IfAttr "slot#msGP.Cage_07_opened == 1 Block begin"
+								TargetEntByName npc_dog_07
+								IfAttr "Object:target == Object:Null Repeat 0"
+								IfAttr "Name:target != String:npc_dog_07 Repeat 0"
+								IfAttr "target.Taken == 1 Repeat 0"
+								State st_take
+							Block end
+						Block end
+							
+						IfAttr "cage_num == 8 Block begin"
+							IfAttr "slot#msGP.Cage_08_opened == 0 Repeat 0"
+							IfAttr "slot#msGP.Cage_08_opened == 1 Block begin"
+								TargetEntByName npc_dog_08
+								IfAttr "Object:target == Object:Null Repeat 0"
+								IfAttr "Name:target != String:npc_dog_08 Repeat 0"
+								IfAttr "target.Taken == 1 Repeat 0"
+								State st_take
+							Block end
+						Block end
+						
+						Repeat 0
+					}
+				}
+				
+				pt_OpenCages
+				{
+					actions
+					{
+						SetHintGroup "hg_cage"
+						FreeMovementParams hint_all,-1,-1,hint_group,hint_face,use_node
+						FreeMovement true,reset
+						Wait 5:5
+						State st_start
+					}
+					events
+					{
+						OnInvalidRoute "ExecutePattern .xpt_OnOpenFailed"
+					}
+				}
+				
+				xpt_OnOpenFailed
+				{
+					actions
+					{
+						SetAttr "TaskIdle TI_CW_PATROL"
+						State st_start
+					}
+				}
+				
+				xpt_SelectWeapon
+				{
+					actions
+					{
+						Weapon arm
+					}
+				}
+				
+				xpt_SetTaskDefault
+				{
+					actions
+					{
+						ChangeAttr "TaskIdle 1:1" //Patrol or Open
+						
+						CheckAttr "HatesPlayer Block begin"
+							IfAttr "HasWeapon:Ranged > 0 SetAttr TaskIdle TI_CW_ASSAULT"
+						Block end
+						
+						State st_start
+					}
+				}
+				
+				xpt_OnVisible
+				{
+					actions
+					{
+						TargetCaller 1
+						
+						IfAttr "RelationTo:target == Relation:enemy State st_start"
+						IfAttr "target.ea_manner == Manner:StrayDog and Name:target != String:npc_champ Block begin"
+							CheckAttr "target.Locked Return 1"
+							IfAttr "target.Taken == 1 Return 1"
+							State st_take
+						Block end
+						
+						IfAttr "Name:target == String:npc_champ Block begin"
+							Relationship target,enemy,2
+							State st_start
+						Block end
+						
+						IfAttr "Object:caller == Object:Player Block begin"
+							IfAttr "RelationTo:target == Relation:enemy State st_start"
+						Block end
+						
+						IgnoreTarget 3
+						ResetTarget 1
+					}
+				}
+				
+				xpt_AttackPlayer
+				{
+					actions
+					{
+						TargetPlayer 1
+						Relationship target,enemy,3
+						State st_start
+					}
+				}
+				
+			}
+			events
+			{
+				OnInvalidRoute "State st_start"
+				OnAE_PlayerKills "ExecutePattern .xpt_AttackPlayer"
+			}
+		}
+		
+		st_take
+		{
+			Group Alert
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						RemoveAttr iterations
+						RemoveAttr cage_num
+						RemoveAttr rnd
+						
+						MoveToTarget true,0
+						Wait 5
+						State st_start
+					}
+					events
+					{
+						OnTargetReach "Pattern pt_take"
+					}
+				}
+				
+				pt_take
+				{
+					actions
+					{
+						FireEvent FollowMe
+						Wait 2
+						State st_start
+					}
+					events
+					{
+						OnFire_FollowOK "Pattern pt_taken"
+					}
+				}
+				
+				pt_taken
+				{
+					actions
+					{
+						TargetToMem msTARGET
+						SetAttr "LeadingDog 1"
+						Pattern pt_moveout
+					}
+				}
+				
+				pt_moveout
+				{
+					actions
+					{
+						//SetAreaGroup AG_EXIT,AG_FLOOR1:walkable,AG_DEFAULT:walkable
+						SetHintGroup hg_exit
+						//FreeMovementParams area_all,-1,-1,area_group
+						FreeMovementParams hint_all,-1,-1,hint_group
+						FreeMovement walk
+						
+						Pattern pt_loop
+					}
+				}
+				
+				pt_loop
+				{
+					actions
+					{
+						IfAttr "Object:Target == Object:Null State st_start"
+						IfAttr "Object:Target != Object:slot#msTARGET State st_start"
+						IfAttr "DistTo:target > 192 State st_start"
+						Repeat 2
+					}
+					events
+					{
+						OnInvalidRoute "Pattern pt_moveout"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						RemoveAttr LeadingDog
+						IfAttr "Object:target == Object:slot#msTARGET FireEvent Cancel"
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						Pattern pt_end
+					}
+				}
+			}
+			events
+			{
+				OnFire_Cancel "Pattern pt_end"
+			}
+		}
+		
+		st_opencage
+		{
+			Group Alert
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Sequence seq.env_checking
+						//WaitForEnd 1
+						Wait 5:5
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						State st_start
+					}
+				}
+			}
+		}
+		
+		st_opencage_02
+		{
+			Group Alert
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Weapon disarm
+						Sequence seq.env_checking
+						WaitForEnd 1
+						Weapon arm
+						
+						//EntFireInput "hint_door_02,DisableHint"
+						EntFireInput "door_dogs_02,OpenAwayFrom:!activator"
+						//Wait 5:5
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						State st_start
+					}
+				}
+			}
+		}
+		
+		st_opencage_03
+		{
+			Group Alert
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Weapon disarm
+						Sequence seq.env_checking
+						WaitForEnd 1
+						Weapon arm
+						
+						//EntFireInput "hint_door_03,DisableHint"
+						EntFireInput "door_dogs_03,OpenAwayFrom:!activator"
+						//Wait 5:5
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						State st_start
+					}
+				}
+			}
+		}
+		
+		st_opencage_04
+		{
+			Group Alert
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Weapon disarm
+						Sequence seq.env_checking
+						WaitForEnd 1
+						Weapon arm
+						
+						//EntFireInput "hint_door_03,DisableHint"
+						EntFireInput "door_dogs_04,OpenAwayFrom:!activator"
+						//Wait 5:5
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						State st_start
+					}
+				}
+			}
+		}
+		
+		st_opencage_05
+		{
+			Group Alert
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Weapon disarm
+						Sequence seq.env_checking
+						WaitForEnd 1
+						Weapon arm
+						
+						EntFireInput "door_dogs_05,OpenAwayFrom:!activator"
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						State st_start
+					}
+				}
+			}
+		}
+		
+		st_opencage_06
+		{
+			Group Alert
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Weapon disarm
+						Sequence seq.env_checking
+						WaitForEnd 1
+						Weapon arm
+						
+						EntFireInput "door_dogs_06,OpenAwayFrom:!activator"
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						State st_start
+					}
+				}
+			}
+		}
+		
+		st_opencage_07
+		{
+			Group Alert
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Weapon disarm
+						Sequence seq.env_checking
+						WaitForEnd 1
+						Weapon arm
+						
+						EntFireInput "door_dogs_07,OpenAwayFrom:!activator"
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						State st_start
+					}
+				}
+			}
+		}
+		
+		st_opencage_08
+		{
+			Group Alert
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Weapon disarm
+						Sequence seq.env_checking
+						WaitForEnd 1
+						Weapon arm
+						
+						EntFireInput "door_dogs_08,OpenAwayFrom:!activator"
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						State st_start
+					}
+				}
+			}
+		}
+		
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_OnDamaged
+				{
+					actions
+					{
+						IfAttr "Object:Caller == Object:Player Relationship caller,enemy,5"
+						IfAttr "Name:caller == String:npc_champ Block begin"
+							TargetCaller 1
+							AreaEvent DogAttack,8
+							Relationship caller,enemy,2
+						Block end
+					}
+				}
+				
+				xpt_OnDogAttack
+				{
+					actions
+					{
+						IfAttr "LeadingDog == 1 Block begin"
+							TargetToMem msTEMP
+						Block end
+						
+						TargetCaller 1
+						AssistTarget 1
+						Relationship target,enemy,2
+						
+						IfAttr "LeadingDog == 1 Block begin"
+							TargetFromMem msTEMP
+							Return 1
+						Block end
+						
+						State st_start
+					}
+				}
+			}
+		}
+		
+		st_deactivate
+		{
+			Group Alert
+			
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "LeadingDog 0"
+						TargetFromMem msGP
+						FireEvent SushiDead
+						
+						IfAttr "Object:caller == Object:Player AreaEvent PlayerKills,ED_MIDDLE"
+						
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+		
+	}
+	events
+	{
+		OnDamaged "ExecutePattern st_util.xpt_OnDamaged"
+		OnAE_DogAttack "ExecutePattern st_util.xpt_OnDogAttack"
+	}
+	
+}
+
+
+
+behavior
+{
+	name bh_cw_civil
+	inherited bh_civil
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						SetAttr "flag_bystander 1"
+					}
+				}
+			}
+		}
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_SetAreaGroup
+				{
+					actions
+					{
+						SetAreaGroup AG_FLOOR1,AG_FLOOR2,AG_DEFAULT
+					}
+				}
+				
+				xpt_SetHintGroup
+				{
+					actions
+					{
+						SetHintGroup wish_fun_idle
+					}
+				}
+			}
+		}
+		
+	}
+}

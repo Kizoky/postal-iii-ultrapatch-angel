@@ -1,0 +1,1654 @@
+Constants
+{
+	Const PDB_HELPERS_NUM,4
+	Const PDB_MESSAGE_DELAY,5
+	Const PDB_SWAT03_AMOUNT,3
+}
+
+behavior
+{
+	name bh_mission_pdb
+	inherited bh_mission_logic_base
+	
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "HelpersShown 0,0,PDB_HELPERS_NUM"
+						SetAttr "PlayerPath PATH_NONE"
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetPlayer 1
+						SetAttr "target.flag_Jesus 1"
+						PlayerKarma hide
+						EntFireInput "pcc,Command:p3_player_skin coat"
+						EntFireInput "pcc,Command:use p3_weapon_emptyhands"
+						MissionLog add_primary,follow,#P3_PDB_PRETASK
+						ExecutePattern st_util.xpt_RefreshHelper
+						//State st_tutor06
+					}
+					events
+					{
+						OnTutorial01Start "State st_tutor01"
+					}
+				}
+			}
+		}
+		
+		st_tutor01
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						EntFireInput "fade_in_cs,Fade"
+						Wait 1
+						EntFireInput "pcc,Command:video_exitcmd pdb_00 gameui_show_p3_briefdlg #P3_PDB_T01_ONSCREEN"
+						EntFireInput "fader_cs,Fade"
+						//PlayVideo pdb_00,1.0,1.0
+						//Wait 0.9
+						EntFireInput swat01_spawner,enable
+						EntFireInput tutor01_teleport,Teleport
+						EntFireInput tutor01_arrow1,Enable
+						//EntFireInput tutor01_arrow2,Enable
+						//EntFireInput tutor01_arrow3,Enable
+						SetAttr "PlayerNear 0"
+						Pattern pt_tutorial
+					}
+				}
+				
+				pt_tutorial
+				{
+					actions
+					{
+						Timer tCheckLean,0.5,repeated
+						Wait 0.5
+						MissionLog "remove,follow"
+						MissionLog "add_primary,tutor01,#P3_PDB_T01_LOG"
+						//ShowMessage #P3_PDB_T01_MSG01
+					}
+					events
+					{
+						OnTimer_tCheckLean "CheckAttr LeanOK ExecutePattern .xpt_CheckLean"
+						OnPlayerLeanIn "SetAttr LeanOK 1"
+						OnPlayerLeanOut "RemoveAttr LeanOK"
+						OnPlayerNear	"SetAttr PlayerNear 1"
+						OnPlayerFar		"SetAttr PlayerNear 0"
+						//OnTutorial02Begin "ExecutePattern .xpt_KillPlayer"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						RemoveAttr LeanOK
+						RemoveAttr PlayerNear
+						Timer tCheckLean,0
+						MissionLog done,tutor01
+						//PlayVideo pdb_01,1.0,1.0
+						//Wait 1
+						State st_tutor02
+						//EntFireInput tutor01_corpse01,TurnOn
+						//EntFireInput tutor01_corpse02,TurnOn
+						//EntFireInput tutor01_corpse03,TurnOn
+						//EntFireInput eater_spawner_01,Enable
+						//EntFireInput tutor01_teleport_fin,Teleport
+						//EntFireInput tutor01_clip,enable
+						//EntFireInput tutor01_escape_tg,enable
+					}
+					events
+					{
+						OnTutorial02Begin "State st_tutor02"
+					}
+				}
+				
+				xpt_CheckLean
+				{
+					actions
+					{
+						TargetPlayer 1
+						IfAttr "target.ea_lean == 1  Pattern pt_end"
+					}
+				}
+				
+				xpt_KillPlayer
+				{
+					actions
+					{
+						TargetPlayer 1
+						SetAttr "target.ea_health 0"
+						RemoveAttr "target.CanRegen"
+					}
+				}
+			}
+		}
+		
+		st_tutor02
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						EntFireInput las,Save
+						SetAttr "tutor02active 1"
+						EntFireInput "fade_in_cs,Fade"
+						Wait 1
+						EntFireInput "pcc,Command:video_exitcmd pdb_01 gameui_show_p3_briefdlg #P3_PDB_T02_ONSCREEN"
+						EntFireInput "fader_cs,Fade"
+						//PlayVideo pdb_01,1.0,1.0
+						//Wait 0.9
+						//MissionLog remove,tutor01
+						//EntFireInput swat02_spawner,Enable
+						//EntFireInput eater_spawner_02,Enable
+						EntFireInput tutor02_teleport,teleport
+						EntFireInput tutor02_arrow,Enable
+						//EntFireInput tutor02_corpse01,TurnOn
+						//EntFireInput tutor02_clip,Enable
+						//EntFireInput tutor02_escape_tg,Enable
+						AreaEvent Kill01,1024
+						
+						TargetPlayer 1
+						IfAttr "target.ea_health <= 20 SetAttr target.ea_health 1"
+						IfAttr "target.ea_health > 20 ChangeAttr target.ea_health -20"
+						FireEvent Hit
+						
+						EntFireInput tutor01_arrow1,Disable
+						//EntFireInput tutor01_arrow2,Disable
+						//EntFireInput tutor01_arrow3,Disable
+						MissionLog "add_primary,tutor02,#P3_PDB_T02_LOG"
+						MissionLog "add_primary,tutor02a,#P3_PDB_T02_LOGA"
+						Timer tCheckHealth,1,repeated
+						
+						//Wait 0.5
+						//ShowMessage #P3_PDB_T02_MSG01
+						//Wait PDB_MESSAGE_DELAY
+						//ShowMessage #P3_PDB_T02_MSG02
+					}
+					events
+					{
+						OnTutorial03Start "State st_tutor03"
+						OnClimbComplete	"MissionLog done,tutor02a"
+					}
+				}
+			}
+		}
+		
+		st_tutor03
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						EntFireInput las,Save
+						PlayVideo pdb_02,1.0,1.0
+						Wait 0.9
+						RemoveAttr "tutor02active"
+						CheckAttr "CanRemoveTutor02 Block begin"
+							RemoveAttr CanRemoveTutor02
+							//MissionLog remove,tutor02
+						Block end
+						//MissionLog remove,tutor02a
+						EntFireInput zombie01_spawner,enable
+						Wait 0.3
+						MissionLog "add_primary,tutor03_01,#P3_PDB_T03_LOG01"
+						EntFireInput tutor03_arrow,TurnOn
+						ShowMessage #P3_PDB_T03_MSG01
+					}
+					events
+					{
+						OnZombieReached "Pattern pt_tutorial"
+					}
+				}
+				
+				pt_tutorial
+				{
+					actions
+					{
+						AreaEvent Zomb02Activate,512
+						//EntFireInput zombie02_spawner,enable
+						SetAttr "Zomb01Num 4,0,4"
+						//EntFireInput zombie02eater_spawner,enable
+						
+						EntFireInput "fade_in_cs,Fade"
+						Wait 1
+						EntFireInput "pcc,Command:video_exitcmd pdb_03 gameui_show_p3_briefdlg #P3_PDB_T03_ONSCREEN"
+						EntFireInput "fader_cs,Fade"
+						//PlayVideo pdb_03,1.0,1.0
+						//Wait 0.9
+						SetAttr "Tutor03Attack 1"
+						//EntFireInput "pcc,Command:use p3_weapon_grenade"
+						EntFireInput tutor03_clip,Enable
+						EntFireInput tutor03_escape_tg,Enable
+						Wait 0.5
+						MissionLog "add_primary,tutor03_02,#P3_PDB_T03_LOG02"
+						//ShowMessage #P3_PDB_T03_MSG02
+						//Wait 5
+						//ShowMessage #P3_PDB_T03_MSG03
+						//Wait 5
+						//ShowMessage #P3_PDB_T03_MSG04
+					}
+					events
+					{
+						OnTutor03ZombiesDead	"Pattern pt_end"
+						OnAttrMin_Zomb01Num		"Pattern pt_end"
+						OnFire_Zombie01Dead		"ChangeAttr Zomb01Num -1"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						RemoveAttr "Tutor03Attack"
+						EntFireInput tutor03_block,Disable
+						EntFireInput tutor03_block_tg,Disable
+						MissionLog done,tutor03_02
+						Wait 1
+						State st_tutor05
+					}
+					events
+					{
+						OnTutorial04Start "State st_tutor05"
+					}
+				}
+				
+				xpt_OnGrenadesGain
+				{
+					actions
+					{
+						EntFireInput tutor03_clip,Enable
+						EntFireInput tutor03_escape_tg,Enable
+						EntFireInput tutor03_arrow,TurnOff
+						MissionLog done,tutor03_01
+						//ShowMessage #P3_PDB_SCROLL
+					}
+				}
+			}
+			events
+			{
+				OnGrenadesGain "ExecutePattern .xpt_OnGrenadesGain"
+			}
+		}
+		
+		st_tutor04 //не используется, оставил на всякий случай
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						//PlayVideo pdb_04,1.0,1.0
+						Wait 0.9
+						EntFireInput tutor03_teleport,Teleport
+						EntFireInput "pcc,Command:use p3_weapon_emptyhands"
+						EntFireInput "lpp,RemoveWeapon:p3_weapon_grenade"
+						//EntFireInput tutor04_clip,Enable
+						//EntFireInput tutor04_escape_tg,Enable
+						//MissionLog remove,tutor03_01
+						//MissionLog remove,tutor03_02
+						AddFluid "171,670,100,300000"
+						AddFluid "-318,931,80,300000"
+						AddFluid "150,925,100,100000"
+						AddFluid "-110,1030,80,200000"
+						EntFireInput "pcc,Command:give p3_weapon_match"
+						//EntFireInput "pcc,Command:use p3_weapon_match"
+						Wait 0.5
+						MissionLog "add_primary,tutor04,#P3_PDB_T04_LOG"
+						ShowMessage #P3_PDB_T04_MSG01
+					}
+					events
+					{
+						OnTutor04ZombiesDead	"Pattern pt_end"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						MissionLog done,tutor04
+						State st_tutor05
+						//EntFireInput tutor04_block,disable
+						//EntFireInput tutor04_block_tg,disable
+					}
+					events
+					{
+						OnTutorial05Start "State st_tutor05"
+					}
+				}
+			}
+		}
+		
+		st_tutor05
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						EntFireInput las,Save
+						SetAttr "tut05_NumZombies 3,0,3"
+						EntFireInput "fade_in_cs,Fade"
+						Wait 1
+						EntFireInput "pcc,Command:video_exitcmd pdb_04 gameui_show_p3_briefdlg #P3_PDB_T05_ONSCREEN"
+						EntFireInput "fader_cs,Fade"
+						//PlayVideo pdb_04,1.0,1.0
+						//Wait 0.9
+						EntFireInput "lpp,RemoveWeapon:p3_weapon_grenade"
+						//MissionLog remove,tutor03_01
+						//MissionLog remove,tutor03_02
+						EntFireInput tutor05_clip,Enable
+						EntFireInput tutor05_escape_tg,Enable
+						//MissionLog remove,tutor04
+						EntFireInput tutor05_teleport,Teleport
+						EntFireInput "pcc,Command:use p3_weapon_emptyhands"
+						EntFireInput "lpp,RemoveWeapon:p3_weapon_match"
+						Wait 0.1
+						EntFireInput tutor05_arrow,TurnOn
+						MissionLog add_primary,tutor05_02,#P3_PDB_T05_LOG02
+						
+						//Wait 0.5
+						//ShowMessage #P3_PDB_T05_MSG01
+					}
+					events
+					{
+						OnAttrMin_tut05_NumZombies "Pattern pt_end"
+						
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						MissionLog done,tutor05_02
+						EntFireInput tutor05_block,Disable
+						EntFireInput tutor05_block_tg,Disable
+						State st_tutor06
+					}
+					events
+					{
+						OnTutorial06Start "State st_tutor06"
+					}
+				}
+				
+				xpt_LockGasCan
+				{
+					actions
+					{
+						EntFireInput tutor05_arrow,TurnOff
+						MissionLog done,tutor05_01
+						//MissionLog add_primary,tutor05_02,#P3_PDB_T05_LOG02
+						//EntFireInput "pcc,Command:use p3_weapon_gasoline"
+					}
+				}
+			}
+			events
+			{
+				OnFire_Tutor05ZombieDead	"ChangeAttr tut05_NumZombies -1"
+				OnGainGas "ExecutePattern .xpt_LockGasCan"
+			}
+		}
+		
+		st_tutor06
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{	
+					actions
+					{
+						EntFireInput las,Save
+						RemoveAttr tut05_NumZombies
+						SetAttr "SoldiersLeft PDB_SWAT03_AMOUNT,0,PDB_SWAT03_AMOUNT,on_change_event"
+						EntFireInput swat03_spawner,AddMaxChildren:PDB_SWAT03_AMOUNT
+						EntFireInput swat03_spawner,enable
+						
+						EntFireInput "fade_in_cs,Fade"
+						Wait 1
+						EntFireInput "pcc,Command:video_exitcmd pdb_05 gameui_show_p3_briefdlg #P3_PDB_T06_ONSCREEN"
+						EntFireInput "fader_cs,Fade"
+						//PlayVideo pdb_05,1.0,1.0
+						//Wait 0.9
+						EntFireInput "pcc,Command:use p3_weapon_emptyhands"
+						EntFireInput "lpp,RemoveWeapon:p3_weapon_gasoline"
+						EntFireInput "lpp,GiveWeapon:p3_weapon_spray"
+						//EntFireInput tutor05_block,Enable
+						//EntFireInput tutor06_escape_tg,Enable
+						EntFireInput tutor06_teleport,Teleport
+						//EntFireInput tutor06_arrow,TurnOn
+						
+						Wait 0.1
+						//MissionLog remove,tutor05_01
+						//MissionLog remove,tutor05_02
+						//MissionLog "add_primary,tutor06_01,#P3_PDB_T06_LOG01"
+						Pattern pt_battle
+					}
+				}	
+				
+				pt_battle
+				{
+					actions
+					{
+						//PlayVideo pdb_09,1.0,1.0
+						//Wait 0.9
+						//EntFireInput tutor06_teleport02,Teleport
+						Wait 0.5
+						MissionLog "add_primary,tutor06_02,#P3_PDB_T06_LOG02"
+						//ShowMessage #P3_PDB_T06_MSG01
+						//Wait 4
+						//ShowMessage #P3_PDB_T06_MSG02
+						//Wait 4
+						//ShowMessage #P3_PDB_T06_MSG03
+					}
+					events
+					{
+						//OnTutorial06Done "Pattern pt_end"
+						OnPlayerIsNear "AreaEvent EnemyIsNear,1024"
+						OnAttrChange_SoldiersLeft "MissionLog add_primary,tutor06_02,#P3_PDB_T06_LOG02"
+						OnAttrMin_SoldiersLeft "Pattern pt_end"
+					}
+				}
+				
+				pt_fail
+				{
+					actions
+					{
+						//UNREACHEABLE PATTERN !!
+						MissionLog fail,tutor06_02
+						//ShowMessage #P3_PDB_T06_FAIL
+						Wait 1
+						EntFireInput fade_in,fade
+						Wait 1
+						EntFireInput "pcc,Command:reload"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						MissionLog add_primary,tutor06_02,#P3_PDB_T06_LOG02
+						MissionLog done,tutor06_02
+						State st_button
+					}
+				}
+				
+				xpt_OnSprayGain
+				{
+					actions
+					{
+						EntFireInput tutor06_arrow,TurnOff
+						MissionLog done,tutor06_01
+						//EntFireInput "pcc,Command:use p3_weapon_spray"
+					}
+				}
+			}
+			events
+			{
+				//OnSprayGain "ExecutePattern .xpt_OnSprayGain"
+				OnNeedAttackPlayer "SetAttr Tutor06_AttackPlayer 1"
+				OnFire_SoldierDead	"ChangeAttr SoldiersLeft -1"
+			}
+		}
+		
+		st_button
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						EntFireInput las,Save
+						PlayVideo pdb_06,1.0,1.0
+						Wait 0.9
+						//MissionLog remove,tutor06_01
+						//MissionLog remove,tutor06_02
+						//EntFireInput "lpp,EnableWeaponSwitching"
+						EntFireInput "pcc,Command:use p3_weapon_emptyhands"
+						EntFireInput "lpp,RemoveWeapon:p3_weapon_spray"
+						EntFireInput "button_teleport,Teleport"
+						Wait 0.2
+						EntFireInput las,Save
+						//MissionLog "add_primary,btn01,#P3_PDB_BTN_LOG01"
+						MissionLog "add_primary,btn02,#P3_PDB_BTN_LOG02"
+						Wait 0.5
+						ShowMessage #P3_PDB_BTN_MSG01
+						Wait 5
+						ShowMessage #P3_PDB_BTN_MSG02
+						Wait 2
+						EntFireInput "lpp,Say:PBPRESSBUTTON"
+						Timer tSayButton,10,repeated
+						
+						Wait 15
+						ShowMessage #P3_PDB_BTN_MSG03
+						Wait 5
+						ShowMessage #P3_PDB_BTN_MSG04
+						Wait 15
+						ShowMessage #P3_PDB_BTN_MSG05
+						Wait 30
+						ShowMessage #P3_PDB_BTN_MSG06
+						Wait 5
+						ShowMessage #P3_PDB_BTN_MSG07
+						Wait 5
+						ShowMessage #P3_PDB_BTN_MSG08
+					}
+					events
+					{
+						OnButtonPressed "Pattern pt_end"
+						OnTimer_tSayButton	"EntFireInput lpp,Say:PBPRESSBUTTON"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						EntFireInput "lpp,Say:PBBUTTONPRESSED"
+						Wait 0.5
+						MissionLog fail,btn01
+						MissionLog fail,btn02
+						EntFireInput fade_in,Fade
+						Wait 1
+						//PlayVideo pdb_07,1,1
+						//Wait 0.05
+						EntFireInput "pcc,Command:video_exitcmd pdb_07 p3_end_mission"
+					}
+				}
+			}
+		}
+		
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_CheckHealth
+				{
+					actions
+					{
+						TargetPlayer 1
+						IfAttr "target.ea_health == 100 Block begin"
+							Timer tCheckHealth,0
+							MissionLog done,tutor02
+							Timer tRemoveTutor02,5
+						Block end
+					}
+				}
+				
+				xpt_RemoveTutor02
+				{
+					actions
+					{
+						CheckAttr "tutor02active Block begin"
+							SetAttr "CanRemoveTutor02 1"
+							Return 1
+						Block end
+						
+						//MissionLog remove,tutor02
+					}
+				}
+				
+				xpt_RefreshHelper
+				{
+					actions
+					{
+						Timer tRefreshHelper,10
+						ChangeAttr "HelpersShown 1"
+						
+						IfAttr "HelpersShown ==  1 ShowMessage #P3_PDB_HELPER01"
+						IfAttr "HelpersShown ==  2 ShowMessage #P3_PDB_HELPER02"
+						IfAttr "HelpersShown ==  3 ShowMessage #P3_PDB_HELPER03"
+						IfAttr "HelpersShown ==  4 ShowMessage #P3_PDB_HELPER04"
+						//IfAttr "HelpersShown ==  5 ShowMessage #P3_PDB_HELPER05"
+						//IfAttr "HelpersShown ==  6 ShowMessage #P3_PDB_HELPER06"
+						//IfAttr "HelpersShown ==  7 ShowMessage #P3_PDB_HELPER07"
+						//IfAttr "HelpersShown ==  8 ShowMessage #P3_PDB_HELPER08"
+						//IfAttr "HelpersShown ==  9 ShowMessage #P3_PDB_HELPER09"
+						//IfAttr "HelpersShown == 10 ShowMessage #P3_PDB_HELPER10"
+						//IfAttr "HelpersShown == 11 ShowMessage #P3_PDB_HELPER11"
+						//IfAttr "HelpersShown == 12 ShowMessage #P3_PDB_HELPER12"
+						//IfAttr "HelpersShown == 13 ShowMessage #P3_PDB_HELPER13"
+						//IfAttr "HelpersShown == 14 ShowMessage #P3_PDB_HELPER14"
+						//IfAttr "HelpersShown == 15 ShowMessage #P3_PDB_HELPER15"
+						//IfAttr "HelpersShown == 16 ShowMessage #P3_PDB_HELPER16"
+					}
+				}
+			}
+		}
+		
+	}
+	events
+	{
+		OnTimer_tCheckHealth "ExecutePattern st_util.xpt_CheckHealth"
+		OnTimer_tRemoveTutor02	"ExecutePattern st_util.xpt_RemoveTutor02"
+		
+		//OnTutor01_Escape	"ShowMessage #P3_PDB_T01_ESCAPE"
+		//OnTutor02_Escape	"ShowMessage #P3_PDB_T02_ESCAPE"
+		//OnTutor03_Escape	"ShowMessage #P3_PDB_T03_ESCAPE"
+		//OnTutor03_Block		"ShowMessage #P3_PDB_T03_BLOCK"
+		//OnTutor04_Escape	"ShowMessage #P3_PDB_T04_ESCAPE"
+		//OnTutor04_Block		"ShowMessage #P3_PDB_T04_BLOCK"
+		//OnTutor05_Escape	"ShowMessage #P3_PDB_T05_ESCAPE"
+		//OnTutor05_Block		"ShowMessage #P3_PDB_T05_BLOCK"
+		//OnTutor06_Escape	"ShowMessage #P3_PDB_T06_ESCAPE"
+		
+		OnTimer_tRefreshHelper "ExecutePattern st_util.xpt_RefreshHelper"
+		OnAttrMax_HelpersShown	"Timer tRefreshHelper,0"
+		
+		OnNewGame				"ExecutePattern weaponGive.PDB"
+	}
+}
+
+
+
+
+behavior
+{
+	name bh_pdb_champ
+	inherited bh_actor
+	States
+	{
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetHintGroup hg_champ
+						TargetPlayer 1
+						Timer tCheckLOS,2,repeated
+						Timer tKill,10
+						SetAreaGroup AG_DEFAULT,AG_ZOMBIE02
+						FreeMovementParams hint_all,0,-1,hint_group
+						Pattern pt_move
+					}
+				}
+				
+				pt_move
+				{
+					actions
+					{
+						FreeMovement run
+					}
+					events
+					{
+						OnInvalidRoute "Repeat 1"
+						OnTargetReach "Npc kill"
+						OnTimer_tCheckLOS "CheckLOS 1"
+						OnLOS "Timer tKill,5"
+						OnTimer_tKill "Npc kill"
+					}
+				}
+				
+			}
+		}
+	}
+}
+
+
+behavior
+{
+	name bh_swat01
+	inherited bh_military
+	states
+	{
+		st_init
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions 
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						SetAttr "ea_crit_disabled 1"
+						SetSquad SWAT_Squad
+						SetSquadRelation Player_squad:enemy:1
+						
+						TargetEntByName mission_logic
+						TargetToMem msGP
+						ResetTarget 1
+						
+						Timer tSay,0:5
+					}
+				}
+			}
+		}
+			
+		st_start
+		{
+			group Neutral
+			patterns
+			{
+				pt_default
+				{
+					actions 
+					{
+						Aim true
+						Wait 1
+						Pattern pt_attack
+					}
+				}
+				
+				pt_crouch
+				{
+					actions
+					{
+						Crouch true
+						WaitForEnd 1
+						Pattern pt_attack
+					}
+				}
+				
+				pt_attack
+				{
+					actions
+					{
+						TargetPlayer 1
+						
+						ExecutePattern .xpt_say
+						
+						IfAttr "slot#msGP.PlayerNear == 0 Block begin"
+							Hit SPREAD_BLIND
+							Wait 1:2
+						Block end
+						
+						IfAttr "slot#msGP.PlayerNear == 1 Block begin"
+							Hit SPREAD_ACCURACY
+							FireEvent Hit
+							ChangeAttr "target.ea_health -15"
+							Wait 0.5
+						Block end
+						
+						Repeat 0
+					}
+				}
+				
+				pt_selfkill
+				{
+					actions
+					{
+						Npc kill,0
+					}
+				}
+				
+				xpt_say
+				{
+					actions
+					{
+						IfAttr "Timer:tSay > 0 Return 1"
+						Say SW_CATCH
+						Timer tSay,5:5
+					}
+				}
+			}
+			events
+			{
+				OnAE_Kill01 "Pattern pt_selfkill"
+			}			
+		}
+	}	
+}
+
+behavior
+{
+	name bh_pdb_zombie
+	inherited bh_actor
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetActPack ACT_IDLE,idle_zombie
+						SetActPack ACT_IDLE,idle_zombie,Wound
+						SetActPack ACT_WALK,walk_zombie
+						SetActPack ACT_WALK,walk_zombie,Wound
+						
+						SetAttr "flag_zombie 1"
+						
+						TargetEntByName mission_logic
+						TargetToMem msGP
+						ResetTarget 1
+					}
+				}
+			}
+		}
+		st_attack
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Sequence seq.idle_zombie,1
+						SetActPack ACT_IDLE,idle_zombie
+						TargetPlayer 1
+						Face true
+						Pattern pt_move
+					}
+				}
+				
+				pt_move
+				{
+					actions
+					{
+						MoveToTarget walk,0
+						Wait 2:5
+						Say ZOMB_MOAN,ZOMB_CURSE,0
+						CheckTarget 1
+						Repeat 1
+					}
+					events
+					{
+						OnVisible "Pattern pt_barf"
+					}
+				}
+				
+				pt_barf
+				{
+					actions
+					{
+						MoveToTarget false
+						Wait 0:1
+						Sequence seq.zombie_barf
+						WaitForEnd 1
+						Wait 0:1
+						Pattern pt_move
+					}
+					events
+					{
+						OnAnimBARF "Say ZOMB_BARF,1"
+					}
+				}
+			}
+			events
+			{
+				OnKicked "Repeat 5"
+				OnRecover "Repeat 1"
+				OnStandUpEnd "Repeat 1"
+			}
+		}
+		st_OnIgnite
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						FreeMovement false
+						ExecutePattern .xpt_setparams
+						Timer tPlayGesture,3,repeated
+						Senses false
+						Gesture g_onfire,3
+						//SetAttr "ignite 1"
+						Pattern pt_runaround
+					}
+				}
+				
+				pt_runaround
+				{
+					actions
+					{
+						FreeMovement run,reset
+						Say ZOMB_CURSE,ZOMB_HIT,2
+						Wait 2:4
+						Repeat 0
+					}
+					events
+					{
+						OnTimer_tPlayGesture "Gesture g_onfire,3"
+						OnInvalidRoute "Repeat 0"
+						OnTargetReach "Repeat 0"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						//RemoveAttr ignite
+						SetActPack ACT_RUN,default_run,Alert
+						AvoidProhibitedArea true
+						Senses true
+						State st_start
+					}
+				}
+				
+				xpt_SetParams
+				{
+					actions
+					{
+						SetActPack ACT_RUN,run_panic
+						FreeMovementParams area_all,ED_CLOSE,ED_FAR
+						AvoidProhibitedArea false
+					}
+				}
+			}
+			events
+			{
+				OnExtinguish "Pattern pt_end"
+			}
+		}
+		
+		st_OnDeath
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						
+					}
+				}
+			}
+		}
+		
+		st_corpse
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "ea_status sCORPSE"
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnIgnite "State st_OnIgnite"
+		OnDeath	"ExecutePattern st_OnDeath.pt_default"
+		OnHit	"Say ZOMB_CURSE,ZOMB_HIT"
+	}
+}
+
+
+behavior // зомби которые жрут мертвых солдат
+{
+	name bh_zombie_eater
+	inherited bh_pdb_zombie
+	
+	States
+	{
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Wait 0:1
+						Say ZOMB_MOAN
+						Sequence zomb_eat_corpse,9000
+						Repeat 120
+					}
+					events
+					{
+						OnKicked "Repeat 5"
+						OnRecover "Repeat 1"
+						OnStandUpEnd "Repeat 1"
+					}
+				}
+			}
+		}
+	}
+	
+}
+
+
+behavior
+{
+	name bh_zombie01
+	inherited bh_pdb_zombie
+	States
+	{
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						CheckAttr "slot#msGP.Tutor03Attack State st_attack"
+						Repeat 1
+					}
+				}
+			}
+		}
+		st_OnDeath
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetEntByName mission_logic
+						FireEvent Zombie01Dead
+						
+						//ShowMessage "[Zombie dead],$P3Mission"
+					}
+				}
+			}
+		}
+		
+	}
+}
+
+
+behavior
+{
+	name bh_zombie02
+	inherited bh_zombie01
+	States
+	{
+		
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						CheckAttr "active Pattern pt_activate"
+						Senses false
+						Repeat 0.5
+					}
+				}
+				
+				pt_activate
+				{
+					actions
+					{
+						Senses true
+						TargetPlayer 1
+						ExecutePattern .xpt_SetAG
+						FreeMovementParams area_all,0,ED_CLOSE,area_group
+						Pattern pt_move //,pt_attack
+					}
+				}
+				
+				pt_move
+				{
+					actions
+					{
+						FreeMovement walk
+						Wait 0:5
+						Say ZOMB_MOAN
+						Wait 10:5
+						Repeat 0
+					}
+				}
+				
+				pt_attack
+				{
+					actions
+					{
+						State st_attack
+					}
+				}
+				
+				xpt_SetAG
+				{
+					actions
+					{
+						SetAreaGroup AG_ZOMBIE02
+					}
+				}
+				
+				xpt_activate
+				{
+					actions
+					{
+						SetAttr "active 1"
+					}
+				}
+			}
+			events
+			{
+				OnKicked "Repeat 5"
+				OnRecover "Repeat 1"
+				OnStandUpEnd "Repeat 1"
+				//OnTargetClose "State st_attack"
+				OnAE_Zomb02Activate "ExecutePattern .xpt_activate"
+			}
+		}
+		
+	}
+}
+
+
+behavior
+{
+	name bh_zombie02_eater
+	inherited bh_zombie02
+	
+	States
+	{
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetPlayer 1
+						Wait 0:1
+						Say ZOMB_MOAN
+						Sequence zomb_eat_corpse,9000
+						Repeat 120
+					}
+					events
+					{
+						//OnTargetClose "State st_attack"
+					}
+				}
+			}
+		}
+	}
+	
+}
+
+
+behavior
+{
+	name bh_zombie03
+	inherited bh_zombie02
+	States
+	{
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_attack
+				{
+					actions
+					{
+						Pattern pt_move
+					}
+				}
+				
+				xpt_SetAG
+				{
+					actions
+					{
+						SetAreaGroup AG_ZOMBIE03
+					}
+				}
+			}
+			events
+			{
+				//OnTargetClose "Wait 0"
+			}
+		}
+		
+		st_OnDeath
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetEntByName mission_logic
+						FireEvent Tutor05ZombieDead
+						//ExecutePattern bh_base:st_OnDeath.pt_default
+					}
+				}
+			}
+		}
+	}
+}
+
+
+
+behavior
+{
+	name bh_swat03
+	inherited bh_civil
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						SetSquad SWAT_squad
+						SetSquadRelation Player_squad:neutral
+						
+						SetAttr "StandBy 1"
+						SetAttr "ReactionThreshold RE_DANGER"
+						//SetAttr "flag_IgnorePlayerAttack 1"
+						SetAttr "flag_IgnorePlayerFear 1"
+						SetAttr "flag_IgnoreCombat 1"
+						SetAttr "flag_IgnoreWeapon 1"
+						
+						Timer tSay,0:5
+					}
+				}
+			}
+		}
+		
+		st_combat_logic
+		{
+			Group Combat
+			Patterns
+			{
+				xpt_SayAttack
+				{
+					actions
+					{
+						IfAttr "Timer:tCanSay > 0 Return 1"
+						Say CATCH,HEROIC
+						Timer tCanSay,5:3
+					}
+				}
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_decide
+				{
+					actions
+					{
+						Pattern pt_gotohint
+					}
+				}
+				
+				pt_idle
+				{
+					actions
+					{
+						Wait 5
+						State st_start
+					}
+				}
+				
+				xpt_SetHintGroup
+				{
+					actions
+					{
+						SetHintGroup wish_fun_soldier
+					}
+				}
+				
+				xpt_SetHintParams
+				{
+					actions
+					{
+						FreeMovementParams hint_all,0,ED_VERY_CLOSE,hint_group,hint_face,use_node,once
+					}
+				}
+				
+				xpt_OnVisible
+				{
+					actions
+					{
+						IfAttr "Object:caller == Object:Player Block begin"
+							TargetCaller 1
+							ExecutePattern st_util.xpt_AddPlayerToEnemy
+							RemoveAttr StandBy
+							AreaEvent ENEMY,128
+							State st_start
+						Block end
+						
+						IgnoreTarget 10
+						ResetTarget 1
+					}
+				}
+				
+				xpt_AllyHostaged
+				{
+					actions
+					{
+						TargetCaller 1
+						IfAttr "target.ea_faction != self.ea_faction Return 1"
+						ExecutePattern st_util.xpt_AddPlayerToEnemy
+						RemoveAttr StandBy
+						TargetPlayer 1
+					}
+				}
+				
+				xpt_EnemyIsNear
+				{
+					actions
+					{
+						//AreaEvent ENEMY,8
+						ExecutePattern st_util.xpt_AddPlayerToEnemy
+						RemoveAttr StandBy
+						State st_start
+					}
+				}
+				
+				xpt_OnNewEnemy
+				{
+					actions
+					{
+						RemoveAttr StandBy
+						State st_start
+					}
+				}
+			}
+			events
+			{
+				OnAE_HOSTAGED "ExecutePattern .xpt_AllyHostaged"
+				OnAE_ENEMY "ExecutePattern .xpt_AllyHostaged"
+				OnAE_EnemyIsNear	"ExecutePattern .xpt_EnemyIsNear"
+				OnVisible "Wait 0"
+			}
+		}
+		
+		st_combat_hide
+		{
+			Group Combat
+			Patterns
+			{
+				pt_hide_param
+				{
+					actions 
+					{
+						MoveToLean run,ED_VERY_CLOSE,ED_FAR,not_behind_target,nearest
+						Pattern pt_hide_loop
+					}
+				}
+			}
+		}
+		
+		st_OnHostaged
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						AreaEvent HOSTAGED,ED_FAR
+						TargetPlayer 1
+						ExecutePattern st_util.xpt_AddPlayerToEnemy
+						RemoveAttr StandBy
+						ExecutePattern bh_base:st_OnHostaged.pt_default
+					}
+				}
+				
+				pt_resque
+				{
+					actions
+					{
+						AreaEvent HOSTAGE_RESQUE,ED_FAR
+						Pattern pt_resque_exit
+					}
+				}
+
+			}
+		}
+		
+		st_OnNasty
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						AreaEvent ENEMY,16
+						ExecutePattern st_util.xpt_AddPlayerToEnemy
+						ExecutePattern bh_base:st_OnNasty.pt_default
+					}
+				}
+				
+				pt_react
+				{
+					actions
+					{
+						Pattern pt_puke
+					}
+				}
+			}
+		}
+		
+		st_OnKicked
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						AreaEvent ENEMY,16
+						ExecutePattern st_util.xpt_AddPlayerToEnemy
+						ExecutePattern bh_base:st_OnKicked.pt_default
+					}
+				}
+			}
+		}
+		
+		st_OnSprayStunned
+		{	
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						AreaEvent ENEMY,16
+						Weapon drop
+						ExecutePattern bh_base:st_OnSprayStunned.pt_default
+					}
+				}
+				
+			}
+		}
+		
+		st_OnIgnite
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						AreaEvent ENEMY,16
+						ExecutePattern bh_base:st_OnIgnite.pt_default
+					}
+				}
+			}
+		}
+		
+		ev_chair
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_sit
+				{
+					actions
+					{
+						Sequence seq.env_chair_2,9000
+						Wait 60:120
+						Repeat 0
+						//Pattern pt_end
+					}
+					events
+					{
+						OnTimer_tSitIdle	"ExecutePattern .xpt_idle"
+					}
+				}
+				
+				xpt_AttackPlayer
+				{
+					actions
+					{
+						AreaEvent ENEMY,16
+						ExecutePattern st_util.xpt_AddPlayerToEnemy
+						RemoveAttr StandBy
+						Pattern pt_end
+					}
+				}
+			}
+			events
+			{
+				//OnAE_HOSTAGED "ExecutePattern st_idle.xpt_AttackPlayer"
+				OnAE_ENEMY 		"ExecutePattern .xpt_AttackPlayer"
+				OnAE_EnemyIsNear	"ExecutePattern .xpt_AttackPlayer"
+				OnNewEnemy		"ExecutePattern .xpt_AttackPlayer"
+			}
+		}
+		
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						AreaEvent ENEMY,16
+						TargetFromMem msGP
+						FireEvent SoldierDead
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+		
+	}
+}
+
+behavior
+{
+	name bh_look_tut_point
+	inherited bh_actor
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetEntByName mission_logic
+						TargetToMem msGP
+						ResetTarget 1
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetPlayer 1
+						CheckLOS 1
+						Repeat 1
+					}
+					events
+					{
+						OnLOS "ExecutePattern .xpt_OnLOS"
+					}
+				}
+				
+				xpt_OnLOS
+				{
+					actions
+					{
+						TargetFromMem msGP
+						FireEvent PlayerLookedOK
+					}
+				}
+			}
+		}
+	}
+}

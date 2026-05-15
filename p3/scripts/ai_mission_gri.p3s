@@ -1171,6 +1171,9 @@ behavior
 						SetAttr "ea_no_gibs 1"
 						SetAttr "Conscious 1"
 						SetAttr "voice_pitch 1"
+						
+						// Play kill escort line if killed by the Player
+						SetAttr "ea_escort 1"
 					}
 				}
 			}

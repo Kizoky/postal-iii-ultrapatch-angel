@@ -1573,6 +1573,9 @@ behavior
 						Timer tCheckWang,3,repeated
 						Timer tSayWang,0
 						Timer tRegen,5,repeated
+						
+						// Play kill escort line if killed by the Player
+						SetAttr "ea_escort 1"
 					}
 				}
 			}

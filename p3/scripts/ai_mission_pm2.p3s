@@ -1,0 +1,2407 @@
+Constants
+{
+	Const PM2_ROBBERS_NUM,2
+	Const PM2_MONKEYS_NUM,10
+	Const PM2_ZEALOTS_NUM,8
+	Const PM2_SNIPERS_NUM,3
+	Const PM2_FIGHTER_NUM,5 //с каждой стороны
+	Const PM2_CHANSE_TO_THROW,15
+}
+
+behavior
+{
+	name bh_mission_pm2
+	inherited bh_mission_logic_base
+	
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "Crime01NotDone 1" //грабители
+						SetAttr "Crime02NotDone 1" //макаки
+						SetAttr "Crime03NotDone 1" //бабка
+						SetAttr "Crime04NotDone 1" //снайперэ
+						SetAttr "Crime05NotDone 1" //драка
+						SetAttr "Crime06NotDone 1" //зилоты
+						SetAttr "Crime06LogNotAdded 1"
+						
+						SetAttr "FirstRun 1"
+						SetAttr "DoNotPlayMusicOnStart 1"
+						
+						SetAttr "PlayerPath PATH_GOOD"
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						CheckAttr "FirstRun Pattern pt_OnFirstRun"
+						ExecutePattern .xpt_CheckProgress
+						ExecutePattern st_util.xpt_StopCrimeMusic
+					}
+				}
+				
+				pt_OnFirstRun
+				{
+					actions
+					{
+						EntFireInput muzak.crime,Volume:0
+						//EntFireInput "pcc,Command:p3_player_skin cop"
+						PlayerKarma show
+						ExecutePattern st_crime01.xpt_set
+						ExecutePattern st_crime02.xpt_set
+						ExecutePattern st_crime05.xpt_set
+						ExecutePattern st_crime06.xpt_set
+						//MissionBriefing "#P3_PM2_BRIEF"
+						Wait 1
+						
+						MissionLog add_primary,Crime01,#P3_PM2_CRIME01_PRE
+						MissionLog add_primary,Crime02,#P3_PM2_CRIME02_PRE
+						MissionLog add_primary,Crime03,#P3_PM2_CRIME03_PRE
+						MissionLog add_primary,Crime04,#P3_PM2_CRIME04_PRE
+						MissionLog add_primary,Crime05,#P3_PM2_CRIME05_PRE
+						
+						RemoveAttr FirstRun
+						State st_start
+					}
+				}
+				
+				xpt_CheckProgress
+				{
+					actions
+					{
+						CheckAttr "Crime01NotDone Return 1"
+						CheckAttr "Crime02NotDone Return 1"
+						CheckAttr "Crime03NotDone Return 1"
+						CheckAttr "Crime04NotDone Return 1"
+						CheckAttr "Crime05NotDone Return 1"
+						CheckAttr "Crime06LogNotAdded Block begin"
+							MissionLog add_primary,Crime06,#P3_PM2_CRIME06_PRE
+							RemoveAttr Crime06LogNotAdded
+						Block end
+						CheckAttr "Crime06NotDone Return 1"
+						State st_end
+					}
+				}
+				
+				xpt_CheckCrime06
+				{
+					actions
+					{
+						CheckAttr "Crime01NotDone Return 1"
+						CheckAttr "Crime02NotDone Return 1"
+						CheckAttr "Crime03NotDone Return 1"
+						CheckAttr "Crime04NotDone Return 1"
+						CheckAttr "Crime05NotDone Return 1"
+						CheckAttr "Crime06NotDone State st_crime06"
+					}
+				}
+			}
+			events
+			{
+				OnCrime01_Begin "CheckAttr Crime01NotDone State st_crime01"
+				OnCrime02_Begin "CheckAttr Crime02NotDone State st_crime02"
+				OnCrime03_Begin "CheckAttr Crime03NotDone State st_crime03"
+				OnCrime04_Begin "CheckAttr Crime04NotDone State st_crime04"
+				OnCrime05_Begin "CheckAttr Crime05NotDone State st_crime05"
+				OnCrime06_Begin "ExecutePattern .xpt_CheckCrime06"
+			}
+		}
+		
+		st_crime01 //Robbers
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_set
+				{
+					actions
+					{
+						SetAttr "RobbersLeft PM2_ROBBERS_NUM,0,PM2_ROBBERS_NUM,on_change_event"
+					}
+				}
+				
+				pt_default
+				{
+					actions
+					{
+						PlayVideo pm_2_2,1.0,1.0
+						Wait 0.9
+						
+						//EntFireInput "robber_spawner,AddMaxChildren:PM2_ROBBERS_NUM"
+						EntFireInput "robber_spawner_01,Enable"
+						EntFireInput "robber_spawner_02,Enable"
+						
+						Wait 0.1
+						ExecutePattern st_util.xpt_StartCrimeMusic
+						ExecutePattern .xpt_UpdateRobbersInfo
+						
+						Wait 0.5
+						ShowMessage #P3_PM2_CRIME01_MSG
+					}
+					events
+					{
+						OnFire_RobberDone "ChangeAttr RobbersLeft -1"
+						OnAttrChange_RobbersLeft "ExecutePattern .xpt_UpdateRobbersInfo"
+						OnAttrMin_RobbersLeft "Pattern pt_done"
+						OnRobbersEscaped "Pattern pt_fail"
+					}
+				}
+				
+				pt_done
+				{
+					actions
+					{
+						ExecutePattern .xpt_UpdateRobbersInfo
+						MissionLog done,Crime01
+						Pattern pt_exit
+					}
+				}
+				
+				pt_fail
+				{
+					actions
+					{
+						ExecutePattern .xpt_UpdateRobbersInfo
+						MissionLog fail,Crime01
+						PlayerKarma -KARMA_HIGH
+						AreaEvent RobbersAreFree,1024
+						Pattern pt_exit
+					}
+				}
+				
+				pt_exit
+				{
+					actions
+					{
+						RemoveAttr RobbersLeft
+						RemoveAttr Crime01NotDone
+						EntFireInput "robber_spawner,KillHierarhy"
+						State st_start
+					}
+				}
+				
+				
+				xpt_UpdateRobbersInfo
+				{
+					actions
+					{
+						MissionLog add_primary,Crime01,#P3_PM2_CRIME01_LOG
+					}
+				}
+			}
+			events
+			{
+				OnFire_PlayerLeftCrime01	"Pattern pt_fail"
+				OnFire_Crime05StartsEarly	"Pattern pt_fail"
+			}
+		}
+		
+		st_crime02 //Monkeys
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_set
+				{
+					actions
+					{
+						SetAttr "MonkeysNum PM2_MONKEYS_NUM,0,PM2_MONKEYS_NUM,on_change_event"
+					}
+				}
+				
+				pt_default
+				{
+					actions
+					{
+						PlayVideo pm_2_3,1.0,1.0
+						Wait 0.9
+						EntFireInput "monkey_spawner,AddMaxChildren:PM2_MONKEYS_NUM"
+						EntFireInput "monkey_spawner,Enable"
+						Wait 0.1
+						ExecutePattern st_util.xpt_StartCrimeMusic
+						ExecutePattern .xpt_UpdateMonkeysInfo
+						Wait 0.5
+						ShowMessage #P3_PM2_CRIME02_MSG
+					}
+					events
+					{
+						OnFire_MonkeyDead "ChangeAttr MonkeysNum -1"
+						OnAttrChange_MonkeysNum "ExecutePattern .xpt_UpdateMonkeysInfo"
+						OnAttrMin_MonkeysNum "Pattern pt_done"
+					}
+				}
+				
+				pt_done
+				{
+					actions
+					{
+						ExecutePattern .xpt_UpdateMonkeysInfo
+						MissionLog done,Crime02
+						Pattern pt_exit
+					}
+				}
+				
+				pt_fail
+				{
+					actions
+					{
+						MissionLog fail,Crime02
+						PlayerKarma -KARMA_HIGH
+						Pattern pt_exit
+					}
+				}
+				
+				pt_exit
+				{
+					actions
+					{
+						RemoveAttr Crime02NotDone
+						RemoveAttr MonkeyNum
+						State st_start
+					}
+				}
+				
+				xpt_UpdateMonkeysInfo
+				{
+					actions
+					{
+						MissionLog add_primary,Crime02,#P3_PM2_CRIME02_LOG
+					}
+				}
+			}
+			events
+			{
+				OnFire_PlayerLeftCrime02	"Pattern pt_fail"
+				OnFire_Crime05StartsEarly	"Pattern pt_fail"
+			}
+		}
+		
+		st_crime03 //Granny
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						PlayVideo pm_2_4,1.0,1.0
+						Wait 0.9
+						EntFireInput "victim_spawner,enable"
+						EntFireInput "granny_spawner,enable"
+						Wait 0.1
+						SetAttr "Crime03Active 1"
+						ExecutePattern st_util.xpt_StartCrimeMusic
+						Wait 0.5
+						
+						MissionLog add_primary,Crime03,#P3_PM2_CRIME03_LOG
+						ShowMessage #P3_PM2_CRIME03_MSG
+					}
+					events
+					{
+						OnFire_BabuskaDead "Pattern pt_done"
+						OnFire_VictimDead "Pattern pt_fail"
+					}
+				}
+				
+				pt_done
+				{
+					actions
+					{
+						MissionLog done,Crime03
+						Pattern pt_exit
+					}
+				}
+				
+				pt_fail
+				{
+					actions
+					{
+						PlayerKarma -KARMA_HIGH
+						MissionLog fail,Crime03
+						Pattern pt_exit
+					}
+				}
+				
+				pt_exit
+				{
+					actions
+					{
+						RemoveAttr Crime03NotDone
+						RemoveAttr Crime03Active
+						State st_start
+					}
+				}
+				
+				xpt_FailEarly
+				{
+					actions
+					{
+						CheckAttr "Crime03NotDone Block begin"
+							MissionLog add_primary,Crime03,#P3_PM2_CRIME03_LOG
+							MissionLog fail,Crime03
+							PlayerKarma -KARMA_HIGH
+							RemoveAttr Crime03NotDone
+						Block end
+					}
+				}
+				
+				xpt_DoneEarly
+				{
+					actions
+					{
+						CheckAttr "Crime03NotDone Block begin"
+							MissionLog add_primary,Crime03,#P3_PM2_CRIME03_LOG
+							MissionLog done,Crime03
+							RemoveAttr Crime03NotDone
+						Block end
+					}
+				}
+			}
+			events
+			{
+				OnFire_Crime05StartsEarly	"Pattern pt_fail"
+			}
+		}
+		
+		st_crime04 //Snipers
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						PlayVideo pm_2_5,1.0,1.0
+						Wait 0.9
+						//EntFireInput "corpse_spawner,enable"
+						EntFireInput "crime04_teleport,Teleport"
+						EntFireInput "sniper1_spawner,enable"
+						EntFireInput "sniper2_spawner,enable"
+						EntFireInput "sniper3_spawner,enable"
+						SetAttr "SnipersLeft PM2_SNIPERS_NUM,0,PM2_SNIPERS_NUM,on_change_event"
+						Wait 0.1
+						ExecutePattern st_util.xpt_StartCrimeMusic
+						EntFireInput tg_apartments_01,Enable
+						EntFireInput tg_apartments_02,Enable
+						EntFireInput tg_apartments_03,Enable
+						Wait 0.5
+						ShowMessage #P3_PM2_CRIME04_MSG
+						MissionLog add_primary,Crime04,#P3_PM2_CRIME04_LOG
+					}
+					events
+					{
+						OnFire_SniperDead "ChangeAttr SnipersLeft -1"
+						OnAttrChange_SnipersLeft "MissionLog add_primary,Crime04,#P3_PM2_CRIME04_LOG"
+						OnAttrMin_SnipersLeft "Pattern pt_done"
+						OnApartmentsLeft	"Pattern pt_fail"
+					}
+				}
+				
+				pt_done
+				{
+					actions
+					{
+						MissionLog add_primary,Crime04,#P3_PM2_CRIME04_LOG
+						MissionLog done,Crime04
+						Pattern pt_exit
+					}
+				}
+				
+				pt_fail
+				{
+					actions
+					{
+						MissionLog fail,Crime04
+						EntFireInput npc_sniper1,Kill
+						EntFireInput npc_sniper2,Kill
+						EntFireInput npc_sniper3,Kill
+						PlayerKarma -KARMA_HIGH
+						Pattern pt_exit
+					}
+				}
+				
+				pt_exit
+				{
+					actions
+					{
+						RemoveAttr Crime04NotDone
+						State st_start
+					}
+				}
+			}
+		}
+		
+		st_crime05 //Fighting!
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_set
+				{
+					actions
+					{
+						SetAttr "FightersMax PM2_FIGHTER_NUM"
+						ChangeAttr "FightersMax *2"
+						SetAttr "FightersNum FightersMax,0,FightersMax,on_change_event"
+						SetAttr "FightersDead 0,0,FightersMax"
+					}
+				}
+				
+				pt_default
+				{
+					actions
+					{
+						PlayVideo pm_2_6,1.0,1.0
+						Wait 1
+						ExecutePattern st_util.xpt_StartCrimeMusic
+						SetAttr "Crime05Active 1"
+						
+						Wait 0.5
+						ShowMessage #P3_PM2_CRIME05_MSG
+						ExecutePattern .xpt_UpdateFightersInfo
+					}
+					events
+					{
+						OnFire_FighterDead	"ExecutePattern .xpt_OnFighterDead"
+						OnFire_FighterDone	"ChangeAttr FightersNum -1"
+						OnAttrMax_FightersDead "Pattern pt_fail"
+						OnAttrMin_FightersNum "Pattern pt_done"
+						OnAttrChange_FightersNum "ExecutePattern .xpt_UpdateFightersInfo"
+					}
+				}
+				
+				pt_done
+				{
+					actions
+					{
+						ExecutePattern .xpt_UpdateFightersInfo
+						MissionLog done,Crime05
+						Pattern pt_exit
+					}
+				}
+				
+				pt_fail
+				{
+					actions
+					{
+						ExecutePattern .xpt_UpdateFightersInfo
+						MissionLog fail,Crime05
+						PlayerKarma -KARMA_HIGH
+						Pattern pt_exit
+					}
+				}
+				
+				pt_exit
+				{
+					actions
+					{
+						RemoveAttr FightersNum
+						RemoveAttr FightersDead
+						RemoveAttr FightersMax
+						RemoveAttr Crime05NotDone
+						RemoveAttr Crime05Active
+						State st_start
+					}
+				}
+				
+				xpt_OnFighterDead
+				{
+					actions
+					{
+						ChangeAttr "FightersNum -1"
+						ChangeAttr "FightersDead +1"
+					}
+				}
+				
+				xpt_UpdateFightersInfo
+				{
+					actions
+					{
+						MissionLog add_primary,Crime05,#P3_PM2_CRIME05_LOG
+					}
+				}
+			}
+		}
+		
+		st_crime06 //Zealots
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_set
+				{
+					actions
+					{
+						SetAttr "ZealotsMax PM2_ZEALOTS_NUM"
+						ChangeAttr "ZealotsMax +1"
+						SetAttr "ZealotsLeft ZealotsMax,0,ZealotsMax,on_change_event"
+					}
+				}
+				
+				pt_default
+				{
+					actions
+					{
+						PlayVideo pm_2_7,1.0,1.0
+						Wait 0.9
+						EntFireInput "zealot_spawner,AddMaxChildren:PM2_ZEALOTS_NUM"
+						EntFireInput "fastfooder_spawner,enable"
+						EntFireInput "zealot_spawner,enable"
+						EntFireInput "wolverine_spawner,enable"
+						
+						Wait 0.1
+						ExecutePattern st_util.xpt_StartCrimeMusic
+						
+						Wait 0.5
+						ShowMessage #P3_PM2_CRIME06_MSG
+						
+						//MissionLog add_primary,Crime06,#P3_PM2_CRIME06_LOG
+						
+						SetAttr "ZealotsHere 1"
+					}
+					events
+					{
+						OnAllFastFoodersDead "Pattern pt_fail"
+						OnFire_ZealotDead "ChangeAttr ZealotsLeft -1"
+						OnAttrChange_ZealotsLeft "ExecutePattern .xpt_UpdateZealotsInfo"
+						OnAttrMin_ZealotsLeft "Pattern pt_done"
+					}
+				}
+				
+				pt_done
+				{
+					actions
+					{
+						ExecutePattern .xpt_UpdateZealotsInfo
+						MissionLog done,Crime06
+						Pattern pt_exit
+					}
+				}
+				
+				pt_fail
+				{
+					actions
+					{
+						ExecutePattern .xpt_UpdateZealotsInfo
+						MissionLog fail,Crime06
+						PlayerKarma -KARMA_HIGH
+						Pattern pt_exit
+					}
+				}
+				
+				pt_exit
+				{
+					actions
+					{
+						RemoveAttr ZealotsLeft
+						RemoveAttr ZealotsMax
+						RemoveAttr Crime06NotDone
+						State st_start
+					}
+				}
+				
+				xpt_UpdateZealotsInfo
+				{
+					actions
+					{
+						MissionLog add_primary,Crime06,#P3_PM2_CRIME06_LOG
+					}
+				}
+			}
+		}
+		
+		st_end
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						EntFireInput fade_in,fade
+						Wait 1
+						TargetPlayer 1
+						IfAttr "Karma:target == 0 Pattern pt_bad"
+						Pattern pt_good
+					}
+				}
+				
+				pt_good
+				{
+					actions
+					{
+						EntFireInput "pcc,Command:video_exitcmd pm_2_8 p3_end_mission"
+					}
+				}
+				
+				pt_bad
+				{
+					actions
+					{
+						EntFireInput "pcc,Command:video_exitcmd pm_2_9 p3_end_mission"
+					}
+				}
+			}
+		}
+		
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_StartCrimeMusic
+				{
+					actions
+					{
+						//Disable ambient here
+						EntFireUser muzak.ambient,1
+						//Start crime music
+						EntFireInput "muzak.crime,FadeIn:1"
+						//EntFireInput "muzak.crime,PlaySound"
+					}
+				}
+				
+				xpt_StopCrimeMusic
+				{
+					actions
+					{
+						CheckAttr "DoNotPlayMusicOnStart Block begin" //чтобы музыка не фейдилась на старте миссии
+							RemoveAttr DoNotPlayMusicOnStart
+							Return 1
+						Block end
+						
+						//Enable ambient
+						EntFireUser muzak.ambient,2
+						//Stop crime music
+						EntFireInput "muzak.crime,FadeOut:2"
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnFire_BabuskaDead "ExecutePattern st_crime03.xpt_DoneEarly"
+		OnFire_VictimDead "ExecutePattern st_crime03.xpt_FailEarly"
+		OnFire_Crime05StartsEarly	"State st_crime05"
+		OnFire_FighterDead	"ExecutePattern st_crime05.xpt_OnFighterDead"
+		OnFire_FighterDone	"ChangeAttr FightersNum -1"
+		
+		OnNewGame	"ExecutePattern weaponGive.PM2"
+	}
+}
+
+
+behavior
+{
+	name bh_pm2_robber
+	inherited bh_civil
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						SetAttr "ea_status sMILITANT"
+						SetSquad Robbers_squad
+						SetAttr "ReactionThreshold RE_FEAR"
+						SetAttr "IgnorePlayerFear 1"
+						SetAttr "IgnoreWeapon 1"
+						
+						Timer tCheckDistance,5,repeated
+					}
+				}
+				
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_CheckCombat
+				{
+					actions
+					{
+						IfAttr "RelationTo:Player == Relation:Enemy TargetPlayer 1"
+						CheckAttr "NeedToRunAway State st_runaway"
+						ExecutePattern bh_base:st_start.xpt_CheckCombat
+					}
+				}
+				
+				xpt_FirstRun
+				{
+					actions
+					{
+						SpawnItem bag_spawner,owner,hand_left
+						ExecutePattern bh_base:st_start.xpt_FirstRun
+					}
+				}
+				
+				xpt_combat
+				{
+					actions
+					{
+						Item drop
+						ExecutePattern bh_base:st_start.xpt_combat
+					}
+				}
+				
+			}
+		}
+		
+		st_combat_logic
+		{
+			Group Combat
+			Patterns
+			{
+				xpt_SetTaskDefault
+				{
+					actions
+					{
+						SetAttr "combat_rnd 0"
+						ChangeAttr "combat_rnd 0:1"
+						IfAttr "combat_rnd == 0 SetAttr TaskCombat TC_POSITION"
+						IfAttr "combat_rnd == 1 SetAttr TaskCombat TC_MOVE"
+						RemoveAttr combat_rnd
+					}
+				}
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						//SetHintGroup "hg_robbers"
+						FreeMovementParams hint_all,ED_CLOSE,ED_VERY_FAR,hint_group,nearest
+						//FreeMovementParams area_all,-1,-1
+						FreeMovement run
+						Repeat 5
+					}
+					events
+					{
+						OnTargetReach "State st_start"
+					}
+				}
+				
+				xpt_OnHit
+				{
+					actions
+					{
+						IfAttr "Object:caller == Object:Player Block begin"
+							ExecutePattern st_util.xpt_AttackedByPlayer
+							ExecutePattern st_util.xpt_AddPlayerToEnemy
+						Block end
+						ExecutePattern st_util.xpt_OnHit
+						State st_start
+					}
+				}
+				
+				xpt_OnVisible
+				{
+					actions
+					{
+						ResetTarget 1
+						Return 1
+						
+						IfAttr "Object:caller != Object:player ResetTarget 1"
+						IfAttr "Object:caller == Object:player Block begin"
+							ExecutePattern st_util.xpt_AddPlayerToEnemy
+							State st_start
+						Block end
+					}
+				}
+			}
+			events
+			{
+				OnAE_PlayerBad "ExecutePattern st_util.xpt_OnPlayerBad"
+			}
+		}
+		
+		st_runaway
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Aim false
+						Crouch false
+						Face false
+						LookAt false
+						Lean false
+					
+						TargetPlayer 1
+						FreeMovementParams area_all,ED_FAR,-1,from_target,move_from_target
+						FreeMovement run
+						Timer tKill,3
+						Pattern pt_loop
+					}
+				}
+				
+				pt_loop
+				{
+					actions
+					{
+						IfAttr "Timer:tKill <= 0 Npc kill"
+						CheckLOS 1
+						Repeat 1
+					}
+					events
+					{
+						OnLOS "Timer tKill,3"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction >= RE_KICKED Pattern pt_end"
+					}
+				}
+			}
+		}
+		
+		st_OnTasing
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern st_util.xpt_AttackedByPlayer
+						Pattern bh_base:st_OnTasing.pt_default
+					}
+				}
+			}
+		}
+		
+		st_OnTased
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern st_util.xpt_AttackedByPlayer
+						Pattern bh_base:st_OnTased.pt_default
+					}
+				}
+			}
+		}
+		
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern st_util.xpt_AttackedByPlayer
+						TargetFromMem msGP
+						FireEvent RobberDone
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+		
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_AddPlayerToEnemy
+				{
+					actions
+					{
+						IfAttr "RelationTo:Player == Relation:Enemy Return 1"
+						
+						TargetPlayer 1
+						Relationship target,enemy,5
+						Headblob 2,Attention
+						Timer tResetHeadblob,3
+						Say 2COP
+						//SetSquadRelation Player_squad:enemy:5
+						//AreaEvent PlayerBad,128
+					}
+				}
+				
+				xpt_AttackedByPlayer
+				{
+					actions
+					{
+						ExecutePattern st_util.xpt_AddPlayerToEnemy
+						AreaEvent PlayerBad,16
+					}
+				}
+				
+				xpt_OnPlayerBad
+				{
+					actions
+					{
+						ExecutePattern st_util.xpt_AddPlayerToEnemy
+						TargetPlayer 1
+						State st_start
+					}
+				}
+				
+				xpt_OnStartRunaway
+				{
+					actions
+					{
+						SetAttr "NeedToRunAway 1"
+						State st_start
+					}
+				}
+				
+				xpt_CheckDistance
+				{
+					actions
+					{
+						IfAttr "DistTo:Player < ED_VERY_FAR Return 1"
+						TargetFromMem msGP
+						FireEvent PlayerLeftCrime01
+					}
+				}
+			}
+		}
+		
+	}
+	events
+	{
+		OnAE_RobbersAreFree		"ExecutePattern st_util.xpt_OnStartRunaway"
+		OnTimer_tResetHeadblob	"Headblob 2,false"
+		OnTimer_tCheckDistance	"ExecutePattern st_util.xpt_CheckDistance"
+	}
+}
+
+behavior
+{
+	name bh_pm2_sniper
+	inherited bh_civil
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						SetAttr "flag_IgnoreWeapon 1"
+						SetAttr "flag_IgnoreCombat 1"
+						SetAttr "flag_IgnorePlayerAttack 1"
+						SetAttr "flag_IgnorePlayerFear 1"
+						SetAttr "ReactionThreshold RE_DANGER"
+						
+						SetAreaGroup AG_SNIPER
+						SetSquadRelation Player_squad:enemy:5
+						
+						SetAttr "flag_VitalEnemy 1"
+					}
+				}
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						FreeMovementParams area_all,-1,128
+						FreeMovement run
+						Wait 3
+						State st_start
+					}
+				}
+			}
+			events
+			{
+				OnVisible "Wait 0"
+			}
+		}
+		
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetFromMem msGP
+						FireEvent SniperDead
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+		
+	}
+	
+}
+
+
+behavior
+{
+	name bh_pm2_corpse
+	inherited bh_human
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "ea_health 0"
+					}
+				}
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+					}
+				}
+			}
+		}
+		
+	}
+}
+
+
+
+behavior
+{
+	name bh_pm2_zealot
+	inherited bh_civil
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						SetAttr "flag_IgnorePlayerFear 1"
+						SetAttr "flag_IgnoreCombat 1"
+						SetAttr "flag_IgnoreWeapon 1"
+						SetAttr "flag_VitalEnemy 1"
+						
+						SetSquad Zealot_squad
+						SetSquadRelation Fastfood_squad:enemy:2,player_squad:enemy:3
+						SetAreaGroup AG_FASTFOOD,AG_DEFAULT:walkable
+						SetAttr "ReactionThreshold RE_FEAR"
+						
+						SetAttr "GrenadeType GRND_TYPE_BEENEST"
+						SetAttr "BombardChance 20"
+						ChangeAttr "GrenadesNum 0:2"
+						IfAttr "GrenadesNum != 0 ChangeAttr GrenadesNum -1"
+					}
+				}
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_decide
+				{
+					actions
+					{
+						Pattern pt_idle
+					}
+				}
+				
+			}
+		}
+		
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetFromMem msGP
+						FireEvent ZealotDead
+						
+						IfAttr "Object:caller == Object:player ExecutePattern st_util.xpt_AddPlayerToEnemy"
+						
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+		
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_OnAttackedByPlayer
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_util.xpt_OnAttackedByPlayer
+						IfAttr "Object:caller == Object:player ExecutePattern st_util.xpt_AddPlayerToEnemy"
+					}
+				}
+				
+				xpt_AddPlayerToEnemy
+				{
+					actions
+					{
+						SetSquadRelation Player_squad:enemy:5
+					}
+				}
+			}
+		}
+		
+	}
+}
+
+behavior
+{
+	name bh_pm2_victim
+	inherited bh_civil
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						SetAttr "flag_bystander 1"
+					}
+				}
+			}
+		}
+		
+		st_fear
+		{
+			Group Alert
+			Patterns
+			{
+				xpt_SetParams
+				{
+					actions
+					{
+						FreeMovementParams area_hidden,ED_MIDDLE,ED_FAR,move_from_target,area_group
+					}
+				}
+			}
+		}
+		
+		
+	}
+}
+
+
+behavior
+{
+	name bh_pm2_fastfooder
+	inherited bh_pm2_victim
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						SetSquad Fastfood_squad
+						SetAreaGroup AG_FASTFOOD
+						SetSquadRelation Zealot_squad:fear,local
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						CheckAttr "slot#msGP.ZealotsHere State st_fear"
+						ExecutePattern bh_base:st_start.pt_default
+					}
+				}
+			}
+		}
+		
+	}
+}
+
+
+behavior
+{
+	name bh_pm2_babuska
+	inherited bh_civil
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						SetAttr "ReactionThreshold RE_DANGER"
+						//ResetTarget 1
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_ChooseEnemy
+				{
+					actions
+					{
+						CheckAttr "slot#msENEMY.active Block begin"
+							TargetFromMem msENEMY
+							State st_creep
+						Block end
+						ExecutePattern bh_base:st_start.xpt_ChooseEnemy
+					}
+				}
+				
+				xpt_FirstRun
+				{
+					actions
+					{
+						TargetEntByName "npc_victim"
+						TargetToMem msENEMY
+						Relationship target,enemy,1
+						
+						ExecutePattern bh_base:st_start.xpt_FirstRun
+					}
+				}
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Wait 1
+						State st_start
+					}
+					events
+					{
+						OnNewEnemy "State st_start"
+					}
+				}
+			}
+		}
+		
+		st_combat_logic
+		{
+			Group Combat
+			Patterns
+			{
+				xpt_setTaskDefault  // дефолтное задание
+				{
+					actions 
+					{
+						SetAttr "TaskCombat TC_POSITION"
+					}
+				}
+			}
+		}
+		
+		st_creep
+		{
+			Group Combat
+			Patterns
+			{
+				pt_default
+				{
+					actions 
+					{
+						Face true
+						Aim true,false
+						SetAttr "NumCreepLoops 0,0,3"
+						Pattern pt_creep_loop
+					}
+				}
+				
+				pt_creep_loop
+				{
+					actions
+					{
+						Say TOUGH
+						Wait 3
+						CheckAttr "slot#msGP.Crime03Active Block begin"
+							Hit SpreadMove
+							SetAttr "ea_status sMILITANT"
+						Block end
+						Wait 2:2
+						CheckAttr "slot#msGP.Crime03Active ChangeAttr NumCreepLoops +1"
+						IfAttr "NumCreepLoops == 3 Pattern pt_shoot"
+						Repeat 0
+					}
+				}
+				
+				pt_shoot
+				{
+					actions
+					{
+						Hit SpreadMove
+						Wait 1:2
+						Repeat 0
+					}
+				}
+				
+				pt_done
+				{
+					actions
+					{
+						ExecutePattern st_util.xpt_AddPlayerToEnemy
+						Pattern pt_end
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						Face false
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction >= RE_SNATCHED Pattern pt_end"
+					}
+				}
+			}
+			events
+			{
+				OnTargetReset "Pattern pt_end"
+				OnFire_VictimDead "Pattern pt_done"
+			}
+		}
+		
+		
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetFromMem msGP
+						FireEvent BabuskaDead
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnFire_VictimDead "ExecutePattern st_util.xpt_AddPlayerToEnemy"
+	}
+}
+
+
+behavior
+{
+	name bh_pm2_rob_victim
+	inherited bh_pm2_civil
+	States
+	{
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Crouch false
+						Senses true
+						TargetEntByName npc_babuska
+						IfAttr "Object:target != Object:Null Block begin"
+							CheckAttr "target.active Block begin"
+								Relationship target,fear
+								State st_begging
+							Block end
+						Block end
+						ExecutePattern bh_base:st_start.pt_default
+					}
+				}
+			}
+		}
+		
+		st_begging
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Sequence seq.env_crouch,9000
+						//FreeMovementParams area_visible,16,32
+						//FreeMovement true
+						Gesture g_emote_afraid
+						Timer tCover,3,repeated
+						Timer tSay,7:3,repeated
+					}
+					events
+					{
+						OnTimer_tCover	"Gesture g_emote_afraid"
+						OnTimer_tSay	"Say CRY,DONTKILLME"
+					}
+				}
+				
+				pt_done
+				{
+					actions
+					{
+						SetAttr "NewReaction RE_FEAR"
+						Pattern pt_end
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						State st_start
+					}
+				}
+				
+				xpt_ReactionChange
+				{
+					actions
+					{
+						IfAttr "reaction > RE_FEAR Pattern pt_end"
+					}
+				}
+			}
+			events
+			{
+				OnTargetReset "Pattern pt_done"
+				OnTargetArrested "Pattern pt_done"
+				OnTargetUnconscious "Pattern pt_done"
+			}
+		}
+		
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetEntByName npc_babuska
+						FireEvent VictimDead
+						TargetFromMem msGP
+						FireEvent VictimDead
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+	}
+}
+
+behavior
+{
+	name bh_pm2_fighter
+	inherited bh_civil
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						Timer tRetarget,0
+						Timer tCheckActivity,1,repeated
+						SetAttr "StandBy 1"
+						
+						SetAttr "flag_IgnoreCombat 1"
+						SetAttr "flag_IgnorePlayerFear 1"
+						SetAttr "flag_IgnorePlayerAttack 1"
+						SetAttr "flag_IgnoreWeapon 1"
+						SetAttr "ReactionThreshold RE_DANGER"
+						
+						SetAttr "NumInvRoute 0,0,3"
+					}
+				}
+			}
+		}
+		
+		st_init1
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern st_init.pt_default
+						SetSquad fighter_squad1
+						SetAttr "GangNum 1"
+						//SetSquadRelation fighter_squad2:enemy:1
+					}
+				}
+			}
+		}
+		
+		st_init2
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern st_init.pt_default
+						SetSquad fighter_squad2
+						SetAttr "GangNum 2"
+						//SetSquadRelation fighter_squad1:enemy:1
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern st_util.xpt_SetRetargetTimer
+						ExecutePattern bh_base:st_start.pt_default
+					}
+				}
+				
+				xpt_ChooseEnemy
+				{
+					actions
+					{
+						IfAttr "slot#msGP.FightersNum <= 3 ExecutePattern st_util.xpt_AddPlayerToEnemy"
+						IfAttr "NumInvRoute == 3 State st_cheer"
+						ExecutePattern bh_base:st_start.xpt_ChooseEnemy
+					}
+				}
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "busy 1"
+						CheckAttr "StandBy Pattern pt_standby_decide"
+						IfAttr "ea_NumEnemy > 0 State st_start"
+						CheckAttr "slot#msGP.Crime05NotDone State st_start"
+						
+						ExecutePattern bh_base:st_idle.pt_default
+					}
+				}
+				
+				pt_standby_decide
+				{
+					actions
+					{
+						CheckAttr "GangLeader Pattern pt_provoke"
+						Pattern pt_standby
+					}
+				}
+				
+				pt_provoke
+				{
+					actions
+					{
+						Wait 0:2
+						Sequence emote_aggro
+						Say TOUGH,BULLY,TAUNT
+						Wait 5:3
+						State st_start
+					}
+				}
+				
+				pt_standby
+				{
+					actions
+					{
+						Wait 5
+						State st_start
+					}
+				}
+				
+				xpt_CheckActivity
+				{
+					actions
+					{
+						CheckAttr "slot#msGP.Crime05Active Block begin"
+							RemoveAttr StandBy
+							Timer tCheckActivity,0
+							Timer tChangePlace,3:7
+							IfAttr "GangNum == 1 SetSquadRelation fighter_squad2:enemy:1"
+							IfAttr "GangNum == 2 SetSquadRelation fighter_squad1:enemy:1"
+							
+							CheckAttr "ImAMan Block begin"
+								SetActPack ACT_IDLE,melee_box_idle,Alert
+								SetActPack ACT_IDLE,melee_box_idle,wound
+							Block end
+						Block end
+					}
+				}
+			}
+			events
+			{
+				OnVisible "Wait 0"
+				OnTimer_tCheckActivity "ExecutePattern .xpt_CheckActivity"
+			}
+		}
+		
+		st_attack_melee
+		{
+			Group Combat
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						IfAttr "Timer:tChangePlace <= 0 and Object:target != Object:Player Pattern pt_change_place"
+						IfAttr "Object:target == Object:player Block begin"
+							HeadBlob 2,Attention
+							Timer tResetHeadBlob,3
+						Block end
+						Pattern bh_base:st_attack_melee.pt_default
+					}
+				}
+				pt_attack
+				{
+					actions 
+					{
+						AreaEvent Crime05,8
+						Pattern bh_base:st_attack_melee.pt_attack
+					}
+				}
+				pt_runloop
+				{
+					actions
+					{
+						MoveToTarget run,1
+						Repeat 3
+					}
+					events
+					{ 
+						OnTargetReach "Pattern pt_face"
+						OnInvalidRoute "Pattern pt_invroute"
+					}
+				}
+
+				pt_box
+				{
+					actions
+					{
+						AreaEvent Crime05,8
+						Pattern bh_base:st_attack_melee.pt_box
+					}
+				}
+				pt_push
+				{
+					actions
+					{
+						AreaEvent Crime05,8
+						Pattern bh_base:st_attack_melee.pt_push
+					}
+					events
+					{
+						OnAnim_PUSH_HEAVY "ExecutePattern .xpt_ChoosePush"
+					}
+				}
+				xpt_ChoosePush
+				{
+					actions
+					{
+						CheckAttr "target.GangNum Return 1"
+						IfAttr "Object:target == Object:player Push self,target,hard"
+						IfAttr "Object:target != Object:player Push self,target,medium"
+					}
+				}
+				pt_change_place
+				{
+					actions
+					{
+						FreeMovementParams area_all,ED_VERY_CLOSE,ED_CLOSE
+						FreeMovement run
+						Timer tChangePlace,5:5
+						Wait 2:1
+						Pattern pt_end
+					}
+					events
+					{
+						OnTargetReach "Pattern pt_end"
+					}
+				}
+				pt_invroute
+				{
+					actions
+					{
+						ChangeAttr "NumInvRoute +1"
+						Pattern pt_end
+					}
+				}
+			}
+		}
+		
+		st_cheer
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "NumInvRoute 0"
+						Pattern pt_cheer
+					}
+				}
+				pt_cheer
+				{
+					actions
+					{
+						Sequence emote_aggro
+						Say CHEER,BULLY,TOUGH
+						WaitForEnd 1
+						Wait 1:1
+						Pattern pt_end
+					}
+				}
+				pt_end
+				{
+					actions
+					{
+						State st_start
+					}
+				}
+				xpt_ReactionChange
+				{
+					actions
+					{
+						Pattern pt_end
+					}
+				}
+			}
+		}
+		
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_AddPlayerToEnemy
+				{
+					actions
+					{
+						TargetPlayer 1
+						SetSquadRelation Player_squad:enemy:5
+					}
+				}
+				
+				xpt_OnHit
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_util.xpt_OnHit
+						ExecutePattern st_util.xpt_AgressionDetected
+					}
+				}
+				
+				xpt_AgressionDetected
+				{
+					actions
+					{
+						IfAttr "Object:caller == Object:player Block begin"
+							AreaEvent PlayerBad,8,Citizen
+							ExecutePattern st_util.xpt_AddPlayerToEnemy
+						Block end
+					}
+				}
+				
+				xpt_SetRetargetTimer
+				{
+					actions
+					{
+						IfAttr "Timer:tRetarget <= 0 Block begin"
+							Timer tRetarget,10
+							IfAttr "Object:target == Object:player Timer tRetarget,30"
+						Block end
+					}
+				}
+				
+				xpt_Retarget
+				{
+					actions
+					{
+						IfAttr "RelationTo:target == Relation:Enemy Block begin"
+							IgnoreTarget 1
+							ResetTarget 1
+							TargetEnemy 1
+						Block end
+						ExecutePattern st_util.xpt_SetRetargetTimer
+						State st_start
+					}
+				}
+				
+				xpt_OnAttackedByPlayer
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_util.xpt_OnAttackedByPlayer
+						CheckAttr "slot#msGP.Crime05Active Return 1"
+						TargetFromMem msGP
+						FireEvent Crime05StartsEarly
+						ResetTarget 1
+					}
+				}
+			}
+		}
+		
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern st_util.xpt_AgressionDetected
+						TargetFromMem msGP
+						IfAttr "ea_health <= 0 FireEvent FighterDead"
+						IfAttr "ea_health >  0 FireEvent FighterDone"
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+		
+	}
+	events
+	{
+		OnTimer_tRetarget "ExecutePattern st_util.xpt_SetRetargetTimer"
+		OnTargetUnconscious "ExecutePattern st_util.xpt_Retarget"
+		OnTargetArrested "ExecutePattern st_util.xpt_Retarget"
+		
+		OnTimer_tResetHeadblob	"Headblob 2,false"
+		OnImGangLeader	"SetAttr GangLeader 1"
+	}
+}
+
+
+
+
+behavior
+{
+	name bh_pm2_monkey
+	inherited bh_animal
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						
+						TargetEntByName mission_logic
+						TargetToMem msGP
+						ResetTarget 1
+						
+						Timer tFacefuck,0
+						Timer tCheckDistance,10,repeated
+					}
+				}
+			}
+		}
+		
+		st_attack
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						TargetToMem msTEMP
+						TargetItem 1
+						IfAttr "Object:target == Object:slot#msTEMP State st_facefuck"
+						TargetFromMem msTEMP
+						ClearMem msTEMP
+						State st_throw
+					}
+				}
+			}
+		}
+		
+		st_throw
+		{
+			Group Combat
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						State st_start
+					}
+				}
+			}
+		}
+		
+		st_facefuck
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						FreeMovement false
+						IfAttr "Timer:tFacefuck > 0 State st_start"
+						Headblob 2,Attention
+						Timer tResetHeadblob,3
+						IfAttr "DistTo:target < 32 Pattern pt_snatch"
+						Pattern pt_move
+					}
+				}
+				
+				pt_move
+				{
+					actions
+					{
+						MoveToTarget run,2
+						Wait 5:5
+						IgnoreTarget 5
+						ResetTarget 1
+						State st_start
+					}
+					events
+					{
+						OnTargetClose "Pattern pt_snatch"
+						OnTargetReach "Pattern pt_snatch"
+					}
+				}
+				
+				pt_snatch
+				{
+					actions
+					{
+						//MoveToTarget false
+						//Wait 0.1
+						Snatch true,fucking_monkey
+						Wait 2.5
+						Pattern pt_end
+					}
+					events
+					{
+						OnSnatch "Pattern pt_fuck"
+					}
+				}
+				
+				pt_fuck
+				{
+					actions
+					{
+						
+						Wait 4:4
+						Timer tFacefuck,20
+						Snatch false
+					}
+					events
+					{
+						OnUnsnatch "Pattern pt_end"
+					}
+				}
+				
+				pt_end
+				{
+					actions
+					{
+						IgnoreTarget 10
+						ResetTarget 1
+						State st_start
+					}
+				}
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ResetTarget 1
+						CallPattern pt_angry
+						Wait 0:2
+						Pattern pt_move
+					}
+				}
+				
+				pt_angry
+				{
+					actions
+					{
+						SetAttr "rnd 0"
+						ChangeAttr "rnd 0:4"
+						
+						IfAttr "rnd == 0 Block begin"
+							RemoveAttr rnd
+							Wait 0:2
+							Sequence seq.idle_angry
+							WaitForEnd 1
+							ResetSequence 1
+						Block end
+						
+						RemoveAttr rnd
+					}
+				}
+				
+				pt_move
+				{
+					actions
+					{
+						SetAreaGroup AG_MONKEY
+						FreeMovementParams area_all,ED_CLOSE,ED_FAR,area_group
+						FreeMovement random
+						Wait 3:5
+						Pattern pt_default
+					}
+					events
+					{
+						OnTargetReach "Pattern pt_default"
+						OnInvalidRoute "Pattern pt_default"
+					}
+				}
+				
+				xpt_OnVisible
+				{
+					actions
+					{
+						StateMatrix faction
+						StateMatrix social
+						IgnoreTarget 3
+						ResetTarget 1
+					}
+				}
+			}
+			events
+			{
+				OnVisible "ExecutePattern .xpt_OnVisible"
+			}
+		}
+		
+		st_deactivate
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{	
+					actions
+					{
+						TargetFromMem msGP
+						FireEvent MonkeyDead
+						
+						ExecutePattern bh_base:st_deactivate.pt_default
+					}
+				}
+			}
+		}
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_CheckDistance
+				{
+					actions
+					{
+						IfAttr "DistTo:Player < ED_VERY_FAR Return 1"
+						
+						TargetFromMem msGP
+						FireEvent PlayerLeftCrime02
+					}
+				}
+			}
+		}
+	}
+	events
+	{
+		OnTimer_tResetHeadblob	"Headblob 2,false"
+		OnTimer_tCheckDistance	"ExecutePattern st_util.xpt_CheckDistance"
+	}
+}
+
+
+
+behavior
+{
+	name bh_pm2_civil
+	inherited bh_hub2_civil
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						SetAttr "flag_bystander 1"
+					}
+				}
+			}
+		}
+		st_init_static
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern st_init.pt_default
+						SetAttr "flag_static 1"
+					}
+				}
+			}
+		}
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_SetAreaGroup
+				{
+					actions
+					{
+						SetAreaGroup AG_DEFAULT,AG_MONKEY,AG_FASTFOOD
+					}
+				}
+				
+				xpt_SetHintGroup
+				{
+					actions
+					{
+						SetHintGroup wish_fun_idle
+						CheckAttr "IHaveCell SetHintGroup wish_fun_idle,wish_fun_phone"
+						CheckAttr "ImAMan SetHintGroup wish_fun_idle,wish_fun_phone,wish_fun_man"
+						//Because all MAvgs can use phone
+						
+						IfAttr "ea_manner == Manner:LowLife SetHintGroup wish_fun_hobo"
+					}
+				}
+			}
+		}
+		
+	}
+	events
+	{
+		OnAE_HasWeapon "Wait 0"
+		OnAE_Crime05	"SetAttr NewReaction RE_FEAR"
+	}
+}
+
+
+behavior
+{
+	name bh_pm2_cop
+	inherited bh_police
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_init.pt_default
+						SetAttr "ea_takeable 0"
+					}
+				}
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_SetAreaGroup
+				{
+					actions
+					{
+						SetAreaGroup AG_DEFAULT,AG_MONKEY,AG_FASTFOOD
+					}
+				}
+			}
+		}
+		
+	}
+	events
+	{
+		OnAE_NPCDead "Wait 0"
+	}
+}
