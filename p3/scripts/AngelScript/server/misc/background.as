@@ -72,6 +72,9 @@ class CBackgroundMap : IPostal3Script
 		CBaseEntity@ plr = pplayer.GetBaseEntity();
 		
 		plr.SetAbsOrigin(pos);
+		
+		// Stop yapping
+		pplayer.GetP3SObj().SetAttr("ea_gagged", 1);
 	}
 	
 	[HIDDEN]
