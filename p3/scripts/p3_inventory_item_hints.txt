@@ -1,0 +1,20 @@
+// TODO: this shit starts at 102, make it read into unique id or namespace for inventory items
+HintData
+{
+	TextureData
+	{
+		"cash_hint"
+		{
+			"file"		"VGui\HUD\Items\cash"
+			"width"		"128"
+			"height"	"128"
+		}
+
+		"pizza_hint"
+		{	
+			"file"		"VGui\HUD\Items\pizza"
+			"width"		"128"
+			"height"	"128"	
+		}
+	}
+}
