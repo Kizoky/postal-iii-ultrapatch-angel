@@ -10,22 +10,42 @@
 		// This should be referred to angel::pizza in maps and AngelScript (both server and client)
 		"pizza"
 		{
+			"displayName"	"Pizza"								// Name of the inventory item
 			"behavior"		"bh_angelitem_pizza" 				// Postal3Script behavior
 			"faction"		"Items"				 				// Postal3Script faction
 			"manner"		"itmFood"			 				// Postal3Script manner
-			"initState"		"st_init"			 				// The init state of bh_angelitem_pizza
-			"startState"	"st_start"			 				// The start state of bh_angelitem_pizza
-			"stacking"		"1"					 				// This item can be stacked, won't occupy multiple inventory slots when picked up multiple times
-			"maxStacking"	"7"					 				// The maximum number of stacking, Player won't be able to pick up any more of this type of item
-																// and won't occupy another slot
+			"initState"		"st_init"			 				// Postal3Script init state of bh_angelitem_pizza
+			"startState"	"st_start"			 				// Postal3Script start state of bh_angelitem_pizza
+			
+			"stacking"		"1"					 				// (Default: 1)
+																// This item can be stacked, won't occupy multiple inventory slots when picked up multiple times
+			
+			"maxStacking"	"0"					 				// (Default: 0)
+																// The maximum number of stacking, Player won't be able to pick up any more of this type of item
+																// and won't occupy another slot (Set to 0 to allow unlimited amount of stacks)
 												 
-			"canBeDropped"	"1"					 				// Whether the item could be dropped by the Player or not
+			"canBeDropped"	"1"					 				// (Default: 1)
+																// Whether the item could be dropped by the Player or not
+																// scripters can still force it to be dropped or deleted
+			
+			"touch" 		"1"									// (Default: 1)
+																// Whether Players are able to pick up the item by touching it or not (Postal 2-style)
+																// This can be used to setup special pick up rules (inside P3S) like making the Player pick it up in their hands first
+																
+			"blink" 		"1"									// (Default: 1)
+																// Item will pulsate/blink like in Postal 2 or like the weapons do in Ultrapatch already
+																
+			"scripting" 	"1"									// (Default: 1)
+																// Item will have working Postal3Script when it is stored in a Player or an NPC's inventory
+																// Some events (like OnDrop) and functions might stop working properly if disabled
+																
 			"model"			"models/small_things/pizza_01.mdl"	// The inventory item's new model, this can be left blank to use the model provided by the mapper or scripter
-			"icon"			"hud/items/pizza.vtf"				// Used by client, the icon for the inventory item to display
+			"icon"			"hud/pizza"							// Used by client, the icon for the inventory item to display
 		}
 		
 		"myseconditem"
 		{
+			"displayName"	"Pissy Pizza"						// Name of the inventory item
 			"behavior"		"bh_angelitem_pizza" 				// Postal3Script behavior
 			"faction"		"Items"				 				// Postal3Script faction
 			"manner"		"itmFood"			 				// Postal3Script manner
@@ -37,13 +57,13 @@
 												 
 			"canBeDropped"	"1"					 				// Whether the item could be dropped by the Player or not
 			"model"			"models/small_things/pizza_01.mdl"	// The inventory item's new model, this can be left blank to use the model provided by the mapper or scripter
-			"icon"			"hud/items/pizza.vtf"				// Used by client, the icon for the inventory item to display
+			"icon"			"hud/pizza"							// Used by client, the icon for the inventory item to display
 		}
 	}
 }
 
 // Inventory items must use 'wj_prop_fsmitem' prop in maps or scripts
-// This prop has a keyfield called 'InventoryItem', for the pizza example above this should be 'angel::pizza'
+// This prop has a keyfield called 'TransformItem', for the pizza example above this should be 'angel::pizza'
 // do note that you must always use a namespace!
 
 // for scripters, create the entity as normal, but before spawning it call the function "TransformItem"

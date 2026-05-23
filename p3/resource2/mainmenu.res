@@ -1,5 +1,14 @@
 "MainMenu"
-{	
+{
+	"Cheats"
+	{
+		"text"			"Cheats"
+		"description"	""
+		"command"		"cvar gameui2_opencheatsdialog"
+		"priority"		"666"
+		"specifics"		"shared"
+	}
+	
 	"ResumeGame"
 	{
 		"text"			"#GameUI2_ResumeGame"
