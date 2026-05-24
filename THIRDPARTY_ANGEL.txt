@@ -17,6 +17,7 @@ Permission is granted to anyone to use this software for any purpose, including 
 	3. This notice may not be removed or altered from any source distribution.
 
 
+
 ************************************************************************************
 gameui2 (https://github.com/SourceEnginePlayground/Hyperborea/tree/master/sp/src/game/gameui2)
 ************************************************************************************
@@ -27,6 +28,7 @@ Creative Commons Attribution-ShareAlike 4.0 International License.
 
 You should have received a copy of the license along with this
 work.  If not, see <http://creativecommons.org/licenses/by-sa/4.0/>.
+
 
 
 ************************************************************************************
@@ -56,6 +58,8 @@ imgui Implementation (https://github.com/Source-SDK-Resources/source-2013-imgui)
 *  SOFTWARE.
 *********************************************************************************/
 
+
+
 ************************************************************************************
 imgui (Library) (https://github.com/ocornut/imgui)
 ************************************************************************************
@@ -81,6 +85,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
+
 ************************************************************************************
 P3 engine hack (by Grizzle) https://github.com/flashintv/P3PrecacheIncrease
+************************************************************************************
+
+
+************************************************************************************
+weapon_physgun https://github.com/FriskTheFallenHuman/Half-Life-2-Sandbox-Source-Code
 ************************************************************************************
