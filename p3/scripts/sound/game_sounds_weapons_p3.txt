@@ -375,13 +375,21 @@
 "Weapon_M16.Single"
 {
 	"channel"		"CHAN_WEAPON"
-	"volume"	    "0.5"
-	"pitch"			"100,105"
-
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
 	"rndwave"
 	{
-		"wave"		"weapons/m16/m16_shot_01.wav"
-		"wave"		"weapons/m16/m16_shot_02.wav"
+		"wave"		"weapons/m16/m-16_shot_05.wav"
+		"wave"		"weapons/m16/m-16_shot_06.wav"
+		"wave"		"weapons/m16/m-16_shot_07.wav"
+		"wave"		"weapons/m16/m-16_shot_08.wav"
+		"wave"		"weapons/m16/m-16_shot_09.wav"
+		"wave"		"weapons/m16/m-16_shot_10.wav"
+		"wave"		"weapons/m16/m-16_shot_11.wav"
+		"wave"		"weapons/m16/m-16_shot_12.wav"
+		"wave"		"weapons/m16/m-16_shot_13.wav"
+		"wave"		"weapons/m16/m-16_shot_14.wav"
+		"wave"		"weapons/m16/m-16_shot_15.wav"
 	}
 }
 
