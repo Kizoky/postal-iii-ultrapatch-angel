@@ -38,6 +38,9 @@ WeaponData
 	"ConsciousRate"			"1.0" 	// conscious rate per hit/shoot
 	// NPCs react negatively to this weapon if seen on humans
 	"Dangerous"				"0"
+	
+	// This weapon spawns a "projectile" and plays throwing anims
+	"IsThrowable"			"1"
 
 	// Sounds for the weapon. There is a max of 16 sounds per category (i.e. max 16 "single_shot" sounds)
 	SoundData
