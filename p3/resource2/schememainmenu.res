@@ -6,7 +6,7 @@
 		"MainMenu.Logo.OffsetY"							"10" // "10" // "0"
 
 		"MainMenu.P3Logo.OffsetX"						"-98" // "5" // "1" // "0"
-		"MainMenu.P3Logo.OffsetY"						"-135" // "10" // "0"
+		"MainMenu.P3Logo.OffsetY"						"-130" // "10" // "0"
 
 		"MainMenu.Logo.AttachToMenu"					"0"
 		"MainMenu.Logo.AlignToLeft"						"1"
@@ -20,28 +20,28 @@
 		"MainMenu.Button.Width.Pressed"					"240"
 		"MainMenu.Button.Width.Released"				"240"
 
-		"MainMenu.Button.Height.Out"					"40" // "40"
-		"MainMenu.Button.Height.Over"					"40" // "64"
-		"MainMenu.Button.Height.Pressed"				"40" // "64"
-		"MainMenu.Button.Height.Released"				"40" // "64"
+		"MainMenu.Button.Height.Out"					"36" // "40"
+		"MainMenu.Button.Height.Over"					"36" // "64"
+		"MainMenu.Button.Height.Pressed"				"36" // "64"
+		"MainMenu.Button.Height.Released"				"36" // "64"
 
 		"MainMenu.Button.Text.OffsetX"					"3" // "-1" // "10"
 		"MainMenu.Button.Text.OffsetY"					"-6" // "0"
 
-	//	"MainMenu.Button.Description.OffsetX"			"1"
-	//	"MainMenu.Button.Description.OffsetY"			"-5" // "-3"
+	//	"MainMenu.Button.Description.OffsetX"			"0"
+	//	"MainMenu.Button.Description.OffsetY"			"0" // "-3"
 
-		"MainMenu.Button.Description.OffsetX.Out"		"31"
-		"MainMenu.Button.Description.OffsetX.Over"		"1"
-		"MainMenu.Button.Description.OffsetX.Pressed"	"1"
-		"MainMenu.Button.Description.OffsetX.Released"	"1"
+		"MainMenu.Button.Description.OffsetX.Out"		"0"
+		"MainMenu.Button.Description.OffsetX.Over"		"0"
+		"MainMenu.Button.Description.OffsetX.Pressed"	"0"
+		"MainMenu.Button.Description.OffsetX.Released"	"0"
 
 		"MainMenu.Button.Description.OffsetY.Out"		"-5"
 		"MainMenu.Button.Description.OffsetY.Over"		"-5"
 		"MainMenu.Button.Description.OffsetY.Pressed"	"-5"
 		"MainMenu.Button.Description.OffsetY.Released"	"-5"
 
-		"MainMenu.Button.Description.Hide.Out"			"1"
+		"MainMenu.Button.Description.Hide.Out"			"0"
 		"MainMenu.Button.Description.Hide.Over"			"0"
 		"MainMenu.Button.Description.Hide.Pressed"		"0"
 		"MainMenu.Button.Description.Hide.Released"		"0"
@@ -79,8 +79,8 @@
 		"MainMenu.Button.Text.Released"					"255 255 255 255"
 
 		"MainMenu.Button.Text.Glow.Out"					"0 0 0 0" // "255 186 33 0"
-		"MainMenu.Button.Text.Glow.Over"				"0 0 0 0" // "255 186 33 255"
-		"MainMenu.Button.Text.Glow.Pressed"				"0 0 0 0" // "255 186 33 0"
+		"MainMenu.Button.Text.Glow.Over"				"255 0 0 255" // "255 186 33 255"
+		"MainMenu.Button.Text.Glow.Pressed"				"255 0 0 255"
 		"MainMenu.Button.Text.Glow.Released"			"0 0 0 0" // "255 186 33 0"
 
 		"MainMenu.Button.Description.Out"				"0 0 0 0"
@@ -110,7 +110,7 @@
 			"settings"
 			{
 				"name"			"soup" // Roboto Medium
-				"tall"			"25"
+				"tall"			"32"
 				"weight"		"400"
 				"antialias"		"1"
 			}
@@ -120,7 +120,7 @@
 		{
 			"settings"
 			{
-				"name"			"Nokia Pure Text Regular" // Roboto Medium
+				"name"			"Roboto Medium" // Roboto Medium
 				"tall"			"25"
 				"weight"		"400"
 				"antialias"		"0"
@@ -133,7 +133,7 @@
 			"settings"
 			{
 				"name"			"Noto Sans"
-				"tall"			"16"
+				"tall"			"1"
 				"weight"		"400"
 				"antialias"		"1"
 			}
