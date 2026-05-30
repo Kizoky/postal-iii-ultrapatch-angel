@@ -33,6 +33,9 @@ WeaponData
 	// NPCs react negatively to this weapon if seen on humans
 	"Dangerous"				"1"
 
+	// This weapon spawns a "projectile" and plays throwing anims
+	"IsThrowable"			"1"
+
 // weapon types
 // none 0
 // animal 1
