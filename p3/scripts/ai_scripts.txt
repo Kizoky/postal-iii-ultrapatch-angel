@@ -2,7 +2,6 @@ ultrapatch/ai_teargas.p3s
 ultrapatch/ai_nextbot.p3s
 ultrapatch/ai_sound.p3s
 
-ai_ammobox.p3s
 
 ai_weapon.p3s
 
