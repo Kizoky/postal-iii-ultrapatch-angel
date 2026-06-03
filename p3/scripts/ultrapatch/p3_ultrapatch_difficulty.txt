@@ -1,0 +1,67 @@
+// Difficulty system
+// 
+// 
+// // Identifier for this difficulty
+// // in Postal3Script you can check for this via ea_difficulty (IfAttr "ea_difficulty == DIFF_NORMAL ..")
+// // in AngelScript you can check for this via (GetDifficulty() == DIFF_NORMAL) or (GetDifficultyStr() == "DIFF_NORMAL")
+//	"DIFF_NORMAL" 	
+//	{
+//		// Display name
+//		"name"		"Normal"
+//		// Description
+//		"desc"		"No changes.\nNew line1\nNew line2\nThird line for charm"
+//	}
+//
+// NOTE: Unlike Postal3Script, AngelScript needs a full game restart if you modified this file!! (enums only)
+//
+
+"difficulty_system"
+{
+	"DIFF_JOURNALIST"
+	{
+		"name"		"Journalistmode"
+		"desc"		"- Player takes less damage\n- Escort NPCs are invulnerable\n- Hostile NPCs are puny and weak\n- Mission time is halved\n- Player is a loser"
+	}
+
+	"DIFF_EASY"
+	{
+		"name"		"Easy"
+		"desc"		"- Player takes less damage\n- Escort NPCs take less damage"
+	}
+
+	"DIFF_NORMAL"
+	{
+		"name"		"Normal"
+		"desc"		"No changes."
+	}
+	
+	"DIFF_HARD"
+	{
+		"name"		"Hard"
+		"desc"		"- Mission time is slightly more longer\n- Some citizens will now attack the Player if harmed"
+	}
+	
+	"DIFF_MASOCHIST"
+	{
+		"name"		"Masochist"
+		"desc"		"- Stats from Hard\n- Enemy spawn rate doubled\n- Enemy will now carry random big guns\n- Citizens have weapons\n- Citizens can now attack anyone\n- No health regen"
+	}
+	
+	"DIFF_WHACKJOB"
+	{
+		"name"		"Whackjob"
+		"desc"		"- Stats from Masochist\n- Citizens have big guns\n- Citizens and Cops will attack Player on sight"
+	}
+	
+	"DIFF_THEYHATEME"
+	{
+		"name"		"They Hate Me"
+		"desc"		"- Stats from Whackjob\n- Everyone (including animals) will attack the Player on sight\n- Military occasionally spawns in with a Helicopter to hunt down the Player"
+	}
+	
+	"DIFF_DEMON"
+	{
+		"name"		"Deal With The Demon"
+		"desc"		"- Stats from They Hate Me\n- Inventory items are instantly used on touch\n- NPCs drop nothing\n- Double the spawnrate\n- Escorts will attack the Player\n- No mission failure\n\nThis will be fun or this will be a pain in the ass."
+	}
+}

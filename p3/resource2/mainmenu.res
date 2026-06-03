@@ -34,7 +34,7 @@
 	{
 		"text"			"#GameUI2_NewGame"
 		"description"	"#GameUI2_NewGameDescription"
-		"command"		"cvar gamemenucommand opennewgamedialog"
+		"command"		"cvar gameui2_opennewgamedialog" //"cvar gamemenucommand opennewgamedialog"
 		"priority"		"7"
 		"specifics"		"shared"
 		"tv"			"pc_newgame"
