@@ -23,7 +23,7 @@ const int AS_MOD_VERSION = 0;
 #include "shared/team.as"
 
 #include "server/utils.as"
-//#include "server/utils_enum.as"
+#include "server/utils_enum.as"
 
 #endif
 

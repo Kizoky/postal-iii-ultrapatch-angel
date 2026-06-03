@@ -117,12 +117,6 @@ CP3SObj@ SpawnLogicEnt(string name, string behavior, bool bTransit = false)
 			if (bTransit)
 			{
 				logic.GetP3SObj().SetAttr("ea_transition", 1);
-				CP3SObj@ player = GetPlayer();
-				if (@player != @null)
-				{
-					logic.SetOwnerEntity(player.GetBaseEntity());
-					logic.GetP3SObj().SetTarget(player);
-				}
 			}
 			
 			return @logic.GetP3SObj();

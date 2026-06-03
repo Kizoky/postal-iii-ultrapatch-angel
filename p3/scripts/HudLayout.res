@@ -1,5 +1,13 @@
 "Resource/HudLayout.res"
 {
+	HudMessage
+	{
+		"fieldName" "HudMessage"
+		"visible" "1"
+		"enabled" "1"
+		"wide"	 "f0"
+		"tall"	 "480"
+	}
 	
 	HudVoiceSelfStatus
 	{

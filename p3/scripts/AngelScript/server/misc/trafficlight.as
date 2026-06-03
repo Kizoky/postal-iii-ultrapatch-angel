@@ -1,5 +1,3 @@
-#include "../../utils.as"
-
 // Less microlag when traffic lights are working - Kizoky
 class CTrafficLight : IPostal3Script
 {
