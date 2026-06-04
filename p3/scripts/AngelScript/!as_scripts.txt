@@ -9,6 +9,7 @@ const int AS_MOD_VERSION = 0;
 #include "server/npc.as"
 #include "server/player.as"
 #include "server/glow_helper.as"
+#include "server/difficulty.as"
 
 #include "server/entities/teargas.as"
 
