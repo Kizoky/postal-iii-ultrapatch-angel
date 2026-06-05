@@ -20,13 +20,13 @@
 	"DIFF_JOURNALIST"
 	{
 		"name"		"Journalistmode"
-		"desc"		"- Player takes less damage\n- Escort NPCs are invulnerable\n- Hostile NPCs are puny and weak\n- Mission time is halved\n- Player is a loser"
+		"desc"		"- Player takes less damage -50%\n- Escort NPCs are invulnerable\n- Hostile NPCs take more damage +50%\n- Mission requirements -50%\n- Player is a loser"
 	}
 
 	"DIFF_EASY"
 	{
 		"name"		"Easy"
-		"desc"		"- Player takes less damage\n- Escort NPCs take less damage"
+		"desc"		"- Player takes less damage -25%\n- Escort NPCs take less damage -25%\n- Hostile NPCs take more damage +25%\n- Mission requirements -25%"
 	}
 
 	"DIFF_NORMAL"
@@ -38,7 +38,7 @@
 	"DIFF_HARD"
 	{
 		"name"		"Hard"
-		"desc"		"- Mission time is slightly more longer\n- Some citizens will now attack the Player if harmed"
+		"desc"		"- Mission requirements +25%\n- Some citizens will now attack the Player if harmed"
 	}
 	
 	"DIFF_MASOCHIST"
