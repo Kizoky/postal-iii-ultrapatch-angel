@@ -26,7 +26,7 @@
 	"DIFF_EASY"
 	{
 		"name"		"Easy"
-		"desc"		"- Player takes less damage -25%\n- Escort NPCs take less damage -25%\n- Hostile NPCs take more damage +25%\n- Mission requirements -25%"
+		"desc"		"- Player takes less damage -25%\n- Escort NPCs take less damage -25%\n- Hostile NPCs take more damage +25%\n- Mission requirements -15%"
 	}
 
 	"DIFF_NORMAL"
@@ -38,7 +38,7 @@
 	"DIFF_HARD"
 	{
 		"name"		"Hard"
-		"desc"		"- Mission requirements +25%\n- Some citizens will now attack the Player if harmed"
+		"desc"		"- Mission requirements +15%\n- Some citizens will now attack the Player if harmed"
 	}
 	
 	"DIFF_MASOCHIST"
