@@ -2,7 +2,7 @@
 {
 	"Cheats"
 	{
-		"text"			"Cheats"
+		"text"			"#GameUI2_Cheats"
 		"description"	""
 		"command"		"cvar gameui2_opencheatsdialog"
 		"priority"		"666"
