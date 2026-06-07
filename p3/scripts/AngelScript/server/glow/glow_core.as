@@ -4,13 +4,19 @@ class CGlowCore : IPostal3Script
 {
 	void AttachGlow(CBaseEntity@ Whom, string clr)
 	{
+		// Don't want to add hidden entities...
+		if ((Whom.GetEffects() & EF_NODRAW) != 0)
+			return;
+		
 		CBaseEntity@ glow = CreateEnt("p3_glow");
-		
-		glow.KeyValue("GlowColor", clr);
-		glow.SetParent(Whom);
-		
-		Spawn(glow);
-		glow.Activate();
+		if (@glow != @null)
+		{
+			glow.KeyValue("GlowColor", clr);
+			glow.SetParent(Whom);
+			
+			Spawn(glow);
+			glow.Activate();
+		}
 	}
 	
 	float spammy;

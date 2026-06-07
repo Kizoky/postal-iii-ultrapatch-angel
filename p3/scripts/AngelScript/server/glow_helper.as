@@ -7,8 +7,8 @@
 // Insane path
 #include "glow/sbe.as"
 
-ConVar@ cv_glow = CreateCVar("p3_ultrapatch_gameplay_glow", "1", FCVAR_GAMEDLL | FCVAR_NOTIFY | FCVAR_ARCHIVE, "Creates glow around mission entities. (Requires restart)", true, true);
-ConVar@ cv_glow_inst = CreateCVar("p3_ultrapatch_gameplay_glow_instant", "0", FCVAR_GAMEDLL | FCVAR_NOTIFY | FCVAR_ARCHIVE, "Whether glow should be created immediately for mission entities or not. (Requires restart)", true, true);
+ConVar@ cv_glow = CreateCVar("p3_ultrapatch_gameplay_glow", "1", FCVAR_GAMEDLL | FCVAR_NOTIFY | FCVAR_ARCHIVE, "Creates glow around mission entities. (Requires restart)");
+ConVar@ cv_glow_inst = CreateCVar("p3_ultrapatch_gameplay_glow_instant", "0", FCVAR_GAMEDLL | FCVAR_NOTIFY | FCVAR_ARCHIVE, "Whether glow should be created immediately for mission entities or not. (Requires restart)");
 
 // supported maps
 array<string> supported_glow = {
@@ -45,7 +45,12 @@ class CGlowHelper : IPostal3Script
 		TimeUntilGlow = -1.0f;
 		bGlowSupported = false;
 		bApplyGlowOnSpawn = false;
+		
+		if (cv_glow.GetBool() == false)
+			return;
+		
 		string map = gpGlobals.mapname;
+		map.toLower();
 		for (uint i = 0; i < supported_glow.size(); i++)
 		{
 			if (map == supported_glow[i])
@@ -79,7 +84,7 @@ class CGlowHelper : IPostal3Script
 	{
 		if (@cvar == @cv_glow_inst)
 		{
-			if (cv_glow_inst.GetInt() == 1)
+			if (cv_glow_inst.GetInt() >= 1)
 			{
 				TimeUntilGlow = -1.0f;
 				bApplyGlowOnSpawn = true;

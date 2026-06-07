@@ -55,13 +55,13 @@
 	
 	"DIFF_THEYHATEME"
 	{
-		"name"		"They Hate Me"
+		"name"		"They All Know"
 		"desc"		"- Stats from Whackjob\n- Everyone (including animals) will attack the Player on sight\n- Military occasionally spawns in with a Helicopter to hunt down the Player"
 	}
 	
 	"DIFF_DEMON"
 	{
-		"name"		"Deal With The Demon"
-		"desc"		"- Stats from They Hate Me\n- Inventory items are instantly used on touch\n- NPCs drop nothing\n- Double Trouble\n- Escorts will attack the Player\n- No mission failure\n\nThis will be fun or this will be a pain in the ass."
+		"name"		"Demon From Above"
+		"desc"		"- Stats from They All Know\n- Inventory items are instantly used on touch\n- NPCs drop nothing\n- Double Trouble\n- Escorts will attack the Player\n- No mission failure\n\nThis will be fun or this will be a pain in the ass."
 	}
 }
