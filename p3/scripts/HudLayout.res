@@ -251,6 +251,28 @@
 		"dmg_tall2" "240"
 	}
 
+	HL2HudWeaponSelection
+	{
+		"fieldName" "HL2HudWeaponSelection"
+		"ypos" 	"16"	[$WIN32]
+		"ypos" 	"32"	[$X360]
+		"visible" "1"
+		"enabled" "1"
+		"SmallBoxSize" "32"
+		"MediumBoxWide"	"95"
+		"MediumBoxWide_hidef"	"78"
+		"MediumBoxTall"	"50"
+		"MediumBoxTall_hidef"	"50"
+		"MediumBoxWide_lodef"	"74"
+		"MediumBoxTall_lodef"	"50"
+		"LargeBoxWide" "112"
+		"LargeBoxTall" "84"
+		"BoxGap" "8"
+		"SelectionNumberXPos" "4"
+		"SelectionNumberYPos" "4"
+		"SelectionGrowTime"	"0.4"
+		"TextYPos" "64"
+	}
 
 	HudWeaponSelection
 	{
