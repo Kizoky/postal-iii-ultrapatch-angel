@@ -325,7 +325,89 @@ With this func entity which manipulates navmesh you can:
 * Fixed last unconscious hit from non-Player attacks not registering properly
 * Unused `weapon_type` in weapon scripts is now automatically adjusted to (non)lethal melee/ranged according to `IsLethal`;`IsMelee`;`IsRanged` if weapon type wasn't flesh, animal, gadget, or big gun
 + Added P3S event `OnConsciousHit`, acts like `OnHit` but for consciousness instead, this event will not fire when NPC was knocked out
++ Mod event `cat_pickup` now has `cat_id` and `player_id` key values
+* Fixed Dude Comment controller crashing the game very rarely
++ `addonlist.txt` is now regenerated each time Postal 3 starts up
++ Cats now gib into pieces if shot from M136 or had Grenade inserted
++ Rocket launch and explosion now cause screen shake effects
+* Fixed NPCs dying twice (some code ran twice on death)
+* Fixed entity fade out function checking for the Player's eyes, we don't care if the player can actually witness it
++ Added AngelScript global function `GetScriptObjInterface` (old GetScriptObj, gets `IPostal3Script@` or `IClient@`)
++ Added AngelScript global function `GetScriptObj`, gets interface wrapper where you can get owner, script class, interface, etc..
++ Added AngelScript global function `GetArrayOfScriptObjs`
+* Monkey when face humping someone will properly set last attacker for victim
+* Fixed hint nodes causing a crash due to AI network graph is not present or disabled in some way or another (ai_norebuildgraph 1), node id is no longer used instead the nodes are now used for their spots indirectly
++ Hint nodes now call `OnNPCStartedUsing` and `OnNPCStoppedUsing` persistently, when NPCs get interrupted they'll always call `OnNPCStoppedUsing`, these can now be used in maps
++ Added `ea_ignoreinvalidroute`, prevents `OnInvalidRoute` being called if set
+* Fixed hint nodes not properly unlocking if NPCs got interrupted while they were using one  
+NOTE: Hint nodes still need to be manually unlocked inside Postal3Script via `UnlockHintNode 1` at the end of their state, there's no real way to determine if they are still using a node or not since it's just a "hack" that forces their P3S state to be set 
 
++ Added `EnableItem` and `DisableItem` for weapons (can be used in AngelScript or in maps, but must have a targetname first), makes weapons invisible and unable to pick them up (can be used to enable loot later i.e. blowing up a bank safe and enabling all the loot inside them) keyinput: StartDisabled
++ Much stronger/brighter muzzleflash lights
+* Doubled the pickup radius for weapons (from 20.0 to 40.0)
++ Exposed Weapon pickup radius (found inside `p3_registry.txt`)
+* Fixed prop impact sound playing on car glass
++ Added Glass break sound for car glass
++ Added unused voice line `DUDE_ALKILL` (escort NPC must have `ea_escort` P3S attribute, plays when player kills escort NPC)
++ Added unused voice line `DUDE_ARCADE` (only plays on AS when Dude kills someone)
++ Added unused voice line `DUDE_KCOPATTAC` (as rare Krotchy hurt line)
++ Added unused voice line `DUDE_USEGRENADECAT` (when Cat with attached Grenade explodes)
+* Violent comments no longer play when killing nothing but just simply attacking
++ Violent comments now play on NPC Death (like in Postal 2)
+* Fixed game crashing when shooting at an animal's corpse (Cat, Dog, Monkey, Motorhead, Rhino) causing it to "gib" like with human ragdolls
++ Animals now have `ea_no_gibs` p3s attribute by default which transfers over to their ragdolls
++ Add `ea_escort` attribute for essential NPCs (defend & escort only)
++ Added `ea_angelscript` global p3s attribute, if it's 1 then AngelScript is enabled or doesn't have any compile errors
++ Added server global AngelScript function `FClassnameIs`
++ Added server global AngelScript function `FNameIs`
+* KMTD will now use AngelScript version of traffic light execution if AngelScript is enabled or doesn't have any errors
++ Added `ea_gagged`, gags Players or NPCs (Makes Say function not work)
+* Dude save comments no longer trigger on the first attempt, it will now trigger after the third save (similarly like how Postal 2 also behaves), resets on level init and if the count is higher than 6
++ Added NPC inventory, can be manipulated via P3S or AS
++ Added `OnNewTarget` p3s event, called when new FSM target does not match old FSM target (valid FSM targets only, null is not counted!)
+* Fixed P3S weapon not ticking/updating (no events, no timers, no pattern changes, etc...)
++ Game now warns in console if `ai_scripts.txt` was not found
++ Added global AngelScript function `GetArrayOfInventory`
++ You are now able to zoom in and out while being dead
+* Fixed shotguns, firearms, and the sniper rifle ignoring the fire rate when used on NPCs
+* Fixed Shotguns using a hardcoded fire rate value of 0.7, now it uses fire_rate1 like the rest of the weapons should
++ Added `IsThrowable` weapon flag
++ Added `ea_WeaponThrowable` p3s attribute
+* Fixed corpse/NPC gibbing occurring even if the parent/root bone was non-existent
+* Grenades and P3 props now check if they are out of world, and if so they will delete themselves
++ Added fall damage for alive NPCs/Players that get ragdolled
++ Player's corpse will now gib on death if last damage type was explosion
+* Fixed potential Badgersaw crash on Holster
+* Fixed Shopvac sucking in invisible items
++ Added `ea_ItemAmount` for Inventory items
++ Added `ea_IsStored` for Inventory items
++ Added `ea_IsInventoryItem` for Inventory items
+* Fixed several P3S embedded attributes potentially crashing the game if enabled to show them all/or by attempting to use/read from them
+* Fixed invisible `wj_prop_fsmitem` items glowing if looked at them
+* Fixed Shopvac breaking Ammo item's touch function
+* Updated `ent_create` function to match with modern Source SDK
++ Added `!ai_list.txt` log file (inside game folder)
++ Added `!faction_list.txt` log file (inside game folder)
++ Added `!manner_list.txt` log file (inside game folder)
++ Added `!inventory_list.txt` log file (inside game folder)
+* Fixed Player hurt lines playing on death
+* Precached several materials the console was whining about
++ Added a difficulty system where you can add endless difficulties
++ Difficulty manifest: `scripts/ultrapatch/p3_ultrapatch_difficulty.txt`
+* (AngelScript) Removed full path printing of files to the console
++ Added missing HudMessage entry from HudLayout.res (TM removed this at some point for unknown reasons)
++ Game now warns in your face if there are AngelScript errors
+* Fix attempt for rare prop push away crash (when the Player is running into them)
+* Fixed grabbing KeyValue from Weemote freezing the game in a loop
++ Added global override for AngelScript hooks that normally only accept a P3S pointer (ex.: [HOOK Player OnTakeDamage GLOBAL] will always be global, in this case you need to use GetContextCaller() to get the actual victim/entity)
++ Added `IsHate()`, `IsLike()`, `IsNeutral()`, `IsFear()` for `CP3SObj@`
++ Added `GetEffects()` for `CBaseEntity@`
+* Fixed cvar creation always triggering cvar callback (it's only supposed to when Player manually modifies it via console or settings)
+* Fixed being able to create non-AngelScript cvars like sv_cheats that caused problems and crashes
++ Added custom HUD color support
+* Fixed `GetKeyValue` returning garbage strings for non-Valve things
++ Added ability to switch between HL2 and Postal 3 weapon selector
++ Added conscious bar under health bar for most NPCs
 
 
 MULTIPLAYER RELATED:
@@ -358,3 +440,4 @@ v1.3.0 (Multiplayer changes):
 * ""Fixed"" UTIL_GetLocalPlayer assert errors
 - Players can no longer manually respawn 
 * Various dedicated server bugfixes, like NPCs not working, or voice not initializing properly
+* Picking up cat comments no longer play for every player in Multiplayer
