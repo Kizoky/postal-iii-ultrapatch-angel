@@ -55,7 +55,11 @@ p3_fire_resistance
 	"tv_01"						15
 	"tv_02"						15
 	"watercooler_01"			15
-	"watercooler_01_a"			15
+	"watercooler_01_a"			15	
+	"projector01"				100
+	"exit_sign_01"				100
+	"microwave_01"				100
+	"med_device"				100
 	
 	//-------------------------------------------------------------------------
 	// Furniture
@@ -126,6 +130,9 @@ p3_fire_resistance
 	"desk_01"					15
 	"desk_01_box"				15
 	"desk_02"					15
+	"desk_lamp01"				100
+	
+	"fire_extinguisher01"		100
 	
 	"furniture_set_01_a"		15
 	"furniture_set_01_b"		15
@@ -168,7 +175,14 @@ p3_fire_resistance
 	
 	"mall_skameyka_01_static"	15
 	"Med_rolling_bed"			15
+	"med_furniture_f"			100
+	
+	"mop_trolley"				100
+	"mop_01"					100
+	
 	"porn_circle_table_01"		15
+	
+	"refuse_bin_05"				100
 	
 	"shelving_01_a"				15
 	"shelving_01_b"				15
@@ -192,13 +206,22 @@ p3_fire_resistance
 	"wardrobe_01b"				15
 	"wardrobe_01c"				15
 	
-	"fire_extinguisher01"		100
-	
 	//-------------------------------------------------------------------------
 	// Doors
 	//-------------------------------------------------------------------------
 	
+	"elevator_01_e"				100
+	
+	"jail_door01"				100
+	
+	"metal_door_01"				100
 	"metal_door_02"				100
+	
+	"transformer_board_big_door"	100
+	
+	"vault_door"				100
+	
+	"win_door_01a_double"		100
 	
 	//-------------------------------------------------------------------------
 	// Cars
