@@ -38,8 +38,8 @@ WeaponData
 	"Dangerous"				"0"
 	
 	"IsLethal"				"0"
-	"ConsciousRateMin"		"5.0" 	// conscious rate (min) per hit/shoot
-	"ConsciousRateMax"		"15.0" 	// conscious rate (max) per hit/shoot
+	"ConsciousRateMin"		"25.0" 	// conscious rate (min) per hit/shoot
+	"ConsciousRateMax"		"35.0" 	// conscious rate (max) per hit/shoot
 
 	// Sounds for the weapon. There is a max of 16 sounds per category (i.e. max 16 "single_shot" sounds)
 	SoundData
