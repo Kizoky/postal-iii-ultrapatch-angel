@@ -1,0 +1,211 @@
+//-----------------------------------------------------------------------------
+// "имя модельки без расширения" "процент сопротивления"
+//
+// Сопротивление:
+// 0            -- горит сразу
+// 1-99         -- горит fire_resist_max * (значение/100) [см. p3_registry.txt]
+// 100 и больше -- не горит вообще
+//-----------------------------------------------------------------------------
+
+p3_fire_resistance
+{
+	//-------------------------------------------------------------------------
+	// Костыли
+	//-------------------------------------------------------------------------
+
+	"match_01"					100
+	"m_avg_postal_dude"			100
+	"dude_glass_01"				100
+	"rotor"						100
+
+	//-------------------------------------------------------------------------
+	// Containers
+	//-------------------------------------------------------------------------
+
+	"barrel_01"					100
+	"barrel_01_static"			100
+	
+	"box_01"					15
+	"box_02"					15
+	"box_03"					15
+	"box_03_s"					15
+	"box_04"					15
+	"box_05"					15
+	"box_burned_01"				15
+	
+	"cardboard_box01"			15
+	"cardboard_bundle01"		15
+	
+	"cleaner_01_box"			15
+	"cleaner_01_bucket"			15
+	
+	"dts_wood_box_01"			15
+	"dts_wood_box_02"			15
+	"dts_wood_box_03"			15
+
+	"trash_barrel_01"			100
+
+	//------------------------------------------------------------------------------
+	// Electrical devices
+	//------------------------------------------------------------------------------
+
+	"computer01_block"			15
+	"computer01_keyboard"		15
+	"monitor_01"				15
+	"tv_01"						15
+	"tv_02"						15
+	"watercooler_01"			15
+	"watercooler_01_a"			15
+	
+	//-------------------------------------------------------------------------
+	// Furniture
+	//-------------------------------------------------------------------------
+	
+	"bed_01"					15
+	"bed_02"					15
+	"bed_02_a"					15
+	"bed_02_small"				15
+	"bed_03"					15
+	"bed_04"					15
+	"bed_04_normal"				15
+	"bed_04_small"				15
+	"bed_05"					15
+	"bed_06"					15
+	
+	"bedside_table_01_a"		15
+	"bedside_table_01_b"		15
+	"bench_01_a"				15
+	"bench_01_b"				15
+	
+	"boss_set_01_bar_shelf"		15
+	"boss_set_01_bar_table"		15
+	"boss_set_01_courtroom_a"	15
+	"boss_set_01a"				15
+	"boss_set_01b"				15
+	"boss_set_01c"				15
+	"boss_set_01d"				15
+	"boss_set_01d_d1"			15
+	"boss_set_01d_d2"			15
+	"boss_set_01d_d3"			15
+	"boss_set_01d_d4"			15
+	"boss_set_01e"				15
+	"boss_set_01e_d1"			15
+	"boss_set_01e_d2"			15
+	"boss_set_01f"				15
+	
+	"cafe_chair_01"				15
+	"Cafe_table_01"				15
+	
+	"chair01"					15
+	"chair02"					15
+	"chair03"					15
+	"chair04"					15
+	"chair05"					15
+	"chair06"					15
+	"chair07"					15
+	"chair08"					15
+	"chair09"					15
+	
+	"couch_02"					15
+	"couch_03a"					15
+	"couch_03b"					15
+	"couch_03c"					15
+	"couch_03d"					15
+	"couch_05_1"				15
+	"couch_05_2"				15
+	"couch_05_3"				15
+	"couch_05_4"				15
+	"couch_06"					15
+	"couch_06_a"				15
+	
+	"counter_01"				15
+	"counter_01_b"				15
+	"counter_01_c"				15
+	"counter_01_d"				15
+
+	"desk_01"					15
+	"desk_01_box"				15
+	"desk_02"					15
+	
+	"furniture_set_01_a"		15
+	"furniture_set_01_b"		15
+	"furniture_set_01_c"		15
+	"furniture_set_01_d"		15
+	"furniture_set_01_e"		15
+	"furniture_set_01_f"		15
+	"furniture_set_01_g"		15
+	"furniture_set_01_h"		15
+	"furniture_set_01_i"		15
+	"furniture_set_01_j"		15
+	"furniture_set_01_k"		15
+	"furniture_set_01_l"		15
+	"furniture_set_01_m"		15
+	"furniture_set_01_n"		15
+	"furniture_set_01_o"		15
+	
+	"hallstand_01"				15
+	"keylocker"					15
+	
+	"kitchen_set_01_a"			15
+	"kitchen_set_01_b"			15
+	"kitchen_set_01_c"			15
+	"kitchen_set_01_d"			15
+	"kitchen_set_01_e"			15
+	"kitchen_set_01_f"			15
+	"kitchen_set_01_g"			15
+	"kitchen_set_01_h"			15
+	"kitchen_set_01_i"			15
+	"kitchen_set_01_j"			15
+	
+	"kitchen_set_02a"			15
+	"kitchen_set_02b"			15
+	"kitchen_set_02c"			15
+	"kitchen_set_02d"			15
+	"kitchen_set_02e"			15
+	"kitchen_set_02f"			15
+	"kitchen_set_02g"			15
+	"kitchen_set_02g"			15
+	
+	"mall_skameyka_01_static"	15
+	"Med_rolling_bed"			15
+	"porn_circle_table_01"		15
+	
+	"shelving_01_a"				15
+	"shelving_01_b"				15
+	"storage_shelf_01a"			15
+	"storage_shelf_01b"			15
+	
+	"table01"					15
+	"table_01"					15
+	"table_02"					15
+	"table_03"					15
+	"table_05"					15
+	"table_05a"					15
+	"table_07"					15
+
+	"tv_stand_01"				15
+	"tv_stand_02"				15
+	
+	"vr_table_01"				15
+	
+	"wardrobe_01a"				15
+	"wardrobe_01b"				15
+	"wardrobe_01c"				15
+	
+	"fire_extinguisher01"		100
+	
+	//-------------------------------------------------------------------------
+	// Cars
+	//-------------------------------------------------------------------------
+
+	"golf_01"					100
+	"golf_01_glass_front"		100
+	"golf_01_glass_d1"			100
+	"golf_01_glass_d2"			100
+	"golf_01_glass_d3"			100
+	"golf_01_glass_d4"			100
+	"golf_01_glass_d5"			100
+
+
+	
+}
