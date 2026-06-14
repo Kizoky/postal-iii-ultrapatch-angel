@@ -1,0 +1,79 @@
+// AI for the cats when they have a grenade attached into them
+
+behavior
+{
+	name bh_grenade_cat
+	
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{	
+						// Reset previous target...
+						ResetTarget 1
+						// Turn off senses so Cat will stop randomly switching targets
+						Senses false
+						
+						// It's your own damn fault
+						SetAttr "ea_noragdoll 1"
+						
+						FreeMovement false
+						
+						State st_start
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						//TargetClosest 1,Citizens,Animals,Police
+						AngelScript "Object:self NPCUtils TargetClosestLivingNPC"
+						Follow true,tight
+						Pattern pt_follow
+					}
+					events
+					{
+						
+					}
+				}
+				
+				pt_follow
+				{
+					actions
+					{
+						// Should be super close
+						IfAttr "DistTo:target <= 96 Pattern pt_detonate"
+						Repeat 1
+					}
+					events
+					{
+						OnTargetKilled	"State st_start"
+					}
+				}
+				
+				pt_detonate
+				{
+					actions
+					{
+						// Code checks for this attribute specifically, do not change
+						SetAttr "detonate 1"
+					}
+				}
+			}
+		}
+	}
+}

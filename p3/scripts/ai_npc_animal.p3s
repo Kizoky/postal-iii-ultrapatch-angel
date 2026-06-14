@@ -746,6 +746,15 @@ behavior
 				{
 					actions
 					{
+						// Change AI if we have grenade inside us - Kizoky
+						CheckAttr "ea_catgrenade Block begin"
+							// scripts/ultrapatch/ai_grenade_cat.p3s
+							SetBehavior bh_grenade_cat,st_start,st_init,PussyCat,Animals
+							Return 1
+						Block end
+						
+						CheckAttr "ea_catgrenade Return 0"
+						
 						RemoveAttr CatThrown
 						Senses false
 						FreeMovement false

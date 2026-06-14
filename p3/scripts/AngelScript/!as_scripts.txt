@@ -18,6 +18,7 @@ const int AS_MOD_VERSION = 0;
 
 #include "server/misc/background.as"
 #include "server/misc/trafficlight.as"
+#include "server/misc/utils_npc.as"
 
 //#include "example.as"
 
