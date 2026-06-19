@@ -1,7 +1,6 @@
 "VertexLitGeneric"
 {
 	"$basetexture" "models/Characters/M_Avg_Postal_Dude_v2/Postal_Dude_body_APEX"
-	"$bumpmap" "models/Characters/M_Avg_Postal_Dude_v2/vm_coat_normal"
 	"$model" "1"
 	"$halflambert" "1"
 
