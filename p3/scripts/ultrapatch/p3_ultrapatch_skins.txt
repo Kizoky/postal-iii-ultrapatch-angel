@@ -1,0 +1,611 @@
+// Previously the skins were hardcoded inside the source code, now this file controls everything
+// Make sure to not remove "coat" or "dude" as they are the default skins
+// Mods can add new skins via `p3/addons/<addon>/scripts/<addon>_skins.txt`
+
+"skins"
+{
+	// name of the skin
+	"coat"
+	{
+		// world model (not FPS) of the Player, this will be precached
+		"model"		"models/Characters/M_Avg_Postal_Dude_v2/m_avg_postal_dude_v2.mdl"
+		// Prefab
+		"prefab"	"Dude_raincoat_01"
+		
+		// c_hands model
+		"v_hand"		"models/Weapons/c_hands/coat_hands.mdl"
+		// c_hands skin
+		"v_hand_skin"	"0"
+		
+		// kick model
+		"v_kick"		"models/Weapons/c_hands/coat_kick.mdl"
+		// kick skin
+		"v_kick_skin"	"0"
+		
+		// Color [RGBA] of Player HUD background (not weapon wheel)
+		"hud_background"	"0 0 0 218"
+		// Color [RGBA] of Player HUD Health
+		"hud_foreground"	"45 136 67 255"
+		
+		// Set this to 1 to give or take arresting ability for this skin regardless of path
+		"arresting"		"0"
+		
+		// Set this to 1 to give or take covering ability for this skin
+		"covering"		"1"
+		
+		// Set this to 1 to give or take sprinting ability for this skin
+		"sprinting"		"1"
+		
+		// Allow only certain weapons to be used or selectable
+		// If this is empty no such restriction will be applied
+		"allowed_weapons"
+		{
+			//"p3_weapon_emptyhands"	""
+			//"p3_weapon_weemote"	""
+		}
+		
+		// Shopvac/Fart gun body group
+		"shopvac_bodygroup"	"0"
+		
+		// Shopvac/Fart gun aim hack (animation related while looking up and down)
+		"shopvac_restrict_aim_pitch"	"0"
+		
+		// Player is invincible to any kind of burn damage with this skin
+		"no_burn_damage" "0"
+		
+		// Dude will use cop lines with this skin
+		"is_cop"	"0"
+		
+		// Dude will use Krotchy lines with this skin
+		"is_krotchy"	"0"
+		
+		// Set certain attributes for the Player when skin is set (this could be before spawn, during gameplay, etc..)
+		// Set an attribute to -1 if you want to remove instead
+		"postal3script"
+		{
+			// sets attributes
+			"ea_health" "1000"
+			"ea_noknockout" "1"
+			"my_attribute" "-1"
+		}
+	}
+	
+	// name of the skin
+	"agent"
+	{
+		// world model (not FPS) of the Player, this will be precached
+		"model"		"models/Characters/M_Avg_Postal_Dude_v2/m_avg_postal_dude_agent.mdl"
+		// Prefab
+		"prefab"	"Dude_agent_01"
+		
+		// c_hands model
+		"v_hand"		"models/Weapons/c_hands/agent_hands.mdl"
+		// c_hands skin
+		"v_hand_skin"	"0"
+		
+		// kick model
+		"v_kick"		"models/Weapons/c_hands/agent_kick.mdl"
+		// kick skin
+		"v_kick_skin"	"0"
+		
+		// Color [RGBA] of Player HUD background (not weapon wheel)
+		"hud_background"	"0 0 0 255"
+		// Color [RGBA] of Player HUD Health
+		"hud_foreground"	"0 0 0 255"
+		
+		// Set this to 1 to give or take arresting ability for this skin regardless of path
+		"arresting"		"0"
+		
+		// Set this to 1 to give or take covering ability for this skin
+		"covering"		"1"
+		
+		// Set this to 1 to give or take sprinting ability for this skin
+		"sprinting"		"1"
+		
+		// Allow only certain weapons to be used or selectable
+		// If this is empty no such restriction will be applied
+		"allowed_weapons"
+		{
+			// "p3_weapon_emptyhands"	""
+			// "p3_weapon_weemote"	""
+		}
+		
+		// Shopvac/Fart gun body group
+		"shopvac_bodygroup"	"0"
+		
+		// Shopvac/Fart gun aim hack (animation related while looking up and down)
+		"shopvac_restrict_aim_pitch"	"0"
+		
+		// Player is invincible to any kind of burn damage with this skin
+		"no_burn_damage" "0"
+		
+		// Dude will use cop lines with this skin
+		"is_cop"	"0"
+		
+		// Dude will use Krotchy lines with this skin
+		"is_krotchy"	"0"
+		
+		// Set certain attributes for the Player when skin is set (this could be before spawn, during gameplay, etc..)
+		// Set an attribute to -1 if you want to remove instead
+		"postal3script"
+		{
+			// sets attributes
+			// "ea_health" "1000"
+			// "ea_noknockout" "1"
+			// "my_attribute" "-1"
+		}
+	}
+	
+	// name of the skin
+	"cop"
+	{
+		// world model (not FPS) of the Player, this will be precached
+		"model"		"models/Characters/M_Avg_Postal_Dude_v2/m_avg_postal_dude_cop.mdl"
+		// Prefab
+		"prefab"	"Dude_cop_01"
+		
+		// c_hands model
+		"v_hand"		"models/Weapons/c_hands/cop_hands.mdl"
+		// c_hands skin
+		"v_hand_skin"	"0"
+		
+		// kick model
+		"v_kick"		"models/Weapons/c_hands/cop_kick.mdl"
+		// kick skin
+		"v_kick_skin"	"0"
+		
+		// Color [RGBA] of Player HUD background (not weapon wheel)
+		"hud_background"	"46 46 82 227"
+		// Color [RGBA] of Player HUD Health
+		"hud_foreground"	"0 0 194 255"
+		
+		// Set this to 1 to give or take arresting ability for this skin regardless of path
+		"arresting"		"1"
+		
+		// Set this to 1 to give or take covering ability for this skin
+		"covering"		"1"
+		
+		// Set this to 1 to give or take sprinting ability for this skin
+		"sprinting"		"1"
+		
+		// Allow only certain weapons to be used or selectable
+		// If this is empty no such restriction will be applied
+		"allowed_weapons"
+		{
+			// "p3_weapon_emptyhands"	""
+			// "p3_weapon_weemote"	""
+		}
+		
+		// Shopvac/Fart gun body group
+		"shopvac_bodygroup"	"2"
+		
+		// Shopvac/Fart gun aim hack (animation related while looking up and down)
+		"shopvac_restrict_aim_pitch"	"0"
+		
+		// Player is invincible to any kind of burn damage with this skin
+		"no_burn_damage" "0"
+		
+		// Dude will use cop lines with this skin
+		"is_cop"	"1"
+		
+		// Dude will use Krotchy lines with this skin
+		"is_krotchy"	"0"
+		
+		// Set certain attributes for the Player when skin is set (this could be before spawn, during gameplay, etc..)
+		// Set an attribute to -1 if you want to remove instead
+		"postal3script"
+		{
+			// sets attributes
+			// "ea_health" "1000"
+			// "ea_noknockout" "1"
+			// "my_attribute" "-1"
+		}
+	}
+	
+	// name of the skin
+	"security"
+	{
+		// world model (not FPS) of the Player, this will be precached
+		"model"		"models/Characters/M_Avg_Postal_Dude_v2/m_avg_postal_dude_cop.mdl"
+		// Prefab
+		"prefab"	"Dude_security_01"
+		
+		// c_hands model
+		"v_hand"		"models/Weapons/c_hands/cop_hands.mdl"
+		// c_hands skin
+		"v_hand_skin"	"1" // 0 cop
+		
+		// kick model
+		"v_kick"		"models/Weapons/c_hands/cop_kick.mdl"
+		// kick skin
+		"v_kick_skin"	"1" // 0 cop
+		
+		// Color [RGBA] of Player HUD background (not weapon wheel)
+		"hud_background"	"154 154 175 45"
+		// Color [RGBA] of Player HUD Health
+		"hud_foreground"	"82 82 87 255"
+		
+		// Set this to 1 to give or take arresting ability for this skin regardless of path
+		"arresting"		"1"
+		
+		// Set this to 1 to give or take covering ability for this skin
+		"covering"		"1"
+		
+		// Set this to 1 to give or take sprinting ability for this skin
+		"sprinting"		"1"
+		
+		// Allow only certain weapons to be used or selectable
+		// If this is empty no such restriction will be applied
+		"allowed_weapons"
+		{
+			// "p3_weapon_emptyhands"	""
+			// "p3_weapon_weemote"	""
+		}
+		
+		// Shopvac/Fart gun body group
+		"shopvac_bodygroup"	"1"
+		
+		// Shopvac/Fart gun aim hack (animation related while looking up and down)
+		"shopvac_restrict_aim_pitch"	"0"
+		
+		// Player is invincible to any kind of burn damage with this skin
+		"no_burn_damage" "0"
+		
+		// Dude will use cop lines with this skin
+		"is_cop"	"1"
+		
+		// Dude will use Krotchy lines with this skin
+		"is_krotchy"	"0"
+		
+		// Set certain attributes for the Player when skin is set (this could be before spawn, during gameplay, etc..)
+		// Set an attribute to -1 if you want to remove instead
+		"postal3script"
+		{
+			// sets attributes
+			// "ea_health" "1000"
+			// "ea_noknockout" "1"
+			// "my_attribute" "-1"
+		}
+	}
+	
+	// name of the skin
+	"prisoner"
+	{
+		// world model (not FPS) of the Player, this will be precached
+		"model"		"models/Characters/M_Avg_Postal_Dude_v2/m_avg_postal_dude_prisoner.mdl"
+		// Prefab
+		"prefab"	"Dude_prisoner_01"
+		
+		// c_hands model
+		"v_hand"		"models/Weapons/c_hands/prisoner_hands.mdl"
+		// c_hands skin
+		"v_hand_skin"	"0"
+		
+		// kick model
+		"v_kick"		"models/Weapons/c_hands/prisoner_kick.mdl"
+		// kick skin
+		"v_kick_skin"	"0"
+		
+		// Color [RGBA] of Player HUD background (not weapon wheel)
+		"hud_background"	"240 83 7 106"
+		// Color [RGBA] of Player HUD Health
+		"hud_foreground"	"223 102 59 255"
+		
+		// Set this to 1 to give or take arresting ability for this skin regardless of path
+		"arresting"		"0"
+		
+		// Set this to 1 to give or take covering ability for this skin
+		"covering"		"1"
+		
+		// Set this to 1 to give or take sprinting ability for this skin
+		"sprinting"		"1"
+		
+		// Allow only certain weapons to be used or selectable
+		// If this is empty no such restriction will be applied
+		"allowed_weapons"
+		{
+			// "p3_weapon_emptyhands"	""
+			// "p3_weapon_weemote"	""
+		}
+		
+		// Shopvac/Fart gun body group
+		"shopvac_bodygroup"	"2"
+		
+		// Shopvac/Fart gun aim hack (animation related while looking up and down)
+		"shopvac_restrict_aim_pitch"	"0"
+		
+		// Player is invincible to any kind of burn damage with this skin
+		"no_burn_damage" "0"
+		
+		// Dude will use cop lines with this skin
+		"is_cop"	"0"
+		
+		// Dude will use Krotchy lines with this skin
+		"is_krotchy"	"0"
+		
+		// Set certain attributes for the Player when skin is set (this could be before spawn, during gameplay, etc..)
+		// Set an attribute to -1 if you want to remove instead
+		"postal3script"
+		{
+			// sets attributes
+			// "ea_health" "1000"
+			// "ea_noknockout" "1"
+			// "my_attribute" "-1"
+		}
+	}
+	
+	// name of the skin
+	"swat"
+	{
+		// world model (not FPS) of the Player, this will be precached
+		"model"		"models/Characters/M_Avg_Postal_Dude_v2/m_avg_postal_dude_swat.mdl"
+		// Prefab
+		"prefab"	"Dude_swat_01"
+		
+		// c_hands model
+		"v_hand"		"models/Weapons/c_hands/swat_hands.mdl"
+		// c_hands skin
+		"v_hand_skin"	"0"
+		
+		// kick model
+		"v_kick"		"models/Weapons/c_hands/swat_kick.mdl"
+		// kick skin
+		"v_kick_skin"	"0"
+		
+		// Color [RGBA] of Player HUD background (not weapon wheel)
+		"hud_background"	"0 0 0 255"
+		// Color [RGBA] of Player HUD Health
+		"hud_foreground"	"180 126 37 255"
+		
+		// Set this to 1 to give or take arresting ability for this skin regardless of path
+		"arresting"		"1"
+		
+		// Set this to 1 to give or take covering ability for this skin
+		"covering"		"1"
+		
+		// Set this to 1 to give or take sprinting ability for this skin
+		"sprinting"		"1"
+		
+		// Allow only certain weapons to be used or selectable
+		// If this is empty no such restriction will be applied
+		"allowed_weapons"
+		{
+			// "p3_weapon_emptyhands"	""
+			// "p3_weapon_weemote"	""
+		}
+		
+		// Shopvac/Fart gun body group
+		"shopvac_bodygroup"	"0"
+		
+		// Shopvac/Fart gun aim hack (animation related while looking up and down)
+		"shopvac_restrict_aim_pitch"	"0"
+		
+		// Player is invincible to any kind of burn damage with this skin
+		"no_burn_damage" "0"
+		
+		// Dude will use cop lines with this skin
+		"is_cop"	"0"
+		
+		// Dude will use Krotchy lines with this skin
+		"is_krotchy"	"0"
+		
+		// Set certain attributes for the Player when skin is set (this could be before spawn, during gameplay, etc..)
+		// Set an attribute to -1 if you want to remove instead
+		"postal3script"
+		{
+			// sets attributes
+			// "ea_health" "1000"
+			// "ea_noknockout" "1"
+			// "my_attribute" "-1"
+		}
+	}
+	
+	// name of the skin
+	"krotchy"
+	{
+		// world model (not FPS) of the Player, this will be precached
+		"model"		"models/characters/Krotchy/krotchy.mdl"
+		// Prefab
+		"prefab"	"" // No prefab for Krotchy model
+		
+		// c_hands model
+		"v_hand"		"models/Weapons/c_hands/krotchy_hands.mdl"
+		// c_hands skin
+		"v_hand_skin"	"0"
+		
+		// kick model
+		"v_kick"		"models/Weapons/c_hands/krotchy_kick.mdl"
+		// kick skin
+		"v_kick_skin"	"0"
+		
+		// Color [RGBA] of Player HUD background (not weapon wheel)
+		"hud_background"	"179 146 11 146"
+		// Color [RGBA] of Player HUD Health
+		"hud_foreground"	"0 0 0 255"
+		
+		// Set this to 1 to give or take arresting ability for this skin regardless of path
+		"arresting"		"0"
+		
+		// Set this to 1 to give or take covering ability for this skin
+		"covering"		"0"
+		
+		// Set this to 1 to give or take sprinting ability for this skin
+		"sprinting"		"0"
+		
+		// Allow only certain weapons to be used or selectable
+		// If this is empty no such restriction will be applied
+		"allowed_weapons"
+		{
+			"p3_weapon_shopvac" ""
+			"p3_weapon_taser" ""
+			"p3_weapon_catnip" ""
+			"p3_weapon_m16"	""
+			"p3_weapon_shotgun" ""
+			"p3_weapon_m60" ""
+			"p3_weapon_grenade" ""
+			"p3_weapon_molotov" ""
+			"p3_weapon_krotchy_grenade" ""
+			"p3_weapon_beenest" ""
+			"p3_weapon_emptyhands" ""
+			"p3_weapon_laserpen" ""
+			"p3_weapon_desert_eagle" ""
+		}
+		
+		// Shopvac/Fart gun body group
+		"shopvac_bodygroup"	"3" // ACT_VM_DRAW
+		
+		// Shopvac/Fart gun aim hack (animation related while looking up and down)
+		"shopvac_restrict_aim_pitch"	"1"
+		
+		// Player is invincible to any kind of burn damage with this skin
+		"no_burn_damage" "1"
+		
+		// Dude will use cop lines with this skin
+		"is_cop"	"0"
+		
+		// Dude will use Krotchy lines with this skin
+		"is_krotchy"	"1"
+		
+		// Set certain attributes for the Player when skin is set (this could be before spawn, during gameplay, etc..)
+		// Set an attribute to -1 if you want to remove instead
+		"postal3script"
+		{
+			// sets attributes
+			// "ea_health" "1000"
+			// "ea_noknockout" "1"
+			// "my_attribute" "-1"
+		}
+	}
+	
+	// name of the skin
+	"janitor"
+	{
+		// world model (not FPS) of the Player, this will be precached
+		"model"		"models/Characters/M_Avg_Postal_Dude_v2/m_avg_postal_dude_prisoner.mdl"
+		// Prefab
+		"prefab"	"Dude_cleaner"
+		
+		// c_hands model
+		"v_hand"		"models/Weapons/c_hands/prisoner_hands.mdl"
+		// c_hands skin
+		"v_hand_skin"	"1" // prisoner 0
+		
+		// kick model
+		"v_kick"		"models/Weapons/c_hands/prisoner_kick.mdl"
+		// kick skin
+		"v_kick_skin"	"1" // prisoner 0
+		
+		// Color [RGBA] of Player HUD background (not weapon wheel)
+		"hud_background"	"58 150 157 103"
+		// Color [RGBA] of Player HUD Health
+		"hud_foreground"	"34 119 105 255"
+		
+		// Set this to 1 to give or take arresting ability for this skin regardless of path
+		"arresting"		"0"
+		
+		// Set this to 1 to give or take covering ability for this skin
+		"covering"		"1"
+		
+		// Set this to 1 to give or take sprinting ability for this skin
+		"sprinting"		"1"
+		
+		// Allow only certain weapons to be used or selectable
+		// If this is empty no such restriction will be applied
+		"allowed_weapons"
+		{
+			// "p3_weapon_emptyhands"	""
+			// "p3_weapon_weemote"	""
+		}
+		
+		// Shopvac/Fart gun body group
+		"shopvac_bodygroup"	"2"
+		
+		// Shopvac/Fart gun aim hack (animation related while looking up and down)
+		"shopvac_restrict_aim_pitch"	"0"
+		
+		// Player is invincible to any kind of burn damage with this skin
+		"no_burn_damage" "0"
+		
+		// Dude will use cop lines with this skin
+		"is_cop"	"0"
+		
+		// Dude will use Krotchy lines with this skin
+		"is_krotchy"	"0"
+		
+		// Set certain attributes for the Player when skin is set (this could be before spawn, during gameplay, etc..)
+		// Set an attribute to -1 if you want to remove instead
+		"postal3script"
+		{
+			// sets attributes
+			// "ea_health" "1000"
+			// "ea_noknockout" "1"
+			// "my_attribute" "-1"
+		}
+	}
+	
+	// name of the skin
+	"patrol"
+	{
+		// world model (not FPS) of the Player, this will be precached
+		"model"		"models/Characters/M_Avg_Postal_Dude_v2/m_avg_postal_dude_patrol.mdl"
+		// Prefab
+		"prefab"	"Dude_patrol_01"
+		
+		// c_hands model
+		"v_hand"		"models/Weapons/c_hands/patrol_hands.mdl"
+		// c_hands skin
+		"v_hand_skin"	"0"
+		
+		// kick model
+		"v_kick"		"models/Weapons/c_hands/patrol_kick.mdl"
+		// kick skin
+		"v_kick_skin"	"0"
+		
+		// Color [RGBA] of Player HUD background (not weapon wheel)
+		"hud_background"	"24 78 19 255"
+		// Color [RGBA] of Player HUD Health
+		"hud_foreground"	"51 72 50 255"
+		
+		// Set this to 1 to give or take arresting ability for this skin regardless of path
+		"arresting"		"1"
+		
+		// Set this to 1 to give or take covering ability for this skin
+		"covering"		"1"
+		
+		// Set this to 1 to give or take sprinting ability for this skin
+		"sprinting"		"1"
+		
+		// Allow only certain weapons to be used or selectable
+		// If this is empty no such restriction will be applied
+		"allowed_weapons"
+		{
+			// "p3_weapon_emptyhands"	""
+			// "p3_weapon_weemote"	""
+		}
+		
+		// Shopvac/Fart gun body group
+		"shopvac_bodygroup"	"2"
+		
+		// Shopvac/Fart gun aim hack (animation related while looking up and down)
+		"shopvac_restrict_aim_pitch"	"0"
+		
+		// Player is invincible to any kind of burn damage with this skin
+		"no_burn_damage" "0"
+		
+		// Dude will use cop lines with this skin
+		"is_cop"	"0"
+		
+		// Dude will use Krotchy lines with this skin
+		"is_krotchy"	"0"
+		
+		// Set certain attributes for the Player when skin is set (this could be before spawn, during gameplay, etc..)
+		// Set an attribute to -1 if you want to remove instead
+		"postal3script"
+		{
+			// sets attributes
+			// "ea_health" "1000"
+			// "ea_noknockout" "1"
+			// "my_attribute" "-1"
+		}
+	}
+}
