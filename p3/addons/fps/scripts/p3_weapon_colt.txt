@@ -5,7 +5,7 @@ WeaponData
 	// Weapon data is loaded by both the Game and Client DLLs.
 	"ID"				"deserteagle"
 	"printname"				""
-	"viewmodel"				"models/weapons/deagle/v_Colt.mdl"
+	"viewmodel"				"models/weapons/deagle/c_Colt.mdl"
 	"playermodel"			"models/weapons/deagle/Colt.mdl"
 	"anim_prefix"			"deagle"
 	"bucket"				"3"
