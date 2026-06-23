@@ -1,0 +1,7 @@
+"AddonInfo"	{
+	addontitle			"Unobtrusive FPS sights"
+	addonauthor			"MeeMdic"
+	addonversion		"0.1"
+	addonDescription	"Unobtrusive iron sights viewmodels"
+	addonlink			"https://gamebanana.com/mods/535387"
+}
