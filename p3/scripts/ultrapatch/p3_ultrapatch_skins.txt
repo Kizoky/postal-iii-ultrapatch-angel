@@ -12,6 +12,16 @@
 		// Prefab
 		"prefab"	"Dude_raincoat_01"
 		
+		// Use custom crosshair
+		// Leave it empty if you don't want to use this feature
+		"crosshairs"
+		{
+		//	// default		// name of the crosshair from p3_ultrapatch_crosshairs.txt
+		//	"default"		"my_default_crosshair"
+		//	// nonlethal	// name of the crosshair from p3_ultrapatch_crosshairs.txt
+		//	"nonlethal"		"my_nonlethal_crosshair"
+		}
+		
 		// c_hands model
 		"v_hand"		"models/Weapons/c_hands/coat_hands.mdl"
 		// c_hands skin

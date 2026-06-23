@@ -1,0 +1,9 @@
+"UnlitGeneric"
+{
+	"$basetexture" "sprites/aim_nonlethal_01"
+	"$additive"    "0"
+	"$vertexcolor" "1"
+	"$vertexalpha" "1"
+	"$ignorez"     "1"
+    "$translucent" "1"
+}

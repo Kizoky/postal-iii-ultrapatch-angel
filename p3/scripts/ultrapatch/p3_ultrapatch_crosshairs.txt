@@ -1,0 +1,56 @@
+// Here you can define crosshairs
+// They can be either forced on skins, or be set as user-only (like with HUD colors)
+// Mods can add crosshairs via `p3/addons/<addon>/scripts/<addon>_crosshairs.txt`
+
+"crosshairs"
+{
+	// name of the crosshair
+	"default"
+	{
+		// Sprite that is centered on the screen
+		"dot"	"sprites/Aim_Dot_01"
+		
+		// Default scale of the crosshair
+		"scale"	"1"
+		
+		// Width of the dot sprite
+		"width" "16"
+		// Height of the dot sprite
+		"height" "16"
+		
+		// Whether to encapsulate the dot with arc sprites or not
+		"use_arc"	"1"
+		
+		// Width of all the arc sprites
+		"arc_width"	"32"
+		// Height of all the arc sprites
+		"arc_height" "32"
+		
+		//// If 'use_arc' is 0, these below will be ignored
+		// North West
+		"arc_nw"	"sprites/Aim_Arc_NW"
+		// North East
+		"arc_ne"	"sprites/Aim_Arc_NE"
+		// South West
+		"arc_sw"	"sprites/Aim_Arc_SW"
+		// South East
+		"arc_se"	"sprites/Aim_Arc_SE"
+	}
+	
+	// for non-lethal weapons
+	"nonlethal"
+	{
+		"dot"	"sprites/Aim_NonLethal_01"
+		
+		// Default scale of the crosshair
+		"scale"	"2"
+		
+		// Width of the dot sprite
+		"width" "32"
+		// Height of the dot sprite
+		"height" "32"
+		
+		// We use single sprite only
+		"use_arc"	"0"
+	}
+}
