@@ -642,14 +642,14 @@
 		"prefab"	"Dude_patrol_01"
 		
 		// c_hands model
-		"v_hand"		"models/Weapons/c_hands/patrol_hands.mdl"
+		"v_hand"		"models/Weapons/c_hands/cop_hands.mdl"
 		// c_hands skin
-		"v_hand_skin"	"0"
+		"v_hand_skin"	"2"
 		
 		// kick model
-		"v_kick"		"models/Weapons/c_hands/patrol_kick.mdl"
+		"v_kick"		"models/Weapons/c_hands/cop_kick.mdl"
 		// kick skin
-		"v_kick_skin"	"0"
+		"v_kick_skin"	"2"
 		
 		// Color [RGBA] of Player HUD background (not weapon wheel)
 		"hud_background"	"24 78 19 255"
