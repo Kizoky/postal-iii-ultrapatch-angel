@@ -1,0 +1,6 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Weapons/Wolwerine/wolverine_fur"
+	"$translucent" "1"
+	"$alpha" "0"
+}

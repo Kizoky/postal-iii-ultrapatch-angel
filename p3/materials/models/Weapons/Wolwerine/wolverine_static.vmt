@@ -1,0 +1,28 @@
+"FurSimple"
+{
+	"$pixelMode" 1         // считать высоту и пр. попискельно
+
+	// текстуры цвета
+	"$basetexture" "models/Weapons/Wolwerine/wolverine"
+
+	// текстура густоты меха и количество ее повторений
+	"$noiseTexture" "models/Weapons/Wolwerine/wolverine_fur_noise"
+	"$noiseScale"   20
+
+	// текстура длины меха и максимальная длина
+	"$lengthTexture" "models/Weapons/Wolwerine/wolverine_fur_length"  
+	"$lengthScale"   1.75
+
+	"$uvOffsetTexture" "models/Weapons/Wolwerine/wolverine_fur_uvoffset"
+	"$uvOffsetScale" 0
+	"$uvOffsetMode" 1
+	
+	"$numShells" 16        // количество слоев (первый слой рисуется без альфы)	
+
+	"$startColor" "[0.4 0.4 0.4 1]"          // альфа нижнего слоя
+	"$endColor"   "[1 1 1 0.2]"        // альфа верхнего слоя
+	"$alphaTestGt" 0.1     // пиксели с меньшей aльфой отбрасываются
+
+	"$noСull" 1            // рисовать двусторонним
+	"$writeZ" 1            // z-write слоев (z-test всегда включен)
+}
