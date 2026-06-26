@@ -5,7 +5,7 @@
 		"text"			"#GameUI2_Cheats"
 		"description"	""
 		"command"		"cvar gameui2_opencheatsdialog"
-		"priority"		"666"
+		"priority"		"10"
 		"specifics"		"shared"
 	}
 	
@@ -18,17 +18,17 @@
 		"specifics"		"ingame"
 	}
 	
-	"ContinueGame"
-	{
-		"text"			"#GameUI2_ContinueGame"
-		"description"	"#GameUI2_ContinueGameDescription"
-		"command"		"cvar gameui2_continuegame"
-		"priority"		"8"
-		"specifics"		"mainmenu"
-		"tv"			"pc_continue"
-		// TODO: do we really have to do this?
-		"vmt"			"#GameUI_GameMenu_ContinueGame"
-	}
+		"ContinueGame"
+		{
+			"text"			"#GameUI2_ContinueGame"
+			"description"	"#GameUI2_ContinueGameDescription"
+			"command"		"cvar gameui2_continuegame"
+			"priority"		"8"
+			"specifics"		"mainmenu"
+			"tv"			"pc_continue"
+			// TODO: do we really have to do this?
+			"vmt"			"#GameUI_GameMenu_ContinueGame"
+		}
 	
 	"NewGame"
 	{
@@ -42,25 +42,25 @@
 		"vmt"			"#GameUI_GameMenu_NewGame"
 	}
 	
-	"SaveGame"
-	{
-		"text"			"#GameUI2_SaveGame"
-		"description"	"#GameUI2_SaveGameDescription"
-		"command"		"cvar gamemenucommand opensavegamedialog"
-		"priority"		"6"
-		"specifics"		"ingame"
-	}
-	
 	"LoadGame"
 	{
 		"text"			"#GameUI2_LoadGame"
 		"description"	"#GameUI2_LoadGameDescription"
 		"command"		"cvar gamemenucommand openloadgamedialog"
-		"priority"		"5"
+		"priority"		"6"
 		"specifics"		"shared"
 		"tv"			"pc_loadgame"
 		// TODO: do we really have to do this?
 		"vmt"			"#GameUI_GameMenu_LoadGame"
+	}
+	
+	"SaveGame"
+	{
+		"text"			"#GameUI2_SaveGame"
+		"description"	"#GameUI2_SaveGameDescription"
+		"command"		"cvar gamemenucommand opensavegamedialog"
+		"priority"		"5"
+		"specifics"		"ingame"
 	}
 	
 	"Achievements"
@@ -102,7 +102,7 @@
 		"description"	"#GameUI2_QuitDescription"
 		// NOTE: Don't re-enable the quit dialog because it is broken
 		"command"		"cvar gameui2_openquitdialog" //"cvar gamemenucommand quit"
-		"priority"		"0"
+		"priority"		"1"
 		"specifics"		"shared"
 		"tv"			"pc_quit"
 		// TODO: do we really have to do this?
@@ -117,7 +117,7 @@
 		// materials/vgui/.
 		"image"			"social/twitter.vtf"
 		"image_scale"	"1"
-		"priority"		"10"
+		"priority"		"100"
 		"specifics"		"social"
 	}
 	
@@ -129,7 +129,7 @@
 		// materials/vgui/.
 		"image"			"social/discord.vtf"
 		"image_scale"	"1"
-		"priority"		"11"
+		"priority"		"101"
 		"specifics"		"social"
 	}
 	
@@ -141,7 +141,7 @@
 		// materials/vgui/.
 		"image"			"social/moddb.vtf"
 		"image_scale"	"1"
-		"priority"		"12"
+		"priority"		"102"
 		"specifics"		"social"
 	}
 	
@@ -153,7 +153,7 @@
 		// materials/vgui/.
 		"image"			"social/github.vtf"
 		"image_scale"	"1"
-		"priority"		"13"
+		"priority"		"103"
 		"specifics"		"social"
 	}
 	
@@ -166,7 +166,7 @@
 		// materials/vgui/.
 		"image"			"social/vk.vtf"
 		"image_scale"	"1"
-		"priority"		"14"
+		"priority"		"104"
 		"specifics"		"social"
 	}
 	
@@ -178,7 +178,7 @@
 		// materials/vgui/.
 		"image"			"social/youtube.vtf"
 		"image_scale"	"1"
-		"priority"		"15"
+		"priority"		"105"
 		"specifics"		"social"
 	}
 	
@@ -190,7 +190,7 @@
 		// materials/vgui/.
 		"image"			"social/whackjob.vtf"
 		"image_scale"	"1"
-		"priority"		"16"
+		"priority"		"106"
 		"specifics"		"social"
 	}
 }
