@@ -1,0 +1,1459 @@
+movement_activities_packs
+{
+//  IDLE ACTIVITIES	
+		melee_idle
+		{
+			ACT_IDLE_MELEE 2
+		}
+		
+		melee_box_idle
+		{
+			ACT_IDLE_MELEE2 2
+		}
+		
+		civil_idle
+		{
+			ACT_IDLE_MASTER 3
+			ACT_IDLE_FREE 3
+			ACT_IDLE_HANDSBACK 2
+			ACT_IDLE_HANDSINPOCKET1 1
+			ACT_IDLE_HANDSINPOCKET_GLOOM 1
+			ACT_IDLE_HANDSINPOCKET_YO 1
+			ACT_IDLE 1
+		}
+		
+		idle
+		{
+			ACT_IDLE 2
+		}
+		
+		idle_handsback
+		{
+			ACT_IDLE_HANDSBACK 2
+		}
+		
+		idle_zombie
+		{
+			ACT_IDLE_ZOMBIE 2
+		}
+		
+    fun_walk  
+    {    
+    	 ACT_DEAGLE_WALK_CROUCH 2  
+    }
+    
+    fun_run   
+    {    
+    	 ACT_DEAGLE_RUN_CROUCH 2 
+    }	
+  
+  
+    test_Rhino_Jog
+    {
+      ACT_JOG 2
+    }
+     
+    test_Rhino_Walk
+    {
+      ACT_WALK 2
+    } 
+    	 
+    testAlert
+    {
+      ACT_WALK_SLOW 2
+    }
+    
+    test1
+    {
+//     	ACT_WALK_FAST 3
+     	ACT_WALK_FUNNY 1
+     	ACT_WALK_JOGGY 2
+    }
+    
+    test2
+    {
+     	ACT_WALK_FAST 1
+    	ACT_WALK 1
+    }
+    
+    default_run
+    {
+     	ACT_RUN 1
+    }  
+    
+    idle_aggro
+    {
+     	ACT_IDLE_ANGRY 1
+    }
+    
+    run_burst
+    {
+     	ACT_BURST 1
+     	//ACT_RUN 1
+    }
+    
+    run_aim_deagle
+    {
+     	ACT_DEAGLE_RUN_AIM 1
+    }   
+    
+    snatch_head
+    {
+     	ACT_SNATCHED_HEAD 1
+    }
+    
+    snatch_foot_l
+    {
+     	ACT_SNATCHED_L_FOOT 1
+    }
+    
+    snatch_foot_r
+    {
+     	ACT_SNATCHED_R_FOOT 1
+    }
+    
+    snatch_hand_l
+    {
+     	ACT_SNATCHED_L_HAND 1
+    }
+    
+    snatch_hand_r
+    {
+     	ACT_SNATCHED_R_HAND 1
+    }
+    
+///////////////////////////////////// WALK
+    
+    walk_neutral
+    {
+    	ACT_WALK 3
+//   		ACT_WALK_SLOW 2
+    }
+    walk_zombie
+		{
+			ACT_WALK_ZOMBIE 1
+		}
+    walk_fast
+    {
+  		ACT_WALK_FAST 2
+    }
+		walk_slow
+		{
+			ACT_WALK_SLOW 2
+		}
+    walk_heavy
+    {
+  		ACT_WALK_HEAVY 2
+    }
+		walk_funny
+		{
+			ACT_WALK_FUNNY 2
+		}
+		walk_joggy
+		{
+			ACT_WALK_JOGGY 2
+		}
+    walk_alert
+    {
+			ACT_WALK 3
+//      ACT_WALK_FAST 2
+    }
+    walk_wounded
+    {
+			ACT_WALK_WOUNDED 1
+    }
+    
+    cat_dervish
+    {
+			ACT_CAT_DERVISH 1
+    }
+    
+///////////////////////////////////// RUN 
+    
+//    run_onfire
+//    {
+//			ACT_RUN_ONFIRE 1
+//    }
+//    
+//    run_panic
+//    {
+//			ACT_RUN_PANIC 1
+//    } 
+//       
+		run_normal
+		{
+			ACT_RUN 1
+		}
+		
+    run_relax
+    {
+			ACT_RUN_RELAX 1
+    }
+//    
+//    run_burst
+//    {
+//			ACT_BURST 1
+//    }
+//    
+
+    run_wounded
+    {
+			ACT_RUN 1
+    }
+    run_onfire
+    {
+			ACT_RUN_ONFIRE 1
+    }
+    
+    run_panic
+    {
+			ACT_RUN_PANIC 1
+    } 
+    
+    run_burst
+    {
+			ACT_RUN 1
+    }
+    
+    run_wounded
+    {
+			ACT_RUN 1
+    } 
+       
+///////////////////////////////////// SITTING
+    
+    test_sitting
+    {
+			ACT_WALK_TO_SEAT 1
+    }
+		
+		test_table_idle
+		{
+			ACT_TABLE_IDLE 1
+		}
+}
+
+activities
+{
+	
+	combat_melee
+	{
+		melee_push 		2
+		melee_push2		2
+		melee_attack2	2
+		melee_attack3	2
+		melee_attack4	2
+		melee_kick1		2
+	}	
+	
+	combat_animal
+	{
+		melee_attack2	2
+		melee_attack4	2
+		melee_kick1		3
+	}	
+	
+	combat_melee_feedback
+	{
+		a_heavy_CHEST_left 		2
+		a_heavy_CHEST_right		2
+		a_heavy_STOMACH_left	2
+		a_heavy_STOMACH_right	2
+		cower	4
+		reaction_stun	2
+//		g_reaction_stun_in	2
+		reaction_afraid	2
+	}	
+	
+	melee_attack
+	{
+		melee_attack2 1
+		melee_attack3 1
+		melee_attack4 1
+		melee_attack5 2
+		melee_attack6 2
+		melee_attack7 1
+		melee_push2		3
+		//melee_box01L	4
+		//melee_box01R	1
+		//melee_box02L	4
+		//melee_box02R	1
+	}
+	
+	g_greet_normal
+	{
+		g_emotions_greet	1
+		g_emotions_hey		1
+		g_emotions_hi			2
+		g_emotions_nod		2
+		g_emotions_salute	1
+	}
+	
+	g_greet_sleazy
+	{
+		g_emotions_hi			2
+		g_emotions_hibaby	2
+		g_emotions_kiss		2
+	}
+	
+	g_reaction_excited
+	{
+		g_agitate_agressive 2
+		g_dialogue_giggle  	2
+//		g_dialogue_phrase3  2
+		g_dialogue_point  	2
+		g_dialogue_yo  			2
+		g_idle_ScratchAss 	2
+		g_idle_ScratchHair3 2
+	}
+	
+	g_reaction_pissing
+	{
+		g_reaction_pissing 1
+	}
+	
+	g_dialogue_point
+	{
+		g_dialogue_point 2
+	}
+	
+	reaction_shocked
+	{
+		reaction_shocked 2
+	}
+	
+	reaction_confused
+	{
+		reaction_confused 2
+		reaction_shocked_2 2
+	}
+	
+	reaction_ignite
+	{
+		reaction_ignite 5
+//		reaction_ignite_1 2
+//		reaction_ignite_2 2
+	}
+	reaction_fun
+	{
+		dialogue_listen 1
+		dialogue_phrase3  1
+		dialogue_yes 1
+		dialogue_yo 1
+		emotions_hibaby 1
+		emotions_kiss 1
+	}
+	agitate_common
+	{
+		agitate_active 1
+		agitate_agressive  3
+		agitate_civil  2
+	}
+	
+	emote_hi
+	{
+		emotions_hi 1
+	}
+	
+	g_emote_hi
+	{
+		g_emotions_hi 1 
+	}
+	
+	emote_sweet
+	{
+		emotions_hibaby  3
+		emotions_kiss  1
+	}
+	
+	emote_salute
+	{
+		emotions_salute  1
+//		dialogue_yes 1
+	}
+
+	g_emote_shakeoff
+	{
+		g_emotions_shakeoff  2
+	}
+	
+	emote_yo
+	{
+		dialogue_wow  1
+		dialogue_yo  1
+		agitate_active  1
+	}	
+	
+	//бабка поучает
+	emote_kibitz
+	{
+		agitate_agressive  1
+//		agitate_civil  1
+		agitate_passive  1
+		confusion_agressive  1
+	}	
+	
+	emote_giggle
+	{
+		dialogue_giggle  1
+	}
+	
+	g_emote_giggle
+	{
+		g_dialogue_giggle  1
+	}
+	
+	g_emote_lol
+	{
+		g_dialogue_giggle		1
+		g_dialogue_idea			1
+		g_dialogue_phrase3	1
+	}
+	
+	emote_excuse
+	{
+		emotions_hey  1
+		dialogue_phrase1 1
+		confusion_active 1
+//		dialogue_giggle  1
+	}
+	
+	emote_hey
+	{
+		emotions_hey  1
+	}
+	
+	g_emote_hey
+	{
+		g_emotions_hey 1
+	}
+	
+	g_emote_bow
+	{
+		g_emotions_bow 1
+	}
+
+	emote_heywait
+	{
+		dialogue_no  		 2
+		dialogue_phrase1 2
+		dialogue_phrase2 2
+	}
+	
+	g_emote_heywait
+	{
+		g_dialogue_no  			2
+		g_dialogue_phrase1  2
+		g_dialogue_phrase2  2
+	}
+	emote_bow
+	{
+		emotions_bow  1
+	}
+	
+	emote_laught
+	{
+		dialogue_phrase3 1
+		dialogue_giggle  1
+	}
+	
+	emote_afraid
+	{
+		reaction_afraid 2
+//		Cut_Affraid 1
+	}
+	
+	g_emote_afraid_vip
+	{
+		g_reaction_afraid4 3
+	}
+	
+	g_emote_afraid
+	{
+		g_reaction_afraid 3
+		g_reaction_afraid2 3
+		g_reaction_afraid3 3
+		g_reaction_afraid4 3
+	}
+	
+	g_emote_afraid_slave
+	{
+		g_reaction_afraid 3
+		g_reaction_afraid2 3
+		g_reaction_afraid3 3
+	}
+	
+	g_panic
+	{
+		g_panic_0 3
+		g_panic_1 3
+		g_panic_2 3
+	}
+	
+	g_onfire
+	{
+		g_panic_1 3
+	}
+	
+	emote_pissing
+	{
+		reaction_pissing 1
+	}	
+	
+	emote_aggro
+	{
+		confusion_agressive 2
+		dialogue_wow 2
+		//dialogue_phrase1 2
+		//dialogue_phrase2 2
+		confusion_active 2
+		agitate_agressive 2
+		agitate_active 2
+	}
+	arguing
+	{
+		//dialogue_listen 1
+		//dialogue_no 1
+		confusion_active 1
+		confusion_agressive 1
+		dialogue_wow 1
+
+	}	
+	g_emote_aggro
+	{
+		g_confusion_agressive  1
+	}
+	
+	emote_point
+	{
+		dialogue_point  1
+	}
+	
+	emote_what
+	{
+		agitate_passive  1
+	}
+	
+	dialogue_start
+	{
+		dialogue_phrase1 1
+		dialogue_no 2
+		dialogue_giggle  3
+		agitate_passive  1
+	}
+	
+	dialogue_1
+	{
+		dialogue_phrase1 1
+		dialogue_no 2
+		agitate_passive  1
+	}
+	
+	dialogue_hi
+	{
+		dialogue_no 2
+	}
+	
+	dialogue_shakehand
+	{
+		Cut_ShakeHand 1
+	}
+	
+	dialogue_idea
+	{
+		dialogue_idea 1
+	}
+	
+	idle_1
+	{
+		idle_master 1
+	}
+	
+	idle_2
+	{
+		idle_master 3
+		idle_handsback 2
+		idle_free 2
+		idle_handsinpocket1 1
+		idle_handsinpocket2 1
+		idle_handsinpocket3 1
+	}
+	
+	idle_3
+	{
+		idle_handsback 1
+		idle_handsinpocket1 1
+		idle_handsinpocket2 1
+		idle_handsinpocket3 1
+	}
+	
+	idle_shopkeeper
+	{
+		idle_master 2
+		idle_handsback 2
+		idle_free 3
+	}
+	
+	melee_idle
+	{
+		melee_idle 1
+	}
+	
+	//////////////// COP
+	
+	dialogue_point
+	{
+		agitate_civil 1
+		dialogue_point 1
+//		reaction_pissing  1
+	}
+	
+	dialogue_listen
+	{
+		dialogue_listen 1
+	}
+	
+	dialogue_ok
+	{
+		dialogue_yes 1
+	}
+	
+	//////////////// MISSIONS
+
+	march_banner
+	{
+		g_shake_banner 1
+	}
+	
+	g_attack_bat
+	{
+		g_attack_bat 1
+	}
+	
+	emote_annoyed
+	{
+		dialogue_wow 1
+		dialogue_phrase1 1
+		confusion_active 1
+		confusion_agressive 1
+		agitate_passive 1
+		agitate_agressive 1
+		agitate_active 1
+	}
+}
+
+//////////////// QUESTS
+
+activities
+{
+	g_quest_disabled
+	{
+		g_dialogue_listen 2
+		g_agitate_agressive 2
+		g_agitate_passive 2
+		g_idle_ScratchAss 1
+		g_idle_ScratchHair1 1
+		g_idle_ScratchHair3 1
+		g_idle_ScratchNose1 1
+		g_idle_ScratchNose2 1
+		g_idle_TimeCheck 1
+		g_idle_Yawn 1
+	}
+	
+	g_quest_enabled
+	{
+		g_idle_ScratchAss 1
+		g_idle_ScratchHair1 1
+		g_idle_ScratchHair3 1
+		g_idle_ScratchNose1 1
+		g_idle_ScratchNose2 1
+		g_dialogue_no 2
+		g_dialogue_phrase1 2
+		g_dialogue_phrase2 2
+	}
+	
+	g_quest_completed
+	{
+		g_dialogue_yo 2
+		g_dialogue_wow 2
+		g_dialogue_yes 2
+	}
+}
+
+////////////////////////// IDLE
+
+activities
+{
+// Cellphone
+
+	idle_cellphone_in
+	{
+		idle_cellphone_in 1
+	}
+	idle_cellphone_wait
+	{
+		idle_cellphone_wait 1
+	}
+	idle_cellphone_loop
+	{
+		idle_cellphone_loop 1
+	}
+	idle_cellphone_out
+	{
+		idle_cellphone_out 1
+	}
+	
+	g_idle_cellphone
+	{
+		g_idle_cellphone_loop 1,g_idle_cellphone_in,g_idle_cellphone_out
+	}
+	
+	g_cellphone
+	{
+		g_idle_cellphone_loop 1
+	}
+	
+//	g_idle_cellphone_out
+//	{
+//		g_idle_cellphone_out 1
+//	}
+	
+	// Arrest
+	idle_arrest
+	{
+		idle_arrest 1
+	}
+	
+	// Radio
+	idle_radio
+	{
+		idle_radio 1
+	}
+	g_idle_radio
+	{
+		g_idle_radio 1
+	}
+	
+	
+		idle_common
+	{
+		idle_MoneyCheck		2
+		idle_ScratchAss		6
+		idle_ScratchHair1	3
+		idle_ScratchHair2	3
+		idle_ScratchHair3	3
+		idle_ScratchNose1	3
+		idle_ScratchNose2	3
+		idle_TimeCheck2		2
+		idle_Yawn					4
+	}
+	
+	g_idle_common
+	{
+		g_idle_MoneyCheck		2
+		g_idle_ScratchAss		6
+		g_idle_ScratchHair1	3
+		g_idle_ScratchHair2	3
+		g_idle_ScratchHair3	3
+		g_idle_ScratchNose1	3
+		g_idle_ScratchNose2	3
+		g_idle_TimeCheck2		2
+		g_idle_Yawn					4
+	}
+	
+	g_idle_lite
+	{
+		g_idle_ScratchAss		8
+		g_idle_ScratchHair1	3
+		g_idle_ScratchHair2	3
+		g_idle_ScratchHair3	3
+		g_idle_ScratchNose1	3
+		g_idle_ScratchNose2	3
+		g_idle_Yawn					5
+	}
+	
+	g_idle_timecheck
+	{
+		g_idle_TimeCheck2		2
+	}
+	
+	g_idle_sitting
+	{
+		g_idle_MoneyCheck		1
+		g_idle_ScratchHair1	1
+		g_idle_ScratchHair2	1
+		g_idle_ScratchHair3	1
+		g_idle_ScratchNose1	1
+		g_idle_ScratchNose2	1
+	}
+}
+
+
+////////////////////////// ENVIRONMENT
+
+activities
+{
+	
+	idle
+	{
+		idle 1
+	}
+	
+	ev_crouch_inspect
+	{
+		env_crouch 2
+		env_crouch_inspect 2
+		env_inspect_ground 2
+	}
+	
+	ev_crouch
+	{
+		env_crouch 2
+	}
+	
+	ev_atm
+	{
+		env_cash_machine 1
+	}
+	
+	ev_arcade
+	{
+		env_game_machine 1
+	}
+	
+	ev_video
+	{
+		env_video_machine 1
+	}
+	
+	ev_phone
+	{
+		env_phone 1
+	}
+	
+	// TABLE
+	ev_table_sit_left
+	{
+		at_table_sit_down_left 1
+	}
+
+	ev_table_sit_right
+	{
+		at_table_sit_down_right 1
+	}
+
+	ev_table_stand_up_left
+	{
+		at_table_stand_up_left 1
+	}
+
+	ev_table_stand_up_right
+	{
+		at_table_stand_up_right 1
+	}
+
+	ev_table_bored
+	{
+		env_table_bored 1 
+	}
+	
+	ev_table_working
+	{
+		env_table_working_1 2
+		env_table_working_2 2
+	}
+	
+		ev_table_working_1
+	{
+		env_table_working_1 1
+	}
+	
+	ev_table_working_2
+	{
+		env_table_working_2 1
+	}
+	
+	ev_reaction_arcade
+	{
+		agitate_active 1
+		dialogue_yo 1
+		dialogue_phrase3 2
+		dialogue_listem 1
+		idle_master 2
+		idle_handsback 2
+		idle_handsinpocket1 2
+		idle_handsinpocket3 2
+	}
+	
+	ev_reaction_interest
+	{
+		dialogue_yes 2
+		dialogue_listem 2
+		idle_free 2
+		idle_handsinpocket2 2
+		idle_scratchhair1 2
+		idle_scratchnose1 2
+	}
+	
+	ev_test
+	{
+		dialogue_giggle 1
+	}
+	
+	ev_table_bored
+	{
+		env_table_bored 1 
+	}
+	
+	
+	///////////////// CHAIR FROM SIDE
+	
+	ev_sit_in
+	{
+		at_chair_sit_down 1
+	}
+	
+	ev_sit_out
+	{
+		at_chair_stand_up 1
+	}
+	
+	
+	///////////////// CHAIR FROM BACK
+	
+	ev_sit_in
+	{
+		at_chair_sit_down 1
+	}
+	
+	ev_sit_idle
+	{
+		at_chair_idle 1
+	}
+	
+	ev_sit_out
+	{
+		at_chair_stand_up 1
+	}
+	
+	ev_chair
+	{
+		env_chair 	1
+		env_chair_2 1
+		env_chair_3 1
+		env_chair_4 1
+	}
+	
+	ev_bed
+	{
+		env_bed 	2
+	}
+	
+	//////////////// BED
+	
+	ev_lie_in
+	{
+		at_bed_lie_down 1
+	}
+	
+	ev_lie_idle
+	{
+		at_bed_idle 1
+	}
+	
+	ev_lie_out
+	{
+		at_bed_lie_up 1
+	}
+	
+	cut_stand_at_wall
+	{
+		cut_Stands_wall 1
+	}
+
+}
+
+////////////////////////// ITEMS
+
+activities
+{
+	itm_throw
+	{
+		env_throw 1
+	}
+	
+	itm_throw_light
+	{
+		Cut_Trow_pizza 1
+	}
+	
+	itm_inspect_ground
+	{
+		env_inspect_ground 1
+	}
+	
+	itm_take
+	{
+		env_lifting 1
+	}
+	
+	itm_check
+	{
+		env_checking 4
+		pass 4
+	}
+	
+	itm_discard
+	{
+		env_discard 1
+	}
+	
+	g_idle_feeding
+	{
+		g_idle_feeding 1
+	}
+	
+	melee_attack
+	{
+		melee_attack1 2
+		melee_attack2 2
+		melee_attack3 3
+	}
+	
+	test_attack
+	{
+		melee_attack2 1
+		melee_attack1 2
+		melee_attack2 3
+	}
+	test_hearcom
+	{
+		a_heavy_STOMACH_right 1
+	}
+}
+
+
+////////////////////////// ANIMALS
+
+activities
+{
+	an_sit_idle
+	{
+		idle_sit 1
+	}
+		
+	an_lie_idle
+	{
+		idle_lie 1
+	}
+	
+	an_lie_sleep
+	{
+		lie_sleep 1
+	}
+	
+	an_lie_sleep_out
+	{
+		lie_sleep_out 1
+	}
+	
+	an_lie_sleep_in
+	{
+		lie_sleep_in 1
+	}
+	
+	an_idle_dig
+	{
+		idle_dig 1
+	}
+	
+	an_idle_common
+	{
+		idle_scratch 1
+		idle_fleas 1
+		idle_look 1
+	}
+	
+	an_idle_take
+	{
+		idle_take 1
+	}
+
+	an_bark
+	{
+		idle_bark_1 1
+	}
+	
+	an_idle_give
+	{
+		idle_give 1
+	}
+	
+	g_an_fawn
+	{
+		tail_wave 1
+	}
+	
+	an_idle_peepoo
+	{
+		idle_poo 1
+		idle_pee 1
+	}
+	
+	an_idle_pee
+	{
+		idle_pee 1
+	}	
+	
+	an_idle_smell
+	{
+		idle_smell 1
+	}
+	
+	an_idle_bury
+	{
+		idle_bury 1
+//		idle_look 1
+	}
+	
+	an_idle_eat
+	{
+		idle_eat 1
+	}
+	
+	g_cat_tail_walk
+	{
+		none 6
+//		g_tail_up 2
+		g_tail_wave_full 2
+		g_tail_wave_half 3
+		g_tail_wave_tip 4
+	}
+	
+	g_cat_tail_lie
+	{
+		none 3
+		g_tail_wave_full 2
+		g_tail_wave_half 3
+		g_tail_wave_tip 4
+	}
+	
+	g_cat_tail_interest
+	{
+		g_tail_interest 2
+	}	
+
+	g_cat_tail_up
+	{
+		g_tail_up 2
+	}
+	
+	g_monkey_holding
+	{
+		g_env_holding 2
+	}
+	
+	an_monkey_locked
+	{
+		idle 4
+		env_throw 3
+		ev_item_take 2
+		idle_angry 3
+	}
+	
+	g_rhino_attack
+	{
+		g_attack 2
+	}
+	
+	g_rhino_unspit
+	{
+		unspit 2
+	}
+}
+
+////////////////////////// ZOMBIEZOMBIEZOMBIEZOMBEI
+
+activities
+{
+	zomb_eat_corpse
+	{
+		env_crouch_inspect 1
+	}
+}
+
+
+////////////////////////// MOTORHEAD
+
+activities
+{
+	mth_idle_actions
+	{
+		scratch_ass 7
+        idle_angry 4
+        backflip 7
+        mikazaru_idle 1
+        dance 2
+	}
+    
+    mth_agro_actions
+	{
+		idle_angry 5
+        backflip 7
+        dance 4
+	}
+    
+    g_mth_hold_item
+    {
+        g_env_holding 1
+    }
+}
+
+////////////////////////// TEST
+
+activities
+{
+	test_cbt
+	{
+		deagle_angry_idle_crouch 1
+	}
+	
+	test_cbt
+	{
+		deagle_angry_idle_crouch 1
+	}
+		
+}
+
+////////////////////////////////////////////////////////// SOUND
+
+////////////////// SOUNDS
+
+sounds 
+{
+	segway
+	{
+		Segway.Moving 1
+	}
+}
+
+////////////////// SOUNDS ANIMAL
+
+sounds 
+{
+	champ_alert
+	{
+		champ_alert_01 1
+		champ_alert_02 1
+		champ_alert_03 1
+	}
+	champ_attack
+	{
+		champ_attack_01 1
+		champ_attack_02 1
+		champ_attack_03 1
+	}
+	champ_active
+	{
+		champ_active_01 1
+		champ_active_02 1
+		champ_active_03 1
+		champ_active_04 1
+	}
+	champ_aggro
+	{
+		champ_aggro_01 1
+		champ_aggro_02 1
+	}
+	champ_hungry
+	{
+		champ_hungry_01 1
+		champ_hungry_02 1
+		champ_hungry_03 1
+	}
+	champ_play
+	{
+		champ_hungry_01 1
+		champ_hungry_02 1
+		champ_hungry_03 1
+		champ_attack_01 1
+		champ_attack_02 1
+		champ_attack_03 1
+		champ_breathing 6
+		champ_damage_01 1
+		champ_damage_02 1
+		champ_damage_03 1
+	}
+	champ_breathing
+	{
+		champ_breathing 1
+	}
+	champ_yummy
+	{
+		champ_yummy 1
+	}
+	champ_hit
+	{
+		champ_damage_01 1
+		champ_damage_02 1
+		champ_damage_03 1
+	}
+	champ_danger
+	{
+		champ_escape 1
+		champ_hungry_01 1
+		champ_hungry_02 1
+		champ_hungry_03 1
+		champ_damage_01 1
+		champ_damage_02 1
+		champ_damage_03 1
+		champ_active_01 1
+		champ_active_02 1
+		champ_active_03 1
+		champ_active_04 1
+	}
+	
+////////////////////// CAT
+	
+	cat_meow
+	{
+		cat_meow_01 3
+		cat_meow_02 3		
+		cat_meow_03 3
+		cat_meow_04 2
+	}
+	
+	
+////////////////////// PIGEON
+	
+	pigeon_meow
+	{
+		cat_meow_01 3
+	}
+	
+}
+
+
+////////////////// SOUNDS MALE
+
+sounds 
+{
+	male_hit
+	{
+		male_hit_01  1
+		male_hit_02  1
+		male_hit_03  1
+		male_hit_04  1
+		male_fuck  1
+		male_shit  1
+	}
+	male_scream
+	{
+		male_scream_01  1
+		male_scream_02  1
+	}
+	male_danger
+	{
+		male_scream_01  2
+		male_danger_01  1
+		male_danger_02  1
+		male_danger_03  1
+		male_danger_04  1
+	}
+	male_murder
+	{
+		male_murder_01  1
+		male_murder_02  1
+		male_murder_03  1
+	}	
+	male_nasty
+	{
+		male_shit  1
+		male_what  2
+	}	
+	male_blame
+	{
+		male_crist  1	
+		male_myshirt  1
+		male_wtf  3
+		male_wthud  3
+		male_ufknasshole  2
+	}	
+	male_cop_warn
+	{
+		cop_m_weapon_01 1
+		cop_m_weapon_02 1 
+		cop_m_weapon_03 1
+	}
+}
+
+
+
+////////////////// SOUNDS FEMALE
+
+sounds 
+{
+	female_hit
+	{
+		female_hit_01  1
+		female_hit_02  1
+		female_omg  1
+	}
+	female_scream
+	{
+		female_scream_01  1
+		female_scream_02  1
+	}
+	female_nasty
+	{
+		female_hit_02 1
+		female_hit_03 1
+	}
+	female_blame
+	{
+		female_blame_01  1
+		female_blame_02  1
+		female_getitoff 1
+	}
+	female_danger
+	{
+		female_danger_01  2
+		female_danger_02  1
+		female_danger_03  1
+		female_danger_04  2
+		female_danger_05  1
+		female_danger_06  1
+		female_danger_07  1
+		female_scream_01  2
+		female_scream_02  2
+	}
+	female_murder
+	{
+		female_murder_01  1
+		female_murder_02  1
+		female_murder_03  1
+	}
+	female_cop_warn
+	{
+		cop_f_weapon_01 1
+		cop_f_weapon_02 1
+	}
+}
+
+////////////////// SOUNDS COP
+
+sounds 
+{
+	cop_f_arrest
+	{
+		cop_f_stop_01 1
+		cop_f_stop_01 1
+		cop_f_stop_01 1
+	}
+	cop_m_arrest
+	{
+		cop_m_stop_01 1
+		cop_m_stop_02 1
+		cop_m_stop_03 1
+	}
+}

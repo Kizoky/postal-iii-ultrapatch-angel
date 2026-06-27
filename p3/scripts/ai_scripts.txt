@@ -1,3 +1,5 @@
+ultrapatch/ai_up_consts.p3s
+
 ultrapatch/ai_teargas.p3s
 ultrapatch/ai_nextbot.p3s
 ultrapatch/ai_sound.p3s

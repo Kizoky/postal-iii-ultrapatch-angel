@@ -1,0 +1,56 @@
+// Constants for Ultrapatch functions
+Constants
+{
+	// P3S function consts
+	Const TCF_EVERYTHING,0
+	Const TCF_IGNORE,1
+	Const TCF_ATTRIB,2 // + TCF_IGNORE
+	
+	// Combined ENT combinations (You're welcome!)
+	Const ENT_PLAYER_NPC,19 	// Players and all NPCs
+	Const ENT_PLAYER_HUMAN,20 	// Players and Human NPCs
+	Const ENT_PLAYER_ANIMAL,21	// Players and all Animals
+	
+	Const ENT_PLAYER,1
+	Const ENT_NPC,2
+	Const ENT_HUMAN,3
+	
+	Const ENT_ANIMAL,4 // Dog, Cat, Monkey, Motorhead, Rhino, Pigeon
+	Const ENT_DOG,5
+	Const ENT_CAT,6
+	Const ENT_MONKEY,7
+	Const ENT_MOTORHEAD,8
+	
+	Const ENT_PROP,9 // Item, Weapon, Corpse(Limb), Interactable Props
+	Const ENT_ITEM,10
+	Const ENT_WEAPON,11
+	Const ENT_LIMB,12
+	Const ENT_INTERACT,22		// Interactable Props
+	
+	Const ENT_VEHICLE,13
+	
+	Const ENT_FSM,14 // Anchor, Attack Pos, Laserdot, effects
+	Const ENT_ANCHOR,15
+	Const ENT_ATTACKPOS,16
+	Const ENT_LASER,17
+	Const ENT_EFFECT,18
+	
+	Const UMT_DONE,1
+	Const UMT_UNDONE,2
+	Const UMT_DY_DONE,3
+	Const UMT_DY_UNDONE,4
+	
+	Const PLR_SKIN_MODEL,0
+	Const PLR_SKIN_SKIN,1 // amazing name, isn't it?
+	
+	// TODO: automatically create this in source code
+	Const PLR_SKIN_DUDE,0
+	Const PLR_SKIN_AGENT,1
+	Const PLR_SKIN_COP,2
+	Const PLR_SKIN_SECURITY,3
+	Const PLR_SKIN_PRISONER,4
+	Const PLR_SKIN_SWAT,5
+	Const PLR_SKIN_KROTCHY,6
+	Const PLR_SKIN_JANITOR,7
+	Const PLR_SKIN_PATROL,8
+}

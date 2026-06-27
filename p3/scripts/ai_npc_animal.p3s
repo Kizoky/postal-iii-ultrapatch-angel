@@ -1164,14 +1164,43 @@ behavior
 	}
 }
 
-
+// Modified Dog AI to also attack players - Kizoky
 behavior
 {
 	name bh_dog
 	inherited bh_animal
 	
+	events
+	{
+		OnHit	"ExecutePattern st_up_util.xpt_hit"
+	}
 	States
 	{
+		// Utils
+		st_up_util
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_hit
+				{
+					actions
+					{
+						EmitSound champ_hit
+						// Shouldn't target itself
+						IfAttr "Object:caller != Object:self Block begin"
+							// Target Players and NPCs
+							IfEntity "Object:caller ENT_PLAYER_NPC Block begin"
+								TargetCaller 1
+								State st_attack
+							Block end
+							
+						Block end
+					}
+				}
+			}
+		}
+		
 		st_init
 		{
 			Group Neutral
@@ -1575,15 +1604,19 @@ behavior
 				{
 					actions
 					{
-						IfAttr "Object:target == Object:player State st_fear"
+						State st_attack
 						
-						SetAttr "rnd 0"
-						ChangeAttr "rnd 0:100"
+						// Why would you?
+						//IfAttr "Object:target == Object:player State st_fear"
 						
-						IfAttr "rnd >  AggrLevel State st_fear"
-						IfAttr "rnd <= AggrLevel State st_attack"
-						
-						State st_start
+						//SetAttr "rnd 0"
+						//ChangeAttr "rnd 0:100"
+						//
+						//IfAttr "rnd >  AggrLevel State st_fear"
+						//IfAttr "rnd <= AggrLevel State st_attack"
+						//
+						//// Unreachable?
+						//State st_start
 					}
 				}
 			}
@@ -1599,9 +1632,10 @@ behavior
 					actions
 					{
 						SetAttr "SnatchTries 0,0,3"
+						//ResetSequence 1
 						Pattern pt_moveto
 						//Timer tSnatchTime,10
-						IfAttr "DistTo:target < 32 Pattern pt_snatch"
+						IfAttr "DistTo:target < 32 AND DistTo:target < 128 Pattern pt_snatch"
 					}
 				}
 				
@@ -1609,8 +1643,34 @@ behavior
 				{
 					actions
 					{
-						MoveToTarget run,0,0
-						Wait 10
+						// We were chasing a null target?
+						IfAttr "Object:target == Object:NULL State st_start"
+						
+						// Don't target knocked out NPCs
+						IfAttr "Object:target.ea_unconscious == 1 Block begin"
+							IgnoreTarget 60
+							ResetTarget 1
+							State st_start
+						Block end
+						
+						// This is needed because Dog will go to the other side of the world ...
+						FreeMovement false,reset
+						
+						SetAttr "distt 17"
+						IfAttr "target.ea_faction == Faction:Animals SetAttr distt 9"
+						
+						IfAttr "DistTo:target > distt Block begin"
+							MoveToTarget run,0,to_target
+						Block end
+						
+						IfAttr "DistTo:target < distt Block begin"
+							MoveToTarget run,40,from_target
+						Block end
+						
+						Wait 0.7
+						
+						IfAttr "DistTo:target > distt AND DistTo:target < 128 Pattern pt_snatch"
+						
 						Pattern pt_end
 						
 					}
@@ -1625,25 +1685,67 @@ behavior
 				{
 					actions
 					{
-						SetAttr "rnd 0"
-						ChangeAttr "rnd 0:3"
+						SetAttr "dist DistTo:target"
 						
-						IfAttr "rnd == 0	Snatch true,snatch0"
-						IfAttr "rnd == 1	Snatch true,snatch1"
-						IfAttr "rnd == 2	Snatch true,snatch2"
-						IfAttr "rnd == 3	Snatch true,snatch3"
+						IfAttr "dist > distt AND dist < 128 Block begin"
+							
+							SetAttr "rnd 0"
+							ChangeAttr "rnd 0:3"
+							
+							SetAttr "notanimals 0"
+							
+							IfAttr "target.ea_faction != Faction:Animals Block begin"
+								IfAttr "target.ea_faction != Faction:player Block begin"
+									SetAttr "notanimals 1"
+								Block end
+							Block end
+							
+							// Dogs shouldn't snatch if health is over 20 - Kizoky
+							IfAttr "notanimals == 1 AND target.ea_health > 20 Block begin"
+								SetAttr "notanimals 0"
+							Block end
+							
+							IfAttr "notanimals == 1 Block begin"
+								IfAttr "rnd == 0	Snatch true,snatch0"
+								IfAttr "rnd == 1	Snatch true,snatch1"
+								IfAttr "rnd == 2	Snatch true,snatch2"
+								IfAttr "rnd == 3	Snatch true,snatch3"
+							Block end
+							
+							SetAttr "humantrg 0"
+							IfAttr "target.ea_faction == Faction:Citizens SetAttr humantrg 1"
+							IfAttr "target.ea_faction == Faction:Police SetAttr humantrg 1"
+							IfAttr "target.ea_faction == Faction:Hobos SetAttr humantrg 1"
+							
+							IfAttr "notanimals == 0 Block begin"
+								ResetSequence 1
+								ResetGesture 1
+								FreeMovement false
+								IfAttr "target.ea_Faction == Faction:player JumpAttack chest"
+								IfAttr "humantrg == 1 JumpAttack chest"
+								IfAttr "target.ea_Manner == Manner:PussyCat JumpAttack body"
+								IfAttr "target.ea_Manner == Manner:StrayDog JumpAttack eyes"
+								IfAttr "target.ea_Manner == Manner:MonkeyApe JumpAttack eyes"
+							Block end
+							
+							//ShowMessage "[Attacking target!],$P3Mission"
+							Wait 1.0
+							
+							ChangeAttr "SnatchTries +1"
+							Wait 0.1
+							
+							Pattern pt_default
+						Block end
 						
-						//ShowMessage "[Attacking target!],$P3Mission"
-						Wait 1.0
-						
-						ChangeAttr "SnatchTries +1"
-						Wait 0.1
+						FreeMovement run,reset
+						MoveToTarget run,40,from_target
 						Pattern pt_default
 					}
 					events
 					{
-						OnSnatch	 "Pattern pt_snatched"
-						OnAttrMax_SnatchTries "Pattern pt_end"
+						OnSnatch	 			"Pattern pt_snatched"
+						OnBite					"EmitSound champ_attack"
+						OnAttrMax_SnatchTries 	"Pattern pt_end"
 					}
 				}
 				
@@ -1666,10 +1768,29 @@ behavior
 					{
 						RemoveAttr rnd
 						
+						IfAttr "target.ea_health > 0 Block begin"
+							Pattern pt_default
+							Return 1
+						Block end
+						
 						ResetTarget 1
 						State st_start
 					}
 				}
+				
+				xpt_targetkilled
+				{
+					actions
+					{
+						//PrintAttr "target killed!"
+						ResetTarget 1
+						State st_start
+					}
+				}
+			}
+			events
+			{
+				OnTargetKilled 		"ExecutePattern .xpt_targetkilled"
 			}
 		}
 		
