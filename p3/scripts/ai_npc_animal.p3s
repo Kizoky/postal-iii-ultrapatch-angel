@@ -1721,6 +1721,7 @@ behavior
 								ResetSequence 1
 								ResetGesture 1
 								FreeMovement false
+								EmitSound champ_attack
 								IfAttr "target.ea_Faction == Faction:player JumpAttack chest"
 								IfAttr "humantrg == 1 JumpAttack chest"
 								IfAttr "target.ea_Manner == Manner:PussyCat JumpAttack body"
@@ -1744,7 +1745,7 @@ behavior
 					events
 					{
 						OnSnatch	 			"Pattern pt_snatched"
-						OnBite					"EmitSound champ_attack"
+						//OnBite					"EmitSound champ_attack"
 						OnAttrMax_SnatchTries 	"Pattern pt_end"
 					}
 				}
