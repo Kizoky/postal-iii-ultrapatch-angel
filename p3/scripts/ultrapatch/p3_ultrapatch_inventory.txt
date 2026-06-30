@@ -41,6 +41,17 @@
 																
 			"model"			"models/small_things/pizza_01.mdl"	// The inventory item's new model, this can be left blank to use the model provided by the mapper or scripter
 			"icon"			"hud/pizza"							// Used by client, the icon for the inventory item to display
+			
+			// Properties of the inventory item to keep track of uniqueness of each stacked item
+			// When picked up the game checks if such p3s attribute exists, if yes then it'll save this property
+			// The game will remember and apply these attributes accordingly 
+			// (for example Pizza 4 was pissed on, but Player picked up 3 more pizzas making it 7)
+			// (Pizza 5-7 will never have the pissy attribute, but the fourth Pizza will do)
+			"properties"
+			{
+				// name of the P3S attribute	// leave it blank as it's unused
+				"pissy"							""
+			}
 		}
 		
 		"myseconditem"

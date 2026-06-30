@@ -1,0 +1,77 @@
+behavior
+{
+	name bh_angelitem_pizza
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "pissy 0"
+						State st_start
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+					}
+					events
+					{
+						OnUse			"Pattern pt_used"
+						OnNasty			"Pattern pt_yuck"
+					}
+				}
+				
+				pt_used
+				{
+					actions
+					{
+						IfAttr "myowner.ea_health < 99 Block begin"
+							IfAttr "pissy == 0 Block begin"
+								ChangeAttr "myowner.ea_health +5"
+							Block end
+							
+							IfAttr "pissy == 1 Block begin"
+								ChangeAttr "myowner.ea_health +1"
+							Block end
+							
+							// TODO: add sound here
+							EmitSound cat_meow
+							
+							// Consume one amount from stack and delete ourselves (if we can)
+							Item use
+						Block end
+						
+						State st_start
+					}
+				}
+				
+				pt_yuck
+				{
+					actions
+					{
+						SetAttr "pissy 1"
+						
+						State st_start
+					}
+				}
+				
+			}
+
+		}
+	}
+}
