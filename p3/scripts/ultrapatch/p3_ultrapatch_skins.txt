@@ -56,6 +56,9 @@
 		// Set this to 1 to give or take sprinting ability for this skin
 		"sprinting"		"1"
 		
+		// Set this to 1 to give or take jumping ability for this skin
+		"jumping"		"1"
+		
 		// Allow only certain weapons to be used or selectable
 		// If this is empty no such restriction will be applied
 		"allowed_weapons"
@@ -124,13 +127,16 @@
 		"hud_weapon_select"	"0 0 0 0"
 		
 		// Set this to 1 to give or take arresting ability for this skin regardless of path
-		"arresting"		"0"
+		"arresting"		"1"
 		
 		// Set this to 1 to give or take covering ability for this skin
 		"covering"		"1"
 		
 		// Set this to 1 to give or take sprinting ability for this skin
 		"sprinting"		"1"
+		
+		// Set this to 1 to give or take jumping ability for this skin
+		"jumping"		"1"
 		
 		// Allow only certain weapons to be used or selectable
 		// If this is empty no such restriction will be applied
@@ -208,6 +214,9 @@
 		// Set this to 1 to give or take sprinting ability for this skin
 		"sprinting"		"1"
 		
+		// Set this to 1 to give or take jumping ability for this skin
+		"jumping"		"1"
+		
 		// Allow only certain weapons to be used or selectable
 		// If this is empty no such restriction will be applied
 		"allowed_weapons"
@@ -283,6 +292,9 @@
 		
 		// Set this to 1 to give or take sprinting ability for this skin
 		"sprinting"		"1"
+		
+		// Set this to 1 to give or take jumping ability for this skin
+		"jumping"		"1"
 		
 		// Allow only certain weapons to be used or selectable
 		// If this is empty no such restriction will be applied
@@ -360,6 +372,9 @@
 		// Set this to 1 to give or take sprinting ability for this skin
 		"sprinting"		"1"
 		
+		// Set this to 1 to give or take jumping ability for this skin
+		"jumping"		"1"
+		
 		// Allow only certain weapons to be used or selectable
 		// If this is empty no such restriction will be applied
 		"allowed_weapons"
@@ -436,6 +451,9 @@
 		// Set this to 1 to give or take sprinting ability for this skin
 		"sprinting"		"1"
 		
+		// Set this to 1 to give or take jumping ability for this skin
+		"jumping"		"1"
+		
 		// Allow only certain weapons to be used or selectable
 		// If this is empty no such restriction will be applied
 		"allowed_weapons"
@@ -511,6 +529,9 @@
 		
 		// Set this to 1 to give or take sprinting ability for this skin
 		"sprinting"		"0"
+		
+		// Set this to 1 to give or take jumping ability for this skin
+		"jumping"		"0"
 		
 		// Allow only certain weapons to be used or selectable
 		// If this is empty no such restriction will be applied
@@ -599,6 +620,9 @@
 		// Set this to 1 to give or take sprinting ability for this skin
 		"sprinting"		"1"
 		
+		// Set this to 1 to give or take jumping ability for this skin
+		"jumping"		"1"
+		
 		// Allow only certain weapons to be used or selectable
 		// If this is empty no such restriction will be applied
 		"allowed_weapons"
@@ -674,6 +698,9 @@
 		
 		// Set this to 1 to give or take sprinting ability for this skin
 		"sprinting"		"1"
+		
+		// Set this to 1 to give or take jumping ability for this skin
+		"jumping"		"1"
 		
 		// Allow only certain weapons to be used or selectable
 		// If this is empty no such restriction will be applied
