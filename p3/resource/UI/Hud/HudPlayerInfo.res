@@ -205,6 +205,21 @@
         "fg_image"		"hud/playerinfo/health_bar_green"
         "bg_image"		"hud/playerinfo/health_bar_red.vtf"
     }
+	
+	// Draws when Health is over 100 (to a maximum of 200)
+	"OverHealth"
+    {
+        "ControlName"	"CircularProgressBar"
+		"fieldName"	"OverHealth"
+		"visible"	"1"
+		"enabled"	"1"
+        "xpos"		"351" // 95
+		"ypos"		"55"
+		"wide"		"144"
+		"tall"		"144"
+        "fg_image"		"hud/playerinfo/health_bar_overheal"
+        "bg_image"		"" // background should be fully transparent
+    }
     
     "HealthBorder"
     {
