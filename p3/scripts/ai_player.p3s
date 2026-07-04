@@ -104,16 +104,20 @@ behavior
 				{
 					actions
 					{
-						CheckAttr "CanRegen Block begin"
-							IfAttr "ea_health < 100 Block begin"
-								SetAttr "NewHealth ea_health"
-								ChangeAttr "NewHealth +HealthGain"
-								
-								IfAttr "NewHealth >= 100 SetAttr ea_health 100"
-								IfAttr "NewHealth <  100 ChangeAttr ea_health +HealthGain"
-								//ChangeAttr "HealthGain +1"
+						// Stops regenerating on difficulties higher than hard
+						IfAttr "ea_difficulty < DIFF_MASOCHIST Block begin"
+							CheckAttr "CanRegen Block begin"
+								IfAttr "ea_health < 100 Block begin"
+									SetAttr "NewHealth ea_health"
+									ChangeAttr "NewHealth +HealthGain"
+									
+									IfAttr "NewHealth >= 100 SetAttr ea_health 100"
+									IfAttr "NewHealth <  100 ChangeAttr ea_health +HealthGain"
+									//ChangeAttr "HealthGain +1"
+								Block end
 							Block end
 						Block end
+						
 						//IfAttr "70 > ea_health and ea_health >= 50 ChangeAttr ea_health +1"
 						//IfAttr "50 > ea_health and ea_health >= 25 ChangeAttr ea_health +2"
 						//IfAttr "ea_health < 25 ChangeAttr ea_health +5"

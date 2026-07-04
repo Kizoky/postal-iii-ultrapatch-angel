@@ -40,21 +40,20 @@ behavior
 				{
 					actions
 					{
-						IfAttr "myowner.ea_health < 99 Block begin"
-							IfAttr "pissy == 0 Block begin"
-								ChangeAttr "myowner.ea_health +5"
-							Block end
-							
-							IfAttr "pissy == 1 Block begin"
-								ChangeAttr "myowner.ea_health +1"
-							Block end
-							
-							// TODO: add sound here
-							EmitSound cat_meow
-							
-							// Consume one amount from stack and delete ourselves (if we can)
-							Item use
+						// This is inside AngelScript because P3S is too slow in execution
+						IfAttr "pissy == 0 Block begin"
+							AngelScript "Object:myowner CAngelItems OnPizzaUse"
 						Block end
+						
+						IfAttr "pissy == 1 Block begin"
+							AngelScript "Object:myowner CAngelItems OnPissyPizzaUse"
+						Block end
+						
+						// TODO: add sound here
+						EmitSound cat_meow
+						
+						// Remove -1 from the stack, adjust new attributes on use
+						Item use
 						
 						State st_start
 					}

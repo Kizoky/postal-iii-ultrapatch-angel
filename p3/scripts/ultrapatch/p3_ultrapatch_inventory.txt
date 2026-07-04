@@ -49,8 +49,19 @@
 			// (Pizza 5-7 will never have the pissy attribute, but the fourth Pizza will do)
 			"properties"
 			{
-				// name of the P3S attribute	// leave it blank as it's unused
-				"pissy"							""
+				"attributes"
+				{
+					// name of the P3S attribute	// leave it blank as it's unused
+					"pissy"							""
+				}
+				
+				// Preserve the delay, repeated (+next delay), and AngelScript flag
+				// example: "Timer tMyTimer,1,repeated" will become "OnTimer_tMyTimer"
+				"timers"
+				{
+					// name of the timer			// leave it blank as it's unused
+					//"OnTimer_xxx"					""
+				}
 			}
 		}
 		
