@@ -1647,7 +1647,7 @@ behavior
 						IfAttr "Object:target == Object:NULL State st_start"
 						
 						// Don't target knocked out NPCs
-						IfAttr "Object:target.ea_unconscious == 1 Block begin"
+						IfAttr "target.ea_unconscious == 1 Block begin"
 							IgnoreTarget 60
 							ResetTarget 1
 							State st_start
