@@ -1,0 +1,2244 @@
+// Postal 3 Hammer++
+
+@include "halflife2_hpp.fgd"
+
+@PointClass base(Targetname, Parentname, Angles, EnableDisable) studio("models/editor/cone_helper.mdl")  = env_weaponfire : 
+	"Weapon fire"
+[
+	TargetArc(float) : "Target Arc" : "40" : "The arc that the entity will seach for targets (in degrees)"
+	TargetRange(float) : "Target Range" : "3600" : "The distance that the endity will search for targets (in inches)"
+	DamageMod(float) : "Damage Modifier" : "1.0" : "Used to increase or decrease the amount of damage per shot"
+    SpreadAngle(float) : "Spread" : "0.0" : ""
+    
+
+    filtername(filterclass) : "Target Filter" : : "Filter to use to determine if an entity is a valid target"
+	
+    AllowShootTo(choices) : "Allow shoot only to body or head" : 0 =
+	[
+		0: "Both"
+        1: "Head"
+        2: "Body"
+	]
+	
+	WeaponType(choices) : "Weapon Type" : 1 =
+	[
+		1: "Desert Eagle"
+        2: "M16"
+        3: "M60"
+		4: "Shotgun"
+		5: "Colt"
+        6: "M249"
+		7: "Sniper"
+		8: "Autoshotgun"
+	]
+
+    FireBursts(choices) : "Fire Bursts" : 0 : "If 'No' shooting will be proceed continuously" =
+	[
+		0: "No"
+		1: "Yes"
+	]
+    
+	IgnorePlayers(choices) : "Ignore Players" : 0 =
+	[
+		0: "No"
+		1: "Yes"
+	]
+
+    AlwaysLethal(choices) : "Always Lethal" : 0 =
+	[
+		0: "No"
+		1: "Yes"
+	]
+    
+    CheckLOS(choices) : "Shoot on target only if it's on line of sight" : 0 =
+	[
+		0: "No"
+		1: "Yes"
+	]
+    
+    Gibs(choices) : "Allow Gibs" : 1 =
+	[
+		0: "No"
+		1: "Yes"
+	]
+    
+   	input Shoot(void) : "Shoot once"
+	input StartShooting(void) : "Begin shooting"
+    input StopShooting(void) : "End shooting"
+    input SetTarget(string) : "Change target"
+
+]
+
+
+@PointClass base(Targetname) color(0 255 255) = attribute_proxy_trigger : "Attribute proxy trigger"
+[
+	panel_pos_x(integer) : "PanelPosX" : -1 : "X pos of the upper left corner message panel"
+	panel_pos_y(integer) : "PanelPosY" : -1 : "Y pos of the upper left corner message panel"
+	show_min_max(integer) : "Show min max" : 1 : "Show minimal and maximal values of attribute"
+	show_percents(integer) : "Show percents" : 1 : "Show health in percents"
+	show_value(integer) : "Show value" : 1 : "Show value left"
+	attribute_type(string) : "Attribute type" : "health" : "Set attribute type, like Health etc."
+	resource_name(string) : "ResourceName" : "HealthBar1" : "HUD resource name"
+	input OnShow(void) : "Shows hud panel"
+	input OnHide(void) : "Hides hud panel"
+	input OnUpdate(void) : "Updates hud panel"
+	input OnDelete(void) : "Delete hud panel"
+]
+
+@PointClass base(BasePropPhysics) studioprop() sphere(fademindist) sphere(fademaxdist) = prop_p3_stuffitem :
+	"Small objects to break"
+[
+]
+
+
+@PointClass base(Targetname, Parentname, Angles) iconsprite("editor/info_target.vmt") = info_item_spawn_destination : 
+	"Item Spawn Destination. (Consult item_template_maker help for more info)"
+[
+	ReuseDelay(float) : "Reuse Delay" : 1 : "After an item is spawned at this destination, the delay before this destination is eligible for selection again."
+	RenameItem(string) : "New Item Name" : "" : "If an item spawns at this destination, change that item's targetname to this."
+
+	// Outputs
+	output OnSpawnItem(void) : "Fired when an item spawns at this destination."
+]
+
+@BaseClass base(Targetname, Angles, EnableDisable) iconsprite("editor/npc_maker.vmt") color(0 0 255) = BaseItemSpawner
+[
+	StartDisabled(choices) : "Start Disabled" : 1 =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	spawnflags(Flags) = 
+	[
+		// Only in item_spawner, item_template_spawner uses flag from template Item
+        8: "Random YAW" : 1
+		16 : "Not Used" : 0
+		32 : "Infinite Children" : 0
+		// 64 : "Do Not Drop" : 0
+        64 : "Not Used" : 0
+		128 : "Don't Spawn While Visible" : 0
+	]
+
+	MaxItemCount(integer) : "Num. of Items" : 1 : "Number of Items that will spawn before this spawner is exhausted."
+	SpawnFrequency(string) : "Frequency" : "5" : "How often (in seconds) a new Item will be spawned. If set to -1, a new Item will be made when the last Item dies."
+	MaxLiveChildren(integer) : "Max Live Items" : 5 : "Maximum number of live children allowed at any one time (new ones will not be made until one dies). If set to -1, no limit is applied."
+	
+	// Outputs
+	output OnSpawnItem(string) : "Fired when an Item is spawned. The activator is the Item, and the string is the name of the Item." 
+	output OnAllSpawned(void) : "Fired when the spawned is exhausted (all children have been spawned)."
+	output OnAllSpawnedDead(void) : "Fired when the spawner is exhausted (all children have been spawned) and all spawned children have died."
+	output OnAllLiveChildrenDead(void) : "Fired when all spawned children have died. This does not mean the spawned is exhausted, so a new child may be spawned any time after this (unless the maker is disabled)."
+
+	// Inputs
+	input Spawn(void) : "Spawns an Item."
+	input Toggle(void) : "Toggles the spawner enabled/disabled state."
+	input Enable(void) : "Enables the spawner."
+	input Disable(void) : "Disables the spawner."
+	input AddMaxChildren(integer) : "Adds to the number of Items that can spawn before the spawner is exhausted. If an exhausted spawner is given some children to spawn, it still wont begin spawning until it is re-enabled with the Enable input."
+	input SetMaxChildren(integer) : "Sets the number of Items that can spawn before the spawner is exhausted. If an exhausted spawner is given some children to spawn, it still won't begin spawning until it is re-enabled with the Enable input."
+	input SetMaxLiveChildren(integer) : "Sets the maximum number of Items that can be alive at any one time from this spawner."
+	input SetSpawnFrequency(float) : "Sets how often (in seconds) a new Item will be spawned."
+]
+
+@PointClass base(BaseItemSpawner) iconsprite("editor/npc_maker.vmt") = item_template_spawner : 
+	"An entity that creates Items. The Items it creates are clones of a template Item. Items are spawned around this maker's origin, or at specified destination points."
+[
+	spawnflags(Flags) = 
+	[
+		256 : "Always use radius spawn" : 0
+		512 : "Don't preload template models" : 0
+	]
+
+	TemplateName(target_destination) : "Name of template Item" : "" : "Template Item that this maker should be creating clones of."
+
+	Radius(float) : "Radius" : 256 : "Radius around this maker within which Items are to be placed. Spawned Items will try and find empty space within this radius to spawn."
+
+	DestinationGroup(target_destination) : "Name of Destination Group" : : "If you'd like spawned Items to be created at an info_Item_spawn_destination entity, enter the name of that entity here. If you have more than one destination entity by that name, the Destination Criteria will be used to select one from the group."
+	CriterionVisibility(Choices) : "Dest. Criterion: Visible to player?" : 2 : "Should the Item try to spawn at a destination that the player can see? Only applicable if a Destination Group is being used." =
+	[
+		0 : "Yes"
+		1 : "No"
+		2 : "Don't Care"
+	]
+	CriterionDistance(Choices) : "Dest. Criterion: Distance to player?" : 2 : "Should the Item try to spawn nearest to or farthest from the player's current location? Only applicable if a Destination Group is being used." =
+	[
+		0 : "Nearest"
+		1 : "Farthest"
+		2 : "Don't Care"
+	]
+
+	MinSpawnDistance(integer) : "Minimum spawn distance from player" : 0 : "The spawn destination node distance to the player will have to be further or equal than this value."
+
+	//Inputs
+	input SpawnItemInRadius(void) : "Spawn an Item somewhere within the maker's radius."
+	input SpawnItemInLine(void) : "Spawn an Item somewhere within a line behind the maker."
+	input SpawnMultiple(integer) : "Spawn multiple Items (uses destination group, else radius)."
+	input ChangeDestinationGroup(string) : "Switch to a different set of Destination entities."
+	input SetMinimumSpawnDistance(integer) : "Set the minimum spawn distance from player to destination node."
+]
+
+
+@PointClass base(Origin, Angles) studioprop() sphere(fademindist) sphere(fademaxdist) = p3_prop_compound :
+	"Compound breakable entity"
+[
+	compound_class(string) : "Compound Class" : "" : "See scripts/compound_objects.txt"	
+	model(studio) : "Hammer Only Model"
+	skin(integer) : "Parts Skin"
+]
+
+@BaseClass = FSMEntity
+[
+	FSMBehavior(string): "FSM behavior" : "" : ""
+	StartState(string) : "Start state" : "" : ""
+	InitState(string) : "Init state" : "" : ""
+	Manner(string) : "Manner" : "" : "" 
+	Faction(string) : "Faction" : "" : ""
+	input SetFSMTarget(string) : "Set FSM Target to NPC"
+	input SetState(string) : ""
+	input SetAttribute(string) : ""
+	input ChangeAttribute(string) : ""
+]
+
+@PointClass base(Targetname, EnableDisable, FSMEntity) iconsprite("editor/logic_timer.vmt") = p3_fsm_logic_entity:
+	"An entity that can execute any FSM state and events"
+[
+	UpdateTime(float) : "Update Interval" : "0.5" 
+
+    StartState(string) : "Start state" : "" : ""
+    InitState(string) : "Init state" : "" : ""
+	
+	// Inputs
+	input SetUpdateTime(integer) : "Set a new update Interval."
+	input Enable(void) : "Enable the timer."
+	input Disable(void) : "Disable the timer."
+	input Toggle(void) : "Toggle the timer on/off."
+    
+    Manner(string) readonly : "Manner" : "Logic" : "" 
+    Faction(string) readonly : "Faction" : "Logic" : ""
+]
+
+
+@PointClass base(Targetname, Origin, Angles, p3_fsm_logic_entity) studio("models/editor/dummy.mdl") = p3_fsm_dummy:
+	"A dummy entity, that NPC can see"
+[
+	Manner(string) readonly : "Manner" : "Dummy" : "" 
+  Faction(string) readonly : "Faction" : "Dummy" : ""
+]
+
+@PointClass base(Targetname, FSMEntity) iconsprite("editor/logic_timer.vmt") = p3_fsm_traffic_lights:
+	"Traffic light"
+[
+	Enabled(choices) : "Is enabled" : 1 : "Traffic light state (on/off)" =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	Period(float) : "Period" : "10.0" : "Red or green shines interval."
+	Cooldown(float) : "Cooldown" : "3.0" : "Yellow shines interval."
+	GreenLights(string) : "Green Lights" : "" : "List of green light entities."
+	YellowLights(string) : "Yellow Lights" : "" : "List of yellow light entities."
+	RedLights(string) : "Red Lights" : "" : "List of red light entities."
+	FaceAreas(string) : "FaceAreas(X-dir)" : "" : ""
+	SideAreas(string) : "SideAreas(Y-dir)" : "" : ""
+	
+	Manner(string) readonly : "Manner" : "Logic" : ""
+	Faction(string) readonly : "Faction" : "Logic" : ""
+
+	StartState(string) : "Start state" : "" : ""
+	InitState(string) : "Init state" : "" : ""
+
+	// Inputs
+	input SetCooldown(integer) : "Set a new toggle cooldown."
+	input Enable(void) : "Enable the traffic light."
+	input Disable(void) : "Disable the traffic light."
+	input Toggle(void) : "Toggle lights red/yellow/green."
+]
+
+@BaseClass base(BaseNPC,Parentname, TalkNPC, PlayerCompanion, FSMEntity ) studio() = p3_npc
+[
+
+	spawnflags(Flags) =
+	[
+		65536 : "Follow player on spawn" : 0
+		131072 : "Medic" : 0
+		262144 : "Random Head" : 1
+		524288 : "Ammo Resupplier" : 0
+		1048576 : "Not Commandable" : 0
+		2097152 : "Don't use Speech Semaphore - OBSOLETE" : 0
+		4194304 : "Random male head" : 0
+		8388608 : "Random female head" : 0
+		16777216 : "Use RenderBox in ActBusies" : 0
+		1073741824 : "Interactable (can interact with player)" : 0
+	]
+
+	// additionalequipment(choices) : "Weapons" : "0" =
+	// [
+		// "weapon_smg1" : "SMG1"
+		// "weapon_ar2" : "AR2"
+		// "weapon_stunstick" : "Stun Stick"
+		// "weapon_crowbar" : "Crow Bar"
+		// "weapon_shotgun" : "Shotgun"
+		// "weapon_beerbottle" : "Beer Bottle"
+		// "weapon_beerbottle2" : "Beer Bottle2"
+		// "weapon_rpg" : "RPG"
+    // "p3_weapon_deserteagle" : "Ranged: DesertEagle"
+		// "p3_weapon_m16" : "Ranged: M16"
+		// "p3_weapon_m60" : "Ranged: M60"
+		// "p3_weapon_shotgun" : "Ranged: Shotgun"
+		// "p3_weapon_photocam" : "Ranged: PhotoCamera"
+		// "p3_weapon_tvcam" : "Ranged: TVCamera"
+	// "p3_weapon_banner" : "Melee: Banner"
+    // "p3_weapon_cop_baton" : "Melee: CopBaton"
+    // "p3_weapon_machete" : "Melee: Machete"				
+	
+   	
+		// "0"  : "Nothing"
+	// ]
+	
+	additionalequipment(choices) : "Weapons" : "0" =
+   	[
+	    "p3_weapon_deserteagle" : "Ranged: DesertEagle"
+			"p3_weapon_m16" : "Ranged: M16"
+			"p3_weapon_m60" : "Ranged: M60"
+			"p3_weapon_shotgun" : "Ranged: Shotgun"
+			"p3_weapon_photocam" : "Ranged: PhotoCamera"
+			"p3_weapon_tvcam" : "Ranged: TVCamera"
+			"p3_weapon_gasoline" : "Ranged: Gasoline"	
+			"p3_weapon_colt" : "Ranged: Colt"
+			"p3_weapon_m249" : "Ranged: M249"
+			"p3_weapon_sniper" : "Ranged: Sniper"
+			"p3_weapon_autoshotgun" : "Ranged: Autoshotgun"
+ 		"0"  : "Nothing"
+ 	]
+ 	
+ 	MeleeEquipment(choices) : "MeleeWeapon" : "0" =
+ 	[
+ 		"p3_weapon_banner" : "Melee: Banner"
+        "p3_weapon_cop_baton" : "Melee: CopBaton"
+        "p3_weapon_machete" : "Melee: Machete"				
+		"p3_weapon_wolverine" : "Melee: Wolverine"
+   		"0"  : "Nothing"
+   	]
+
+
+	ammosupply(choices) : "Ammo to Resupply (if spawnflag set)" : "SMG1" =
+	[
+		"Pistol" : "Pistol"
+		"SMG1" : "SMG1"
+		"SMG1_Grenade" : "SMG1 Grenade"
+		"AR2" : "AR2"
+		"Buckshot" : "Shotgun"
+		"RPG_Round" : "RPG"
+		"Grenade" : "Grenade"
+		"XBowBolt" : "Crossbow Bolt"
+	]
+	ammoamount(integer) : "Amount of ammo to give" : 1
+
+
+//	expressiontype(choices) : "Expression Type" : 0 =
+//	[
+//		0 : "Random"
+//		1 : "Scared"
+//		2 : "Normal"
+//		3 : "Angry"
+//	]
+
+
+	//!!!BUGBUG - don't ship with these names
+	//!!!FIXME - don't ship with these names
+	model(choices) : "Model" : "models/characters/M_Avg_Suit/M_Avg_Suit_01.mdl" =
+	[
+//		"models/characters/f_avg_postal_babe/F_Avg_Postal_Babe.mdl" : "F_Avg_Postal_Babe_01"
+		"models/humans/group01/female_01.mdl" : "Female 1"
+
+// Dude Check
+		"models/characters/M_Avg_Postal_Dude/M_Avg_Postal_Dude.mdl" : 		"Dude"
+		"models/characters/M_Avg_Postal_Dude_v2/M_Avg_Postal_Dude_v2.mdl" :	"Dude_v2"
+
+// Females
+		"models/characters/F_Avg/f_avg.mdl" : 											"F_Avg"
+		"models/characters/F_Fat/F_Fat.mdl" : 											"F_Fat"
+		"models/characters/f_old_ss_pants/F_Old_SS_Pants.mdl" : 		"F_Old"
+		"models/characters/F_Nude/F_Nude.mdl" : 										"F_Nude"
+		"models/characters/postal_babe/postal_babe.mdl" : 					"Postal_Babe"
+		"models/characters/Jen/Jen.mdl" : 													"Jen"
+
+// Males
+		"models/characters/M_Thin_SS_Shorts/M_Thin_SS_Shorts.mdl" : "M_Thin"
+		"models/Characters/M_Avg/M_Avg.mdl" : 											"M_Avg"	
+		"models/Characters/M_Avg_Medic/M_Avg_Medic.mdl" : 					"M_Avg_Medic"
+		"models/Characters/M_Avg_Ron/M_Avg_Ron.mdl" : 							"M_Avg_RonJ"
+		"models/Characters/M_Avg_Milan/M_Avg_Milan.mdl" : 					"M_Avg_Millan"
+		"models/Characters/M_Avg/Lt_Deutchbagge.mdl" :							"M_Avg_Deutchbagge"
+		"models/characters/M_Big_TT_Pants/m_big_tt_pants.mdl" : 		"M_Big"
+		"models/Characters/M_Fat/M_Fat.mdl":												"M_Fat"
+		"models/Characters/M_Old_SS_Pants/m_old_ss_pants.mdl" :			"M_Old"
+		"models/characters/M_Avg_Talib/M_Avg_Talib.mdl" :						"M_Avg_Talib"
+		"models/characters/M_Avg_Bums/M_Avg_Bums.mdl":							"M_Avg_Bums"
+		"models/characters/M_Avg_SWAT/M_Avg_SWAT.mdl":							"M_Avg_SWAT"
+		"models/characters/M_Avg_SWAT/M_Avg_thieves.mdl":							"M_Avg_Thief"
+		"models/characters/M_Avg_SWAT/M_Avg_ninja.mdl":							"M_Avg_Ninja"
+		"models/characters/M_Avg_paparazzi/M_Avg_paparazzi.mdl":		"M_Avg_Paparazzi"
+		"models/characters/M_Avg_Venezuela/M_Avg_venezuela_solder.mdl":	"M_Avg_venezuela"
+		"models/characters/KrotchyNpc/KrotchyNpc.mdl":							"Krotchy"
+		"models/characters/Krotchy/Krotchy.mdl":							"KrotchyDude"
+
+// Ron Jeremy
+		"models/Characters/Ron_Jeremy/Ron_Jeremy.mdl" : 						"Ron_Jeremy"
+		"models/Characters/Ron_Jeremy/Ron_Jeremy.mdl" : 			"Ron_Jeremy_mayor"
+		
+// Mavrodi
+		"models/Characters/Mavrodi/Mavrodi.mdl" :						"Mavrodi"
+
+// Sarah Palin
+		"models/characters/Sarah_Palin/Sarah_Palin.mdl"	:						"Sarah_Palin"
+		
+// Randy_Jones
+		"models/characters/Randy_Jones/Randy_Jones.mdl" : 		"Randy_Jones"
+			
+// Uwe_Boll
+		"models/characters/Uwe_Boll/UweBoll.mdl" : 		"Uwe_Boll"
+		
+// Uncle_Doug
+		"models/characters/Uncle_Doug/Uncle_Doug.mdl" : 		"Uncle_Doug"
+		
+// Hugo Chavez
+		"models/characters/chavez/chavez.mdl" : 		"Hugo Chavez"
+		"models/characters/chavez/chavez_static.mdl" : 		"Hugo Chavez(static)"
+		
+// Al Gore
+		"models/characters/AlGore/AlGore.mdl" :			"Al Gore"
+		"models/characters/AlGore/AlGore_prisoner.mdl" : "Al Gore Prisoner"
+		
+// Temp		
+		"models/characters/m_avg_ss_pants/M_Avg_SS_Pants.mdl" : "TEMP_M_Avg_Pants"
+		"models/characters/M_Avg_Suit/M_Avg_Suit.mdl" : "TEMP_M_Avg_Suit"		
+	] 
+
+    ModelTemplate(choices) : "Template" : "*" : "Template from model_templates.txt" =[]
+	NeutralViewRange(float) : "Neutral View Range" : 320 : "View range in neutral state"
+	AlertViewRange(float) : "Alert View Range" : 960 : "View range in alert state"
+	NeutralHearRange(float) : "Neutral Hear Range" : 960 : "Hear range in neutral state"
+	AlertHearRange(float) : "Alert Hear Range" : 960 : "Hear range in alert state"
+
+	ExpressionOverride(string) : "Facial expression override"
+
+	notifynavfailblocked(choices) : "Fire output when Nav is blocked?" : 0 =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	neverleaveplayersquad(choices) : "Permanent squad member?" : 0 : "A permanent squad member cannot leave the player's squad unless killed or explicity removed by entity I/O. Only use this if you're sure you want to override the default AI." =
+	[
+		0 : "No. This is default behavior."
+		1 : "Yes, stay in squad until death."
+	]
+
+	denycommandconcept(string) : "Deny command speech concept" : "" : "If you want your citizens to squad with the player but not obey commands the player gives to move the squad, put a concept here and this citizen will speak the concept instead of obeying the order."
+	
+	LeanGroup(string) : "Lean group" : ""
+
+     //Inputs
+	input RemoveFromPlayerSquad(void) : "Remove from player squad, instantly."
+	input SetExpressionOverride(string) : "Set facial expression override"
+
+	input StartPatrolling(void) : "Patrol whenever I'm idle or alert."
+	input StopPatrolling(void) : "Stop patrolling when I'm idle or alert."
+	input SetCommandable(void) : "Make a previously uncommandable citizen commandable"
+	input SetMedicOn(void) : "Set the medic flag on. Will not change the model or skin of the citizen."
+	input SetMedicOff(void) : "Set the medic flag off. Will not change the model or skin of the citizen."
+	input SetAmmoResupplierOn(void) : "Set the ammo-resupplier flag on. Will not change the model or skin of the citizen."
+	input SetAmmoResupplierOff(void) : "Set the ammo-resupplier flag off. Will not change the model or skin of the citizen."
+
+	input OnDamaged(void) : ""
+    
+	
+	input HeadTurningOff(void) : "Disable free head turning"
+	input HeadTurningOn (void) : "Enable free head turning"
+	input EnableCollisionCheck(void) : "Enable collision check with other entities"
+	input DisableCollisionCheck(void) : "Disable collision check with other entities"
+	input SetLeanGroup(string) :  "Set NPC's lean group."  
+	// Outputs
+	output OnJoinedPlayerSquad(void) : "Fires when joins player squad"
+	output OnLeftPlayerSquad(void) : "Fires when leaves player squad"
+	output OnFollowOrder(void) : "Fires when ordered to follow player"
+	output OnStationOrder(void) : "Fires when ordered to a location by player"
+	output OnPlayerUse(void) : "Fires when a player +USEs the citizen"
+	output OnNavFailBlocked(void) : "Fires when this Citizen's movement fails because he/she is blocked."
+	output OnNastyTouch(void) : "Fired when the touch by nasty objects."
+    
+  habitatid(integer) : "Habitat ID" : -1
+	AreaGroup(string) : "Area group": "AG_DEFAULT" : "Area group of navigation mesh for pathfinding"
+]
+
+@BaseClass base(p3_npc) studio() = p3_npc_human
+[
+	StartWithWeapon(choices) : "StartWithWeapon" : 3 =
+	[
+		3 	: "Emptyhands"	
+		0 	: "Ranged"	
+		1 	: "Melee"	
+	]		 
+]
+
+@BaseClass base(BaseNPC ) = RappelNPC
+[
+	waitingtorappel(choices) : "Waiting to Rappel?" : "No" : "If yes, this NPC spawns suspended in air and awaits a BeginRappel input. It will then spawn a zipline and slide down. When it hits the ground, NPC will cut away the line and try to move forward a few feet to make room for the next NPC. The NPC will not attempt to clear its landing space if it cannot do so by taking a few steps forward" =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	// Inputs
+	input BeginRappel(void) : "BeginRappel"
+
+	// Outputs
+	output OnRappelTouchdown(void) : "Fires when done rappeling"
+]
+
+
+@BaseClass base(p3_npc_human,RappelNPC) studio() = p3_npc_military
+[
+	NumGrenades(choices) : "Number of Grenades" : "5" =
+	[
+		"0" : "None"
+		"1" : "1"
+		"2" : "2"
+		"3" : "3"
+		"4" : "4"
+		"5" : "5"
+		"999999" : "Unlimited"
+	]
+	tacticalvariant(choices) : "Tactical Variant" : "0" =
+	[
+		"0" : "Normal Tactics"
+		"1" : "Pressure the enemy (Keep advancing)"
+		"2" : "Pressure until within 30ft, then normal"
+	]
+	
+	usemarch(choices) : "Walk Easy" : "0" : "When true, will use a variety of more casual walking animations instead of the standard walk. For use in crowds. WARNING: this animation only has a north component. For use under very special circumstances only." =
+	[
+		"0" : "No"
+		"2" : "Yes"
+	]
+	// Inputs
+	input LookOn(void) : "Look normally"	
+	input LookOff(void) : "Don't look for myself, use other squad member's eyes"
+	input StartPatrolling(void) : "Patrol whenever I'm idle or alert."
+	input StopPatrolling(void) : "Stop patrolling when I'm idle or alert."
+	input ThrowGrenadeAtTarget(target_destination) : "Throw a grenade at the specified target."
+]
+
+////////////////////////////////////////////// ITEM
+
+@PointClass base(BasePropPhysics, FSMEntity) studioprop() sphere(fademindist) sphere(fademaxdist) = prop_p3_fsmitem :
+	"Small objects"
+[
+//	item_prefab(prefab) : "Prefab ITEM---------------------------------------------" : 0 =
+//	[
+//		0 : "Custom" = []
+//		1 : "DogToy" = 
+//		[
+//			model: "models/small_things/dog_toy_01.mdl"
+//			Manner:"itmToy"
+//			StartState:"itm_toy"
+//			Type:2
+//		]
+//		2 : "Pizza" = 
+//		[
+//			model: "models/small_things/pizza_01.mdl"
+//			Manner:"itmFood"
+//			StartState:"itm_pizza"
+//			Type:1
+//		]
+//		3 : "Trash" = 
+//		[
+//			Manner:"itmTrash"
+//			StartState:"itm_null"
+//			Type:0
+//		]
+//		4 : "Shit" = 
+//		[
+//			model: "models/small_things/shit_01.mdl"
+//			Manner:"itmShit"
+//			StartState:"itm_shit"
+//			Type:3
+//		]
+//		5 : "Drink" = 
+//		[
+//			Manner:"itmDrink"
+//			StartState:"itm_drink"
+//			Type:0
+//		]
+//		6 : "Food" = 
+//		[
+//			Manner:"itmFood"
+//			StartState:"itm_food"
+//			Type:0
+//		]
+//		7 : "CORPSE" = 
+//		[
+//			model: "models/small_things/goods_set_02_f.mdl"
+//			Manner:"itmCorpse"
+//			StartState:"itm_corpse"
+//			Type:0
+//		]
+//		8 : "Drocha" = 
+//		[
+//			model: "models/small_things/drocha_01.mdl"
+//			Manner:"itmNasty"
+//			StartState:"itm_drocha"
+//			Type:4
+//		]
+//		9 : "Catnip" = 
+//		[
+//			model: "models/small_things/pizza_01.mdl"
+//			Manner:"itmCatnip"
+//			StartState:"itm_catnip"
+//			Type:7
+//		]
+//    10 : "Seed" = 
+//		[
+//			model: "models/small_things/pizza_01.mdl"
+//			Manner:"itmSeed"
+//			StartState:"itm_seed"
+//			Type:8
+//		]
+//    11 : "BirdShit" =
+//    [
+//    	model: "models/small_things/bird_shit_01.mdl"
+//			Manner:"itmShit"
+//			StartState:"itm_shit"
+//			Type:3
+//    ]
+//		12 : "Melee" = 
+//		[
+//			Manner:"itmWeapon"
+//			StartState:"itm_melee"
+//			InitState:"st_p3_init_common"
+//			Type:0
+//		]
+//
+//		13 : "PaintBucket" =
+//    	[
+//    		model: "models/objects_interior/paint_gallon_01_open.mdl"
+//			Manner:"itmPaintBucket"
+//			StartState:"itm_paintbucket"
+//			Type:8
+//	    ]
+//
+//		14 : "Shit (rhino)" = 
+//		[
+//			model: "models/small_things/cow_pad.mdl"
+//			Manner:"itmShit"
+//			StartState:"itm_shit"
+//			Type:3
+//		]
+//	]
+	
+	Type(choices) : "Type" : "0" = 
+	[
+		0 : "generic"
+		1 : "pizza"
+		2 : "bone"
+		3 : "shit"
+		4 : "drocha"
+		//5 : "monkey"
+        //6 : "cat"
+        7 : "seed"
+		8 : "paint"
+	]
+    spawnflags(Flags) =
+	[
+		1 : "Start Asleep" : 0
+		2 : "Don't take physics damage" : 0
+		4 : "Debris - Don't collide with the player or other debris" : 0
+		8 : "Motion Disabled" : 0
+		64 : "Enable motion on Physcannon grab" : 0
+		128 : "Not affected by rotor wash" : 0
+		256 : "Generate output on +USE " : 0
+		512 : "Prevent pickup" : 0
+		1024: "Prevent motion enable on player bump" : 0
+		4096: "Debris with trigger interaction" : 0
+		8192: "Force server-side (Multiplayer only)" : 0
+		1048576: "Physgun can ALWAYS pick up. No matter what." : 0
+		8388608: "Template Physprop (used by item_spawner, will not spawn)" : 0
+		268435456: "Useable (player can use this item)" : 0
+  ]
+		  
+  Faction(string) readonly : "Faction" : "Items" : ""
+			
+	OneHandledAnimationType(choices) : "Animation Type For One-Handled Weapon" : 0 =
+	[
+		0 : "Default"		
+	]
+	
+	TwoHandledAnimationType(choices) : "Animation Type For Two-Handled Weapon" : 0 =
+	[
+		0 : "Default"		
+	]
+	
+	BulkyHandledAnimationType(choices) : "Animation Type For Bulky Weapon" : 0 =
+	[
+		0 : "Default"		
+	]
+]
+
+
+@PointClass base(prop_p3_fsmitem) studioprop() sphere(fademindist) sphere(fademaxdist) = prop_p3_give_ammo:
+	"give ammo"
+[
+	//ammo_prefab(prefab) : "Ammo Prefabs" : 1 =
+	//[
+	//	0 : "Custom" = []
+	//	1 : "DesertEagle" = 
+	//	[
+	//		model: "models/weapons/box_grenade/ammo_deagle.mdl"
+	//		item_prefab: 0
+	//		Type: 0
+	//		Ammo: "DesertEagle"
+	//		AmmoAmount:"20"
+    //        GiveWeapon:""
+	//	]
+	//	2 : "Tazer" = 
+	//	[
+	//		model: "models/weapons/box_grenade/ammo_taser.mdl"
+	//		item_prefab: 0
+	//		Type: 0
+	//		Ammo: "Taser"
+	//		AmmoAmount:"20"
+    //        GiveWeapon:""
+	//	]
+	//	3 : "M16" = 
+	//	[
+	//		model: "models/weapons/box_grenade/ammo_M16.mdl"
+	//		item_prefab: 0
+	//		Type: 0
+	//		Ammo: "M16"
+	//		AmmoAmount:"30"
+    //        GiveWeapon:""
+	//	]
+	//	4 : "M60" = 
+	//	[
+	//		model: "models/weapons/box_grenade/ammo_M60.mdl"
+	//		item_prefab: 0
+	//		Type: 0
+	//		Ammo: "M60"
+	//		AmmoAmount:"50"
+    //        GiveWeapon:""
+	//	]
+	//	5 : "Shotgun" = 
+	//	[
+	//		model: "models/weapons/box_grenade/ammo_shotgun.mdl"
+	//		item_prefab: 0
+	//		Type: 0
+	//		Ammo: "Buckshot"
+	//		AmmoAmount:"8"
+    //        GiveWeapon:""
+	//	]
+	//	6 : "Catnip" = 
+	//	[
+	//		model: "models/weapons/box_grenade/ammo_catnip.mdl"
+	//		item_prefab: 0
+	//		Type: 0
+	//		Ammo: "CatnipCan"
+	//		AmmoAmount:"8"
+	//		GiveWeapon:"p3_weapon_catnip"
+	//	]
+	//	7 : "Gaz" = 
+	//	[
+	//		model: "models/weapons/box_grenade/ammo_gazoline.mdl"
+	//		item_prefab: 0
+	//		Type: 0
+	//		Ammo: "Gasoline"
+	//		AmmoAmount:"100"
+	//		GiveWeapon:"p3_weapon_gasoline"
+	//	]
+	//	8 : "Grenades" = 
+	//	[
+	//		model: "models/weapons/box_grenade/ammo_grenades.mdl"
+	//		item_prefab: 0
+	//		Type: 0
+	//		Ammo: "Grenade"
+	//		AmmoAmount:"8"
+	//		GiveWeapon:"p3_weapon_grenade"
+	//	]
+	//	9 : "Molotov" = 
+	//	[
+	//		model: "models/weapons/box_grenade/ammo_molotov.mdl"
+	//		item_prefab: 0
+	//		Type: 0
+	//		Ammo: "Molotov"
+	//		AmmoAmount:"8"
+	//		GiveWeapon:"p3_weapon_molotov"
+	//	]
+	//	10 : "Spray" = 
+	//	[
+	//		model: "models/weapons/box_grenade/ammo_pepperspray.mdl"
+	//		item_prefab: 0
+	//		Type: 0
+	//		Ammo: "PepperSprayCan"
+	//		AmmoAmount:"6"
+	//		GiveWeapon:"p3_weapon_spray"
+	//	]
+	//	11 : "Rockets" = 
+	//	[
+	//		model: "models/weapons/box_grenade/ammo_rockets.mdl"
+	//		item_prefab: 0
+	//		Type: 0
+	//		Ammo: "M136"
+	//		AmmoAmount:"8"
+    //        GiveWeapon:""
+	//	]
+	//	12 : "Sniper" = 
+	//	[
+	//		model: "models/weapons/box_grenade/ammo_Sniper.mdl"
+	//		item_prefab: 0
+	//		Type: 0
+	//		Ammo: "Sniper"
+	//		AmmoAmount:"20"
+    //        GiveWeapon:""
+	//	]
+	//	13 : "TearGas" = 
+	//	[
+	//		model: "models/weapons/box_grenade/ammo_teargas.mdl"
+	//		item_prefab: 0
+	//		Type: 0
+	//		Ammo: "TearGas"
+	//		AmmoAmount:"8"
+	//		GiveWeapon:"p3_weapon_teargas"
+	//	]
+	//]
+	//Ammo(string) : "Ammo" : "DesertEagle" : "M16" : "M60" : "Taser" 
+	Ammo(choices) : "Ammo" : "DesertEagle" =
+	[
+		"DesertEagle" 	: "DesertEagle"	
+		"M16" 			: "M16"	
+		"M60" 			: "M60"	
+		"Taser" 		: "Taser"	
+		"Buckshot"		: "Shotgun"
+	]		
+	AmmoAmount(integer) : "Ammo Amount" : 20
+	GiveWeapon(string): "Give Weapon" : ""
+]
+
+
+////////////////////////////////////////////// POLICE
+
+@NPCClass base(p3_npc) studio() = p3_npc_pathtracker
+[
+	
+]
+
+
+@NPCClass base(p3_npc_military) studio() = p3_npc_cop : "Cop"
+[
+	//npc_prefab(prefab) : "Prefab NPC----------------------------------------------" : 0 =
+	//[
+	//	0 : "Custom" = []
+	//	1 : "Male - SWAT - Helmet" = 
+	//	[
+	//		model: "models/Characters/M_Avg/M_Avg.mdl"
+	//		Faction:"Police"
+	//		ModelTemplate:"#SWAT_01"
+	//		Manner:"JusticeMan"
+	//		hintgroup:"wish_fun_idle"
+	//	]
+	//	2 : "Male - SWAT -         " = 
+	//	[
+	//		model: "models/Characters/M_Avg/M_Avg.mdl"
+	//		Faction:"Police"
+	//		ModelTemplate:"#SWAT_02"
+	//		Manner:"JusticeMan"
+	//		hintgroup:"wish_fun_idle"
+	//	]
+	//	3 : "Male - Police - Patrol" = 
+	//	[
+	//		model: "models/Characters/M_Avg/M_Avg.mdl"
+	//		Faction:"Police"
+	//		ModelTemplate:"pf_M_Avg_Cop"
+	//		Manner:"JusticeMan"
+	//		hintgroup:"wish_fun_idle"
+	//	]
+	//	4 : "Male - Police - FatCop" = 
+	//	[
+	//		model: "models/Characters/M_Fat/M_Fat.mdl"
+	//		Faction:"Police"
+	//		ModelTemplate:"pf_M_Fat_Cop"
+	//		Manner:"JusticeMan"
+	//		hintgroup:"wish_fun_idle"
+	//	]
+	//	5 : "Female - Police - Patrol" = 
+	//	[
+	//		model: "models/Characters/F_Avg/F_Avg.mdl"
+	//		Faction:"Police"
+	//		ModelTemplate:"pf_F_Avg_Cop"
+	//		Manner:"JusticeMan"
+	//		hintgroup:"wish_fun_idle"
+	//	]
+	//	6 : "Male - Police - Security" = 
+	//	[
+	//		model: "models/Characters/M_Avg/M_Avg.mdl"
+	//		Faction:"Police"
+	//		ModelTemplate:"pf_M_Avg_Security"
+	//		Manner:"JusticeMan"
+	//		hintgroup:"wish_fun_idle"
+	//	]
+	//	7 : "Male - Police - Dea" = 
+	//	[
+	//		model: "models/Characters/M_Avg/M_Avg.mdl"
+	//		Faction:"Police"
+	//		ModelTemplate:"pf_M_Avg_Dea"
+	//		Manner:"JusticeMan"
+	//		hintgroup:"wish_fun_idle"
+	//	]
+	//]
+  Manner(string) readonly : "Manner" : "Police" : "" 
+  Faction(string) readonly : "Faction" : "Police" : ""
+]
+
+////////////////////////////////////////////// CITIZEN
+@NPCClass base(p3_npc_human,RappelNPC) studio() = p3_npc_citizen : "Citizen"
+[
+	//npc_prefab(prefab) : "Prefab NPC----------------------------------------------" : 0 =
+	//[
+	//	0 : "Custom" = []
+	//
+	//	1 : "Female - Citizen - CuteGirl" = 
+	//	[
+	//		model: "models/Characters/F_Avg/F_Avg.mdl"
+	//		Faction:"Citizens"
+	//		ModelTemplate:"pf_F_Avg_Girl"
+	//		Manner:"CuteGirl"
+	//		hintgroup:"wish_fun_idle"
+	//	]
+	//	2 : "Male - Citizen - StreetBro" = 
+	//	[
+	//		model: "models/Characters/M_Avg/M_Avg.mdl"
+	//		Faction:"Citizens"
+	//		ModelTemplate:"pf_M_Avg_Bro"
+	//		Manner:"StreetBro"
+	//		hintgroup:"wish_fun_idle"
+	//	]
+	//	3 : "Male - Citizen - StreetChico" = 
+	//	[
+	//		model: "models/Characters/M_Thin_SS_Shorts/M_Thin_SS_Shorts.mdl"
+	//		Faction:"Citizens"
+	//		ModelTemplate:"pf_M_Thin_Chico"
+	//		Manner:"StreetBro"
+	//		hintgroup:"wish_fun_idle"
+	//	]
+	//	4 : "Male - Citizen - RedneckFat" = 
+	//	[
+	//		model: "models/Characters/M_Fat/M_Fat.mdl"
+	//		Faction:"Citizens"
+	//		ModelTemplate:"pf_M_Fat_Pub"
+	//		Manner:"RedNeck"
+	//		hintgroup:"wish_fun_idle"
+	//	]
+	//	5 : "Male - Citizen - JacketFat" = 
+	//	[
+	//		model: "models/Characters/M_Fat/M_Fat.mdl"
+	//		Faction:"Citizens"
+	//		ModelTemplate:"pf_M_Fat_Jacket"
+	//		Manner:"JusticeMan"
+	//		hintgroup:"wish_fun_idle"
+	//	]
+	//	6 : "Male - Citizen - JacketSlim" = 
+	//	[
+	//		model: "models/Characters/M_Avg/M_Avg.mdl"
+	//		Faction:"Citizens"
+	//		ModelTemplate:"pf_M_Avg_Jacket"
+	//		Manner:"JusticeMan"
+	//		hintgroup:"wish_fun_idle"
+	//	]
+	//	7 : "Male - Citizen - Taliban" = 
+	//	[
+	//		model: "models/Characters/M_Avg_Talib/M_Avg_Talib.mdl"
+	//		Faction:"Taliban"
+	//		ModelTemplate:"pf_M_Avg_Taliban"
+	//		Manner:"JihadBeard"
+	//		hintgroup:"wish_fun_idle"
+	//	]
+	//	8 : "Male - Citizen - Medic" = 
+	//	[
+	//		model: "models/Characters/M_Avg/M_Avg.mdl"
+	//		Faction:"Citizens"
+	//		ModelTemplate:"pf_M_Avg_Medic"
+	//		Manner:"MedicDoc"
+	//		hintgroup:"wish_fun_idle"
+	//	]
+	//	9 : "Male - Citizen - Scientist" = 
+	//	[
+	//		model: "models/Characters/M_Avg_Medic/M_Avg_Medic.mdl"
+	//		Faction:"Citizens"
+	//		ModelTemplate:"pf_M_Avg_Medic"
+	//		Manner:"MedicDoc"
+	//		hintgroup:"wish_fun_idle"
+	//	]
+	//	10 : "Male - Zealot - StreetBro" = 
+	//	[
+	//		model: "models/Characters/M_Avg/M_Avg.mdl"
+	//		Faction:"Zealots"
+	//		ModelTemplate:"pf_M_Avg_Zealot"
+	//		Manner:"StreetBro"
+	//		hintgroup:"wish_fun_idle"
+	//	]
+	//	11 : "Female - Zealot - CuteGirl" = 
+	//	[
+	//		model: "models/Characters/F_Avg/F_Avg.mdl"
+	//		Faction:"Zealots"
+	//		ModelTemplate:"pf_F_Avg_Zealot"
+	//		Manner:"CuteGirl"
+	//		hintgroup:"wish_fun_idle"
+	//	]
+	//	12 : "Female - Citizen - StGranny" = 
+	//	[
+	//		model: "models/Characters/f_old_ss_pants/F_Old_SS_Pants.mdl"
+	//		Faction:"Citizens"
+	//		ModelTemplate:"pf_F_Old_Lady"
+	//		Manner:"StGranny"
+	//		hintgroup:"wish_fun_idle"
+	//	]
+	//	13 : "Female - Citizen - SoccerMom" = 
+	//	[
+	//		model: "models/Characters/F_Fat/F_Fat.mdl"
+	//		Faction:"Citizens"
+	//		ModelTemplate:"pf_F_Fat_Hockey"
+	//		Manner:"SoccerMom"
+	//		hintgroup:"wish_fun_idle"
+	//	]
+	//	14 : "Male - Citizen - RedneckBig" = 
+	//	[
+	//		model: "models/Characters/m_big_tt_pants/M_Big_TT_Pants.mdl"
+	//		Faction:"Citizens"
+	//		ModelTemplate:"pf_M_Big_Worker"
+	//		Manner:"RedNeck"
+	//		hintgroup:"wish_fun_idle"
+	//	]
+	//	15 : "Female - Citizen - Stripper" = 
+	//	[
+	//		model: "models/Characters/F_Nude/F_Nude.mdl"
+	//		Faction:"Citizens"
+	//		ModelTemplate:"pf_F_Avg_Stripper"
+	//		Manner:"CuteGirl"
+	//		hintgroup:"wish_fun_idle"
+	//	]
+	//	16 : "Special - Ron Jeremy - Porn" = 
+	//	[
+	//		model: "models/Characters/Ron_Jeremy/Ron_Jeremy.mdl"
+	//		Faction:"Citizens"
+	//		ModelTemplate:"pf_Ron_Jeremy_PW"
+	//		Manner:"RedNeck"
+//	//		hintgroup:"wish_fun_idle"
+//	//		StartState:"st_p3_citizen"
+//	//		InitState:"st_p3_init_female"
+	//	]
+	//	17 : "Special - Ron Jeremy - Mayor" = 
+	//	[
+	//		model: "models/Characters/Ron_Jeremy/Ron_Jeremy.mdl"
+	//		Faction:"Citizens"
+	//		ModelTemplate:"pf_Ron_Jeremy_M"
+	//		Manner:"RedNeck"
+//	//		hintgroup:"wish_fun_idle"
+	//	]
+	//	18 : "Female - Citizen - SoccerGirl" = 
+	//	[
+	//		model: "models/Characters/F_Avg/F_Avg.mdl"
+	//		Faction:"Citizens"
+	//		ModelTemplate:"pf_F_Avg_Hockey"
+	//		Manner:"SoccerMom"
+	//		hintgroup:"wish_fun_idle"
+	//	]
+	//	19 : "Male - Citizen - Sushi" = 
+	//	[
+	//		model: "models/Characters/M_Avg/M_Avg.mdl"
+	//		Faction:"Citizens"
+	//		ModelTemplate:"pf_M_Avg_Sushi"
+	//		Manner:"SushiNinja"
+	//		hintgroup:"wish_fun_idle"
+	//	]
+	//	20 : "Male - Citizen - Gay" = 
+	//	[
+	//		model: "models/Characters/M_Avg/M_Avg.mdl"
+	//		Faction:"Citizens"
+	//		ModelTemplate:"pf_M_Avg_Gay"
+	//		Manner:"GayGuy"
+	//		hintgroup:"wish_fun_idle"
+	//	]
+	//	21 : "Special - Ron Jeremy - Gay" = 
+	//	[
+	//		model: "models/Characters/Ron_Jeremy/Ron_Jeremy.mdl"
+	//		Faction:"Citizens"
+	//		ModelTemplate:"pf_Ron_Jeremy_Gay"
+	//		Manner:"StreetBro"
+//	//		hintgroup:"wish_fun_idle"
+	//	]
+	//	22 : "Male - Citizen - MexiTaliban" = 
+	//	[
+	//		model: "models/Characters/M_Avg_Talib/M_Avg_Talib.mdl"
+	//		Faction:"Citizens"
+	//		ModelTemplate:"pf_M_Avg_MexiTaliban"
+	//		Manner:"JihadBeard"
+	//		hintgroup:"wish_fun_idle"
+	//	]
+    //    23 : "Male - Chavez" = 
+	//	[
+	//		model: "models/Characters/Chavez/Chavez.mdl"
+	//		Faction:"Citizens"
+	//		ModelTemplate:"pf_M_Fat_Chavez"
+	//		Manner:"GayGuy"
+	//		hintgroup:"wish_fun_idle"
+	//	]
+	//	24 : "Special - Randy Jones" = 
+	//	[
+	//		model: "models/Characters/Randy_Jones/Randy_Jones.mdl"
+	//		Faction:"Citizens"
+	//		ModelTemplate:"pf_Randy_Jones"
+	//		Manner:"GayGuy"
+	//	]
+	//	25 : "Special - Albert - Gay" = 
+	//	[
+	//		model: "models/Characters/M_Avg_Winners/M_Avg_Winners.mdl"
+	//		Faction:"Citizens"
+	//		ModelTemplate:"pf_Albert"
+	//		Manner:"GayGuy"
+//	//		hintgroup:"wish_fun_idle"
+	//	]
+	//	26 : "Special - Maniak - Gay" = 
+	//	[
+	//		model: "models/Characters/M_Avg_Winners/M_Avg_Winners.mdl"
+	//		Faction:"Citizens"
+	//		ModelTemplate:"pf_Maniak"
+	//		Manner:"GayGuy"
+//	//		hintgroup:"wish_fun_idle"
+	//	]
+	//]
+	
+
+
+	ModelTemplate(choices) : "ModelTemplate" : "Fill that place!" =
+	[
+		"pf_uni_suit"				: "Suit"
+		"pf_uni_largemart"	:	"Largemart"
+		"pf_uni_cop"				:	"Cop"
+		"pf_uni_prisoner"		:	"Prisoner"
+		
+		"pf_M_Avg_B_Bro"		:	"BL M_Avg Bro"
+		"pf_M_Avg_B_Suit"		:	"BL M_Avg Suit"
+		"pf_M_Fat_B_Pants"	:	"BL M_Fat Pants"
+		"pf_F_Avg_B_Girl"		: "BL F_Avg Girl"
+		"pf_F_Fat_B_Pants"	:	"BL F_Fat Pants"
+		
+		"pf_M_Avg_M_Bro"		:	"MX M_Avg Bro"
+		"pf_M_Avg_M_Suit"		:	"MX M_Avg Suit"
+		"pf_M_Avg_M_Mex"		:	"MX M_Avg Mex"
+		"pf_M_Fat_M_Suit"		:	"MX M_Fat Suit"
+		"pf_F_Avg_M_Girl"		:	"MX F_Avg Girl"
+		"pf_F_Fat_M_Pants"		:	"MX F_Fat Pants"
+		"pf_F_Fat_M_Suit"		:	"MX F_Fat Suit"
+		
+		"pf_M_Avg_W_Bro"		:	"WH M_Avg Bro"
+		"pf_M_Avg_W_Suit"		:	"WH M_Avg Suit"
+		"pf_M_Fat_W_Pants"	:	"WH M_Fat Pants"
+		"pf_M_Fat_W_Suit"		:	"WH M_Fat Suit"
+		"pf_M_Fat_W"			:	"WH M_Fat Pants&Suit"
+		"pf_M_Old_W"				:	"WH M_Old Pants"
+		"pf_F_Avg_W_Girl"		:	"WH F_Avg Girl"
+		"pf_F_Avg_W_Suit"		: "WH F_Avg Suit"
+		"pf_F_Old_W"				: "WH F_Old Pants"
+		"pf_F_Fat_W_Pants"	:	"WH F_Fat Pants"
+		"pf_F_Fat_W_Suit"		:	"WH F_Fat Suit"
+		"pf_F_Fat_W"			:	"WH F_Fat Pants&Suit"
+		
+		"pf_M_Avg_Bro" 			: "pf_M_Avg_Bro"		
+		"pf_M_Avg_Worker" 	: "pf_M_Avg_Worker"	
+		"pf_M_Avg_Medic" 		: "pf_M_Avg_Medic"
+		"pf_M_Avg_Cop" 			: "pf_M_Avg_Cop"
+		"pf_M_Avg_SWAT" 		: "pf_M_Avg_SWAT"		
+		"pf_M_Avg_Jacket" 	: "pf_M_Avg_Jacket"		
+		"pf_M_Avg_Taliban" 	: "pf_M_Avg_Taliban"	
+		"pf_M_Avg_MexiTaliban" : "pf_M_Avg_MexiTaliban"
+		"pf_M_Avg_Zealot"		: "pf_M_Avg_Zealot"
+		"pf_M_Avg_Bums"			: "pf_M_Avg_Bums"
+		"pf_M_Avg_Nerd"			: "pf_M_Avg_Nerd"
+		"pf_M_Avg_Paparazzi"	: "pf_M_Avg_Paparazzi"
+		"pf_M_Avg_Prisoner"	:	"pf_M_Avg_Prisoner"
+		"pf_M_Avg_venezuela"	:	"pf_M_Avg_venezuela"
+		
+		"pf_M_Fat_Pub"			: "pf_M_Fat_Pub"
+		"pf_M_Fat_Jacket"		: "pf_M_Fat_Jacket"
+		"pf_M_Fat_Cop"			: "pf_M_Fat_Cop"
+		"pf_M_Fat_Mall"			:	"pf_M_Fat_Mall"
+		
+		"pf_F_Avg_Girl" 		: "pf_F_Avg_Girl"
+		"pf_F_Avg_Suit"			:	"pf_F_Avg_Suit"
+		"pf_F_Avg_Worker" 	: "pf_F_Avg_Worker"	
+		"pf_F_Avg_Cop" 			: "pf_F_Avg_Cop"
+		"pf_F_Avg_Medic" 		: "pf_F_Avg_Medic"
+		"pf_F_Avg_Zealot"		: "pf_F_Avg_Zealot"
+		"pf_F_Avg_Stripper"	: "pf_F_Avg_Stripper"	
+		"pf_F_Avg_Hockey"		:	"pf_F_Avg_Hockey"
+		"pf_F_Avg_Bitch"		: "pf_F_Avg_Bitch"
+		"pf_F_Old_Lady"			: "pf_F_Old_Lady"
+		
+		"pf_F_Fat_Hockey"		:	"pf_F_Fat_Hockey"
+		"pf_F_Fat_Pants"		: "pf_F_Fat_Pants"
+		"pf_F_Fat_Suit"			: "pf_F_Fat_Suit"
+
+		"pf_Dog_Common" 			: "pf_Dog_Common"		
+		"pf_Cat_Common" 			: "pf_Cat_Common"	
+			
+		"pf_Ron_Jeremy_PW"		: "pf_Ron_Jeremy_PW"
+		"pf_Ron_Jeremy_M"			: "pf_Ron_Jeremy_M"
+				
+//		"M_Avg_common" 			: "M_Avg_common"		
+//		"M_Avg_white" 			: "M_Avg_white"		
+//		"M_Avg_black" 			: "M_Avg_black"		
+//		"M_Avg_Counter" 		: "M_Avg_Counter"	
+
+//		"M_Cop_common" 			: "M_Cop_common"		
+//		"M_Cop_blue" 				: "M_Cop_blue"			
+//		"M_Cop_black" 			: "M_Cop_black"
+//		"M_Cop_brown" 			: "M_Cop_brown"
+						
+//		"F_Avg_shorts" 			: "F_Avg_shorts"
+//		"F_Avg_shorts" 			: "F_Avg_shorts"
+//		"F_Avg_pants_white" : "F_Avg_pants_white"
+//		"F_Avg_pants_black" : "F_Avg_pants_black"
+//		"F_Avg_cop" 				: "F_Avg_cop"
+		"F_Avg_whore" 			: "F_Avg_whore"	
+		"F_Nude"				: 		"F_Nude"
+
+		"Champ" 					: "Champ"		
+		"Champ_Cop" 			: "Champ"		
+		"Champ_Spotted" 	: "Champ_Spotted"		
+	] 
+]
+
+
+@NPCClass base(p3_npc) studio() = p3_npc_animal : "Animal"
+[
+    Faction(string) readonly : "Faction" : "Animals" : ""
+]
+
+@NPCClass base(p3_npc_animal) studio() = p3_npc_dog : "Dog"
+[
+
+	//npc_prefab(prefab) : "Prefab NPC----------------------------------------------" : 0 =
+	//[
+	//	0 : "Custom" = []
+	//	1 : "Dog - PitBull - Common" = 
+	//	[
+	//		model: "models/characters/champ/champ.mdl"
+	//		Faction:"Animals"
+	//		ModelTemplate:"pf_Dog_Common"
+	//		hintgroup:"wish_fun_idle"
+	//		Manner:"StrayDog"
+	//		StartState:"st_p3_animal"
+	//		InitState:"st_p3_init_dog"
+	//	]
+	//]
+	
+	model(choices) : "Model" : "models/characters/champ/champ.mdl" =
+	[
+		"models/characters/champ/champ.mdl" : "Champ"
+	] 
+	Master(string) : "Master" : "" : "Dog's master"
+    
+    Manner(string) readonly 		: "Manner" : "StrayDog" : ""
+		Faction(string) readonly 		: "Faction" : "Animals" : ""
+		
+	
+]
+
+@NPCClass base(p3_npc_animal) studio() = p3_npc_cat : "Cat"
+[
+
+	//npc_prefab(prefab) : "Prefab NPC----------------------------------------------" : 0 =
+	//[
+	//	0 : "Custom" = []
+	//	1 : "Cat - Common" = 
+	//	[
+	//		model: "models/characters/cat/cat.mdl"
+	//		Faction:"Animals"
+	//		ModelTemplate:"pf_Cat_Common"
+	//		hintgroup:"wish_fun_idle"
+	//		Manner:"PussyCat"
+	//		StartState:"st_p3_animal"
+	//		InitState:"st_p3_init_cat"
+	//	]
+	//	2 : "Cat - Deseased" = 
+	//	[
+	//		model: "models/characters/cat/cat.mdl"
+	//		Faction:"Animals"
+	//		ModelTemplate:"pf_Cat_HIV"
+	//		hintgroup:"wish_fun_idle"
+	//		Manner:"PussyCat"
+	//		StartState:"st_p3_animal"
+	//		InitState:"st_p3_init_cat"
+	//	]
+	//]
+
+	model(choices) : "Model" : "models/characters/cat/cat.mdl" =
+	[
+		"models/characters/cat/cat.mdl" : "Cat"
+	]
+		
+	StartDervish(choices) : "Start Dervish" : 0 =
+	[
+		0 : "No"
+		1 : "Yes"
+	]		
+    
+    Manner(string) : "Manner" : "PussyCat" : "" 
+    Faction(string) readonly : "Faction" : "Animals" : ""
+]
+
+@NPCClass base(p3_npc_animal) studio() = p3_npc_pigeon : "Pigeon"
+[
+
+    //npc_prefab(prefab) : "Prefab NPC----------------------------------------------" : 0 =
+    //[
+    //    0 : "Custom" = []
+    //    1 : "Pigeon - Common" =
+    //    [
+    //        model: "models/characters/pigeon/pigeon.mdl"
+    //        Faction: "Animals"  
+    //        ModelTemplate: "pf_Pigeon_Common"
+    //        hintgroup: "wish_bird_feed"
+    //        Manner: "Pigeon"
+    //        StartState: "st_p3_pigeon"
+    //        InitState: "st_p3_init_pigeon"
+    //    ]
+    //]
+
+    model(choices) : "Model" : "models/characters/pigeon/pigeon.mdl" =
+    [
+        "models/characters/pigeon/pigeon.mdl" : "Pigeon"
+    ]
+
+    Manner(string) : "Manner" : "Pigeon" : "" 
+    Faction(string) readonly : "Faction" : "Animals" : ""
+
+    NeutralViewRange(float) : "Neutral View Range" : 32 : "View range in neutral state"
+    AlertViewRange(float) : "Alert View Range" : 64 : "View range in alert state"
+    NeutralHearRange(float) : "Neutral Hear Range" : 96 : "Hear range in neutral state"
+    AlertHearRange(float) : "Alert Hear Range" : 96 : "Hear range in alert state"
+]
+
+@NPCClass base(p3_npc_animal) studio() = p3_npc_rhino : "Rhino"
+[
+
+    //npc_prefab(prefab) : "Prefab NPC----------------------------------------------" : 0 =
+	//[
+	//	0 : "Custom" = []
+	//	1 : "Rhino - Common" = 
+	//	[
+	//		model: "models/characters/rhino/rhino.mdl"
+	//		Faction:"Animals"
+	//		ModelTemplate:"pf_Rhino_Common"
+	//		hintgroup:"wish_fun_idle"
+	//		Manner:"RhinoCow"
+	//		StartState:"st_p3_animal"
+	//		InitState:"st_p3_init_cat"
+	//	]
+	//]
+
+	model(choices) : "Model" : "models/characters/rhino/rhino.mdl" =
+	[
+		"models/characters/rhino/rhino.mdl" : "Rhino"
+	]
+	  
+    Manner(string) : "Manner" : "RhinoCow" : "" 
+    Faction(string) readonly : "Faction" : "Animals" : ""
+	 
+    input SetRider(string) : "Get npc to ride rhino."	 
+]
+
+@NPCClass base(p3_npc) studio() = p3_basehelicopter : "BaseHelicopter"
+[
+    InitialSpeed(string) : "Initial Speed" : "0" : "Sets the helicopter's desired speed that it should try to reach as soon as it's spawned."
+	target(target_destination) : "Target path_track" : : "(Optional) The name of a path_track entity that this NPC will fly to after spawning."
+]
+
+@NPCClass base(p3_basehelicopter) studio() = p3_npc_helicopter : "Helicopter"
+[
+
+    //npc_prefab(prefab) : "Prefab NPC----------------------------------------------" : 0 =
+    //[
+    //    0 : "Custom" = []
+    //    1 : "Copter - CashMart" =
+    //    [
+    //        model: "models/cars/helicopter/helicopter_01.mdl"
+    //        Faction: "Animals"  
+    //        ModelTemplate: "pf_Helicopter_Common"
+    //        hintgroup: ""
+    //        Manner: "Pigeon"
+    //        StartState: "st_p3_helicopter"
+    //        InitState: "st_p3_init_helicopter"
+    //    ]
+    //]
+
+    model(choices) : "Model" : "models/cars/helicopter/helicopter_01.mdl" =
+    [
+        "models/cars/helicopter/helicopter_01.mdl" : "Helicopter"
+    ]
+
+    Manner(string) : "Manner" : "Pigeon" : "" 
+    Faction(string) readonly : "Faction" : "Animals" : ""
+	SetTrack(string) : "Set track" : "pt_ese" : ""
+    FlyToPathTrack(string) : "Set Fly to Pathtrack" : "pt_ese" : ""
+]
+
+
+@PointClass = p3_camera : "Postal3 3rd person camera" []
+
+@BaseClass iconsprite("editor/multi_manager.vmt") color(255 255 0) = p3_fluids_manager []
+
+@BaseClass base(Targetname) = P3BaseActBusy
+[
+	actor(target_name_or_class) : "Actor(s) to affect" : "" : "NPC's that should act busy"
+
+	StartActive(choices) : "Start Active" : 0 =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	SearchType(choices) : "Search Type" : 0 : "How to search for the entities using the targetname." = 
+	[
+		0 : "Entity Name"
+		1 : "Classname"
+	] 
+
+	busysearchrange(float) : "Search Range for Busy Hints" : 2048
+	visibleonly(choices) : "Visible Busy Hints Only" : 0 =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	// Inputs
+	input Activate( void ) : "Begin acting busy"
+	input Deactivate( void ) : "Cease acting busy"
+	input SetBusySearchRange( float ) : "Update the busy search range for all actors."
+	input ForceNPCToActBusy( string ) : "Force an NPC to act busy. Takes parameters, separated by spaces: <Targetname> <hint node targetname> <optional:teleport> <optional:$customactivityorsequence> <maximum time to actbusy>. If no hint node targetname is specified, it'll search for a random one. If no max time is specified, it'll use the default. Specifying 0 as the max time will make the NPC act busy until disturbed. If the optional teleport parameter is specified, the NPC will teleport to the act busy point. A custom move animation can be specified by prepending $ to the name of it. i.e. $ACT_RUN will make the NPC Run. Sequence names can be used instead of activities."
+	input ForceThisNPCToActBusy( string ) : "Force an NPC outputted from another entity to act busy. (only usable from an output that specifies an entity)"
+	input ForceThisNPCToLeave( string ) : "Force an NPC outputted from another entity to find a HINT_NPC_EXIT_POINT hintnode and vanish."
+	input TransferAllNPCToTargetActBusy( string ) : "Transfer all actors to another ActBusy goal."
+	input ForceNPCToUseNearestNode(string) : "Next time NPC must choose nearest node."
+	
+	
+	// Outputs
+	output OnNPCStartedBusy(string) : "Fired when an NPC targeted by this goal starts an ActBusy animation."
+	output OnNPCFinishedBusy(string) : "Fired when an NPC targeted by this goal finishes an ActBusy."
+	output OnNPCLeft(string) : "Fired when an NPC target by this goal finishes a forced Leave."
+	output OnNPCNoActiveNodes(string) : "Fired when an NPC can't find any active hint node."
+	
+]
+
+@PointClass base(P3BaseActBusy) = p3_ai_goal_actbusy : "Postal 3 AI Goal Act Busy"
+[
+	seeentity(target_name_or_class) : "Sight Entity" : "" : "The Sight Entity (if you provide one) is an entity that will leave the current ActBusy if the Actor playing the ActBusy loses sight of it for the amount of time specified in 'Sight Entity Timeout'. THIS MAY ONLY BE A TARGET NAME. NO CLASSNAMES."
+
+	seeentitytimeout(string) : "Sight Entity Timeout" : "1" : "If you provide a Sight Entity, the Actor will leave the current ActBusy if the Actor has lost sight of Sight Entity for this many seconds."
+
+	sightmethod(choices) : "Sight Enemy Method" : 0 : "The method to use to determine whether the Sight enemy is visible." = 
+	[
+		0 : "Default. LOS -and- Viewcone"
+		1 : "LOS Only. Disregard Viewcone"
+	]
+
+
+	type(choices) : "Actbusy Type" : 0 =
+	[
+		0 : "Default (Standard)"
+		1 : "Combat"
+	]
+
+	safezone(target_destination) : "Combat Safe Zone" : "" : "Only for combat actbusy. Lets you specify a volume which is the 'safe zone'. The Combat ActBusy will cancel if any enemies are seen in the safe zone."
+
+
+	allowteleport(choices) : "Allow actor to teleport?" : 0 =
+	[
+		0 : "No"
+		1 : "Yes (Only for Combat Actbusy)"
+	]
+
+	output OnNPCLostSeeEntity(void) : "Fired when the NPC loses sight of the see entity (if one is specified)."
+	output OnNPCSeeEnemy(void)  : "Fired when this NPC leaves his actbusy because of sighting an enemy."
+	
+	busyidletimemin(float) : "Idle Time (min)" : 0
+	busyidletimemax(float) : "Idle Time (max)" : 1
+	habitatid(integer) : "Habitat ID" : -1
+
+	// Inputs
+	input SetHabitatID(integer) : "Set habitat ID." 
+]
+
+@PointClass base(P3BaseActBusy) = p3_ai_goal_actbusy_queue : "P3 AI Goal Act Busy Queue"
+[
+	node_exit(target_destination) : "Exit Node" : "" : "The name of the node the first NPC in the queue should move to when he leaves the head of the queue."
+	node01(target_destination) : "Node 1" : "" : "The name of the first actbusy hint node in the queue."
+	node02(target_destination) : "Node 2" : "" : "The name of the second actbusy hint node in the queue."
+	node03(target_destination) : "Node 3" : "" : "The name of the third actbusy hint node in the queue."
+	node04(target_destination) : "Node 4" : "" : "The name of the fourth actbusy hint node in the queue."
+	node05(target_destination) : "Node 5" : "" : "The name of the fifth actbusy hint node in the queue."
+	node06(target_destination) : "Node 6" : "" : "The name of the sixth actbusy hint node in the queue."
+	node07(target_destination) : "Node 7" : "" : "The name of the seventh actbusy hint node in the queue."
+	node08(target_destination) : "Node 8" : "" : "The name of the eighth actbusy hint node in the queue."
+	node09(target_destination) : "Node 9" : "" : "The name of the ninth actbusy hint node in the queue."
+	node10(target_destination) : "Node 10" : "" : "The name of the tenth actbusy hint node in the queue."
+	node11(target_destination) : "Node 11" : "" : "The name of the eleventh actbusy hint node in the queue."
+	node12(target_destination) : "Node 12" : "" : "The name of the twelfth actbusy hint node in the queue."
+	node13(target_destination) : "Node 13" : "" : "The name of the thirteenth actbusy hint node in the queue."
+	node14(target_destination) : "Node 14" : "" : "The name of the fourteenth actbusy hint node in the queue."
+	node15(target_destination) : "Node 15" : "" : "The name of the fifteenth actbusy hint node in the queue."
+	node16(target_destination) : "Node 16" : "" : "The name of the sixteenth actbusy hint node in the queue."
+	node17(target_destination) : "Node 17" : "" : "The name of the seventeenth actbusy hint node in the queue."
+	node18(target_destination) : "Node 18" : "" : "The name of the eighteenth actbusy hint node in the queue."
+	node19(target_destination) : "Node 19" : "" : "The name of the nineteenth actbusy hint node in the queue."
+	node20(target_destination) : "Node 20" : "" : "The name of the twentieth actbusy hint node in the queue."
+	 
+	mustreachfront(choices) : "Must Reach Front" : 0 : "If true, NPCs much reach the front node in the queue before they're allowed to leave the queue." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	// Inputs
+	input PlayerStartedBlocking(float) : "Tell the queue manager that the player has started blocking a spot in the queue."
+	input PlayerStoppedBlocking(float) : "Tell the queue manager that the player has stopped blocking a spot in the queue."
+	input MoveQueueUp(void) : "Force the queue to move up, sending the front-most NPC out of the queue."
+
+	// Outputs
+	output OnQueueMoved(float) : "Fired when the queue moves. Outputs the number of NPCs left in the queue."
+	output OnNPCStartedLeavingQueue(string) : "Fired when the NPC at the head of the queue starts to leave. The activator is the NPC, and the string is the name of the NPC."
+	output OnNPCLeftQueue(string) : "Fired when the NPC at the head of the queue leaves. The activator is the NPC, and the string is the name of the NPC."
+]
+
+@PointClass base(Targetname, Origin, Angles, Studiomodel) studioprop() sphere(fademindist) sphere(fademaxdist) = p3_prop_animated : "Postal Animated Object"
+[
+	health(integer) : "Health"
+
+	input SetHealth(integer) : "Sets a new value for the breakable's health. If the breakable's health reaches zero it will break."
+]
+
+@PointClass base(p3_prop_animated) studioprop() = p3_prop_car : "Postal Car"
+[
+	// Outputs
+	output OnKill(void) : ""
+]
+
+@PointClass = p3_ai_traffic_controller : "Traffic controller" 
+[
+	unitlimit(integer) : "Unit limit" : -1
+]
+
+@NPCClass base(p3_npc) studio() = p3_npc_monkey : "Monkey"
+[
+	//npc_prefab(prefab) : "Prefab NPC----------------------------------------------" : 0 =
+	//[
+	//	0 : "Custom" = []
+	//	1 : "Monkey - MotorHead" = 
+	//	[
+	//		model: "models/characters/monkey/monkey.mdl"
+	//		Faction:"Animals"
+	//		ModelTemplate:"pf_Monkey_MotorHead"
+	//		hintgroup:"wish_fun_idle"
+	//		Manner:"MonkeyApe"
+	//		StartState:"st_p3_animal"
+	//		InitState:"st_p3_init_monkey"
+	//	]
+	//	2 : "Monkey - Wild" = 
+	//	[
+	//		model: "models/characters/monkey/monkey.mdl"
+	//		Faction:"Animals"
+	//		ModelTemplate:"pf_Monkey_Wild"
+	//		hintgroup:"wish_fun_idle"
+	//		Manner:"MonkeyApe"
+	//		StartState:"st_p3_animal"
+	//		InitState:"st_p3_init_monkey"
+	//	]
+	//]
+]
+
+@NPCClass base(p3_npc) studio() = p3_npc_motorhead : "Motorhead"
+[
+	//npc_prefab(prefab) : "Prefab NPC----------------------------------------------" : 1 =
+	//[		
+	//	0 : "Custom" = []
+	//	1 : "Monkey - MotorHead" = 
+	//	[
+	//		model: "models/characters/monkey/monkey.mdl"
+	//		Faction:"Animals"
+	//		ModelTemplate:"pf_Monkey_MotorHead"
+	//		hintgroup:"wish_fun_idle"
+	//		Manner:"MonkeyApe"
+	//		FSMBehavior:"bh_motorhead"
+	//		StartState:"st_start"
+	//		InitState:"st_init"
+	//	]
+	//	2 : "Monkey - Wild" = 
+	//	[
+	//		model: "models/characters/monkey/monkey.mdl"
+	//		Faction:"Animals"
+	//		ModelTemplate:"pf_Monkey_Wild"
+	//		hintgroup:"wish_fun_idle"
+	//		Manner:"MonkeyApe"
+	//		StartState:"st_p3_animal"
+	//		InitState:"st_p3_init_monkey"
+	//	]
+	//]
+]
+
+
+@SolidClass base(Targetname) color(0 255 0) = area_climbgoal : "area_climbgoal"
+[
+	GoalNode(target_destination) : "Goal node" : "" : "The name of the climbing goal node."
+]
+
+@SolidClass base(Targetname) color(0 255 0) = area_prohibited : "area_prohibited"
+[
+	Enabled(choices) : "Is enabled" : 1 : "Prohibited area state (on/off)" =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	
+	input Enable(void) : "Enable the prohibited area."
+	input Disable(void) : "Disable the prohibited area."
+]
+
+@PointClass base(Weapon) studio("models/weapons/deagle/dEagle.mdl") = p3_weapon_deserteagle : "Desert Eagle" []
+@PointClass base(Weapon) studio("models/weapons/m60/m60_uni.mdl") = p3_weapon_m60 : "M60" []
+@PointClass base(Weapon) studio("models/weapons/shop_vac/shopvac.mdl") = p3_weapon_shopvac : "ShopVac!" []
+@PointClass base(Weapon) studio("models/weapons/bat/bat.mdl") = p3_weapon_nailbat : "Nailbat" []
+@PointClass base(Weapon) studio("models/weapons/Baton/Baton_01.mdl") = p3_weapon_cop_baton : "CopBaton" []
+@PointClass base(Weapon) studio("models/weapons/m16/m16_uni.mdl") = p3_weapon_m16 : "M16" []
+@PointClass base(Weapon) studio("models/weapons/shotgun/shotgun_uni.mdl") = p3_weapon_shotgun : "Shotgun" []
+@PointClass base(Weapon) studio("models/weapons/las_pen/las_pen.mdl") = p3_weapon_laserpen : "Laser Pen" []
+@PointClass base(Weapon) studio("models/weapons/gasoline/gasoline_can_01.mdl") = p3_weapon_gasoline : "Gasoline" []
+@PointClass base(Weapon) studio("models/weapons/machete/machete.mdl") = p3_weapon_machete : "Machete" []
+@PointClass base(Weapon) studio("models/weapons/molotov/molotov.mdl") = p3_weapon_molotov : "Molotov" []
+@PointClass base(Weapon) studio("models/weapons/taser/taser.mdl") = p3_weapon_taser : "Taser" []
+@PointClass base(Weapon) studio("models/weapons/shovel/shovel.mdl") = p3_weapon_shovel : "Shovel" []
+@PointClass base(Weapon) studio("models/weapons/Fire_Axe/Fire_Axe_01.mdl") = p3_weapon_fireaxe : "FireAxe" []
+@PointClass base(Weapon) studio("models/weapons/Sledgehammer/sledgehammer_01.mdl") = p3_weapon_hammer : "Hammer" []
+@PointClass base(Weapon) studio("models/weapons/catnip/catnip.mdl") = p3_weapon_catnip : "Catnip" []
+@PointClass base(Weapon) studio("models/weapons/catnip/catnip.mdl") = p3_weapon_seed : "Seed" []
+@PointClass base(Weapon) studio("models/weapons/grenade/grenade_frag.mdl") = p3_weapon_grenade : "Grenade" []
+@PointClass base(Weapon) studio("models/weapons/molotov/molotov.mdl") = p3_weapon_molotov : "Molotov" []
+@PointClass base(Weapon) studio("models/weapons/beenest/beenest.mdl") = p3_weapon_beenest : "Beenest" []
+@PointClass base(Weapon) studio("models/weapons/grenade/grenade_krotchi.mdl") = p3_weapon_crotchy_grenade : "CrotchyGrenade" []
+@PointClass base(Weapon) studio("models/weapons/Pepperspray/Pepperspray_01.mdl") = p3_weapon_spray : "Pepperspray" []
+@PointClass base(Weapon) studio("models/weapons/deagle/Colt.mdl") = p3_weapon_colt : "Colt" []
+@PointClass base(Weapon) studio("models/weapons/m249/m249_uni.mdl") = p3_weapon_m249 : "M249" []
+@PointClass base(Weapon) studio("models/weapons/sniper/sniper.mdl") = p3_weapon_sniper : "Sniper" []
+@PointClass base(Weapon) studio("models/weapons/grenade/tear_gas.mdl") = p3_weapon_teargas : "TearGas" []
+@PointClass base(Weapon) studio("models/weapons/streetsweeper/streetsweeper_uni.mdl") = p3_weapon_autoshotgun : "Autoshotgun" []
+@PointClass base(Weapon) studio("models/weapons/grenade/grenade_01.mdl") = p3_weapon_flashbang_projectile : "Flashbang"
+[
+	Timer(float) : "Detonation timer" : -1
+]
+@PointClass base(Weapon) studio("models/weapons/grenade/grenade_01.mdl") = p3_weapon_smokegrenade_projectile : "Smokegrenade" 
+[
+	Timer(float) : "Detonation timer" : -1
+]
+@PointClass base(Weapon) studio("models/weapons/M136/m136.mdl") = p3_weapon_m136 : "M136" []
+
+@PointClass base(Origin, Angles) studio("models/editor/lean_spot.mdl") color(122 205 223) = lean_position : "NPC lean position"
+[
+	cornertype(choices) : "Corner type" : 0 =
+	[
+		0 : "Left"
+		1 : "Right"
+		2 : "Front"
+	]
+	leantype(choices) : "Lean type" : 0 =
+	[
+		0 : "Stand lean"
+		1 : "Crouch lean"
+	]
+	leangroup(string) : "Lean group" : ""
+]
+
+@Pointclass = cutsceneskip_handler : "Cutscene skip handler"
+[
+	output OnSkipCutScene1(void) : "Fired when an player skip cutscene."
+	output OnSkipCutScene2(void) : "Fired when an player skip cutscene."
+	output OnSkipCutScene3(void) : "Fired when an player skip cutscene."
+	output OnSkipCutScene4(void) : "Fired when an player skip cutscene."
+]
+
+
+
+
+
+@PointClass base(Targetname, Angles, HintNode) studio("models/editor/ground_node_hint.mdl") color(232 219 8) = info_node_hint :
+	"A navigation node for ground moving NPCs that includes some context information for NPCs that are interested in it. The hint might " +
+	"indicate a window that could be looked out of, or an item of interest that could be commented on. Many hint nodes are NPC-specific, " +
+	"so it's helpful to use naming conventions like 'Crow: Fly to point' in the hint choices list. The angles of a hint node indicate what direction " +
+	"the NPC should face to perform the hint behavior.\n\n" +
+	"It's important to understand the distinction between scripts, such as scripted_sequence and scripted_schedule, and info_hint entities. Scripts summon " +
+	"NPCs to specific cue points to play their parts, while hints provide context information to the AI that they use to perform their " +
+	"behaviors. Hints require code support in the NPC, while scripts are generic and may require only animations to play. Use a hint if the behavior is driven " +
+	"by the AI, use a script if the behavior is driven by the map."
+
+[
+
+////////////////////////////////////////////// NODES
+
+	//node_prefab(prefab) : "Prefab NODE----------------------------------------------" : 0 =
+	//[
+	//	0 : "Custom" = []
+	//		
+/////////////////////////////////////////// FUN NODES
+	//
+	//	1 : "Node - Fun - Idle" = 
+	//	[
+	//		SendState:"ev_fun_idle"
+	//		WaitFSMState:1
+	//		hinttype:12
+	//		Group:"wish_fun_idle"
+	//		IgnoreFacing:1
+	//	]
+	//	2 : "Node - Fun - Waste" = 
+	//	[
+	//		SendState:"ev_fun_waste"
+	//		WaitFSMState:1
+	//		hinttype:12
+	//		Group:"wish_fun_waste"
+	//		IgnoreFacing:1
+	//	]
+	//
+/////////////////////////////////////////// FUN NODES
+	//
+	//	3 : "Node - Fun - Nature" = 
+	//	[
+	//		SendState:"ev_fun_idle"
+	//		WaitFSMState:1
+	//		hinttype:12
+	//		Group:"wish_fun_nature"
+	//		IgnoreFacing:1
+	//	]
+	//	4 : "Node - Fun - Office" = 
+	//	[
+	//		SendState:"ev_fun_idle"
+	//		WaitFSMState:1
+	//		hinttype:12
+	//		Group:"wish_fun_office"
+	//		IgnoreFacing:1
+	//	]	
+	//	5 : "Node - Fun - Dump" = 
+	//	[
+	//		SendState:"ev_fun_idle"
+	//		WaitFSMState:1
+	//		hinttype:12
+	//		Group:"wish_fun_dump"
+	//		IgnoreFacing:1
+	//	]	
+	//	6 : "Node - Fun - Shop" = 
+	//	[
+	//		SendState:"ev_fun_idle"
+	//		WaitFSMState:1
+	//		hinttype:12
+	//		Group:"wish_fun_shop"
+	//		IgnoreFacing:1
+	//	]	
+	//	7 : "Node - Fun - Work" = 
+	//	[
+	//		SendState:"ev_fun_idle"
+	//		WaitFSMState:1
+	//		hinttype:12
+	//		Group:"wish_fun_work"
+	//		IgnoreFacing:1
+	//	]	
+	//	8 : "Node - Fun - Patrol" = 
+	//	[
+	//		SendState:"ev_fun_idle"
+	//		WaitFSMState:1
+	//		hinttype:12
+	//		Group:"wish_fun_patrol"
+	//		IgnoreFacing:1
+	//	]		
+	//	9 : "Node - Fun - Jihad" = 
+	//	[
+	//		SendState:"ev_fun_idle"
+	//		WaitFSMState:1
+	//		hinttype:12
+	//		Group:"wish_fun_jihad"
+	//		IgnoreFacing:1
+	//	]
+	//			
+////////////////////////////////////////// SITTING NODES
+	//
+	//	10 : "Node - Sitting - Chair" = 
+	//	[
+	//		SendState:"ev_chair"
+	//		WaitFSMState:1
+	//		traceHull:0
+	//		hinttype:12
+//	//		Group:"wish_fun_rest"
+	//		Group:"wish_fun_idle"
+	//		IgnoreFacing:0
+	//	]
+	//	11 : "Node - Sitting - Bed" = 
+	//	[
+	//		SendState:"ev_bed"
+	//		WaitFSMState:1
+	//		traceHull:0
+	//		hinttype:12
+	//		Group:"wish_fun_rest"
+	//		IgnoreFacing:0
+	//	]
+	//	12 : "Node - Sitting - Left" = 
+	//	[
+	//		SendState:"ev_table_left"
+	//		WaitFSMState:1
+	//		hinttype:12
+	//		Group:"wish_fun_idle"
+	//		IgnoreFacing:0
+	//	]
+	//	13 : "Node - Sitting - Right" = 
+	//	[
+	//		SendState:"ev_table_right"
+	//		WaitFSMState:1
+	//		hinttype:12
+	//		Group:"wish_fun_idle"
+	//		IgnoreFacing:0
+	//	]
+	//	
+/////////////////////////////////////////// FUN NODES
+	//
+	//	14 : "Node - Fun - Interest" = 
+	//	[
+	//		SendState:"ev_fun_idle"
+	//		WaitFSMState:1
+	//		hinttype:12
+	//		Group:"wish_fun_idle"
+	//		IgnoreFacing:0
+	//	]
+	//	
+	//]
+	
+	
+	
+	
+	
+	
+	// Outputs
+	output OnNPCStartedUsing(string) : "Fired when an NPC has reached this node and started using it. Passes along the NPC."
+	output OnNPCStoppedUsing(string) : "Fired when an NPC has stopped using this node. Passes along the NPC."
+]
+
+//-------------------------------------------------------------------------
+//
+// Vehicles.
+//
+//-------------------------------------------------------------------------
+@BaseClass base(Targetname, Origin, Global, prop_static_base) = BaseVehicle
+[
+	vehiclescript(string) : "Vehicle Script File" : "scripts/vehicles/segway.txt"
+	actionScale(float) : "Scale of action input / framerate" : "1"
+
+	// Inputs
+	input Action(float) : "Set the speed of the action animation"
+
+	input TurnOn(void) : "Turn on: Start engine & enable throttle"
+	input TurnOff(void) : "Turn off: Stop engine, disable throttle, engage brakes."
+
+	input Lock(void) : "Prevent the player from entering or exiting the vehicle."
+	input Unlock(void) : "Re-allow the player to enter or exit the vehicle."
+]
+
+
+@BaseClass base(BaseVehicle) = BaseDriveableVehicle
+[
+	VehicleLocked(choices) : "Start locked" : 0 =
+	[
+		0 : "No"
+		1 : "Yes"
+	]	
+
+	// Outputs
+	output PlayerOn(void) : "Player entered the vehicle"
+	output PlayerOff(void) : "Player exited the vehicle"
+	
+	output PressedAttack(void) : "Player Pressed attack key"
+	output PressedAttack2(void) : "Player Pressed attack2 key"
+
+	output AttackAxis(string) : "State of attack button [0,1]"
+	output Attack2Axis(string) : "State of attack2 button [0,1]"
+	
+	// Inputs
+	input HandBrakeOn(void) : "Turns the handbrake on"
+	input HandBrakeOff(void): "Releases the handbrake"
+]
+
+@PointClass base(BaseVehicle) studioprop() = prop_vehicle :
+	"Studiomodel vehicle that can be driven via inputs."
+[
+	// Inputs
+	input Steer(float) : "Steer the vehicle +/-1"
+	input Throttle(float) : "Throttle +/-1"
+
+	spawnflags(flags) =
+	[
+		1 : "Always Think (Run physics every frame)" : 0
+	]
+]
+
+@PointClass base(BaseDriveableVehicle) studioprop() = prop_vehicle_jeep :
+	"Driveable studiomodel jeep."
+[
+	input StartRemoveTauCannon(void) : "Start the tau removal sequence."
+	input FinishRemoveTauCannon(void) : "Finish the tau removal sequence."
+	
+	// FIXME: These will move into episodic
+	input LockEntrance( void ) : "Stops NPC's from entering the vehicle until unlocked."
+	input UnlockEntrance( void ) : "Allows NPC's to enter the vehicle."
+	input LockExit( void ) : "Stops NPC's from exiting the vehicle until unlocked."
+	input UnlockExit( void ) : "Allows NPC's to exit the vehicle."
+	input EnableRadar( void ) : "Turn on the Jalopy radar"
+	input DisableRadar( void ) : "Turn off the Jalopy radar"
+	input EnableRadarDetectEnemies( void ) : "Enable Jalopy radar to detect Striders and Hunters"
+	input AddBusterToCargo( void ) : "Put a striderbuster in the cargo trigger"
+	input SetCargoHopperVisibility ( bool ) : "Set the strider buster hopper thingy to be visible, or invisible."
+
+	input DisablePhysGun(void) : "Disable physgun interactions with the jeep."
+	input EnablePhysGun(void) : "Enable physgun interactions with the jeep (default)."
+
+	input CreateLinkController(void) : "Automatically builds and attaches a link controller to the car, which cuts the node connections under the car while the car is standing still."
+	input DestroyLinkController(void) : "Destroys the link controller created by CreateLinkController."
+
+	
+	CargoVisible(choices): "Hopper Visible" : 0 : "Is the striderbuster cargo hopper visible?" =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	spawnflags(Flags) = 
+	[
+		1 : "HUD Locator Precache" : 0
+	]
+
+	
+	// FIXME: These are going to change!
+	output OnCompanionEnteredVehicle(void) : "Companion has entered the vehicle."
+	output OnCompanionExitedVehicle(void) : "Companion has exited the vehicle."
+	output OnHostileEnteredVehicle(void) : "Hostile has entered the vehicle."
+	output OnHostileExitedVehicle(void) : "Hostile has exited the vehicle."
+]
+
+@PointClass base(BaseDriveableVehicle, EnableDisable) studioprop() = p3_vehicle_segway :
+	"Driveable studiomodel segway."
+[
+	model(studio) : "World Model" : "models/cars/Segway/segway_00.mdl"
+
+    StartDisabled(choices) : "Start Disabled" : 0 =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+    
+	HaveKrotchyBox(choices) : "Have Krotchy Box" : 0 : "" =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	HaveKrotchiesInBox(choices) : "Have krotchy toys in the box" : 0 =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+]
+
+@BaseClass base(p3_npc_human) = VehicleDriverNPC_P3
+[
+	vehicle(target_destination) : "Vehicle to drive"
+
+	spawnflags(Flags) = 
+	[
+		65536 :  "Start Inactive" : 0
+	]
+
+	output OnEnteredVehicle(void) : "Entered the vehicle."
+	
+	input GotoPathCorner(string) : "Tell the driver to go to a specific path corner and continue from there."	
+]
+
+@NPCClass base(VehicleDriverNPC_P3) studio() = p3_npc_vehicledriver : 
+	"NPC used to drive a target vehicle."
+[
+	drivermaxspeed(float) : "Maxspeed (percentage of vehicle's maxspeed)." : 1
+	driverminspeed(float) : "MinSpeed (percentage of vehicle's maxspeed)." : 0
+
+	input SetDriversMaxSpeed(float) : "Set the Maxspeed (percentage of vehicle's maxspeed)."
+	input SetDriversMinSpeed(float) : "Set the Minspeed (percentage of vehicle's maxspeed)."
+	input StartForward(void) : "Tell the driver to start driving."
+	input Stop(void) : "Tell the driver to stop driving."
+	
+	input StartRaceToPathCorner(string) : "Tell the driver to race to a specific path corner and continue from there."
+]
+
+@NPCClass base(VehicleDriverNPC_P3) studio() = npc_vehicledriver_p3 : 
+	"NPC used to drive a target vehicle."
+[
+	drivermaxspeed(float) : "Maxspeed (percentage of vehicle's maxspeed)." : 1
+	driverminspeed(float) : "MinSpeed (percentage of vehicle's maxspeed)." : 0
+
+	input SetDriversMaxSpeed(float) : "Set the Maxspeed (percentage of vehicle's maxspeed)."
+	input SetDriversMinSpeed(float) : "Set the Minspeed (percentage of vehicle's maxspeed)."
+	input StartForward(void) : "Tell the driver to start driving."
+	input Stop(void) : "Tell the driver to stop driving."
+]
+
+@NPCClass base(VehicleDriverNPC_P3) studio() = p3_npc_simdriver : 
+	"NPC used to drive a target simulator."
+[
+	StartActive(choices) : "Start Active" : 1 =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	drivermaxspeed(float) : "Maxspeed (percentage of vehicle's maxspeed)." : 1
+	driverminspeed(float) : "MinSpeed (percentage of vehicle's maxspeed)." : 0
+
+	input SetDriversMaxSpeed(float) : "Set the Maxspeed (percentage of vehicle's maxspeed)."
+	input SetDriversMinSpeed(float) : "Set the Minspeed (percentage of vehicle's maxspeed)."
+	input StartForward(void) : "Tell the driver to start driving."
+	input Stop(void) : "Tell the driver to stop driving."
+	input EnterVehicle(string) : "Tell the driver to enter into vehicle."
+	input LeaveVehicle(void) : "Tell the driver to leave vehicle."	
+		
+	input GotoPathCorner(string) : "Tell the driver to race to a specific path corner and continue from there."
+]
+
+@BaseClass base(p3_npc_simdriver) studio() = p3_hugo_chavez
+[
+	tankname(target_destination): "Tank for Hugo" : : "Name of the tank, which he will drive"
+    
+    input Show(void) : "Show driver."
+    input Hide(void) : "Hide driver."
+    input StartFiring(string) : "Start firing on target by specified weapon"
+    input StopFiring(void) : "Stop firing"
+]
+
+
+//-------------------------------------------------------------------------
+//
+// Simulators.
+//
+//-------------------------------------------------------------------------
+
+@PointClass base(BaseDriveableVehicle) studioprop() = p3_simulator_segway :
+	"Driveable studiomodel segway."
+[
+	model(studio) : "World Model" : "models/cars/Segway/segway_00.mdl"
+]
+
+@PointClass base(Angles) studioprop() = prop_detail_generator : "Generates a detail object at every model vertex"
+[
+	model(studio) : "Source model"
+	detailtype(string) : "Detail type"
+]
+
+@PointClass base(Angles) studioprop() = p3_prop_cloth : ""
+[
+	model(studio) : "Model"
+	autoanchor(choices): "Attach To World" : 1 : "" =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+]
+
+@PointClass base(Angles) studioprop() = p3_prop_physx : ""
+[
+	model(studio) : "Model"
+	windentity(target_destination) : "Wind Entity"
+]
+
+@PointClass base(Targetname, Angles) studio("models/editor/axis_helper.mdl") iconsprite("editor/env_wind.vmt") color(200 250 100) = p3_physx_wind : ""
+[
+	directionvariationamplitude(float) : "Direction Variation Amplitude" : 45
+	directionvariationspeed(float) : "Direction Variation Speed" : 1
+
+	velocityvariationbase(float) : "Velocity Base Value" : 10
+	velocityvariationamplitude(float) : "Velocity Variation Amplitude" : 5
+	velocityvariationspeed(float) : "Velocity Variation Speed" : 1
+]
+
+@PointClass base(prop_static) studioprop() = p3_prop_tree : ""
+[
+	plant_type(String) : "Plant Type" : "" : "See 'scripts/p3_plants.txt'"
+	leaves_color(color255) : "Leaves color" : "255 255 255" : "Sprite's color (R G B)."
+]
+
+@PointClass base(prop_ragdoll) studioprop() = p3_prop_damagedragdoll : ""
+[
+	health(integer) : "Health" : 0
+	auto_attach(choices) : "Auto Attach" : 1 =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	health(integer) : "Health" : 0
+]
+
+@SolidClass base(Trigger) = p3_trigger_covermode :
+	"A trigger volume that overrider default covering mode."
+[
+	covermode(choices) : "Cover Mode" : 3 =
+	[
+		0 : "Low"
+		1 : "High"
+		2 : "Any"
+		3 : "Disabled"
+	]
+]
+
+@SolidClass base(Targetname) color(0 255 0) = area_group : "area_group"
+[
+	AreaGroup(string) : "Name of area group" : ""	
+]
+
+@PointClass studioprop() = build_nav_mesh : ""
+[
+	Filename(string) : "Filename with nav_generate script" : ""
+]
+
+//-------------------------------------------------------------------------
+//
+// Ropes and Cables
+//
+//-------------------------------------------------------------------------
+@BaseClass base(RopeKeyFrame) = P3_GarlandKeyFrame
+[
+    BulbType(choices) : "Bulb type" : 0 =
+	[
+		0 : "Bulb"
+		1 : "Flag"
+	]
+
+    BulbSize(float) : "Bulbs Size" : "-1" : "Size of garland bulbs. <0 - use p3_garland_bulb_size."
+    BulbInterval(float) : "Bulbs Interval" : "-1" : "Interval between garland bulbs. <0 - use p3_garland_bulb_interval."
+    BulbShift(float) : "Bulbs Shift" : "-1" : "Shift of garland bulbs. <0 - use p3_garland_bulb_shift."
+
+    Color(color255) : "Lights Color" : "255 255 255 255" : "Color of garland lights."
+
+    Damage(integer) : "Lights Damage" : 0 : "Percentage of broken bulbs in garland. [0-15]"
+]
+
+@KeyFrameClass base(Targetname, Parentname, KeyFrame, P3_GarlandKeyFrame) studio("models/editor/axis_helper_thick.mdl") keyframe() = p3_keyframe_garland : 
+	"A node entity that marks a point in a rope. The first node in the rope should be a move_rope, followed by 1 or more keyframe_ropes."
+[
+]
+
+@MoveClass base(Targetname, Parentname, KeyFrame, P3_GarlandKeyFrame) studio("models/editor/axis_helper.mdl") animator() = p3_move_garland : 
+	"The first node in set of nodes that are used to place ropes in the world. It should connect to 1 or more keyframe_rope entities."
+[
+	PositionInterpolator(choices) : "Position Interpolator" : 2 : "Curve Type. Currently only type 2 (Rope) is fully supported." =
+	[
+		0 : "Linear"
+		1 : "Catmull-Rom Spline"
+		2 : "Rope"
+	]
+]
+
+@PointClass base(BaseDriveableVehicle) studioprop() = prop_vehicle_tank :
+	"Hugo Chavez`s tank."
+[
+	missilehint(target_destination) : "Missile Hint Target" : "" : "Name of one or more info_apc_missile_hint entities to use to determine what to hit."
+	
+    //Inputs
+    //input FireMissileAt(target_destination) : "A target to fire a missile at"
+	input Destroy(void) : "Causes the Tank to blow up."
+
+    // Outputs
+	//output OnFiredMissile(void) : "Fired when the APC shoots a missile."
+	output OnDeath(void) : "Fired when the Tank is killed."
+	output OnDamaged(void) : "Fired when the Tank is damaged."
+	output OnDamagedByPlayer(void) : "Fired when the Tank is damaged by the player."
+]
+//-------------------------------------------------------------------------
+//
+// Test Script
+//
+//-------------------------------------------------------------------------
+@PointClass base(Targetname, FSMEntity) studioprop() = p3_script_test :
+    "Test script semaphore."
+[
+]
+
+@PointClass base(prop_dynamic) studioprop() = p3_prop_destructible : ""
+[
+	health(integer) : "Health"
+	input Destroy(void) : "Break entity"
+]
+
+
+@PointClass base(Targetname, Angles, BaseFadeProp) studio() = p3_item_ammo_crate : "P3 Ammo Crate"
+[
+	//ammo_prefab(prefab) : "Crate Prefabs" : 1 =
+	//[
+	//	0 : "Custom" = []
+	//	1 : "Grenade" = 
+	//	[
+	//		model: "models/weapons/box_grenade/box_grenade.mdl"
+	//		Skin: 0
+	//		AmmoName: "Grenade"
+	//		GiveWeapon:"p3_weapon_grenade"
+	//		AmmoAmount:5
+	//	]
+	//	2 : "Desert" = 
+	//	[
+	//		model: "models/weapons/box_grenade/box_bullets.mdl"
+	//		AmmoName: "DesertEagle"
+	//		GiveWeapon:""
+	//		AmmoAmount:30
+	//	]
+	//	3 : "Rockets" = 
+	//	[
+	//		model: "models/weapons/box_grenade/box_rockets.mdl"
+	//		AmmoName: "M136"
+	//		GiveWeapon:""
+	//		AmmoAmount:8
+	//	]
+	//	4 : "Catnip" = 
+	//	[
+	//		model: "models/weapons/box_grenade/box_catnip.mdl"
+	//		AmmoName: "CatnipCan"
+	//		GiveWeapon:"p3_weapon_catnip"
+	//		AmmoAmount:99
+	//	]
+	//	5 : "TearGas" = 
+	//	[
+	//		model: "models/weapons/box_grenade/box_grenade.mdl"
+	//		Skin: 1
+	//		AmmoName: "TearGas"
+	//		GiveWeapon:"p3_weapon_teargas"
+	//		AmmoAmount:5
+	//	]
+	//]
+
+    model(studio) : "Model"
+	skin(integer) : "Skin" : 0 : "Some models have multiple versions of their textures, called skins. Set this to a number other than 0 to use that skin instead of the default."
+	AmmoName(string) : "AmmoName" : "Grenade"	
+	GiveWeapon(string) : "GiveWeapon" : ""
+	AmmoAmount(integer) : "AmmoAmount" : 5
+
+	// Inputs
+	input Kill(void) : "Remove the ammo crate"
+	output OnUsed(void) : "Fires when +used by the player."
+]
+
+@PointClass base(prop_physics) studioprop() = p3_prop_extinguisher
+[
+	model(studio) : "World Model" : "models/objects_interior/fire_extinguisher01.mdl"
+]

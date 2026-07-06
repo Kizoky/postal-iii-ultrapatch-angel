@@ -1,6 +1,54 @@
 // Collection of utils made for Catharsis Reborn originally - Kizoky
 //#include "utils_enums.as"
 
+CBaseEntity@ CreateInventoryItem(string itemType, bool bLockedInPlace = false)
+{
+	//string a = formatInt(itemType);
+	
+	CBaseEntity@ itm = CreateEnt("wj_prop_fsmitem");
+	if (@itm != null)
+	{
+		itm.KeyValue( "item_prefab", "0" );
+		itm.KeyValue( "angles", "0" );
+		itm.KeyValue( "BulkyHandledAnimationType", "0" );
+		itm.KeyValue( "damagetoenablemotion", "0" );
+		itm.KeyValue( "Damagetype", "0" );
+		itm.KeyValue( "disableshadows", "1" );
+		itm.KeyValue( "ExplodeDamage", "0" );
+		itm.KeyValue( "ExplodeRadius", "0" );
+		itm.KeyValue( "Faction", "Items" );
+		itm.KeyValue( "fademaxdist", "1500" );
+		itm.KeyValue( "fademindist", "1280" );
+		itm.KeyValue( "fadescale", "1" );
+		itm.KeyValue( "forcetoenablemotion", "0" );
+		itm.KeyValue( "inertiaScale", "1.0" );
+		itm.KeyValue( "massScale", "0" );
+		itm.KeyValue( "minhealthdmg", "0" );
+		itm.KeyValue( "modelscale", "1.0" );
+		itm.KeyValue( "nodamageforces", "0" );
+		itm.KeyValue( "OneHandledAnimationType", "0" );
+		itm.KeyValue( "PerformanceMode", "0" );
+		itm.KeyValue( "physdamagescale", "0.1" );
+		itm.KeyValue( "pressuredelay", "0" );
+		itm.KeyValue( "shadowcastdist", "0" );
+		itm.KeyValue( "skin", "0" );
+		itm.KeyValue( "spawnflags", "4" );
+		if (bLockedInPlace)
+			itm.KeyValue( "spawnflags", "12" );
+			
+		itm.KeyValue( "TwoHandledAnimationType", "0" );
+		itm.KeyValue( "maxdxlevel", "0" );
+		itm.KeyValue( "mindxlevel", "0" );
+		
+		itm.KeyValue( "TransformItem", itemType );
+		
+		//Spawn(itm);
+		//itm.Activate();
+	}
+	
+	return itm;
+}
+
 // Vanilla P3S
 void AreaEvent(CP3SObj@ center, string EventName, float Radius)
 {

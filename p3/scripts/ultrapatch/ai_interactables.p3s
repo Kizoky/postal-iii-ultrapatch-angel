@@ -1,0 +1,65 @@
+behavior
+{
+	name bh_prop_interactable_core
+	States
+	{
+		prop_default
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						//
+					}
+				}
+			}
+		}
+	}	
+}
+
+behavior
+{
+	name bh_prop_aidkit
+	inherited bh_prop_interactable_core
+	States
+	{
+		prop_default
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:prop_default.pt_default
+						
+						AngelScript "Object:self Interactable_AidKit Setup"
+					}
+				}
+			}
+			events
+			{
+				OnUseCommand "State prop_open"
+			}
+		}
+		
+		prop_open
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						AngelScript "Object:self Interactable_AidKit OnUseCommand"
+					}
+				}
+			}
+		}
+	}	
+}

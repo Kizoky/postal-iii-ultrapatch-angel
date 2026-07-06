@@ -5,6 +5,7 @@ ultrapatch/ai_nextbot.p3s
 ultrapatch/ai_sound.p3s
 ultrapatch/ai_grenade_cat.p3s
 ultrapatch/ai_pizza.p3s
+ultrapatch/ai_interactables.p3s
 
 ai_weapon.p3s
 

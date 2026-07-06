@@ -11,6 +11,7 @@ const int AS_MOD_VERSION = 0;
 #include "server/glow_helper.as"
 #include "server/difficulty.as"
 #include "server/inv_items.as"
+#include "server/interactable.as"
 
 #include "server/entities/teargas.as"
 
