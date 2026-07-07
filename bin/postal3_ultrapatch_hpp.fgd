@@ -75,8 +75,8 @@
 @PointClass base(prop_p3_fsmitem,Parentname) studioprop() = wj_prop_fsmitem : "Interactable Prop"
 [
 	FSMBehavior(string): "FSM behavior" : "bh_prop_" : ""
-	StartState(string) : "Start state" : "prop_default" : ""
-	InitState(string) : "Init state" : "prop_default" : ""
+	StartState(string) : "Start state" : "prop_start" : ""
+	InitState(string) : "Init state" : "prop_init" : ""
 	Manner(string) : "Manner" : "" : "" 
 	Faction(string) : "Faction" : "Interactable" : ""
 	input SetFSMTarget(string) : "Set FSM Target to NPC"

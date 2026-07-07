@@ -3,7 +3,22 @@ behavior
 	name bh_prop_interactable_core
 	States
 	{
-		prop_default
+		prop_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						//
+					}
+				}
+			}
+		}
+		
+		prop_start
 		{
 			Group Neutral
 			Patterns
@@ -26,7 +41,7 @@ behavior
 	inherited bh_prop_interactable_core
 	States
 	{
-		prop_default
+		prop_init
 		{
 			Group Neutral
 			Patterns
@@ -35,9 +50,24 @@ behavior
 				{
 					actions
 					{
-						ExecutePattern bh_base:prop_default.pt_default
+						ExecutePattern bh_base:prop_init.pt_default
 						
 						AngelScript "Object:self Interactable_AidKit Setup"
+					}
+				}
+			}
+		}
+		
+		prop_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						ExecutePattern bh_base:prop_start.pt_default
 					}
 				}
 			}

@@ -1,4 +1,9 @@
+// Item to spawn in place of the attachments
 const string AID_KIT_ITEM = "angel::pizza";
+
+// Maximum amount of attachments inside the model
+// Maximum amount of items to spawn
+const int AID_KIT_MAX_ATTACHMENTS = 6;
 
 // TODO: could probably be generalized
 class Interactable_AidKit : IPostal3Script
@@ -26,7 +31,7 @@ class Interactable_AidKit : IPostal3Script
 		CBaseEntity@ baseEnt = @self.GetBaseEntity();
 		
 		// Set a new name for the entity if there's not one already
-		string name; name = baseEnt.GetName();
+		string name = baseEnt.GetName();
 		
 		if (name.length() <= 0)
 		{
@@ -50,7 +55,7 @@ class Interactable_AidKit : IPostal3Script
 		
 		// Store positions for aid kit, so positions and the quantity can be randomized
 		int num = 1;
-		for (uint i = 0; i < 6; i++)
+		for (uint i = 0; i < AID_KIT_MAX_ATTACHMENTS; i++)
 		{
 			string attachee;
 			attachee.format("item%d", num++);
@@ -66,8 +71,16 @@ class Interactable_AidKit : IPostal3Script
 		
 		baseEnt.SetPropAnim("open");
 		
+		// Randomize the max items
+		int numItems = RandomInt(1, AID_KIT_MAX_ATTACHMENTS);
+		
+		// TODO: randomize the spots as well so it doesn't go from 0 to 6
 		for (uint i = 0; i < kitPos.length(); i++)
 		{
+			// Don't spawn any more items
+			if (numItems <= 0)
+				break;
+			
 			// lock in place
 			CBaseEntity@ itm = CreateInventoryItem(AID_KIT_ITEM, true);
 			
@@ -76,6 +89,8 @@ class Interactable_AidKit : IPostal3Script
 			
 			Spawn(itm);
 			itm.Activate();
+			
+			numItems--;
 		}
 		
 	}
