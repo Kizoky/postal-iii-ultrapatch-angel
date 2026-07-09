@@ -71,13 +71,13 @@ WeaponData
 	{
 		"weapon"
 		{
-				"file"		"sprites/Boomstek"
+				"file"		"sprites/autoshotgun"
 				"width"		"128"
 				"height"	"128"
 		}
 		"weapon_small"
 		{
-				"file"		"sprites/weapon_small_icons/boomstek"
+				"file"		"sprites/weapon_small_icons/autoshotgun"
 				"width"		"128"
 				"height"	"128"
 		}
