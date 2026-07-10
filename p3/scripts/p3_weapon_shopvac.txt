@@ -27,7 +27,7 @@ WeaponData
 
 	"weapon_type"			"gadget"
 	
-	"CanBeDropped"			"1"
+	"CanBeDropped"			"0"
 	"IsMelee"				"1" // NPCs should use melee behavior for this
 	"IsRanged"				"0"
 	"IsLethal"				"0" 	// not lethal, shouldn't kill NPCs

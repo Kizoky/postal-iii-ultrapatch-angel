@@ -1,5 +1,16 @@
 // This file is used to create inventory items, Angel by default has no inventory items! (Use this file as a guide)
 // Make sure to have an unique namespace, since it will be used for stacking items!
+// Mods/Addons can have inventory items via `p3/addons/<addon_name>/scripts/<addon_name>_inventory.txt`
+
+// Inventory items must use 'wj_prop_fsmitem' prop in maps or scripts
+// This prop has a keyfield called 'TransformItem', for the pizza example above this should be 'angel::pizza'
+// do note that you must always use a namespace!
+
+// for scripters, create the entity as normal, but before spawning it call the function "TransformItem"
+// inside AngelScript this would be for the example above:
+// pointer.TransformItem("angel::pizza");
+// 
+// If you do not want to use this, you can modify the properties just before spawning it, check out our AngelScript Docs for this.
 
 "inventory_item"
 {
@@ -64,32 +75,5 @@
 				}
 			}
 		}
-		
-		"myseconditem"
-		{
-			"displayName"	"Pissy Pizza"						// Name of the inventory item
-			"behavior"		"bh_angelitem_pizza" 				// Postal3Script behavior
-			"faction"		"Items"				 				// Postal3Script faction
-			"manner"		"itmFood"			 				// Postal3Script manner
-			"initState"		"st_init"			 				// The init state of bh_angelitem_pizza
-			"startState"	"st_start"			 				// The start state of bh_angelitem_pizza
-			"stacking"		"1"					 				// This item can be stacked, won't occupy multiple inventory slots when picked up multiple times
-			"maxStacking"	"7"					 				// The maximum number of stacking, Player won't be able to pick up any more of this type of item
-																// and won't occupy another slot
-												 
-			"canBeDropped"	"1"					 				// Whether the item could be dropped by the Player or not
-			"model"			"models/small_things/pizza_01.mdl"	// The inventory item's new model, this can be left blank to use the model provided by the mapper or scripter
-			"icon"			"hud/pizza"							// Used by client, the icon for the inventory item to display
-		}
 	}
 }
-
-// Inventory items must use 'wj_prop_fsmitem' prop in maps or scripts
-// This prop has a keyfield called 'TransformItem', for the pizza example above this should be 'angel::pizza'
-// do note that you must always use a namespace!
-
-// for scripters, create the entity as normal, but before spawning it call the function "TransformItem"
-// inside AngelScript this would be for the example above:
-// pointer.TransformItem("angel::pizza");
-// 
-// If you do not want to use this, you can modify the properties just before spawning it, check out our AngelScript Docs for this.

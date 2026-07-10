@@ -7,6 +7,13 @@
 	// name of the skin
 	"coat"
 	{
+		// alternative names for this skin (coat and dude will both refer to this skin)
+		// the game first checks for the first name, if it fails it'll try getting alternative names
+		"alternative_names"
+		{
+			"name"	"dude"
+		}
+		
 		// world model (not FPS) of the Player, this will be precached
 		"model"		"models/Characters/M_Avg_Postal_Dude_v2/m_avg_postal_dude_v2.mdl"
 		// Prefab
@@ -86,10 +93,25 @@
 		// Set an attribute to -1 if you want to remove instead
 		"postal3script"
 		{
-			// sets attributes
-			"ea_health" "1000"
-			"ea_noknockout" "1"
-			"my_attribute" "-1"
+			// Applies only on new game (no previous transitions)
+			"spawn"
+			{
+			}
+			
+			// Applies only on transition
+			"transition"
+			{
+			}
+			
+			// Applies only when game was loaded from save file (or reloaded due to dying)
+			"load"
+			{	
+			}
+			
+			// Applies when changing skins during game (fully loaded in, done by user (p3_player_skin, P3S/AS SetSkin) rather than game)
+			"user"
+			{
+			}
 		}
 	}
 	
@@ -165,10 +187,25 @@
 		// Set an attribute to -1 if you want to remove instead
 		"postal3script"
 		{
-			// sets attributes
-			// "ea_health" "1000"
-			// "ea_noknockout" "1"
-			// "my_attribute" "-1"
+			// Applies only on new game (no previous transitions)
+			"spawn"
+			{
+			}
+			
+			// Applies only on transition
+			"transition"
+			{
+			}
+			
+			// Applies only when game was loaded from save file (or reloaded due to dying)
+			"load"
+			{	
+			}
+			
+			// Applies when changing skins during game (fully loaded in, done by user (p3_player_skin, P3S/AS SetSkin) rather than game)
+			"user"
+			{
+			}
 		}
 	}
 	
@@ -244,10 +281,25 @@
 		// Set an attribute to -1 if you want to remove instead
 		"postal3script"
 		{
-			// sets attributes
-			// "ea_health" "1000"
-			// "ea_noknockout" "1"
-			// "my_attribute" "-1"
+			// Applies only on new game (no previous transitions)
+			"spawn"
+			{
+			}
+			
+			// Applies only on transition
+			"transition"
+			{
+			}
+			
+			// Applies only when game was loaded from save file (or reloaded due to dying)
+			"load"
+			{	
+			}
+			
+			// Applies when changing skins during game (fully loaded in, done by user (p3_player_skin, P3S/AS SetSkin) rather than game)
+			"user"
+			{
+			}
 		}
 	}
 	
@@ -323,10 +375,25 @@
 		// Set an attribute to -1 if you want to remove instead
 		"postal3script"
 		{
-			// sets attributes
-			// "ea_health" "1000"
-			// "ea_noknockout" "1"
-			// "my_attribute" "-1"
+			// Applies only on new game (no previous transitions)
+			"spawn"
+			{
+			}
+			
+			// Applies only on transition
+			"transition"
+			{
+			}
+			
+			// Applies only when game was loaded from save file (or reloaded due to dying)
+			"load"
+			{	
+			}
+			
+			// Applies when changing skins during game (fully loaded in, done by user (p3_player_skin, P3S/AS SetSkin) rather than game)
+			"user"
+			{
+			}
 		}
 	}
 	
@@ -402,10 +469,25 @@
 		// Set an attribute to -1 if you want to remove instead
 		"postal3script"
 		{
-			// sets attributes
-			// "ea_health" "1000"
-			// "ea_noknockout" "1"
-			// "my_attribute" "-1"
+			// Applies only on new game (no previous transitions)
+			"spawn"
+			{
+			}
+			
+			// Applies only on transition
+			"transition"
+			{
+			}
+			
+			// Applies only when game was loaded from save file (or reloaded due to dying)
+			"load"
+			{	
+			}
+			
+			// Applies when changing skins during game (fully loaded in, done by user (p3_player_skin, P3S/AS SetSkin) rather than game)
+			"user"
+			{
+			}
 		}
 	}
 	
@@ -481,10 +563,25 @@
 		// Set an attribute to -1 if you want to remove instead
 		"postal3script"
 		{
-			// sets attributes
-			// "ea_health" "1000"
-			// "ea_noknockout" "1"
-			// "my_attribute" "-1"
+			// Applies only on new game (no previous transitions)
+			"spawn"
+			{
+			}
+			
+			// Applies only on transition
+			"transition"
+			{
+			}
+			
+			// Applies only when game was loaded from save file (or reloaded due to dying)
+			"load"
+			{	
+			}
+			
+			// Applies when changing skins during game (fully loaded in, done by user (p3_player_skin, P3S/AS SetSkin) rather than game)
+			"user"
+			{
+			}
 		}
 	}
 	
@@ -571,10 +668,33 @@
 		// Set an attribute to -1 if you want to remove instead
 		"postal3script"
 		{
-			// sets attributes
-			// "ea_health" "1000"
-			// "ea_noknockout" "1"
-			// "my_attribute" "-1"
+			// Applies only on new game (no previous transitions)
+			"spawn"
+			{
+				// Buff player's health because we took away all abilities
+				"ea_maxhealth"	"175"
+				"ea_health"		"175"
+				"ea_maxhealth"	"100"
+			}
+			
+			// Applies only on transition
+			"transition"
+			{
+				// Buff player's health because we took away all abilities
+				"ea_maxhealth"	"175"
+				"ea_health"		"175"
+				"ea_maxhealth"	"100"
+			}
+			
+			// Applies only when game was loaded from save file (or reloaded due to dying)
+			"load"
+			{	
+			}
+			
+			// Applies when changing skins during game (fully loaded in, done by user (p3_player_skin, P3S/AS SetSkin) rather than game)
+			"user"
+			{
+			}
 		}
 	}
 	
@@ -650,10 +770,25 @@
 		// Set an attribute to -1 if you want to remove instead
 		"postal3script"
 		{
-			// sets attributes
-			// "ea_health" "1000"
-			// "ea_noknockout" "1"
-			// "my_attribute" "-1"
+			// Applies only on new game (no previous transitions)
+			"spawn"
+			{
+			}
+			
+			// Applies only on transition
+			"transition"
+			{
+			}
+			
+			// Applies only when game was loaded from save file (or reloaded due to dying)
+			"load"
+			{	
+			}
+			
+			// Applies when changing skins during game (fully loaded in, done by user (p3_player_skin, P3S/AS SetSkin) rather than game)
+			"user"
+			{
+			}
 		}
 	}
 	
@@ -729,10 +864,25 @@
 		// Set an attribute to -1 if you want to remove instead
 		"postal3script"
 		{
-			// sets attributes
-			// "ea_health" "1000"
-			// "ea_noknockout" "1"
-			// "my_attribute" "-1"
+			// Applies only on new game (no previous transitions)
+			"spawn"
+			{
+			}
+			
+			// Applies only on transition
+			"transition"
+			{
+			}
+			
+			// Applies only when game was loaded from save file (or reloaded due to dying)
+			"load"
+			{	
+			}
+			
+			// Applies when changing skins during game (fully loaded in, done by user (p3_player_skin, P3S/AS SetSkin) rather than game)
+			"user"
+			{
+			}
 		}
 	}
 }
