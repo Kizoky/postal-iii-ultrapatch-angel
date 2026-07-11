@@ -1,3 +1,5 @@
+ultrapatch/ai_up_core.p3s
+
 ultrapatch/ai_up_consts.p3s
 
 ultrapatch/ai_teargas.p3s

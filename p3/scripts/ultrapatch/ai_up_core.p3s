@@ -1,0 +1,58 @@
+// Various fixes and additions for TM's AI
+
+extend
+{
+	name bh_social
+	States
+	{
+		// Cut 2010 spare animation
+		// (this is not inside code because it was tricky to get this to sync properly)
+		st_spared
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						Sequence seq.hostage_out_spare
+						WaitForEnd 1
+						Wait 0.1
+						Sequence seq.hostage_out_end
+						WaitForEnd 1
+						Wait 0.2
+						State st_start
+					}
+				}
+			}
+		}
+		
+		// Fix NPCs refusing to melee attack
+		st_attack_melee
+		{
+			Group Combat
+			Patterns
+			{
+				pt_runloop
+				{
+					actions
+					{
+						CheckAttr "flag_bystander Block begin"
+							IfAttr "Timer:tForgivePlayer <= 0 Pattern pt_end"
+						Block end
+						
+						//��������� �� bh_human:st_attack_melee, � �� ��-�� �� �������� ����� ��-�������
+						MoveToTarget run,1
+						Repeat 3
+					}
+					events
+					{ 
+						OnTargetReach "Pattern pt_face"
+						OnInvalidRoute "Pattern pt_end"
+					}
+				}
+			}
+		}
+	}
+}
