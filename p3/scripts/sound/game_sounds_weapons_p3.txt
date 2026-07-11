@@ -728,6 +728,95 @@
 
 
 //-----------------------------------------------------------------------------
+// Autoshotgun
+//-----------------------------------------------------------------------------
+
+"Weapon_Streetsweeper.Empty"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+	"pitch" "95,105"
+
+	"rndwave"
+	{
+		"wave"			"weapons/streetsweeper/streetsweeper_empty1.wav"
+		"wave"			"weapons/streetsweeper/streetsweeper_empty2.wav"
+	}
+}
+
+"Weapon_Streetsweeper.Single"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_GUNFIRE"
+	"pitch" "95,105"
+
+	"wave"			"weapons/streetsweeper/streetsweeper_fire.wav"
+}
+
+"Weapon_Streetsweeper.Reload"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+	"pitch" "95,105"
+	
+	"rndwave"
+	{
+		"wave"		"weapons/streetsweeper/streetsweeper_load01.wav"
+		"wave"		"weapons/streetsweeper/streetsweeper_load02.wav"
+		"wave"		"weapons/streetsweeper/streetsweeper_load03.wav"
+	}
+}
+
+"Weapon_Streetsweeper.Deploy"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+	"pitch" "75,85"
+	
+	"rndwave"
+	{
+		"wave"		"weapons/shotgun/shotgun_draw_01.wav"
+		"wave"		"weapons/shotgun/shotgun_draw_02.wav"
+		"wave"		"weapons/shotgun/shotgun_draw_03.wav"
+		"wave"		"weapons/shotgun/shotgun_draw_04.wav"
+		"wave"		"weapons/shotgun/shotgun_draw_05.wav"
+	}
+}
+
+
+"Weapon_Streetsweeper.Holster"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+	"pitch" "75,85"
+
+	"wave"			"weapons/shotgun/shotgun_back.wav"
+}
+
+"Weapon_Streetsweeper.IdleRun"
+{
+	"channel"		"CHAN_WEAPON"
+	"volume"		"VOL_NORM"
+	"soundlevel"	"SNDLVL_NORM"
+	"pitch" "75,85"
+
+	"rndwave"
+	{
+		"wave"		"weapons/shotgun/shotgun_move_01.wav"
+		"wave"		"weapons/shotgun/shotgun_move_02.wav"
+		"wave"		"weapons/shotgun/shotgun_move_03.wav"
+		"wave"		"weapons/shotgun/shotgun_move_04.wav"
+		"wave"		"weapons/shotgun/shotgun_move_05.wav"
+	}
+}
+
+
+//-----------------------------------------------------------------------------
 // Taser
 //-----------------------------------------------------------------------------
 

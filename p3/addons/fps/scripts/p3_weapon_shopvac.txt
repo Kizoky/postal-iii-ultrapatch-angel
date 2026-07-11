@@ -27,7 +27,7 @@ WeaponData
 
 	"weapon_type"			"gadget"
 	
-	"CanBeDropped"			"1"
+	"CanBeDropped"			"0"
 	"IsMelee"				"1" // NPCs should use melee behavior for this
 	"IsRanged"				"0"
 	// NPCs react negatively to this weapon if seen on humans
