@@ -672,18 +672,18 @@
 			"spawn"
 			{
 				// Buff player's health because we took away all abilities
-				"ea_maxhealth"	"175"
-				"ea_health"		"175"
-				"ea_maxhealth"	"100"
+				//"ea_maxhealth"	"175"
+				//"ea_health"		"175"
+				//"ea_maxhealth"	"100"
 			}
 			
 			// Applies only on transition
 			"transition"
 			{
 				// Buff player's health because we took away all abilities
-				"ea_maxhealth"	"175"
-				"ea_health"		"175"
-				"ea_maxhealth"	"100"
+				//"ea_maxhealth"	"175"
+				//"ea_health"		"175"
+				//"ea_maxhealth"	"100"
 			}
 			
 			// Applies only when game was loaded from save file (or reloaded due to dying)

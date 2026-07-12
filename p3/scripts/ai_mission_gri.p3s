@@ -415,6 +415,16 @@ behavior
 						SetAttr "tip 0"
 						SetAttr "PlayerPath PATH_INSANE"
 						SetAttr "outside 0"
+						
+						// Buff the player's health, but only once
+						// TODO: this isn't very multiplayer friendly
+						CheckAttr "player.krotchy_buff Return 1"
+						
+						SetAttr "player.krotchy_buff 0"
+						
+						SetAttr "player.ea_maxhealth 175"
+						SetAttr "player.ea_health 175"
+						SetAttr "player.ea_maxhealth 100"
 					}
 				}
 			}
