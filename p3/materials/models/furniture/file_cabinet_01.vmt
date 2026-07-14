@@ -1,0 +1,16 @@
+"VertexLitGeneric"              
+{                                
+"$basetexture" "models\furniture\file_cabinet_01" 
+"$basemapalphaphongmask" "1"
+//"$basealphaenvmapmask" "1"             
+//"$color2" "[0.9 0.8 0.65]"
+"$phong" "1"                              
+"$phongexponent" 10                       
+"$phongboost"	"1"                        
+"$phongfresnelranges"	"[0.8 0.8 0.9]"  
+
+"$envmapmode" 1
+"$envmap" "env_cubemap"
+"$basealphaenvmapmask" "1"  
+"$envmaptint" "[0.02 0.02 0.02]"    
+}                                

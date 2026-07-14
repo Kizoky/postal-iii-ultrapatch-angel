@@ -1,0 +1,5 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/furniture/bed_01_old"
+        "$bumpmap" "models/furniture/bed_01_old_normal"
+}

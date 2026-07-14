@@ -1,0 +1,7 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Furniture/File_cabinet_02"
+        "$bumpmap" "models/Furniture/File_cabinet_02_normal"
+	"$envmap" "env_cubemap"
+	"$normalmapalphaenvmapmask" 1
+}

@@ -1,0 +1,15 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/furniture/wardrobe_02"
+	"$bumpmap" "models/furniture/wardrobe_02_normal"
+	//"$envmap" "env_cubemap"
+	//"$envmapmask" "models/furniture/wardrobe_02_envmap"
+      //"$envmaptint" "[.3 .3 .3]"
+
+	//"$basemapalphaphongmask" "1"
+	"$phong" "1"
+	"$phongexponent" 30
+	"$phongboost"	"2"
+	"$phongfresnelranges"	"[0.5 0.5 1]"
+	
+}
