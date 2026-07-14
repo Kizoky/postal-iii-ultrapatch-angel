@@ -1,0 +1,9 @@
+"LightmappedGeneric"
+{
+	"$basetexture" "Decals/city_floor_decal_01_c"
+	//"$bumpmap" "Decals/city_brick_decal_01_normal"
+	"$decal" 1
+  	"$decalscale" 0.25
+   	"$translucent" 1
+	"%keywords" "city"
+}
