@@ -1,0 +1,11 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Nature/Tree_01_leaves_old"
+	"$translucent" "1"
+        "$alphatest" 1
+	"$nocull" 1
+	"$model" 1
+        "$selfillumtint" 1
+        
+ 
+}

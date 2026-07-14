@@ -1,0 +1,8 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/objects_city/roof_device_02"
+        "$bumpmap" "models/objects_city/roof_device_02_normal"
+	"$envmap" "env_cubemap"
+	"$normalmapalphaenvmapmask" 1
+		"$envmaptint" "[.3 .3 .3]"
+}
