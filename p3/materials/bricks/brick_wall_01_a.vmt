@@ -1,0 +1,11 @@
+"LightmappedGeneric"
+{
+    "$basetexture" "bricks/brick_wall_01_a"
+	"$bumpmap" "bricks/brick_wall_01_a_normal"
+	"$envmap" "env_cubemap"
+	"$normalmapalphaenvmapmask" 1
+	     "$envmaptint" "[.2 .2 .2]"
+
+
+}
+
