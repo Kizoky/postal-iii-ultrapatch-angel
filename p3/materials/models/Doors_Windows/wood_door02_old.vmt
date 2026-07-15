@@ -1,0 +1,8 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Doors_Windows/wood_door02_old"
+        "$bumpmap" "models/Doors_Windows/wood_door02_old_normal"
+	"$envmap" "env_cubemap"
+	"$normalmapalphaenvmapmask" 1 
+	"$nocull" 1
+}

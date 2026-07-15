@@ -1,0 +1,6 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Architecture_city/Hotel_Billboard_01_old"
+	"$selfillum" 1
+
+}

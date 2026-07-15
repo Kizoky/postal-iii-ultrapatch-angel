@@ -1,0 +1,8 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Electrical_devices/street_phone01_old"
+        "$bumpmap" "models/Electrical_devices/street_phone01_old_normal"
+	"$envmap" "env_cubemap"
+	"$normalmapalphaenvmapmask" 1
+		"$envmaptint" "[.3 .3 .3]"
+}
