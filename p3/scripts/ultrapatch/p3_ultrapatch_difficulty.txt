@@ -14,54 +14,62 @@
 //
 // NOTE: Unlike Postal3Script, AngelScript needs a full game restart if you modified this file!! (enums only)
 //
+// This file supports localizations, use '#' as the first character, or don't, in that case the game will not attempt to find the unicode
+//
 
 "difficulty_system"
 {
+	//"DIFF_TEST"
+	//{
+	//	"name"		"#DIFF_TEST"
+	//	"desc"		"#DIFF_TEST_DESC"
+	//}
+	
 	"DIFF_JOURNALIST"
 	{
-		"name"		"Journalistmode"
-		"desc"		"- Player takes less damage -50%\n- Escort NPCs are invulnerable\n- Hostile NPCs take more damage +50%\n- Mission requirements -50%\n- Player is a loser"
+		"name"		"#DIFF_JOURNALIST"
+		"desc"		"#DIFF_JOURNALIST_DESC"
 	}
 
 	"DIFF_EASY"
 	{
-		"name"		"Easy"
-		"desc"		"- Player takes less damage -25%\n- Escort NPCs take less damage -25%\n- Hostile NPCs take more damage +25%\n- Mission requirements -25%"
+		"name"		"#DIFF_EASY"
+		"desc"		"#DIFF_EASY_DESC"
 	}
 
 	"DIFF_NORMAL"
 	{
-		"name"		"Normal"
-		"desc"		"No changes."
+		"name"		"#DIFF_NORMAL"
+		"desc"		"#DIFF_NORMAL_DESC"
 	}
 	
 	"DIFF_HARD"
 	{
-		"name"		"Hard"
-		"desc"		"- Mission requirements +25%\n- Some citizens will now attack the Player if harmed"
+		"name"		"#DIFF_HARD"
+		"desc"		"#DIFF_HARD_DESC"
 	}
 	
 	"DIFF_MASOCHIST"
 	{
-		"name"		"Masochist"
-		"desc"		"- Stats from Hard\n- Enemy spawn rate doubled\n- Enemy will now carry random big guns\n- Citizens have weapons\n- Citizens can now attack anyone\n- No health regen"
+		"name"		"#DIFF_MASOCHIST"
+		"desc"		"#DIFF_MASOCHIST_DESC"
 	}
 	
 	"DIFF_WHACKJOB"
 	{
-		"name"		"Whackjob"
-		"desc"		"- Stats from Masochist\n- Citizens have big guns\n- Citizens and Cops will attack Player on sight"
+		"name"		"#DIFF_WHACKJOB"
+		"desc"		"#DIFF_WHACKJOB_DESC"
 	}
 	
 	"DIFF_THEYHATEME"
 	{
-		"name"		"They All Know"
-		"desc"		"- Stats from Whackjob\n- Everyone (including animals) will attack the Player on sight\n- Military occasionally spawns in with a Helicopter to hunt down the Player"
+		"name"		"#DIFF_THEYHATEME"
+		"desc"		"#DIFF_THEYHATEME_DESC"
 	}
 	
 	"DIFF_DEMON"
 	{
-		"name"		"Demon From Above"
-		"desc"		"- Stats from They All Know\n- Inventory items are instantly used on touch\n- NPCs drop nothing\n- Double Trouble\n- Escorts will attack the Player\n- No mission failure\n\nThis will be fun or this will be a pain in the ass."
+		"name"		"#DIFF_DEMON"
+		"desc"		"#DIFF_DEMON_DESC"
 	}
 }
