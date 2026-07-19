@@ -3,7 +3,7 @@
 	"Cheats"
 	{
 		"text"			"#GameUI2_Cheats"
-		"description"	""
+		"description"	"#GameUI2_CheatsDescription"
 		"command"		"cvar gameui2_opencheatsdialog"
 		"priority"		"10"
 		"specifics"		"shared"
