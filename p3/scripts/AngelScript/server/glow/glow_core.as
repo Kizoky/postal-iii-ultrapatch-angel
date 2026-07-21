@@ -5,7 +5,7 @@ class CGlowCore : IPostal3Script
 	void AttachGlow(CBaseEntity@ Whom, string clr)
 	{
 		// Don't want to add hidden entities...
-		if ((Whom.GetEffects() & EF_NODRAW) == 0)
+		if ((Whom.GetEffects() & EF_NODRAW) != 0)
 			return;
 		
 		CBaseEntity@ glow = CreateEnt("p3_glow");

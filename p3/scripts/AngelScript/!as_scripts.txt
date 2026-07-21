@@ -5,6 +5,8 @@
 // NOTE: This absolutely must be an integer!
 const int AS_MOD_VERSION = 0;
 
+#include "shared/glow_cvars.as"
+
 #include "server/engine.as"
 #include "server/npc.as"
 #include "server/player.as"
@@ -33,6 +35,8 @@ const int AS_MOD_VERSION = 0;
 
 // Code will only compile for client-side
 #ifdef CLIENT
+
+#include "shared/glow_cvars.as"
 
 #include "client/engine.as"
 #include "shared/team.as"

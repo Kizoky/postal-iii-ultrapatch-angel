@@ -7,9 +7,6 @@
 // Insane path
 #include "glow/sbe.as"
 
-ConVar@ cv_glow = CreateCVar("p3_ultrapatch_gameplay_glow", "1", FCVAR_GAMEDLL | FCVAR_NOTIFY | FCVAR_ARCHIVE, "Creates glow around mission entities. (Requires restart)");
-ConVar@ cv_glow_inst = CreateCVar("p3_ultrapatch_gameplay_glow_instant", "0", FCVAR_GAMEDLL | FCVAR_NOTIFY | FCVAR_ARCHIVE, "Whether glow should be created immediately for mission entities or not. (Requires restart)");
-
 // supported maps
 array<string> supported_glow = {
 // Pre-path
