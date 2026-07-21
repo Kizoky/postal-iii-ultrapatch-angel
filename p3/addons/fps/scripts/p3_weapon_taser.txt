@@ -5,7 +5,7 @@ WeaponData
 	// Weapon data is loaded by both the Game and Client DLLs.
 	"ID"					"taser"
 	"printname"				""
-	"viewmodel"				"models/weapons/taser/v_taser.mdl"
+	"viewmodel"				"models/weapons/taser/c_taser.mdl"
 	"playermodel"			"models/weapons/taser/Taser.mdl"
 	"anim_prefix"			"deagle"
 	"bucket"				"0"
