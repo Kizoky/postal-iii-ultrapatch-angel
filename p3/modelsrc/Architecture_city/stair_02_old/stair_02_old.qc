@@ -6,7 +6,7 @@ $staticprop
 
 $bodygroup "Body"
 {
-	studio "stair_02.smd" "#stair_02"
+	studio "stair_02_old.smd" "#stair_02"
 }
 
 
@@ -26,14 +26,14 @@ $definebone "static_prop" "" 0 0 0 0 0 0 0 0 0 0 0 0
 
 
 $sequence "idle" {
-	"stair_02_anims\idle.smd"
+	"stair_02_old_anims\idle.smd"
 	fadein 0.2
 	fadeout 0.2
 	fps 30
 	loop
 }
 
-$collisionmodel "stair_02_physics.smd"
+$collisionmodel "stair_02_old_physics.smd"
 {
 	$mass 767.0498
 	$inertia 1
