@@ -1,0 +1,17 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Furniture/locker_01"
+	"$basemapalphaphongmask" "1"
+	"$phong" "1"                              
+	"$phongexponent" 20                       
+	"$phongboost"	"1"                        
+	"$phongfresnelranges"	"[0.4 0.5 0.4]"  
+
+	"$envmapmode" 1 	
+	"$basealphaenvmapmask" "1"    
+	"$envmap" "#walls_01"
+	"$specularlightmappower" 1
+	"$envmaptint" "[0.02 0.02 0.02]"
+	
+//	"$Color2" "[1.1 1.1 1]"
+}
