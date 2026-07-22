@@ -3,7 +3,7 @@
 	"$basetexture" "cash_mart/cash_mart_wall_02_a"
 	"$bumpmap" "cash_mart/cash_mart_wall_02_a_normal"
 	"$envmap" "#walls_01"
-    "$envmaptint" "[0.6 0.6 0.6]"
+	"$envmaptint" "[0.6 0.6 0.6]"
 	"$normalmapalphaenvmapmask" 1
 	
 	"%keywords" "cash_mart"
@@ -16,5 +16,11 @@
 	//"$phongtint" "[1 1 1]"
 	//"$phongcolorfromlightmap" 1.0
 	"$surfaceprop" "concrete"
+
+	"$detail" "detail\noise_detail_01"
+	"$detailscale" "7.345"
+	"$detailblendfactor" .2
+	"$detailblendmode" 0
+
 }
 
