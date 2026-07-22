@@ -1,6 +1,6 @@
 "VertexLitGeneric"
 {
-	"$basetexture" "models/Architecture_city/stair_02"
+	"$basetexture" "models/Architecture_city/stair_02_old"
 	"$translucent" "1"
         "$alphatest" 1
 	"$nocull" 1
