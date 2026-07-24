@@ -3,6 +3,7 @@
 
 precache_particle
 {
+	"fx"		"blood_impact_red_01"
 	"fx"		"Arest_headblobs_Fx"
 	"fx"		"Attention_headblobs_Fx"
 	"fx"		"HappyCat_headblobs_Fx"
