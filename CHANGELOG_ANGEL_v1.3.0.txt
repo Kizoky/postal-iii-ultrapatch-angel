@@ -25,6 +25,7 @@ v1.3.0: (Note: skipped version v1.2.0 on purpose, consider Ultrapatch+Angel v1.3
 - Players and NPCs can now open doors just by simply touching them (no need for trigger brushes anymore)
 - Increased engine model (1024->4096) and sound (8192->16384) precache limits (thanks Grizzle!)
 - Fixed several crashes inside materialsystem.dll and studiorender.dll (thanks Grizzle!)
+- Fixed a nasty crash (somewhat rare) related to decals (thanks Grizzle!)
 - New UI combined with GameUI2 and ImGui
 - Fixed weapons and some other props not fading out in the same distance as NPCs do
 - Heli can now start smoking and it will intensify the less health it has (feature from CR)
@@ -37,6 +38,10 @@ v1.3.0: (Note: skipped version v1.2.0 on purpose, consider Ultrapatch+Angel v1.3
 - Added in-game Addon/Mod Manager
 - Added Ragdoll and Weapon manager which clean up lingering entities, this helps massively with performance on "battle royale" maps like `mtz`
 - Implemented non-lethal attacks that is similar in implementation like Catharsis Reborn's
+- NPCs can now use two-handled weapons like the shovel
+- NPCs can now use throwable weapons as visible active weapons (in Vanilla they can hold a gun and throw a grenade anytime without knowing they can do that)
+- Doors are now destroyed when there is an explosion near them
+
 
 ### All Changes in Detail
 
@@ -408,6 +413,73 @@ NOTE: Hint nodes still need to be manually unlocked inside Postal3Script via `Un
 * Fixed `GetKeyValue` returning garbage strings for non-Valve things
 + Added ability to switch between HL2 and Postal 3 weapon selector
 + Added conscious bar under health bar for most NPCs
+* Several weapons like Empty Hands, Banner, Baton, Meta Bulky, Meta One Handled (junk items/corpse) are now non-lethal
++ Added unique HUD colors for skins
++ Added `p3_ultrapatch_reverse_throwable_bind`, reverses the primary and secondary attack binds, mainly for controller users, can be also found in Settings
+* Various fixes and adjustments for controllers
+* Kicking, shoving, and trampling now use Empty Hands as the weapon inflictor (this makes all 3 actions knockout instead of killing)
+* Fixed fire extinguishers catching on fire
+* Fixed some doors catching on fire
++ Grenade cats are now very stubborn and will follow the closest living NPC (achieved by changing their P3S AI from bh_cat to bh_grenade_cat inside st_dervish)
++ Grenade cats are now twice as fast as Dervish cats
++ Grenade cats will now immediately detonate the moment they claw their target
+* `Hit` Postal3Script function is now rerouted to `ThrowGrenade` if active weapon is a throwable (does not attempt to check for allies)
+* NPCs with a throwable active weapon can now actually attack with it (excluding cat and monkey weapons, they need more work than some "few lines")
++ Reimplemented ea_HaveAmmo that was probably deleted by mistake by TM (Throwables and Melee weapons have infinite ammo so they always return 1 and don't need reloading)
++ Implemented c_hands for FPS
+* Skins are no longer hardcoded, and are located inside `scripts/ultrapatch/p3_ultrapatch_skins.txt`
++ Added `ea_arrest` p3s attribute that adds arrest ability for non-cop skins, the good path check hasn't been removed
+* Cop, SWAT, Security, Patrol, Agent now have arresting ability even on bad path
++ Implemented custom crosshair and weapon colors for skins
+- Removed dynamically scaling crosshair while moving 
+* Crosshairs are now managed by `p3_ultrapatch_crosshairs.txt` (there are hardcoded checks for `default` and `nonlethal`), addon-compatible
++ Skin-specific crosshairs are now possible (this is not used, but there's an option if you really want to)
++ Added non-lethal crosshair for non-lethal weapons
+* Fixed real/invisible NPC having Zzzz headblob initially then disappearing when knocked out
+* Knocked out ragdolls now have Zzzz headblob applied almost instantly
+* Fixed NPC's sentence not ending when knocked out mid play
+* Fixed any sound made by the NPC not ending immediately when knocked out
+* Fixed knocked out NPCs being able to talk (Say function)
+* Fixed being able to use weapons by using the `use` console command circumventing the skin weapon restriction feature/or by exploiting it
++ If current weapon was not restricted for previous skin, but for the next skin is, the game will now automatically equip the lowest (by identification value) possible weapon that is not restricted
+* Fixed `use` console command not using the weapon wheel (effect was bugged and you would had to scroll to fix this)
++ Added Mighty Foot for FPS
++ Added options to flip foot and weapon viewmodels (can be found in Settings)
+* Dogs will no longer fear the Player when kicked or when getting hurt by them
+* Dogs can now attack players and other animals (will play sound when biting)
+* Dogs will now emit hit sound when hurt
+* Dogs should now be much more "precise" when trying to snatch/attack
++ AngelScript: Added hook [HOOK SEngine OnP3STimer] (You can now create p3s timers that will execute an angelscript hook when their interval ends or when they are being repeated)
+- Krotchy skin can no longer jump
++ Added pizza inventory item
++ Added overheal (over 100 HP) element for the HUD
++ Added `OverHealth` circular progress bar for when Player's health is over 100
++ Added `ea_maxhealth`, sets max health for any P3S entity (including NPCs and Players)
+* `ea_health` is no longer restricted to a maximum value of 100 (now it is 2147483646, `ea_maxhealth` as well)
+* `ea_health` now checks for `ea_maxhealth` and won't let it go over the maximum health
++ Added `p3_ultrapatch_precache_particle.txt` which precaches particle effects on post init both for client and server (eliminates lag)
++ Added interactable prop First Aid Box
+* Replaced TM's Player pushaway feature with a far more stable one that doesn't crash
+* Fixed game crashing when Player is shoving items around their feet
+* AngelScript: Fixed CBaseEntity::GetName crashing by turning it into a const getter function
+* Fixed a crash inside Weapons when they drop too quickly from Players
++ Players and NPCs now drop stored weapons and inventory items (all stacks) on death
++ NPCs now drop stored weapons and inventory items (all stacks) when knocked out
++ Added P3S category Skin (IfAttr "Skin:target == String:dude ...") 
++ Krotchy skin now has an over health of 175 when first spawned or during transit to balance the skin's inabilities
+* Fixed explosions not destroying doors
++ Reimplemented cut beta 2010 spare, uses cover button
++ Added `ea_WeaponMaxClip` (defaults to -1 if it's not supposed to have any clips)
++ Added `ea_WeaponClip`, gets current amount of clip from active weapon (Players & NPCs)
+* NPCs inheriting from `bh_military_new` now always reload if their weapon's clip hits zero, instead of relying on a dumb timer
+* Fixed NPCs inheriting from `bh_military_new` reloading awkwardly with new Ultrapatch weapons
+* AngelScript: Disabled built-in Auto Garbage Collector
++ Added several Player animations for NPCs (like two-handled anims that they didn't have)
+* Fixed weapons not updating (ItemPostFrame) when NPCs are wielding them
+* Fixed NPCs not being able to use real melee weapons (this counts as an implementation too since it's not possible in Vanilla)
++ Added weapon key values `NPCMeleeReach` and `PlayerMeleeReach`, adjusts the position forward for melee weapons that grab start and end attachments from the weapon model, for NPCs by default it is 30.0f, for Players it is 0.0f
+* Jen now uses real shovel weapon
+* Fixed a crash related to decals by adding Grizzle's hack (it was pretty uncommon but can be reproduced consistently on AA2)
 
 
 MULTIPLAYER RELATED:
