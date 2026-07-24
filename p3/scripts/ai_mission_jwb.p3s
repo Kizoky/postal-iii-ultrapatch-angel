@@ -1493,7 +1493,7 @@ behavior
 					{
 						AttributeProgressBar "JenHealthPanel,show,ea_health"
 						Timer tChangeTarget,20
-                        CheckAttr "slot#7.onfire Item drop"
+                        //CheckAttr "slot#7.onfire Item drop"
 						ExecutePattern bh_base:st_start.pt_default
 						Repeat 1
 					}
@@ -1503,10 +1503,15 @@ behavior
 				{
 					actions
 					{
-						SpawnItem "spawner_melee_weapon_jen,owner,hand_right"
-						TargetItem 1
-						FireEvent ImOwner
-						TargetToMem 7
+						//SpawnItem "spawner_melee_weapon_jen,owner,hand_right"
+						//TargetItem 1
+						//FireEvent ImOwner
+						//TargetToMem 7
+						
+						// Spawn a REAL shovel for Jen
+						// TODO: make this non-lethal as it's not very lore friendly lol
+						AngelScript "Object:self NPCUtils GiveWeapon p3_weapon_shovel"
+						
 						ResetTarget 1
 						ExecutePattern bh_base:st_start.xpt_FirstRun
 					}

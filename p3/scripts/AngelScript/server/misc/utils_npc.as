@@ -155,4 +155,35 @@ class NPCUtils : IPostal3Script
 		
 		self.SetTarget(targ);
 	}
+	
+	void ForceAttack()
+	{
+		Vector endpos;
+		CBaseEntity@ atk = GetCrosshair(GetPlayer(), endpos);
+		
+		CP3SObj@ attacker = atk.GetP3SObj();
+		
+		attacker.SetTarget(GetPlayer());
+		
+		attacker.ExecuteAction("Hit", "1");
+	}
+	
+	void GiveWeapon(string param)
+	{
+		CBaseEntity@ weapon = CreateEnt(param);
+		if (@weapon == @null)
+			return;
+			
+		// Player might be able to pick this up lol
+		//CBaseEntity@ pSelf = self.GetBaseEntity();
+		//weapon.SetAbsOrigin(pSelf.GetAbsOrigin());
+			
+		::Spawn(weapon);
+		
+		CP3SObj@ p3s = weapon.GetP3SObj();
+		
+		self.SetTarget(p3s);
+		
+		self.ExecuteAction("Weapon", "pickup");
+	}
 }
