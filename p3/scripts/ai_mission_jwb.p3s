@@ -1509,8 +1509,11 @@ behavior
 						//TargetToMem 7
 						
 						// Spawn a REAL shovel for Jen
-						// TODO: make this non-lethal as it's not very lore friendly lol
-						AngelScript "Object:self NPCUtils GiveWeapon p3_weapon_shovel"
+						AngelScriptWait "Object:self NPCUtils GiveWeapon p3_weapon_shovel"
+						WaitForEnd 1
+						
+						// Set Jen's weapon non-lethal
+						SetAttr "target.ea_NonLethal 1"
 						
 						ResetTarget 1
 						ExecutePattern bh_base:st_start.xpt_FirstRun
@@ -1869,16 +1872,16 @@ behavior
 					}
 				}
 				
-				xpt_OnHitConciousness
-				{
-					actions
-					{
-						//Placeholder till we can fine tune consciousness damage
-						//Currently does the same amount of health damage as the banner damages consciousness
-						ChangeAttr "ea_health -5"
-						ExecutePattern "st_idle.xpt_OnHit"
-					}
-				}
+				//xpt_OnHitConciousness
+				//{
+				//	actions
+				//	{
+				//		//Placeholder till we can fine tune consciousness damage
+				//		//Currently does the same amount of health damage as the banner damages consciousness
+				//		ChangeAttr "ea_health -5"
+				//		ExecutePattern "st_idle.xpt_OnHit"
+				//	}
+				//}
 			}
 		}
 		
@@ -1889,7 +1892,7 @@ behavior
 		OnTimer_tSyncHealth "ExecutePattern st_util.xpt_CheckHealth"
 		//OnTimer_tCheckHealth "ExecutePattern ut_reactions.xpt_Angry"
 		OnHit "ExecutePattern st_idle.xpt_OnHit"
-		OnConsciousChanged "ExecutePattern st_util.xpt_OnHitConciousness"
+		//OnConsciousChanged "ExecutePattern st_util.xpt_OnHitConciousness"
 	}
 }
 

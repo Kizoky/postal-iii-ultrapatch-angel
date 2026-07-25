@@ -27,15 +27,15 @@ WeaponData
 	"fire_rate2"			"0.2"
 	"MeleeWeapon"			"1"
 	
-	"NPCMinDamage"		"25"
-	"NPCMaxDamage"		"35"
+	"NPCMinDamage"		"0.5"
+	"NPCMaxDamage"		"3"
 	
 	"CanBeDropped"			"1"
 	"IsMelee"				"1"
 	"IsRanged"				"0"
 	"IsLethal"				"0" 	// not lethal, shouldn't kill NPCs
-	"ConsciousRateMin"		"2.0" 	// conscious rate (min) per hit/shoot
-	"ConsciousRateMax"		"5.0" 	// conscious rate (max) per hit/shoot
+	"ConsciousRateMin"		"0.5" 	// conscious rate per hit/shoot
+	"ConsciousRateMax"		"2.0"
 	// NPCs react negatively to this weapon if seen on humans
 	"Dangerous"				"0"
 
