@@ -887,7 +887,7 @@ behavior
 						SetHintgroup hint_talib
 						
 						//Grenade
-						SetAttr "GrenadeType GRND_TYPE_MOLOVOT"
+						SetAttr "GrenadeType GRND_TYPE_MOLOTOV"
 						SetAttr "BombardChance 50"
 						
 						SetAttr "RunToBorder 1"
