@@ -7,6 +7,7 @@
 		"command"		"cvar gameui2_opencheatsdialog"
 		"priority"		"10"
 		"specifics"		"shared"
+		"cvar"			"sv_cheats"
 	}
 	
 	"ResumeGame"
