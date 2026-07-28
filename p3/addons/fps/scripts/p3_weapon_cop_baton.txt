@@ -41,6 +41,9 @@ WeaponData
 	"CanBeDropped"			"1"
 	"IsMelee"				"1"
 	"IsRanged"				"0"
+	"IsLethal"				"0" 	// not lethal, shouldn't kill NPCs
+	"ConsciousRateMin"		"15.0" 	// conscious rate (min) per hit/shoot
+	"ConsciousRateMax"		"25.0" 	// conscious rate (max) per hit/shoot
 	// NPCs react negatively to this weapon if seen on humans
 	"Dangerous"				"0"
 
