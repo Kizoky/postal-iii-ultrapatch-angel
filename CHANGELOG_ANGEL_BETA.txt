@@ -1,0 +1,8 @@
+Changelogs between hotfixes will appear here
+CHANGELOG_ANGEL_v1.3.0.txt will also get extended
+
+
+
+## v0.1
+
+- Initial release
