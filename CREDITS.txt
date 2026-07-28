@@ -16,6 +16,6 @@ SPECIAL THANKS:
 ===============
 - MeeMdic: Russian localization improvements, weapon icons, First Person animations, testing, and various fixes to Vanilla models and textures
 - Professor Skuf: Rigorous testing and bug reporting
-- Grizzle: Engine hack which extends sound and model precache limits, studiorender & materialsystem which fixes problems/crashes with the original ones, mapreplace feature, decals crash fix
+- Grizzle: Engine hack which extends sound and model precache limits, studiorender & materialsystem which fixes problems/crashes with the original ones, mapreplace feature, decals crash fix, sound channel expansion
 - Tristan885: Testing, bug reporting, various tools for Postal3
 - le_s0ulful: Model animations, animation retargeting, testing

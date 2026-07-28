@@ -482,6 +482,7 @@ NOTE: Hint nodes still need to be manually unlocked inside Postal3Script via `Un
 * Fixed a crash related to decals by adding Grizzle's hack (it was pretty uncommon but can be reproduced consistently on AA2)
 * Fixed NPCs trying to avoid ragdolled/knocked out NPCs (if there is a huge pile they would get stuck)
 + Added `ea_Lethal` and `ea_NonLethal` which allow you to override the lethality of a weapon
++ Added Grizzle's sound channel expansion hack which fixes sound cutoffs with many NPCs around
 
 MULTIPLAYER RELATED:
 ====================
