@@ -1576,6 +1576,11 @@ behavior
 						
 						// Play kill escort line if killed by the Player
 						SetAttr "ea_escort 1"
+						
+						// Loser
+						IfAttr "ea_difficulty == DIFF_JOURNALIST Block begin"
+							SetAttr "ea_invulnerable 1"
+						Block end
 					}
 				}
 			}

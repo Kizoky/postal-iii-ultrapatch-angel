@@ -632,6 +632,11 @@ behavior //bh_ron
 						SetAttr "voice_pitch 1"
 //						SetAttr "ea_noknockout 1"
 						SetAttr "ea_escort 1" // He's not an escort but he must be alive anyway
+						
+						// Loser
+						IfAttr "ea_difficulty == DIFF_JOURNALIST Block begin"
+							SetAttr "ea_invulnerable 1"
+						Block end
 					}
 				}
 			}
