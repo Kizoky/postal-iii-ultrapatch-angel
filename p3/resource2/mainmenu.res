@@ -126,9 +126,9 @@
 	{
 		"text"			""
 		"description"	""
-		"command"		"cvar gameui2_openurl www.discord.com/invite/Q8K8TMA"
+		"command"		"cvar gameui2_openurl www.discord.com/invite/3XfRzaKrcz #IMGUI_OpenURL_P3Discord"
 		// materials/vgui/.
-		"image"			"social/discord.vtf"
+		"image"			"social/discord_p3.vtf"
 		"image_scale"	"1"
 		"priority"		"101"
 		"specifics"		"social"
@@ -199,9 +199,9 @@
 	{
 		"text"			""
 		"description"	""
-		"command"		"cvar gameui2_openurl www.discord.com/invite/3XfRzaKrcz"
+		"command"		"cvar gameui2_openurl www.discord.com/invite/Q8K8TMA #IMGUI_OpenURL_WJIDiscord"
 		// materials/vgui/.
-		"image"			"social/discord.vtf"
+		"image"			"social/discord_wji.vtf"
 		"image_scale"	"1"
 		"priority"		"107"
 		"specifics"		"social"
