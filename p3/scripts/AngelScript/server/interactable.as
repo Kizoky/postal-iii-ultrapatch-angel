@@ -71,27 +71,28 @@ class Interactable_AidKit : IPostal3Script
 		
 		baseEnt.SetPropAnim("open");
 		
+		// TODO: re-enable when medkit item is added
 		// Randomize the max items
-		int numItems = RandomInt(1, AID_KIT_MAX_ATTACHMENTS);
-		
-		// TODO: randomize the spots as well so it doesn't go from 0 to 6
-		for (uint i = 0; i < kitPos.length(); i++)
-		{
-			// Don't spawn any more items
-			if (numItems <= 0)
-				break;
-			
-			// lock in place
-			CBaseEntity@ itm = CreateInventoryItem(AID_KIT_ITEM, true);
-			
-			itm.SetAbsOrigin(kitPos[i]);
-			itm.SetAbsAngles(kitAng[i]);
-			
-			Spawn(itm);
-			itm.Activate();
-			
-			numItems--;
-		}
+		//int numItems = RandomInt(1, AID_KIT_MAX_ATTACHMENTS);
+		//
+		//// TODO: randomize the spots as well so it doesn't go from 0 to 6
+		//for (uint i = 0; i < kitPos.length(); i++)
+		//{
+		//	// Don't spawn any more items
+		//	if (numItems <= 0)
+		//		break;
+		//	
+		//	// lock in place
+		//	CBaseEntity@ itm = CreateInventoryItem(AID_KIT_ITEM, true);
+		//	
+		//	itm.SetAbsOrigin(kitPos[i]);
+		//	itm.SetAbsAngles(kitAng[i]);
+		//	
+		//	Spawn(itm);
+		//	itm.Activate();
+		//	
+		//	numItems--;
+		//}
 		
 	}
 }

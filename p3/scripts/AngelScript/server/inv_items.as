@@ -19,12 +19,14 @@ class CAngelItems : IPostal3Script
 	
 	int CalcPizza(int health_incr)
 	{
+		int max_health = self.GetAttr("ea_maxhealth");
+		
 		int old_health = self.GetAttr("ea_health");
 		
 		int new_health = old_health + health_incr;
 		
 		// Used some sort of drug
-		if (old_health > 100)
+		if (old_health >= max_health)
 			return old_health;
 			
 		if (new_health > 100)
