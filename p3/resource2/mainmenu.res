@@ -194,4 +194,16 @@
 		"priority"		"106"
 		"specifics"		"social"
 	}
+	
+	"Discord2"
+	{
+		"text"			""
+		"description"	""
+		"command"		"cvar gameui2_openurl www.discord.com/invite/3XfRzaKrcz"
+		// materials/vgui/.
+		"image"			"social/discord.vtf"
+		"image_scale"	"1"
+		"priority"		"107"
+		"specifics"		"social"
+	}
 }
