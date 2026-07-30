@@ -5,7 +5,7 @@
 		"text"			"#GameUI2_Cheats"
 		"description"	"#GameUI2_CheatsDescription"
 		"command"		"cvar gameui2_opencheatsdialog"
-		"priority"		"10"
+		"priority"		"11"
 		"specifics"		"shared"
 		"cvar"			"sv_cheats"
 	}
@@ -15,7 +15,7 @@
 		"text"			"#GameUI2_ResumeGame"
 		"description"	"#GameUI2_ResumeGameDescription"
 		"command"		"cvar gamemenucommand resumegame"
-		"priority"		"9"
+		"priority"		"10"
 		"specifics"		"ingame"
 	}
 	
@@ -24,7 +24,7 @@
 			"text"			"#GameUI2_ContinueGame"
 			"description"	"#GameUI2_ContinueGameDescription"
 			"command"		"cvar gameui2_continuegame"
-			"priority"		"8"
+			"priority"		"9"
 			"specifics"		"mainmenu"
 			"tv"			"pc_continue"
 			// TODO: do we really have to do this?
@@ -36,7 +36,7 @@
 		"text"			"#GameUI2_NewGame"
 		"description"	"#GameUI2_NewGameDescription"
 		"command"		"cvar gameui2_opennewgamedialog" //"cvar gamemenucommand opennewgamedialog"
-		"priority"		"7"
+		"priority"		"8"
 		"specifics"		"shared"
 		"tv"			"pc_newgame"
 		// TODO: do we really have to do this?
@@ -48,7 +48,7 @@
 		"text"			"#GameUI2_LoadGame"
 		"description"	"#GameUI2_LoadGameDescription"
 		"command"		"cvar gamemenucommand openloadgamedialog"
-		"priority"		"6"
+		"priority"		"7"
 		"specifics"		"shared"
 		"tv"			"pc_loadgame"
 		// TODO: do we really have to do this?
@@ -60,7 +60,7 @@
 		"text"			"#GameUI2_SaveGame"
 		"description"	"#GameUI2_SaveGameDescription"
 		"command"		"cvar gamemenucommand opensavegamedialog"
-		"priority"		"5"
+		"priority"		"6"
 		"specifics"		"ingame"
 	}
 	
@@ -69,7 +69,7 @@
 		"text"			"#GameUI2_Achievements"
 		"description"	"#GameUI2_AchievementsDescription"
 		"command"		"cvar gamemenucommand openachievementsdialog"
-		"priority"		"4"
+		"priority"		"5"
 		"specifics"		"shared"
 		"tv"			"pc_achievements"
 		// TODO: do we really have to do this?
@@ -81,7 +81,7 @@
 		"text"			"#GameUI2_Options"
 		"description"	"#GameUI2_OptionsDescription"
 		"command"		"cvar gameui2_opensettingsdialog" //"cvar gamemenucommand openoptionsdialog"
-		"priority"		"3"
+		"priority"		"4"
 		"specifics"		"shared"
 		"tv"			"pc_options"
 		// TODO: do we really have to do this?
@@ -93,6 +93,15 @@
 		"text"			"#GameUI2_Addons"
 		"description"	"#GameUI2_AddonsDescription"
 		"command"		"cvar gameui2_openaddonsdialog"
+		"priority"		"3"
+		"specifics"		"shared"
+	}
+
+	"Updates"
+	{
+		"text"			"#GameUI2_Update"
+		"description"	"#GameUI2_UpdateDescription"
+		"command"		"cvar gameui2_openupdatedialog"
 		"priority"		"2"
 		"specifics"		"shared"
 	}
