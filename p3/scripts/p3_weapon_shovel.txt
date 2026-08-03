@@ -5,7 +5,7 @@ WeaponData
 	// Weapon data is loaded by both the Game and Client DLLs.
 	"ID"				"shovel"
 	"printname"				""
-	"viewmodel"				"models/weapons/shovel/shovel.mdl"
+	"viewmodel"				"models/weapons/shovel/c_shovel.mdl"
 	"playermodel"			"models/weapons/shovel/shovel.mdl"
 	"anim_prefix"			"bat"
 	"bucket"				"2"

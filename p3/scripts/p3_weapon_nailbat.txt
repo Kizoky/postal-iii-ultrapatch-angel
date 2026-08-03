@@ -5,7 +5,7 @@ WeaponData
 	// Weapon data is loaded by both the Game and Client DLLs.
 	"ID"				"nailbat"
 	"printname"				""
-	"viewmodel"				"models/weapons/bat/bat.mdl"
+	"viewmodel"				"models/weapons/bat/v_bat.mdl"
 	"playermodel"			"models/weapons/bat/bat.mdl"
 	"anim_prefix"			"bat"
 	"bucket"				"2"

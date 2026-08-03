@@ -5,7 +5,7 @@ WeaponData
 	// Weapon data is loaded by both the Game and Client DLLs.
 	"ID"				"crotchy_grenade"
 	"printname"				""
-	"viewmodel"				"models/weapons/grenade/grenade_krotchi.mdl" 
+	"viewmodel"				"models/weapons/grenade/v_grenade_frag.mdl" 
 	"playermodel"			"models/weapons/grenade/grenade_krotchi.mdl" 
 	"anim_prefix"			"grenade"
 	"bucket"				"4"
@@ -36,7 +36,7 @@ WeaponData
 	"NPCMaxDamage"		"50"
 
 	"DamageRadius"			"300"
-	
+
 	"CanBeDropped"			"1"
 	"IsMelee"				"0"
 	"IsRanged"				"1"
