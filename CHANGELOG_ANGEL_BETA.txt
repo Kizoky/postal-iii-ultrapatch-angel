@@ -1,6 +1,27 @@
 Changelogs between hotfixes will appear here
 CHANGELOG_ANGEL_v1.3.0.txt will also get extended
 
+## v0.2
+
+- Fixed a crash when trying to look up difficulties
+- Fixed a crash when a P3S pointer is null and it tries to fire an event inside itself
+- Fixed Tear Gas crashing the game after transition or loading a save file
+- Updated Grizzle's sound expansion plugin (which also fixes buggy sounds)
+- Fixed a crash inside studiorender.dll (by Grizzle)
+- Forced `UTIL_SetModel` to precache model and not crash the game (like on GMOD)
+- Added update checker both for git commits and releases
+- Fixed inventory items failing to restore on transition/or crashing the game
+- Fixed `cl_playermodel` not defaulting to coat on new game/spawn (which caused funny stuff like randomly becoming krotchy on a freeroam map)
+- Fixed a crash when Dogs get hurt and they are in a squad
+- Fixed animals creating no knocked out ragdolls and becoming braindead
+- Fixed `ent_info player` crashing the game
+- Fixed arresting softlocking the player if they held a limb before (now it drops everything before arresting)
+- Fixed vaulting over softlocking the player while they were spamming jumping and kicking
+- Fixed being able to jump while arresting
+- Added non-dev console message when `select_weapon` fails
+- Updated FPS Autoshotgun
+- FPS Animations and Models are now merged with Ultrapatch (manually enabling the addon is no longer required)
+- Fixed URL panel closing other ImGui panels
 
 
 ## v0.1
