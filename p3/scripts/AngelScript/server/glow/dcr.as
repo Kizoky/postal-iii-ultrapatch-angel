@@ -33,7 +33,7 @@ class CGlow_dcr : CGlowCore
 		CP3SObj@ ml = mission_logic.GetP3SObj();
 			
 		// Gather every cat
-		array<CBaseEntity@> cats = gEntList.FindEntsByName("animal_cat");
+		array<CBaseEntity@>@ cats = gEntList.FindEntsByName("animal_cat");
 		for (uint i = 0; i < cats.length(); i++)
 		{
 			AttachGlow(cats[i], CollectColor());

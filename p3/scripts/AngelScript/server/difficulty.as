@@ -73,7 +73,7 @@ class CDifficulty : IPostal3Script
 		bool escort = false;
 		
 		CP3SObj@ self = GetContextCaller();
-		if (self != null)
+		if (@self != @null)
 		{
 			if (self.HasAttr("ea_escort"))
 			{

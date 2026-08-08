@@ -55,7 +55,7 @@ void AreaEvent(CP3SObj@ center, string EventName, float Radius)
     Radius = Radius * 32;
     EventName.insert(0, "OnAE_");
 
-    array<CP3SObj@> aNPC = GetArrayOfEntitiesRadius(@center, Radius);
+    array<CP3SObj@>@ aNPC = GetArrayOfEntitiesRadius(@center, Radius);
     for (uint i = 0; i < aNPC.length(); i++)
     {
         if ( @aNPC[i] == @null )

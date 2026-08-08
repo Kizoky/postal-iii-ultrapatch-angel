@@ -12,7 +12,7 @@ class NPCUtils : IPostal3Script
 		float dist = 99999999.0f;
 		CP3SObj@ targ = null;
 		
-		array<CP3SObj@> aNPC = GetArrayOfEntitiesRadius(@self, 1024.0f);
+		array<CP3SObj@>@ aNPC = GetArrayOfEntitiesRadius(@self, 1024.0f);
 		for (uint i = 0; i < aNPC.length(); i++)
 		{
 			if ( @aNPC[i] == @null )
@@ -50,7 +50,7 @@ class NPCUtils : IPostal3Script
 		float dist = 99999999.0f;
 		CP3SObj@ targ = null;
 		
-		array<CP3SObj@> aNPC = GetArrayOfEntitiesRadius(@self, 1024.0f);
+		array<CP3SObj@>@ aNPC = GetArrayOfEntitiesRadius(@self, 1024.0f);
 		for (uint i = 0; i < aNPC.length(); i++)
 		{
 			if ( @aNPC[i] == @null )
@@ -88,7 +88,7 @@ class NPCUtils : IPostal3Script
 		float dist = 99999999.0f;
 		CP3SObj@ targ = null;
 		
-		array<CP3SObj@> aNPC = GetArrayOfEntitiesRadius(@self, 1024.0f);
+		array<CP3SObj@>@ aNPC = GetArrayOfEntitiesRadius(@self, 1024.0f);
 		for (uint i = 0; i < aNPC.length(); i++)
 		{
 			if ( @aNPC[i] == @null )
@@ -123,7 +123,7 @@ class NPCUtils : IPostal3Script
 		float dist = 99999999.0f;
 		CP3SObj@ targ = null;
 		
-		array<CP3SObj@> aNPC = GetArrayOfEntitiesRadius(@self, 1024.0f);
+		array<CP3SObj@>@ aNPC = GetArrayOfEntitiesRadius(@self, 1024.0f);
 		for (uint i = 0; i < aNPC.length(); i++)
 		{
 			if ( @aNPC[i] == @null )

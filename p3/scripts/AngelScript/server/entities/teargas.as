@@ -50,7 +50,7 @@ class CTearGas : IPostal3Script
 			}
 		}
 		
-		array<CP3SObj@> arr = GetArrayOfEntitiesSphere(be_self.WorldSpaceCenter(), fTearGas_Radius);
+		array<CP3SObj@>@ arr = GetArrayOfEntitiesSphere(be_self.WorldSpaceCenter(), fTearGas_Radius);
 		for (uint i = 0; i < arr.length(); i++)
 		{
 			//Printf("'%s'\n", arr[i].GetBaseEntity().GetClassName());
@@ -63,11 +63,11 @@ class CTearGas : IPostal3Script
 			if (arr[i].IsValid() == false)
 				continue;
 			
-			if (@arr[i] == self)
+			if (@arr[i] == @self)
 				continue;
 			
 			// Owners shouldn't get affected
-			if (@arr[i] == owner)
+			if (@arr[i] == @owner)
 				continue;
 			
 			// affects only NPCs or Players, items or props shouldn't sweat

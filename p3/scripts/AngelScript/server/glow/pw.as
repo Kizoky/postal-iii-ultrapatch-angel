@@ -52,7 +52,7 @@ class CGlow_pw : CGlowCore
 			PrintInstructorHint("Defend Ron", "icon_caution", "icon_alert", "ron");
 			
 			// Gather every hockey mom and attach glow onto them
-			array<CBaseEntity@> moms = gEntList.FindEntsByName("mom");
+			array<CBaseEntity@>@ moms = gEntList.FindEntsByName("mom");
 			for (uint i = 0; i < moms.length(); i++)
 			{
 				AttachGlow(moms[i], EnemyColor());
