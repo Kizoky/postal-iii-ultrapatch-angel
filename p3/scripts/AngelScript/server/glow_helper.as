@@ -1,5 +1,8 @@
 #include "glow/glow_core.as"
 
+// Generic
+#include "glow/generic.as"
+
 // Pre-path
 #include "glow/pw.as"
 #include "glow/dcr.as"
@@ -59,6 +62,13 @@ class CGlowHelper : IPostal3Script
 			}
 		}
 		
+		// Make a fallback to the generic class
+		if (!bGlowSupported)
+		{
+			bGlowSupported = true;
+			class_format = "CGlow_Generic";
+		}
+		
 		if (bGlowSupported)
 		{
 			// not instantenous
@@ -98,14 +108,43 @@ class CGlowHelper : IPostal3Script
 		if (!bGlowSupported)
 			return;
 		
-		if (gpGlobals.curtime < TimeUntilGlow)
-			return;
+		if (cv_glow_inst.GetInt() == 0)
+		{
+			if (gpGlobals.curtime < TimeUntilGlow)
+				return;
+		}
 		
-		if (bApplyGlowOnSpawn)
+		if (bApplyGlowOnSpawn || cv_glow_inst.GetInt() == 1)
 		{
 			EHANDLE handle = pEntity;
 			
 			CreateContextClass(class_format, "OnSpawn", handle);
+		}
+	}
+	
+	[HOOK NPC OnFSMStart GLOBAL]
+	void OnFSMStart()
+	{
+		if (cv_glow.GetBool() == false)
+			return;
+		
+		CP3SObj@ self = GetContextCaller();
+		if (@self == @null)
+			return;
+			
+		if (!bGlowSupported)
+			return;
+		
+		if (cv_glow_inst.GetInt() == 0)
+		{
+			if (gpGlobals.curtime < TimeUntilGlow)
+				return;
+		}
+			
+		if (bApplyGlowOnSpawn || cv_glow_inst.GetInt() == 1)
+		{
+			EHANDLE handle = self.GetBaseEntity();
+			CreateContextClass(class_format, "OnFSMStart", handle);
 		}
 	}
 }
