@@ -1,0 +1,7 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Weapons/M60/M60_Body"
+	"$nocull" "1"
+	"$alphatest" "1"
+	"$alphatestreference" "0.02"
+}
