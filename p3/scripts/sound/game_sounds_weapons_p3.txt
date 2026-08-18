@@ -542,11 +542,7 @@
 	"volume"		"VOL_NORM"
 	"soundlevel"	"SNDLVL_NORM"
 
-	"rndwave"
-	{
-		"wave"		"weapons/m60/m-60_reload_01.wav"
-		"wave"		"weapons/m60/m-60_reload_02.wav"
-	}
+	"wave"		"weapons/m60/m60_reload.wav"
 }
 
 "Weapon_M60.Burst"
