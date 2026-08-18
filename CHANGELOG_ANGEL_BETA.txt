@@ -30,9 +30,10 @@ CHANGELOG_ANGEL_v1.3.0.txt will also get extended
 - NPCs no longer avoid arrested NPCs in their pathfinding
 - NPCs no longer avoid Bees in their pathfinding (this also solves issues like NPCs wiggling from left to right sometimes)
 - Updated M249 FPS model
-- Fixed M60's texture's alpha channel being horizontally flipped which made the weapon look off
+- Fixed M60's texture's alpha channel being horizontally shifted which made the weapon look off
 - Fixed M60's bipod blades not being transparent
-
+- Fixed the M60's reload soundscript using the M249 reload sound
+- Added a thirdperson reload animation to the M60
 
 
 ## v0.2
