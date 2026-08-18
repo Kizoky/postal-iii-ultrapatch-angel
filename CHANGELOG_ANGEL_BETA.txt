@@ -1,6 +1,40 @@
 Changelogs between hotfixes will appear here
 CHANGELOG_ANGEL_v1.3.0.txt will also get extended
 
+## v0.3
+
+- Game no longer allows to load Vanilla/pre-Ultrapatch save files (this was done because people kept loading old saves which caused crashes)
+- Fixed `p3_ultrapatch_precache_voice` precaching garbage string and non-existent files
+- Added `p3_ultrapatch_precache_voice_log`, logs successfully precached files as well as non-existent ones for debugging
+- Fixed a crash on the main menu if some script files are missing (like the difficulty one) or when the host is completely offline and cannot fetch updates
+- p3increaseprecache.dll: Fixed sound precache over 8192 actually working and not turning everything into grabbing random sounds (thanks Grizzle!)
+- AngelScript: Disallow value assign for ref types (to increase stability and prevent crashes)
+- AngelScript: Added hook `NPC::OnFSMStart`, fires after NPC's AI has been ran for over 3 seconds, perfect place to check for relationships or targets on "spawn" which normally you can't do because of P3S
+- Script: Fixed Glow system not obeying the instant cvar
+- Script: Added a generic Glow system fallback for maps that aren't supported by default, it checks for Player and escort haters, as well as checks for escorts and gives them glow color
+- Fixed Fart gun missing conscious min and max values
+- Fixed Taser taking ammo when reloading not taking the reloading duration's into account
+- Fixed Player forever reloading the Taser if holstered while being fired and then deployed
+- Fixed bugs when Taser's max clip size is not -1 (recommended to set it to 1, higher values are not tested and it might be janky)
+- Picking up other Tasers while max clip size is not -1 will now give +1 clip size always
+- AngelScript: Fixed `int GetEffects()` in `CBaseEntity@` using the wrong function
+- `p3_ultrapatch_act_debug` now also shows the cycling time for active layers
+- Added `host_thread_mode 0` to autoexec cfg
+- Optimized various vmts for materials (f_nude_nazi, salad prop)
+- Fixed pizza inventory item pickup for PA, PWAC, and roam_police maps
+- Added Achievement Debugger (Can be accessed via `Insert key -> Windows -> Achievement Debugger`)
+- Failed achievements now display a console message
+- Fixed a crash when Player saves the game with a Tank's attachment already destroyed then attempts to load same save file
+- Fixed game crashing when Karma changes path (from Good to Evil or vice versa)
+- Fixed game crashing when Bees were present on the map (When NPCs were trying to avoid active Bees)
+- NPCs no longer avoid arrested NPCs in their pathfinding
+- NPCs no longer avoid Bees in their pathfinding (this also solves issues like NPCs wiggling from left to right sometimes)
+- Updated M249 FPS model
+- Fixed M60's texture's alpha channel being horizontally flipped which made the weapon look off
+- Fixed M60's bipod blades not being transparent
+
+
+
 ## v0.2
 
 - Fixed a crash when trying to look up difficulties
