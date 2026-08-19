@@ -129,7 +129,7 @@ behavior
 					actions
 					{
 						ExecutePattern weaponGive.CW
-						EntFireInput "pcc,Command:give p3_weapon_axe"
+						EntFireInput "pcc,Command:give p3_weapon_fireaxe"
 					}
 				}
 				
