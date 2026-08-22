@@ -6,10 +6,12 @@
 {
 	"shopvac_suckin"
 	{
+		"origin"		"string"
 	}
 
 	"shopvac_spitout"
 	{
+		"origin"		"string"
 	}
 
 	"OnDialogYesNo"
