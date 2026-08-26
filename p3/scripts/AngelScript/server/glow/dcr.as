@@ -14,7 +14,7 @@ class CGlow_dcr : CGlowCore
 			return;
 			
 		CBaseEntity@ pEnt = pEntity.GetEntity();
-		if (pEnt.GetClassName() == "p3_npc_cat")
+		if (pEnt.GetClassname() == "p3_npc_cat")
 		{
 			AttachGlow(pEnt, CollectColor());
 		}
