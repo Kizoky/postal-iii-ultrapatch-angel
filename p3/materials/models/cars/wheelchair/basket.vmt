@@ -1,0 +1,7 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Cars/wheelchair/basket"
+	"$alphatest" "1"
+	"$alphatestreference" "0.4"
+	"$nocull" "1"
+}

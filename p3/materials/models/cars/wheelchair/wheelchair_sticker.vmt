@@ -1,0 +1,5 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Cars/wheelchair/wheelchair"
+	"$translucent" "1"
+}
