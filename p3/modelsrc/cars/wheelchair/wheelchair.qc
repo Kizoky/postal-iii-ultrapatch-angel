@@ -2,6 +2,8 @@
 
 $ModelName "cars/wheelchair/wheelchair.mdl"
 
+$origin 0 0 0 90
+
 $BodyGroup "Body"
 {
 	studio "LOD0.smd"
@@ -269,5 +271,7 @@ $CollisionModel "phys.smd"
 	$maxconvexpieces 9
 
 }
+
+$Include "DefineBones.qci"
 
 $Include "DefineBones.qci"
