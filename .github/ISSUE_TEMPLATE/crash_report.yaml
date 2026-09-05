@@ -24,7 +24,7 @@ body:
 - type: "textarea"
   attributes:
     label: "Steps To Reproduce"
-    description: "The exact steps to reproduce the bug"
+    description: "The exact steps to reproduce the crash"
     placeholder: "1.) Go to pdb\n2.) Take aim at military"
   validations:
     required: true
