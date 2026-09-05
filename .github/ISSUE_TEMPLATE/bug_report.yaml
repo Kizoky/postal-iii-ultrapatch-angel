@@ -1,0 +1,33 @@
+name: "Bug Report"
+fields:
+- type: "markdown"
+  attributes:
+    value: "## Bug Report\nWhen something in-game goes wrong."
+- type: "input"
+  attributes:
+    label: "Ultrapatch Version"
+    description: "The version of the game (v0.2 ModDB, v0.3 GitHub with build number, latest GitHub build as of writing etc..)"
+    placeholder: "v0.3 GitHub (b592c)"
+  validations:
+    required: true
+- type: "input"
+  attributes:
+    label: "Operating System"
+    description: "Windows or Linux/Mac via Wine/Proton"
+    placeholder: "Windows 11 25H2 (26200.9168)"
+  validations:
+    required: true
+- type: "textarea"
+  attributes:
+    label: "Steps To Reproduce"
+    description: "The exact steps to reproduce the bug"
+    placeholder: "1.) Go to pdb\n2.) Take cover"
+  validations:
+    required: true
+- type: "textarea"
+  attributes:
+    label: "More information"
+    description: "Is there anything more relevant information?"
+    placeholder: "Dude only t-poses when viewing from a certain angle"
+  validations:
+    required: false
