@@ -3,8 +3,7 @@ description: "File a bug report."
 title: "[Bug]: "
 labels: ["bug"]
 projects: ["angel"]
-type: bug
-fields:
+body:
 - type: "markdown"
   attributes:
     value: "## Bug Report\nWhen something in-game goes wrong."
