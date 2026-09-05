@@ -257,7 +257,7 @@ CBaseEntity@ SpawnDynamicProp(string model, int health = 0, string parent = "nul
 	CBaseEntity@ prop = CreateEnt("prop_dynamic_override");
 	if (@prop != @null)
 	{
-		string sHealth; sHealth.format("%d", health);
+		string sHealth = FormatString("%d", health);
 		prop.KeyValue( "health", sHealth );
 		prop.KeyValue( "model", model );
 		

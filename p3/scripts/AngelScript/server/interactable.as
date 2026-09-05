@@ -35,7 +35,7 @@ class Interactable_AidKit : IPostal3Script
 		
 		if (name.length() <= 0)
 		{
-			string newName; newName.format("aidkit_auto_%d", baseEnt.GetEntIndex());
+			string newName = FormatString("aidkit_auto_%d", baseEnt.GetEntIndex());
 			
 			baseEnt.SetName(newName);
 			
@@ -57,8 +57,7 @@ class Interactable_AidKit : IPostal3Script
 		int num = 1;
 		for (uint i = 0; i < AID_KIT_MAX_ATTACHMENTS; i++)
 		{
-			string attachee;
-			attachee.format("item%d", num++);
+			string attachee = FormatString("item%d", num++);
 			
 			Vector vecTemp;
 			QAngle angTemp;

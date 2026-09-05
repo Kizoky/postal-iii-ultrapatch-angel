@@ -56,7 +56,8 @@ class CGlowHelper : IPostal3Script
 			if (map == supported_glow[i])
 			{
 				bGlowSupported = true;
-				class_format.format("CGlow_%s", map);
+				
+				class_format = FormatString("CGlow_%s", map);
 				
 				break;
 			}

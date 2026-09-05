@@ -1,0 +1,33 @@
+// The type for the stats by default is integer
+// You can specify 3 types:
+// "Type"	"integer"
+// "Type"	"float"
+// "Type"	"boolean"
+
+// Stats supports multiple languages (TODO), you can use 
+// "Display"	"#STATS_DISPLAY_KILLS"
+
+"stats"
+{
+	// name of the stat
+	"kills"
+	{
+		// The text to display
+		"Display"	"Overall Kills:"
+	}
+	
+	"human_kills"
+	{
+		"Display"	"People Killed:"
+	}
+	
+	"animal_kills"
+	{
+		"Display"	"Animals Killed:"
+	}
+	
+	"headshots"
+	{
+		"Display"	"Headshots:"
+	}
+}

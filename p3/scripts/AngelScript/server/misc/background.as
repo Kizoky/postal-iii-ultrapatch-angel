@@ -10,8 +10,7 @@ class CBackgroundMap : IPostal3Script
 			string map = gpGlobals.mapname;
 			map.toLower();
 		
-			string funcName;
-			funcName.format("background_%s", map);
+			string funcName = FormatString("background_%s", map);
 			
 			//server.DelayedExecution(0.0f, "CBackgroundMap", funcName, null);
 			CallContext("CBackgroundMap", funcName);
