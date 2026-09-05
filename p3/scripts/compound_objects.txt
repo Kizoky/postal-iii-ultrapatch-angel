@@ -9,7 +9,7 @@
 //Additional parameters can be used for a few effects like "lock", "sleep", "class, "disableshadows", and "overridescript"
 //"lock" isn't very well understood. It does something odd with welding and constraints.
 //"sleep" sets the sleep flag on a physics prop. This will disable the prop from being able to move until a physics interaction "wakes it up"
-//"class" seems to be exclusively used to define if a prop is meant to be replaced for a static prop in a map. An example of this is "Boss_set_01e" which is used in city hall. A static prop of the same model should be placed in Hammer where your prop defined should be. Upon loading the map the physics prop is removed leaving the other props seemingly attached to the static prop.
+//"class" seems to be exclusively used to define if a prop is meant to be placed as a static prop in a map. An example of this is "Boss_set_01e" which is used in city hall. Similar to p3_prop_tree, where the "model" gets turned into a static prop and placed, the model set to be static class will be turned into a static prop and placed in the map.
 //"disableshadows" is self-explanatory. seems to disable shadows and is usually used on cabinet doors it looks like.
 //"Overridescript" seems to only be used to change the mass of a selected prop. Might have other uses but hasn't been tested.
 //Ultrapatch and UP+Angel specifically add a parameter called "motion" that can be used to disable motion of a prop. Used on "saguaro_01" to prevent the cacti from "running away" while retaining their breakability.
