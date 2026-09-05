@@ -1,0 +1,37 @@
+name: "Crash Report"
+description: "File a crash report."
+title: "[Crash]: "
+labels: ["bug", "crash"]
+projects: ["angel"]
+body:
+- type: "markdown"
+  attributes:
+    value: "## Crash Report\nWhen the game crashes."
+- type: "input"
+  attributes:
+    label: "Ultrapatch Version"
+    description: "The version of the game (v0.2 ModDB, v0.3 GitHub with build number, latest GitHub build as of writing etc..)"
+    placeholder: "v0.3 GitHub (b592c)"
+  validations:
+    required: true
+- type: "input"
+  attributes:
+    label: "Operating System"
+    description: "Windows or Linux/Mac via Wine/Proton"
+    placeholder: "Windows 11 25H2 (26200.9168)"
+  validations:
+    required: true
+- type: "textarea"
+  attributes:
+    label: "Steps To Reproduce"
+    description: "The exact steps to reproduce the bug"
+    placeholder: "1.) Go to pdb\n2.) Take aim at military"
+  validations:
+    required: true
+- type: "textarea"
+  attributes:
+    label: "More information"
+    description: "Is there anything more relevant information?"
+    placeholder: "Game only crashes if NPCs are killed"
+  validations:
+    required: false
