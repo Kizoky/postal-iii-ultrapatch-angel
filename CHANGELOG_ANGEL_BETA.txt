@@ -34,6 +34,73 @@ CHANGELOG_ANGEL_v1.3.0.txt will also get extended
 - Fixed M60's bipod blades not being transparent
 - Fixed the M60's reload soundscript using the M249 reload sound
 - Added a thirdperson reload animation to the M60
+- Added HL2 jeep (ch_createjeep)
+- Fixed CW not giving the fireaxe (Vanilla oversight)
+- Fixed vehicles (like the HL2 jeep) still glowing after entering them
+- Fixed Player getting ragdolled while inside a vehicle (non-Segways only)
+- Player is now forced to exit the Segway before ragdolling
+- Added Cuda model from Alpha leak
+- Postal3Script: Fixed P3S pointer for weapons becoming invalid after save/load or transition
+- Fixed game crashing if p3 save icon panel is missing and trying to save
+- Added flame sound for Spray alternative attack Weapon_Spray.Flame
+- Added smoke trail for Grenades when thrown
+- Fixed hold pos being screwed for Cat Weapon
+- Postal3Script: Added P3S event `OnSmellsLikeCatnip` when Catnip spray is applied onto Human NPCs
+- Postal3Script: P3S event `OnApplyCatnip` no longer fires when the Cat is takeable (is high)
+- Cats will now go after animals that had been catnip applied onto
+- Fixed not being able to dismember corpses with the Fireaxe
+- Fireaxe will no longer smash heads
+- Fireaxe will now always gib
+- Ported over Flashbang implementation from CR, this uses the model `models/Weapons/flashbang/flashbang.mdl`, NPCs are stunned for 5 seconds
+- Fixed Gasoline and Sprays dropping onto the floor if the Player has full ammo but no owned weapon of those types when trying to pick them up
+- Fixed Gasoline ammo not appearing on the UI properly after Holster/Deploy
+- Fixed the hold pos for the Grenade being borked if stayed near wall when holstered
+- Hammer no longer gibs
+- Hammer always smashes head
+- Hammer now causes screen shake when destroying heads
+- Postal3Script: Added P3S area events for Laserpen for these unused modes: `WhistleMotorhead`; `WhistleChamp` (`Whistle` remains unchanged when changed to All type)
+- Can no longer attach cats onto M249
+- Machete now always collides with NPCs while attacking
+- Added `OnThrown` p3s event for meta weapons when they are being thrown
+- Fixed *mostly* the Bulky weapon, should be less broken now
+- Fixed being able to suck in invisible objects with the Shopvac
+- Added `origin` param for `shopvac_` events (ModEvents.res) (x, y ,z)
+- Shovel no longer gibs heads (don't confuse it with smashing which is different)
+- Nerfed Weemote's burst loss rate (from 20 to 40)
+- Nerfed Spray flame distance from 50 to 35
+- AngelScript: Fixed AngelScript VGUI huds absolutely not functioning
+- AngelScript: Fixed crashes when trying to use scriptified VGUI huds
+- AngelScript: Fixed `ExamplePanel` always getting created
+- Added p3_vehicle_wheelchair (WIP, spawnable via p3_ultrapatch_spawn_wheelchair)
+- AngelScript: Fixed an issue where VGUI panels would be just shown as a black rectangle (reloads the hud scheme on first tick)
+- AngelScript: VGUI panels can now embed HudLayout data via `string LAYOUT_<param>` variables, they must absolutely be a string
+- AngelScript: Added `vgui::HealthPanel`
+- AngelScript: Added implicit (auto) and manual casting between vgui panels
+- AngelScript: Renamed `CBaseEntity::GetClassName` to `CBaseEntity::GetClassname`
+- AngelScript: Casting between `CHudElement` and `vgui::Panel` is now possible
+- `wj_c_angelscript_recompile` is now functional and acts like the alternative cvar (there's no difference between these two on client)
+- AngelScript: VGUI panels now get deleted when recompiling
+- AngelScript: Registered `CBaseEntity`, `CBasePlayer`, `CBaseCombatCharacter`, `CBaseCombatWeapon`, `CP3Player`, `CP3Weapon`, `CFSMItemProp` and `CWJProp` for client-side AngelScript along with (most) of their methods
+- AngelScript: Added `CBasePlayer@ GetLocalPlayer()` global function
+- Disabled the HL2 hint system (the one that's trying to give Half-Life 2 hints to the Player, not actual HUD element)
+- Updated FPS bare hands anims
+- Updated FPS sniper rifle anims
+- Corrected an error in compound prop doc
+- Fixed the game crashing due to AngelScript's broken string implementation
+- Added Catharsis Reborn style Stats system, stats get properly saved onto save file, only the server knows about all the Players stats, on client it is entirely local only
+- Added experimental new loading screen which overrides Vanilla loading screens from gameui.dll (Not enabled by default, you can use `-newloading` to test it out, uses UI/loadingscreen.res as scheme)
+- Nav generation now also takes Player clips into account (previously it only took NPC clips into account)
+- AngelScript: Added a way to get and clear input keys (gHud, input)
+- AngelScript: Registered some client-side `engine` functions
+- AngelScript: Fixed cached functions not purging on recompile
+- AngelScript: Fixed broken string formatting, it is now advised to always use `FormatString`
+- AngelScript: Fixed float formatting (%.f, %.2f, %.4f, etc...)
+- AngelScript: Registered `InButtons_t` enum
+- Fixed weapons crashing after going transit (was reproducable going from pdb -> pw)
+- Fixed Weapon janitor crashing the game sometimes
+- Fixed a crash when NPCs use melee weapons
+- Added new loading screen (can be used with `-newloading` as currently it is experimental)
+
 
 
 ## v0.2
