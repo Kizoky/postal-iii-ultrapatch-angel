@@ -10,6 +10,7 @@ CHANGELOG_ANGEL_v1.3.0.txt will also get extended
 - Fixed Cats that are part of Player's weapon not transferring over
 
 
+
 ## v0.3
 
 - Game no longer allows to load Vanilla/pre-Ultrapatch save files (this was done because people kept loading old saves which caused crashes)
