@@ -1,7 +1,7 @@
 Changelogs between hotfixes will appear here
 CHANGELOG_ANGEL_v1.3.0.txt will also get extended
 
-## v0.4
+## v0.3 Hotfix 1
 
 - Fixed Cats and Motorhead duplicating everytime Player went through a transition zone
 - Fixed Motorhead being glued onto the Player's hands
