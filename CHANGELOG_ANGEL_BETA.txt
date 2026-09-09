@@ -8,6 +8,7 @@ CHANGELOG_ANGEL_v1.3.0.txt will also get extended
 - Cats (in correct order) and Motorhead now remember their P3S attributes and other data
 - Fixed some children of ea_transition P3S entities not travelling through
 - Fixed Cats that are part of Player's weapon not transferring over
+- Fixed a crash inside Postal3Script when loading between maps (after finishing a mission)
 
 
 
