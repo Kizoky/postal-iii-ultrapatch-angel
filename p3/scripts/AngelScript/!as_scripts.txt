@@ -39,6 +39,8 @@ const int AS_MOD_VERSION = 0;
 #include "shared/glow_cvars.as"
 
 #include "client/engine.as"
+#include "client/stats_panel.as"
+
 #include "shared/team.as"
 
 

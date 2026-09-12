@@ -50,4 +50,11 @@ class CAngelItems : IPostal3Script
 		
 		Heal(nu_health);
 	}
+	
+	void OnStatsUse()
+	{
+		CP3Player@ pPlayer = cast<CP3Player@>(self.GetBaseEntity());
+		
+		server.ClientCommand("p3_ultrapatch_stats_open 1\n", pPlayer);
+	}
 }

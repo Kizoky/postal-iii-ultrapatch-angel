@@ -1,6 +1,15 @@
 // Collection of utils made for Catharsis Reborn originally - Kizoky
 //#include "utils_enums.as"
 
+void IncrementStat(string stat, CBasePlayer@ player)
+{
+	AngelStat@ pStat = GetAngelStat(stat, player);
+	if (@pStat != @null)
+	{
+		pStat.IncrementInt();
+	}
+}
+
 CBaseEntity@ CreateInventoryItem(string itemType, bool bLockedInPlace = false)
 {
 	//string a = formatInt(itemType);

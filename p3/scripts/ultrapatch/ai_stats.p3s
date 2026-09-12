@@ -1,0 +1,49 @@
+behavior
+{
+	name bh_angelitem_stats
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						State st_start
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+					}
+					events
+					{
+						OnUse			"Pattern pt_used"
+					}
+				}
+				
+				pt_used
+				{
+					actions
+					{						
+						AngelScript "Object:myowner CAngelItems OnStatsUse"
+						
+						State st_start
+					}
+				}
+			}
+		}
+	}
+}

@@ -12,7 +12,8 @@ class Player : IPostal3Script
 	[HOOK Player Spawn]
 	void Spawn()
 	{
-		
+		if (self.HasItem("angel::stats") == false)
+			self.GiveItem("angel::stats");
 	}
 	
 	// Went through transition, or loaded a save game

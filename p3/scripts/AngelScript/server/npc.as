@@ -11,7 +11,49 @@ class NPC : IPostal3Script
 	[HOOK NPC Event_Killed]
 	void Event_Killed(const CTakeDamageInfo&in info)
 	{
-		
+		// For Stats clipboard
+		CP3SObj@ attacker = self.GetAttacker();
+		if (@attacker != @null)
+		{
+			CP3Player@ player = attacker.GetPlayerPtr();
+			if (@player != @null)
+			{
+				IncrementStat("kills", player);
+				
+				bool bCheckHeadshot = false;
+				
+				if (self.IsAnimal())
+				{
+					IncrementStat("animal_kills", player);
+					bCheckHeadshot = true;
+				}
+				else if (self.IsHuman())
+				{
+					IncrementStat("human_kills", player);
+					bCheckHeadshot = true;
+				}
+				
+				if (bCheckHeadshot)
+				{
+					CP3SObj@ attacker_wpn = self.GetAttackerWeapon();
+					if (@attacker_wpn != @null)
+					{
+						// Firearms only, headshots don't count towards melee weapons
+						if (attacker_wpn.GetAttr("ea_WeaponRanged") == 0)
+							return;
+						
+						CBaseCombatCharacter@ pBCC = cast<CBaseCombatCharacter@>(self.GetBaseEntity());
+						if (@pBCC != @null)
+						{
+							if (pBCC.LastHitGroup() == HITGROUP_HEAD)
+							{
+								IncrementStat("headshots", player);
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 	
 	[HOOK NPC OnTakeDamage]

@@ -44,19 +44,28 @@ class SEngine : IClient
 		
 	}
 	
+	void CreateAngelPanels()
+	{
+		CreateVGUI_ScriptedPanel("CStatsPanel", "Resource/AngelScript/UI/Hud/stats_panel.res", GetP3Viewport());
+		
+		
+		client.ClientCommand("hud_reloadscheme\n");
+	}
+	
 	// Whenever the scripts are recompiled
 	// Usually during loading a game from a save file
 	[HOOK SEngine Recompile]
 	void Recompile()
 	{
-		
+		CreateAngelPanels();
 	}
 	
 	// Called when the game starts up and AngelScript successfully compiled
 	[HOOK SEngine PostInit]
 	void PostInit()
 	{
-		
+		//CreateNewAchievement("ACH_CURIOUS_BASTARD", 50, false, 50);
+		CreateAngelPanels();
 	}
 	
 	// Game events when fired

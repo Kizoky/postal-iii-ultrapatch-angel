@@ -1,0 +1,13 @@
+UnlitGeneric
+{
+	$basetexture "vgui/hud/statspanel"
+
+   	 $translucent 1
+
+    	$vertexcolor 1
+   	 $vertexalpha 1
+   	 $ignorez 1
+   	 $no_fullbright 1
+	
+   	 $nomip 1
+}
