@@ -4,8 +4,8 @@
 // "Type"	"float"
 // "Type"	"boolean"
 
-// Stats supports multiple languages (TODO), you can use 
-// "Display"	"#STATS_DISPLAY_KILLS"
+// Stats supports multiple languages, you can use 
+// "Display"	"#STATS_KILLS"
 
 "stats"
 {
@@ -13,21 +13,21 @@
 	"kills"
 	{
 		// The text to display
-		"Display"	"Overall Kills:"
+		"Display"	"#STATS_KILLS"
 	}
 	
 	"human_kills"
 	{
-		"Display"	"People Killed:"
+		"Display"	"#STATS_HUMAN_KILLS"
 	}
 	
 	"animal_kills"
 	{
-		"Display"	"Animals Killed:"
+		"Display"	"#STATS_ANIMAL_KILLS"
 	}
 	
 	"headshots"
 	{
-		"Display"	"Headshots:"
+		"Display"	"#STATS_HEADSHOTS"
 	}
 }
