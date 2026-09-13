@@ -1,0 +1,15 @@
+"VertexLitGeneric"
+{
+	"$basetexture" "models/Characters/Champ/champ_collar"
+	//"$bumpmap" "models/Characters/Champ/champ_normal"
+		
+	"$phong" "1"
+	"$phongexponent" 12
+	"$phongboost"	"5"
+	"$phongfresnelranges"	"[0.1 0.5 1.0]"
+
+	"$rimlight" "1"
+	"$rimlightboost" "1"	
+}
+
+#base "materials/models/burned_fabric.vmt"
