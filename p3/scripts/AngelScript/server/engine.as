@@ -120,4 +120,41 @@ class SEngine : IPostal3Script
 	{
 	
 	}
+	
+	[HOOK SEngine OnDoorSpawned]
+	void OnDoorSpawned(string name, CBaseEntity@ pDoor)
+	{
+	
+	}
+	
+	[HOOK SEngine OnDoorDestroyed]
+	void OnDoorDestroyed(string name, Vector pos, CBaseEntity@ destroyer)
+	{
+		if (@destroyer != @null)
+		{
+			CBasePlayer@ pPlayer = cast<CBasePlayer@>(destroyer);
+			if (@pPlayer != @null)
+			{
+				IncrementStat("doors_destroyed", pPlayer);
+			}
+		}
+	}
+	
+	[HOOK SEngine LevelInitComplete]
+	void LevelInitComplete()
+	{
+	
+	}
+	
+	[HOOK SEngine OnP3STimer]
+	void OnP3STimer(string timer)
+	{
+		// AngelScript-created P3S timers will be executed here when they hit zero
+	}
+	
+	[HOOK SEngine GameRulesInit]
+	void GameRulesInit()
+	{
+	
+	}
 }

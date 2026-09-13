@@ -30,4 +30,29 @@
 	{
 		"Display"	"#STATS_HEADSHOTS"
 	}
+	
+	"knockouts"
+	{
+		"Display"	"#STATS_KNOCKOUTS"
+	}
+	
+	"human_knockouts"
+	{
+		"Display"	"#STATS_HUMAN_KNOCKOUTS"
+	}
+	
+	"animal_knockouts"
+	{
+		"Display"	"#STATS_ANIMAL_KNOCKOUTS"
+	}
+	
+	"humans_butchered"
+	{
+		"Display"	"#STATS_HUMAN_BUTCHERINGS"
+	}
+	
+	"doors_destroyed"
+	{
+		"Display"	"#STATS_DOORS_DESTROYED"
+	}
 }

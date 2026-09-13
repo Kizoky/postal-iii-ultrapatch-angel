@@ -85,6 +85,49 @@ class NPC : IPostal3Script
 	[HOOK NPC Event_Unconscious]
 	void Event_Unconscious(const CTakeDamageInfo&in info)
 	{
-		
+		// For Stats clipboard
+		CP3SObj@ attacker = self.GetAttacker();
+		if (@attacker != @null)
+		{
+			CP3Player@ player = attacker.GetPlayerPtr();
+			if (@player != @null)
+			{
+				IncrementStat("knockouts", player);
+				
+				if (self.IsAnimal())
+				{
+					IncrementStat("animal_knockouts", player);
+				}
+				else if (self.IsHuman())
+				{
+					IncrementStat("human_knockouts", player);
+				}
+			}
+		}
+	}
+	
+	// Called when AI has been ran for over 3 seconds
+	// perfect place to check for attributes or to set other states as P3S has been initialized completely
+	[HOOK NPC OnFSMStart]
+	void OnFSMStart()
+	{
+	
+	}
+	
+	// Called when NPCs get dismembered (Humans only!) and die pathetically in the process
+	// This calls before Event_Killed is called, you can check for the last hit group here to see what animation is being played
+	[HOOK NPC OnButchered]
+	void OnButchered(const CTakeDamageInfo&in info)
+	{
+		// For Stats clipboard
+		CP3SObj@ attacker = self.GetAttacker();
+		if (@attacker != @null)
+		{
+			CP3Player@ player = attacker.GetPlayerPtr();
+			if (@player != @null)
+			{
+				IncrementStat("humans_butchered", player);
+			}
+		}
 	}
 }

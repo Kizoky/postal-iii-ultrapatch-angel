@@ -78,4 +78,17 @@ class Player : IPostal3Script
 	{
 	
 	}
+	
+	[HOOK Player OnWeaponDeployOnce]
+	void OnWeaponDeployOnce()
+	{
+	
+	}
+	
+	// Called when Player's ragdoll (not dead) tries getting through Player or other solid clips
+	[HOOK Player OnOutOfBoundary]
+	void OnOutOfBoundary()
+	{
+	
+	}
 }
