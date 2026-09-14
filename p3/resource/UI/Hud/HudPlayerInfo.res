@@ -38,8 +38,8 @@
     {
 		"ControlName" 	"Label"
 		"fieldName"		"InvItemAmount"
-		"xpos"			"110" //r235
-		"ypos"			"165"
+		"xpos"			"148" //r235
+		"ypos"			"166"
 		"wide"			"64"
 		"tall"			"48"
 		"wrap"			"0"
@@ -50,7 +50,7 @@
 		"tabPosition"	"0"
 		"labelText"		"1234"
 		"Font" 			"piMedium"
-		//"textAlignment"	"center"
+		"textAlignment"	"center"
         "centerwrap" 	"0"
 	}
 	
@@ -79,10 +79,26 @@
 	{
         "ControlName" 	"ImagePanel"
 		"fieldName"		"InvItemImage"
-		"xpos"			"110" // 630
-		"ypos"			"100" // use 68
-		"wide"			"64"
-		"tall"			"64"
+		"xpos"			"111"
+		"ypos"			"105"
+		"wide"			"72"
+		"tall"			"72"
+		"image"			"sprites/pizza.vtf"
+        
+		"scaleImage" 	"1"
+        "visible"		"1"
+		"enabled"		"1"
+	}
+	
+	// Shows instead of InvItemImage if item is singular and has no stacks
+	"InvItemImageSingular"
+	{
+	    "ControlName" 	"ImagePanel"
+		"fieldName"		"InvItemImageSingular"
+		"xpos"			"105"
+		"ypos"			"105"
+		"wide"			"80"
+		"tall"			"80"
 		"image"			"sprites/pizza.vtf"
         
 		"scaleImage" 	"1"
