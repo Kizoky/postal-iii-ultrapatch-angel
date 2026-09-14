@@ -20,9 +20,7 @@ class Player : IPostal3Script
 	[HOOK Player OnRestore]
 	void OnRestore()
 	{
-		// TODO: Remove this when we fixed changelevel bug
-		if (self.HasItem("angel::stats") == false)
-			self.GiveItem("angel::stats");
+
 	}
 	
 	//[HOOK Player TranslateActivity]
