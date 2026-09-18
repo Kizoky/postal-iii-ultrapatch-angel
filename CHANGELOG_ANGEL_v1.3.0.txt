@@ -2,6 +2,8 @@ https://www.moddb.com/mods/postal-iii-ultrapatch/downloads/postal-iii-ultrapatch
 ==============
 v1.3.0: (Note: skipped version v1.2.0 on purpose, consider Ultrapatch+Angel v1.3.0 to be the main version of Ultrapatch from now on)
 
+NOTE: Check for BETA changelog for continuation, this won't be updated until 1.3.0 actually gets released as final
+
 ## Highlights  
 - Made PhysX disabled by default and completely non-functional (won't fix in the future)
 - New features and fixes for the AngelScript implementation

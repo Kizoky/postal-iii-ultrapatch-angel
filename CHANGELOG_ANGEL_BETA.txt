@@ -1,6 +1,43 @@
 Changelogs between hotfixes will appear here
 CHANGELOG_ANGEL_v1.3.0.txt will also get extended
 
+## v0.4
+
+- Re-enabled PhysX code (must have `-physx` as command param, not recommended to use)
+- Fixed a crash inside Crosshair
+- 'Fixed' a crash when trying to blow up a Human NPC that got snatched by a Cat or Monkey
+- Fixed unconscious then dead ragdolls forgetting no gibs attribute, which resulted in infinite corpses when shot at
+- Fixed ragdolled (but not knocked out) NPCs (non-Human) not having P3S pointer when killed (Just like with Humans, animal corpses now also remember manner, faction, and their original name set in Hammer or scripts)
+- Fixed non-Human NPCs not having their ragdoll's collision group set to as ragdoll
+- Fixed dead Human NPC's no gib attribute not carrying over to their dead ragdoll
+- Added p3_ultrapatch_crosshair_draw cvar convar, hides crosshair
+- Fixed Motorhead weapon being broken when throwing or dropping Motorhead
+- Updated FPS laserpen anims
+- Stats now support multi languages (unicode/localization) (Added p3/scripts/ultrapatch/p3_ultrapatch_stats_%language%.txt for localization)
+- Added `cl_reload_localization_files` con command
+- Added `p3_(c_)ultrapatch_stats_reload` con command (for debugging purposes)
+- Added inventory item Stats clipboard, added for the Player by default and can't be dropped
+- AngelScript: Added bool CP3SObj::GiveItem(string, int 1)
+- AngelScript: Added bool CP3SObj::HasItem(string)
+- AngelScript: Added bool CP3SObj::RemoveItem(string, int -1)
+- AngelScript: Added CP3SObj@ CP3SObj::GetAttacker()
+- AngelScript: Added CP3SObj@ CP3SObj::GetAttackerWeapon()
+- AngelScript: Getting FSM pointer from CBaseEntity and from Script Object wrapper now checks if FSM pointer is valid
+- Script: Added missing hooks for Player, NPC, and SEngine
+- AngelScript: Added hook NPC OnButchered, calls before Event_Killed and during when NPCs play the death drama animations
+- AngelScript: Hook OnDoorDestroyed now has a third parameter for accepting CBaseEntity@ which is the destroyer or cause of destruction
+- Fixed NPCs trying to get sequence for ACT_INVALID(-1)
+- Added missing VMT for Champ's collar
+- Fixed Inventory items always resetting their P3S data on transition/save load
+- Fixed Angel prop items forgetting P3S data on transition/save load
+- Fixed entities that are forced to go with the Player not transferring when no landmarks or transition zones are present on current map
+- Fixed weapon P3S data being forgotten on mission end
+- Fixed Cats and Motorhead not transferring with the Player on mission end
+- Postal3Script: Added ea_no_suppress, forces a transferred entity to not be suppressed if on level load it is outside the world
+- Updated the positioning of inventory items on the HUD a little bit
+
+
+
 ## v0.3 Hotfix 1
 
 - Fixed Cats and Motorhead duplicating everytime Player went through a transition zone
