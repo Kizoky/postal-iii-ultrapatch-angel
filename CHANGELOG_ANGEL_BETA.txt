@@ -35,7 +35,7 @@ CHANGELOG_ANGEL_v1.3.0.txt will also get extended
 - Fixed Cats and Motorhead not transferring with the Player on mission end
 - Postal3Script: Added ea_no_suppress, forces a transferred entity to not be suppressed if on level load it is outside the world
 - Updated the positioning of inventory items on the HUD a little bit
-
+- Fixed the game crashing and creating crash dumps everytime it has shut down
 
 
 ## v0.3 Hotfix 1
