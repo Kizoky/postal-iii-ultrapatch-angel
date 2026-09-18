@@ -27,7 +27,7 @@ CHANGELOG_ANGEL_v1.3.0.txt will also get extended
 - AngelScript: Added hook NPC OnButchered, calls before Event_Killed and during when NPCs play the death drama animations
 - AngelScript: Hook OnDoorDestroyed now has a third parameter for accepting CBaseEntity@ which is the destroyer or cause of destruction
 - Fixed NPCs trying to get sequence for ACT_INVALID(-1)
-- Added missing VMT for Champ's collar
+- Updated burn overlay for Champ's collar
 - Fixed Inventory items always resetting their P3S data on transition/save load
 - Fixed Angel prop items forgetting P3S data on transition/save load
 - Fixed entities that are forced to go with the Player not transferring when no landmarks or transition zones are present on current map
