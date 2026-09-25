@@ -1,0 +1,71 @@
+"p3_animprops.txt"
+{
+	"params"
+	{
+		// colorcorection побитости игрока
+		//"cc_health"
+		//{
+		//	args		"player_health"
+		//}
+		//
+		//// colorcorection побитости игрока
+		//"cc_hurt"
+		//{
+		//	args		"player_hurt"
+		//}
+
+		// colorcorection ядерного взрыва
+		"cc_nuke"
+		{
+			args		"nuke"
+		}
+
+		// colorcorection фотовспышки
+		"cc_flashlight"
+		{
+			args		"flashlight"
+		}
+
+		"fov"
+		{
+		}
+
+		"mb_strength"
+		{
+		}
+
+		"expl_blur"
+		{
+		}
+	}
+
+	"animations"
+	{
+		//"health"
+		//{
+		//	cc_health	"curve L 0.2 0.2 L 0.4 0.4 0.6 0.6 E 1 1"
+		//}
+		//
+		//"hurt"
+		//{
+		//	cc_hurt		"curve L 0 0 E 0.2 1 S 0.5 0"
+		//	fadein		"0.1"
+		//	fadeout		"0.1"
+		//}
+
+		"nuke"
+		{
+			cc_nuke		"curve L 0 0 L 0.1 1 L 0.4 0.5 E 0.8 0"
+			expl_blur	"curve L 0 0 E 0.1 10 L 0.3 10 S 0.5 0"
+			fadein		"0.1"
+			fadeout		"0.5"
+		}
+
+		"flashlight"
+		{
+			cc_flashlight "curve L 0 0 L 0.05 1 L 0.1 1 E 0.2 0"
+			fadein		"0.1"
+			fadeout		"0.1"
+		}
+	}
+}
