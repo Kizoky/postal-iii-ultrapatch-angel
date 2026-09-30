@@ -1,7 +1,7 @@
 Changelogs between hotfixes will appear here
 CHANGELOG_ANGEL_v1.3.0.txt will also get extended
 
-## v0.4
+## v1.3.0 (v0.4)
 
 - Re-enabled PhysX code (must have `-physx` as command param, not recommended to use)
 - Fixed a crash inside Crosshair
@@ -60,10 +60,12 @@ CHANGELOG_ANGEL_v1.3.0.txt will also get extended
 - AngelScript: Added `const` function versions for `const CTakeDamage`
 - AngelScript: Added global function `CWJProp@ ToWJProp(CBaseEntity@)`
 - AngelScript: Added global function `GibEntity(CBaseEntity@ Whom, int material, float shakeDur, int gibCount)`
+- Player model is now visible through the mirror while in FPS mode (HL2 mode)
+- Re-enabled shadow while in FPS mode
+- Increased NPC Squad size from 32 to 256
 
 
-
-## v0.3 Hotfix 1
+## v1.3.0 (v0.3 Hotfix 1)
 
 - Fixed Cats and Motorhead duplicating everytime Player went through a transition zone
 - Fixed Motorhead being glued onto the Player's hands
@@ -74,7 +76,7 @@ CHANGELOG_ANGEL_v1.3.0.txt will also get extended
 
 
 
-## v0.3
+## v1.3.0 (v0.3)
 
 - Game no longer allows to load Vanilla/pre-Ultrapatch save files (this was done because people kept loading old saves which caused crashes)
 - Fixed `p3_ultrapatch_precache_voice` precaching garbage string and non-existent files
@@ -176,7 +178,7 @@ CHANGELOG_ANGEL_v1.3.0.txt will also get extended
 
 
 
-## v0.2
+## v1.3.0 (v0.2)
 
 - Fixed a crash when trying to look up difficulties
 - Fixed a crash when a P3S pointer is null and it tries to fire an event inside itself
@@ -199,6 +201,6 @@ CHANGELOG_ANGEL_v1.3.0.txt will also get extended
 - Fixed URL panel closing other ImGui panels
 
 
-## v0.1
+## v1.3.0 (v0.1)
 
 - Initial release
