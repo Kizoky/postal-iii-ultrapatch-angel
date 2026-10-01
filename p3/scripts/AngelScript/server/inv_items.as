@@ -2,6 +2,12 @@
 
 const int PIZZA_USE = 5;
 const int PISSY_PIZZA_USE = 1;
+const int SALAD_USE = 10;
+const int PISSY_SALAD_USE = 1;
+const int JOINT_USE = 50;
+const int MEDKIT_USE = 100;
+const int OXYCODONE_USE = 150;
+const int METH_USE = 110;
 
 class CAngelItems : IPostal3Script
 {
@@ -47,6 +53,48 @@ class CAngelItems : IPostal3Script
 	void OnPissyPizzaUse()
 	{
 		int nu_health = CalcPizza(PISSY_PIZZA_USE);
+		
+		Heal(nu_health);
+	}
+	
+	void OnSaladUse()
+	{
+		int nu_health = CalcPizza(SALAD_USE);
+		
+		Heal(nu_health);
+	}
+	
+	void OnPissySaladUse()
+	{
+		int nu_health = CalcPizza(PISSY_SALAD_USE);
+		
+		Heal(nu_health);
+	}
+	
+	void OnJointUse()
+	{
+		int nu_health = CalcPizza(JOINT_USE);
+		
+		Heal(nu_health);
+	}
+	
+	void OnMedkitUse()
+	{
+		int nu_health = CalcPizza(MEDKIT_USE);
+		
+		Heal(nu_health);
+	}
+	
+	void OnOxycodoneUse()
+	{
+		int nu_health = CalcPizza(OXYCODONE_USE);
+		
+		Heal(nu_health);
+	}
+	
+	void OnMethUse()
+	{
+		int nu_health = CalcPizza(METH_USE);
 		
 		Heal(nu_health);
 	}

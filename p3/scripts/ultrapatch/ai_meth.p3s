@@ -1,0 +1,63 @@
+behavior
+{
+	name bh_angelitem_meth
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						State st_start
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+					}
+					events
+					{
+						OnUse			"Pattern pt_used"
+					}
+				}
+				
+				pt_used
+				{
+					actions
+					{
+						SetAttr "ownr_hp myowner.ea_health"
+						SetAttr "ownr_maxhp myowner.ea_maxhealth"
+						
+						IfAttr "ownr_hp < ownr_maxhp Block begin"
+							// This is inside AngelScript because P3S is too slow in execution
+							AngelScript "Object:myowner CAngelItems OnMethUse"
+							
+							// TODO: add sound here
+							//EmitSound cat_meow
+							
+							// Remove -1 from the stack, adjust new attributes on use
+							Item use
+						Block end
+						
+						State st_start
+					}
+				}
+				
+			}
+
+		}
+	}
+}
