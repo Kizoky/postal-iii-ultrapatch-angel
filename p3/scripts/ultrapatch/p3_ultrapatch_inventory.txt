@@ -108,7 +108,7 @@
 																// Some events (like OnDrop) and functions might stop working properly if disabled
 																
 			"model"			"models/small_things/salad.mdl"	// The inventory item's new model, this can be left blank to use the model provided by the mapper or scripter
-			"icon"			"hud/salad"							// Used by client, the icon for the inventory item to display
+			"icon"			"hud/inventory/salad"							// Used by client, the icon for the inventory item to display
 			
 			// Properties of the inventory item to keep track of uniqueness of each stacked item
 			// When picked up the game checks if such p3s attribute exists, if yes then it'll save this property
@@ -165,7 +165,7 @@
 																// Some events (like OnDrop) and functions might stop working properly if disabled
 																
 			"model"			"models/small_things/joint.mdl"	// The inventory item's new model, this can be left blank to use the model provided by the mapper or scripter
-			"icon"			"hud/joint"							// Used by client, the icon for the inventory item to display
+			"icon"			"hud/inventory/joint"							// Used by client, the icon for the inventory item to display
 			
 			// Properties of the inventory item to keep track of uniqueness of each stacked item
 			// When picked up the game checks if such p3s attribute exists, if yes then it'll save this property
@@ -222,7 +222,7 @@
 																// Some events (like OnDrop) and functions might stop working properly if disabled
 																
 			"model"			"models/small_things/medkit.mdl"	// The inventory item's new model, this can be left blank to use the model provided by the mapper or scripter
-			"icon"			"hud/medkit"							// Used by client, the icon for the inventory item to display
+			"icon"			"hud/inventory/medkit"							// Used by client, the icon for the inventory item to display
 			
 			// Properties of the inventory item to keep track of uniqueness of each stacked item
 			// When picked up the game checks if such p3s attribute exists, if yes then it'll save this property
@@ -279,7 +279,7 @@
 																// Some events (like OnDrop) and functions might stop working properly if disabled
 																
 			"model"			"models/small_things/oxycodone.mdl"	// The inventory item's new model, this can be left blank to use the model provided by the mapper or scripter
-			"icon"			"hud/oxycodone"							// Used by client, the icon for the inventory item to display
+			"icon"			"hud/inventory/oxy"							// Used by client, the icon for the inventory item to display
 			
 			// Properties of the inventory item to keep track of uniqueness of each stacked item
 			// When picked up the game checks if such p3s attribute exists, if yes then it'll save this property
@@ -336,7 +336,7 @@
 																// Some events (like OnDrop) and functions might stop working properly if disabled
 																
 			"model"			"models/small_things/meth.mdl"	// The inventory item's new model, this can be left blank to use the model provided by the mapper or scripter
-			"icon"			"hud/meth"							// Used by client, the icon for the inventory item to display
+			"icon"			"hud/inventory/meth"							// Used by client, the icon for the inventory item to display
 			
 			// Properties of the inventory item to keep track of uniqueness of each stacked item
 			// When picked up the game checks if such p3s attribute exists, if yes then it'll save this property
