@@ -63,6 +63,34 @@ CHANGELOG_ANGEL_v1.3.0.txt will also get extended
 - Player model is now visible through the mirror while in FPS mode (HL2 mode)
 - Re-enabled shadow while in FPS mode
 - Increased NPC Squad size from 32 to 256
+- Massively improved game stability
+- Postal3Script: Added `ea_onfire` to check for on fire entities with P3S scripting (note: `ignite` has been renamed to this)
+- Fixed deploy sound playing twice for the Player
+- Fixed a crash inside commentary system when non-existent event is being fired
+- Added `rappelonspawn` keyvalue for Citizen NPCs, automatically forces NPCs to rappel the moment they are spawned in
+- Postal3Script: NPCs' P3S scripting is now suspended while under rappel
+- Added point entity `rappel_moveto` to force rappel NPCs to move to to the nearest point entity with this target name
+- Fixed gibbed ragdolls being regibbed again, which would spawn blood flow effect everytime you shot at them, and torsos jumping in the air
+- Fixed blasted ragdolls mistakenly thinking they got gibbed when they weren't
+- Improved NPC pathfinding, NPCs are now less likely to get stuck in a linear line
+- Fixed a crash when NPCs try to get path to or from target which was null
+- Postal3Script is now integrated into weapons, they do not consume +1 edict slot (2) per weapon anymore
+- Postal3Script: Fixed pointers for weapons getting lost (p3s data loss) when dropped or when going through transition
+- Postal3Script: `Sequence` now supports looping for sequences that do not have loop set in model qc (ex.: `Sequence ev_video,loop` or `Sequence seq.env_video_machine,30:60,loop`)
+- The new loading screen is now 1:1 with GameUI loading panel
+- Fixed hidden NPCs (from being ragdolled or from being unconscious) drawing shadows causing to spawn a giant shadow blob terrorizing maps
+- Fixed translucent UI elements appearing on the left upper corner 
+- (GitHub only) Asserts are no longer enabled from now on, AngelScript remains unaffected
+- Fixed a rare crash when Ragdoll LRU was kicked into the sun
+- Fixed damage that would ragdoll NPCs deal zero consciousness attacks to NPCs with `ea_noragdoll` flag
+- Fixed knocking Krotchy unconscious not ending the mission and made it take more than 4 hits to knock him out (note: while its possible to knock him out with punches, kicks, and the baton its really hard).
+- Krotchy no longer ragdolls
+- Fixed boltons drawing shadows while owner is being hidden
+- Added `p3_ultrapatch_ragdoll_self_collide`, enables or disables ragdoll self collision (by default it is disabled)
+- Ragdolls no longer collide with themselves by default (to save performance)
+- Greatly improved client prediction for Multiplayer, it is still WIP but at least prediction does not have to be turned off anymore
+- Animation and camera related things now feel much more smooth than before
+- Angel's new loading screen is now the default one, to disable it use `-oldloading`
 
 
 ## v1.3.0 (v0.3 Hotfix 1)
