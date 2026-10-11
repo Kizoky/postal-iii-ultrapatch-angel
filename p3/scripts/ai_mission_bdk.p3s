@@ -384,6 +384,8 @@ behavior
 						SetAttr "flag_zombie 1"
 						SetAttr "flag_boss 1"
 						SetAttr "voice_pitch 1"
+						SetAttr	"ea_noragdoll 1"
+						SetAttr	"ea_consc_absorb 75"
 						
 						AvoidProhibitedArea true
 						TargetPlayer 1
@@ -1034,6 +1036,7 @@ behavior
 		OnIgnite "ExecutePattern st_util.xpt_OnIgnite"
 		OnTimer_grenade_cntr "SetAttr ThrownGrenade 0"
 		//OnLost "MoveToTargetLKP run" // возращается назад даже за хрен занет где и оттуда начинает все по новому
+		OnUnconscious	"ExecutePattern st_OnDeath.pt_default"
 	}
 	
 }
