@@ -1,6 +1,7 @@
 "UnlitGeneric"
 {
-    "$basetexture" "skybox/2007_Sunset_01up"
-    "$nofog" 1
-    "$ignorez" 1
+	"$basetexture" "skybox/Sunset_01up"
+	"$nofog" 1
+	"$ignorez" 1
+	"$basetexturetransform" "center .5 .5 scale -1 1 rotate 90 translate 0 0"
 }
