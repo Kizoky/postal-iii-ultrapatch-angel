@@ -63,7 +63,7 @@ CHANGELOG_ANGEL_v1.3.0.txt will also get extended
 - Player model is now visible through the mirror while in FPS mode (HL2 mode)
 - Re-enabled shadow while in FPS mode
 - Increased NPC Squad size from 32 to 256
-- Massively improved game stability
+- Massively improved game stability, the game is much less likely to crash now
 - Postal3Script: Added `ea_onfire` to check for on fire entities with P3S scripting (note: `ignite` has been renamed to this)
 - Fixed deploy sound playing twice for the Player
 - Fixed a crash inside commentary system when non-existent event is being fired
