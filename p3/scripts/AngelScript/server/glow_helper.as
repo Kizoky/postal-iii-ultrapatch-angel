@@ -145,6 +145,8 @@ class CGlowHelper : IPostal3Script
 		if (bApplyGlowOnSpawn || cv_glow_inst.GetInt() == 1)
 		{
 			EHANDLE handle = self.GetBaseEntity();
+			// Only the generic class implements its own OnFSMStart function
+			// but we do this anyway
 			CreateContextClass(class_format, "OnFSMStart", handle);
 		}
 	}

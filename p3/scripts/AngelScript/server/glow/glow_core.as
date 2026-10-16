@@ -7,7 +7,21 @@ class CGlowCore : IPostal3Script
 		// Don't want to add hidden entities...
 		if ((Whom.GetEffects() & EF_NODRAW) != 0)
 			return;
+			
+		CP3SObj@ p3s = Whom.GetP3SObj();
+		if (@p3s != @null)
+		{
+			// Will make the hidden NPC of the ragdoll glow, shouldn't do that probably
+			if (p3s.IsKnockedOut())
+				return;
+		}
 		
+		AddGlowEntity(Whom, clr);
+	}
+	
+	// This function only adds the glow, does not check for stuff like nodraw
+	void AddGlowEntity(CBaseEntity@ Whom, string clr)
+	{
 		CBaseEntity@ glow = CreateEnt("p3_glow");
 		if (@glow != @null)
 		{
@@ -17,6 +31,25 @@ class CGlowCore : IPostal3Script
 			Spawn(glow);
 			glow.Activate();
 		}
+	}
+	
+	// Intentionally blank, classes override this
+	void OnSpawn(EHANDLE pEntity)
+	{
+	}
+	
+	// Classes can also override this if needed
+	void OnFSMStart(EHANDLE pEntity)
+	{
+		CBaseEntity@ ent = pEntity.GetEntity();
+		if (@ent == @null)
+			return;
+			
+		CP3SObj@ p3s = ent.GetP3SObj();
+		if (@p3s == @null)
+			return;
+			
+		OnSpawn(pEntity);
 	}
 	
 	float spammy;

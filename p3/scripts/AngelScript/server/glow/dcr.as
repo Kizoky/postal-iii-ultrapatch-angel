@@ -45,6 +45,24 @@ class CGlow_dcr : CGlowCore
 		// New spawns should have glow from now on
 		bApplyGlowOnSpawn = true;
 	}
+	
+	void AttachGlow(CBaseEntity@ Whom, string clr)
+	{
+		// Check for dervish cats specifically, since base attachglow 
+		// will return from it since they are hidden while the effect is active
+		CP3SObj@ ptr = @Whom.GetP3SObj();
+		if (@ptr != @null)
+		{
+			if (ptr.GetAttr("ea_dervish") == 1)
+			{
+				AddGlowEntity(Whom, clr);
+				return;
+			}
+		}
+	
+		BaseClass::AttachGlow(Whom, clr);
+	}
+	
 	///\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 	///\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 }
