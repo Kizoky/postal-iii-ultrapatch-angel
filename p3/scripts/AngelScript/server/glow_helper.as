@@ -138,7 +138,7 @@ class CGlowHelper : IPostal3Script
 					// Remove all the glow we spawned ourselves
 					for (uint i = 0; i < glow_ents.size(); i++)
 					{
-						CBaseEntity@ ptr = @glow_ents[i];
+						CBaseEntity@ ptr = glow_ents[i];
 						if (@ptr == @null)
 							continue;
 						
