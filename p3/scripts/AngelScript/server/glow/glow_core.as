@@ -1,4 +1,7 @@
 
+// supported maps
+array<EHANDLE> glow_ents;
+
 [HIDDEN]
 class CGlowCore : IPostal3Script
 {
@@ -30,6 +33,10 @@ class CGlowCore : IPostal3Script
 			
 			Spawn(glow);
 			glow.Activate();
+			
+			// Remember the glowies
+			EHANDLE handle = glow;
+			glow_ents.insertLast(handle);
 		}
 	}
 	

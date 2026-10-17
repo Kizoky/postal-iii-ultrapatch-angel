@@ -20,6 +20,11 @@ array<string> supported_glow = {
 "sbe" // escort
 };
 
+// Glow shouldn't trigger on these maps, even the generic version one
+array<string> blacklist = {
+	"roam_"
+};
+
 bool bApplyGlowOnSpawn;
 
 [HIDDEN]
@@ -51,6 +56,25 @@ class CGlowHelper : IPostal3Script
 		
 		string map = gpGlobals.mapname;
 		map.toLower();
+		
+		bool bBlacklist = false;
+		
+		// Check for blacklisted maps first...
+		for (uint i = 0; i < blacklist.size(); i++)
+		{
+			if (map.findFirst(blacklist[i]) >= 0)
+			{
+				bBlacklist = true;
+				break;
+			}
+		}
+		
+		if (bBlacklist)
+		{
+			Printf("P3 Glow: Map is blacklisted from having Glow System enabled.\n");
+			return;
+		}
+		
 		for (uint i = 0; i < supported_glow.size(); i++)
 		{
 			if (map == supported_glow[i])
@@ -98,22 +122,61 @@ class CGlowHelper : IPostal3Script
 				bApplyGlowOnSpawn = true;
 			}
 		}
+		
+		if (@cvar == @cv_glow)
+		{
+			// Added this check just to ensure we don't do delayed executions twice on start up
+			if (gpGlobals.curtime > 3.0f)
+			{
+				if (cv_glow.GetInt() >= 1)
+				{
+					// TODO: Potentially causes duplicate delayed executions
+					LevelInitPreEntity();
+				}
+				else
+				{
+					// Remove all the glow we spawned ourselves
+					for (uint i = 0; i < glow_ents.size(); i++)
+					{
+						CBaseEntity@ ptr = @glow_ents[i];
+						if (@ptr == @null)
+							continue;
+						
+						Remove(ptr);
+					}
+					
+					glow_ents.removeRange(0, glow_ents.size());
+					
+					TimeUntilGlow = -1.0f;
+					bGlowSupported = false;
+					bApplyGlowOnSpawn = false;
+				}
+			}
+		}
+	}
+	
+	bool ShouldGlow()
+	{
+		if (cv_glow.GetBool() == false)
+			return false;
+		
+		if (!bGlowSupported)
+			return false;
+		
+		if (cv_glow_inst.GetInt() == 0)
+		{
+			if (gpGlobals.curtime < TimeUntilGlow)
+				return false;
+		}
+		
+		return true;
 	}
 	
 	[HOOK SEngine OnEntitySpawn]
 	void OnEntitySpawn(CBaseEntity@ pEntity)
 	{	
-		if (cv_glow.GetBool() == false)
+		if (!ShouldGlow())
 			return;
-			
-		if (!bGlowSupported)
-			return;
-		
-		if (cv_glow_inst.GetInt() == 0)
-		{
-			if (gpGlobals.curtime < TimeUntilGlow)
-				return;
-		}
 		
 		if (bApplyGlowOnSpawn || cv_glow_inst.GetInt() == 1)
 		{
@@ -126,21 +189,12 @@ class CGlowHelper : IPostal3Script
 	[HOOK NPC OnFSMStart GLOBAL]
 	void OnFSMStart()
 	{
-		if (cv_glow.GetBool() == false)
+		if (!ShouldGlow())
 			return;
 		
 		CP3SObj@ self = GetContextCaller();
 		if (@self == @null)
 			return;
-			
-		if (!bGlowSupported)
-			return;
-		
-		if (cv_glow_inst.GetInt() == 0)
-		{
-			if (gpGlobals.curtime < TimeUntilGlow)
-				return;
-		}
 			
 		if (bApplyGlowOnSpawn || cv_glow_inst.GetInt() == 1)
 		{
