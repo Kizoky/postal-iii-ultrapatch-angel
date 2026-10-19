@@ -1,5 +1,5 @@
 // Item to spawn in place of the attachments
-const string AID_KIT_ITEM = "angel::pizza";
+const string AID_KIT_ITEM = "angel::medkit";
 
 // Maximum amount of attachments inside the model
 // Maximum amount of items to spawn
