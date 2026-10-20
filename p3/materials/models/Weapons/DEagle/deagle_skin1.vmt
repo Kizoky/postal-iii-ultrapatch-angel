@@ -2,5 +2,9 @@ VertexLitGeneric
 {
 	"$basetexture"	"models\weapons\DEagle\deagle_skin1"
 	"$envmap" "env_cubemap"
-	"$envmapmask" "models\weapons\DEagle\deagle_skin1_ref"
+	"$phong" "1"
+	"$basemapalphaphongmask" 1
+	"$phongexponent" 5
+	"$phongboost"	"2"
+	"$phongfresnelranges"	"[0.5 1 1]"
 }
