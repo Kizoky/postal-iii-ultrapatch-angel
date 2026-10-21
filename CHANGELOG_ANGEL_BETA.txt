@@ -91,6 +91,48 @@ CHANGELOG_ANGEL_v1.3.0.txt will also get extended
 - Greatly improved client prediction for Multiplayer, it is still WIP but at least prediction does not have to be turned off anymore
 - Animation and camera related things now feel much more smooth than before
 - Angel's new loading screen is now the default one, to disable it use `-oldloading`
+- Fixed disappearing coffee machine (roam_hub2)
+- Fixed bad lightingorigin keys on some doors (roam_hub2, PM1)
+- Updated Town's skybox to a restored version of 2007 build's
+- Fixed a crash when Grenade is dropped while active when Owner was killed
+- Fixed a crash when going through transitions (both in SP and especially MP)
+- Fixed an issue where the host in Multiplayer could not see the game but the server was still running in the background and stealing other Players identities
+- Disabled shadow depth textures (flashlight, projected textures) for all boltons
+- Reversed the vanilla PhysX initialization, it now requires `-physx` to use PhysX, instead of using it by default or needing to disable it via `-nophysx` which is now automatic
+- Added module (DLL) prefixes for console (`con_logprefix`, disabled by default)
+- Re-enabled phong values for SWAT's helmet
+- AngelScript: Improved the cache system
+- AngelScript: Added `bool CP3SObj::IsKnockedOut()`
+- AngelScript: Added `bool CP3SObj::IsRagdolled()`
+- AngelScript: Added support for `BaseClass::` (inspired by source) when calling into parent methods inside classes
+- Script: Fixed knocked out NPCs getting glow attached to them
+- Script: Fixed active dervish cats not having glow attached to them
+- Script: `roam_` maps (non-mission) no longer have the Glow system enabled
+- Script: Glow System will now re/deactivate on enable/disable (p3_ultrapatch_gameplay_glow)
+- Script: Glow System will now remove all the glow in-game instantly if disabled in settings
+- Added `-language` command line support
+- Added checks for ZOOM's `p3.dll` which tells users to delete the DLL and replace the exe with Ultrapatch's
+- Fixed rare client initialization error due to not finding Discord library DLL
+- Fixed being able to use client prediction on single player (the game is heavily server simulated, having this on just does worse than helps)
+- Added first aid boxes to `BDK`, `KMTD1`, and `Roam_Mall`
+- Moved `BDK` spawn position so the player isn't immediately shot before the game can even fade in
+- Fixed Shopvac's suck feature being crashaholic
+- It is now possible to suck in ragdolls (including knocked out NPCs) (`shopvac_suckragdolls`, cheat)
+- Fixed alive/unconscious ragdolls not being marked as alive after Save/Restore by the Janitor
+- Fixed Fart gun/Gamamet effect immediately stopping when not holding the attack button anymore
+- Fixed Weemote effects immediately stopping when not holding the attack button anymore
+- Improved Weemote splash impact effect timing
+- Updated FPS Deagle
+- Added phong values for the Deagle
+- Fixed not being able to gib heads that weren't attached to a torso
+- Fixed ragdoll damage not using `ea_gibs` p3s attribute (previously this was known as `ea_gibbed`)
+- P3S debugging now also shows some Ragdoll information (such as available limbs, is alive, unconscious, etc..)
+- Colt no longer gibs limbs nor smashes heads
+- Fixed ordinary (physics) props not setting their collision group to pushaway if their mass is less than what `p3_ultrapatch_pushaway_maxmass` allows
+- Fixed Player pushaway sending props into the moon (Tissues are still being pushed away on pw, just not as extreme as before)
+- Renamed certain console commands for pushaway, now it starts with `p3_ultrapatch_pushaway_`
+- Fixed Player being able to "pushaway" with physics masses higher than what `p3_ultrapatch_pushaway_maxmass` allowed
+- Fixed the new loading screen being inconsistent while loading maps in either SP or MP
 
 
 ## v1.3.0 (v0.3 Hotfix 1)
