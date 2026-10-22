@@ -1513,12 +1513,40 @@ behavior
 						//FireEvent ImOwner
 						//TargetToMem 7
 						
-						// Spawn a REAL shovel for Jen
-						AngelScriptWait "Object:self NPCUtils GiveWeapon p3_weapon_shovel"
-						WaitForEnd 1
+						// Check for a shovel if Jen does not have one..
+						SetAttr "__shovel 0"
+						IfHasWeapon "Object:self WPN_SHOVEL Block begin"
+							SetAttr "__shovel 1"
+						Block end
+						
+						IfAttr "__shovel == 0 Block begin"
+							AngelScriptWait "Object:self NPCUtils GiveWeapon p3_weapon_shovel"
+							WaitForEnd 1
+						Block end
+						
+						IfHasWeapon "Object:self WPN_SHOVEL Block begin"
+							SetAttr "__shovel 1"
+						Block end
+						
+						IfAttr "__shovel == 0 Block begin"
+							// what do you even do in this situation?
+						Block end
 						
 						// Set Jen's weapon non-lethal
-						SetAttr "target.ea_NonLethal 1"
+						IfAttr "__shovel == 1 Block begin"
+							Weapon arm
+							WaitForEnd 1
+							TargetItem 1
+							
+							// Make her shovel non-lethal, which makes absolutely no sense
+							SetAttr "target.ea_NonLethal 1"
+							
+							// Boost her unconscious damage values, since this weapon defies common sense
+							SetAttr "target.ea_consciousRateMin 30"
+							SetAttr "target.ea_consciousRateMax 45"
+						Block end
+						
+						RemoveAttr "__shovel"
 						
 						ResetTarget 1
 						ExecutePattern bh_base:st_start.xpt_FirstRun

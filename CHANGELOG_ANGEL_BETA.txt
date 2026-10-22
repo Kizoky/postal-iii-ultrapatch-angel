@@ -133,6 +133,8 @@ CHANGELOG_ANGEL_v1.3.0.txt will also get extended
 - Renamed certain console commands for pushaway, now it starts with `p3_ultrapatch_pushaway_`
 - Fixed Player being able to "pushaway" with physics masses higher than what `p3_ultrapatch_pushaway_maxmass` allowed
 - Fixed the new loading screen being inconsistent while loading maps in either SP or MP
+- Fixed mysterious consistent black screen crashes on startup (it was caused by DirectX 8 level setting)
+- Postal3Script: Added `ea_consciousRateMin` and `ea_consciousRateMax` to override Weapon consciousness rates on the fly
 
 
 ## v1.3.0 (v0.3 Hotfix 1)

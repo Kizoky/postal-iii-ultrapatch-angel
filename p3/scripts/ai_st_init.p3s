@@ -58,17 +58,38 @@ Constants
 	Const WPN_MOLOTOV,13
 	Const WPN_GAS,14
 	Const WPN_CATNIP,15
+	Const WPN_BANNER,16
 	Const WPN_BEES,17
+	Const WPN_BATON,18
 	Const WPN_KDOLL,19
 	Const WPN_HAMMER,20
 	Const WPN_LASER,21
+	Const WPN_MATCH,22
+	Const WPN_SNIPER,23
+	Const WPN_METABULKY,24
+	Const WPN_ONEHANDLED,25 // Items, Corpses, fake weapons
+	Const WPN_TWOHANDLED,26 // Unused, unfinished by vanilla game
 	Const WPN_MONKEY,27
+	Const WPN_PHOTOCAM,28
+	Const WPN_SEED,29		// Unused weapon for cut Pigeons
 	Const WPN_SHOPVAC,30
 	Const WPN_SPRAY,31
+	Const WPN_TVCAM,32
 	Const WPN_WEEMOTE,33
-	Const WPN_LAUNCHER,34
+	Const WPN_LAUNCHER,34	// Also known as M136
 	Const WPN_AXE,35
 	Const WPN_GAMAMET,36
+	// Angel/CR Weapons
+	Const WPN_FLASHLIGHT,37
+	Const WPN_COLT,38
+	Const WPN_TEARGAS,39
+	Const WPN_M249,40
+	Const WPN_AUTOSHOTGUN,41
+	Const WPN_CUBEMAP,42
+	Const WPN_PHYSGUN,43
+	Const WPN_NOTHING,44
+	
+	Const WPN_COUNT,45		// Total amount of weapons
 
 // WEAPON LEVELS
 	Const WEAPON_LEVEL_SCARY,20
