@@ -134,7 +134,17 @@ CHANGELOG_ANGEL_v1.3.0.txt will also get extended
 - Fixed Player being able to "pushaway" with physics masses higher than what `p3_ultrapatch_pushaway_maxmass` allowed
 - Fixed the new loading screen being inconsistent while loading maps in either SP or MP
 - Fixed mysterious consistent black screen crashes on startup (it was caused by DirectX 8 level setting)
-- Postal3Script: Added `ea_consciousRateMin` and `ea_consciousRateMax` to override Weapon consciousness rates on the fly
+- Postal3Script: Added `ea_consciousRateMin` and `ea_consciousRateMax` to override Weapon consciousness rates on the fly (only use it under special circumstances or you'll end up in spaghetti)
+- Fixed attack animation for the Deagle not playing in FPS mode
+- Fixed Sniper scope sound still playing after reaching the maximum or minimum limit
+- Adjusted Sniper's scroll per zoom from 16 to 4
+- Fixed Sniper not adjusting mouse sensitivity according to current Sniper scope (p3_ultrapatch_sniper_scope_sensitivity)
+- Fixed boltons disappearing in the mirror under FPS mode
+- Fixed aiming under FPS and Sniper mode not playing aiming animations for the Player world model
+- Fixed Player world model disappearing while under Sniper mode
+- Switching to FPS mode no longer plays ACT_VM_DRAW for weapons
+- Fixed aiming under FPS mode then switching to TPS then back to FPS would not play ACT_VM_ZOOM_IDLE animation
+- Fixed Players disappearing in multiplayer if they have enabled FPS mode
 
 
 ## v1.3.0 (v0.3 Hotfix 1)
