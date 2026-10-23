@@ -1002,11 +1002,13 @@ behavior
 					actions
 					{
 						TargetEntByName target_border
+						// Inherited state resets the taliban's hint group, don't do that - Kizoky
+						SetHintgroup hint_talib
 						Crouch  false
 						//Face true
 						FreeMovement false
 						FreeMovementParams hint_all,ED_VERY_CLOSE,5000,hint_group,hint_face,use_node
-						FreeMovement run
+						FreeMovement run,reset
 						Pattern pt_runloop
 					}
 				}
