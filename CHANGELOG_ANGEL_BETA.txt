@@ -145,6 +145,13 @@ CHANGELOG_ANGEL_v1.3.0.txt will also get extended
 - Switching to FPS mode no longer plays ACT_VM_DRAW for weapons
 - Fixed aiming under FPS mode then switching to TPS then back to FPS would not play ACT_VM_ZOOM_IDLE animation
 - Fixed Players disappearing in multiplayer if they have enabled FPS mode
+- NPCs now use a NextBot interface by default for pathfinding, this can be turned off via `p3_ai_nextbot` but generally not recommended unless testing something
+- Fixed Talibans that are trying to cross over the border will sometimes just standing still if they get stuck (Vanilla P3S bug, `HI`)
+- Optimized nav meshes for `HI`
+- NPCs will no longer attempt going through obstructed nav meshes (A -> B[Obstructed] -> C), unless they really have no other choice
+- Postal3Script: Added attribute `ea_IgnoreObstructNav` to force NPCs to not care about obstructed nav meshes
+- NPCs will now take prohibited areas into account when pathfinding
+
 
 
 ## v1.3.0 (v0.3 Hotfix 1)
