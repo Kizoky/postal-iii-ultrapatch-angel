@@ -130,14 +130,7 @@ class SEngine : IPostal3Script
 	[HOOK SEngine OnDoorDestroyed]
 	void OnDoorDestroyed(string name, Vector pos, CBaseEntity@ destroyer)
 	{
-		if (@destroyer != @null)
-		{
-			CBasePlayer@ pPlayer = cast<CBasePlayer@>(destroyer);
-			if (@pPlayer != @null)
-			{
-				IncrementStat("doors_destroyed", pPlayer);
-			}
-		}
+		IncrementStat("doors_destroyed", destroyer);
 	}
 	
 	[HOOK SEngine LevelInitComplete]

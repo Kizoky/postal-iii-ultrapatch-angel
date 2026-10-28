@@ -1,12 +1,19 @@
 // Collection of utils made for Catharsis Reborn originally - Kizoky
 //#include "utils_enums.as"
 
-void IncrementStat(string stat, CBasePlayer@ player)
+void IncrementStat(string stat, CBaseEntity@ whom)
 {
-	AngelStat@ pStat = GetAngelStat(stat, player);
-	if (@pStat != @null)
+	if (@whom != @null)
 	{
-		pStat.IncrementInt();
+		CBasePlayer@ pPlayer = cast<CBasePlayer@>(whom);
+		if (@pPlayer != @null)
+		{
+			AngelStat@ pStat = GetAngelStat(stat, pPlayer);
+			if (@pStat != @null)
+			{
+				pStat.IncrementInt();
+			}
+		}
 	}
 }
 
