@@ -1,6 +1,49 @@
 Changelogs between hotfixes will appear here
 CHANGELOG_ANGEL_v1.3.0.txt will also get extended
 
+## v1.3.0 (v0.5)
+
+- Fixed meta weapons (corpse, junk) creating shadows which caused glitchy shadows
+- Used some fixes from `https://developer.valvesoftware.com/wiki/Env_projectedtexture/fixes`
+- Fixed `nav_generate` crashing the game if AI was not disabled and level was not reset before
+- Fixed NPCs refusing to melee if Player is outside nav mesh
+- Fixed the loading screen being inconsistent and not always showing the loading map's background image
+- Made the ZOOM patch error more "clear" (when game detects p3.dll)
+- Various SDK fixes from the Valve wiki (`env_sun` disappearing when looking at it, negative viewmodel fov when using sniper, `func_precipitation` for monitors/cams)
+- Disabled the annoying "Press R to Reload" hint
+- Node graph rebuilding message now only appears under Developer setting
+- Fixed NPCs including forbidden areas for them in their pathfinding when calculating (locomotion still blocked them)
+- Fixed NPCs getting stuck trying to open doors
+- Fixed NPCs not being able to climb stairs
+- Script: Simplify IncrementStat function
+- Added `p3_ultrapatch_cam_arrest` to enable or disable the arrest camera animation
+- Fixed recompiling AngelScript manually both on client and server sometimes crashing the game
+- Fixed the Player switching to Empty Hands everytime they have arrested somebody
+- Fixed Arresting being completely broken
+- AngelScript: Fixed `CreateContext` and `CreateContextClass` always creating a fresh object if same class was used, getting some variables to be lost after execution
+- Postal3Script/AngelScript: Added the ability to network Postal3Script attributes over to clients, P3S attributes are NOT networked by default, they have to be specifically marked via `SetNetAttr` first in Postal3Script/AngelScript (server-side, from P3S pointer), then in AngelScript (client-side) be accessed via `GetNetAttr`/`HasNetAttr` (from `CBaseEntity` pointer)
+- Fixed some "active" decals not disappearing on displacements (Thanks Grizzle!)
+- Updated/Optimized nav files for the following maps: <all mission maps?>
+- `nav_generate` will now attempt to split and delete areas around obstacles such as cars, static props, and stationary dynamic props automatically, while this is not perfect this will produce a somewhat usable nav file, although it is still recommended to manually optimize the nav meshes for your map(s)
+- `nav_edit` now uses the camera's position and angle
+- `nav_show_area_info` value changed from 0.5 to 5.0 (for how many seconds the area info will be shown on screen for the current area under crosshair if nav_edit is on)
+- Nav mesh no longer generate automatically on top of cars (cars can fly into the air and sometimes drastically move from their spawn location if destroyed)
+- Added `p3_ultrapatch_nav_generate`, enables or disables Ultrapatch optimizations (see above) for nav generation
+- Added `nav_generate_avoid_cars`
+- Added `nav_generate_car_clearance`
+- Added `nav_generate_avoid_static_props`
+- Added `nav_generate_avoid_dynamic_props`
+- Added `nav_generate_cleanup`
+- Added `nav_generate_reconnect`, attempts to reconnect nav meshes (if applicable) during split work
+- Added `nav_generate_min_area_size`, minimum area size for carving and cleanup
+- Added `nav_generate_prop_clearance`, clearance for both static and dynamic props
+- Fixed Rhino being braindead when it stopped following pathtracks
+- Fixed NPCs moving in one place sometimes if their locomotion has no obstacle target
+- Added `nav_prohibited`, marks or unmarks an area prohibited manually which survives through `nav_save`
+- Fixed `nav_edit` cursor not being placed at the ground level
+- Player does not get ragdolled anymore while under noclip mode
+
+
 ## v1.3.0 (v0.4)
 
 - Re-enabled PhysX code (must have `-physx` as command param, not recommended to use)
