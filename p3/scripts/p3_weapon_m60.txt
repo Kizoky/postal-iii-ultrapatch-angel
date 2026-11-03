@@ -5,7 +5,7 @@ WeaponData
 	// Weapon data is loaded by both the Game and Client DLLs.
 	"ID"				"m60"
 	"printname"				""
-	"viewmodel"				"models/weapons/m60/v_m60.mdl"
+	"viewmodel"				"models/weapons/m60/c_m60.mdl"
 	"playermodel"			"models/weapons/m60/m60_uni.mdl"
 	"playermodel_lhand"		"models/weapons/m60/m60_left.mdl"
 	"anim_prefix"			"deagle"
