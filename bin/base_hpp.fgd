@@ -2028,7 +2028,9 @@
 @PointClass base(Targetname) size(-8 -8 -8, 8 8 8) = env_hudhint : 
 	"An entity to control the display of HUD hints. HUD hints are used to show the player what key is bound to a particular command."
 [
-	message(string) : "Hint Text (localized)" : "" : "This should be set to match the desired HUD hint entry in the hl2\resource\valve_english.txt."
+	// Ultrapatch+Angel
+	message(string) : "Hint Text (localized)" : "" : "This should be set to match the desired HUD hint entry in the p3\resource\p3_hints_english.txt."
+	onlyonce(string) : "Hint Displays Once Per Game" : "0" : "Should the hint be displayed everytime it was triggered, or just once per game."
 
 	// Inputs
 	input ShowHudHint(void) : "Shows the hint message."
@@ -3813,6 +3815,7 @@
 		8192: "Use closes" : 1
 		16384 : "Door silent to NPCS (Does not alert NPCs)" : 0
 		32768 : "Ignore player +USE" : 0
+		131072 : "Ignore player kick" : 0 // Ultrapatch+Angel
 	]
 
 	opendir(choices) : "Open Direction" : 0 : "Force the door to open only forwards or only backwards. Both directions is the standard door behavior." =
@@ -3820,6 +3823,27 @@
 		0 : "Open Both Directions"
 		1 : "Open Forward Only"
 		2 : "Open Backward Only"
+	]
+
+	// Ultrapatch+Angel
+	essential(choices) : "Essentialness" : 0 : "Protect the door from being destroyed even if not locked." =
+	[
+		0 : "Can Be Destroyed If Unlocked"
+		1 : "Cannot Be Destroyed Even If Unlocked"
+	]
+	
+	// Ultrapatch+Angel
+	forceclosedooralways(choices) : "Force Close" : 0 : "Force the Door to close even if it detects something is in it's way." =
+	[
+		0 : "Default Behavior"
+		1 : "Force Close Always"
+	]
+	
+	// Ultrapatch+Angel
+	reverseopening(choices) : "Reverse Opening" : 0 : "Forces the Door to open in a reversed way. (Only affects players)" =
+	[
+		0 : "Default Behavior"
+		1 : "Reverse Open"
 	]
 
 	// Outputs
@@ -3842,6 +3866,10 @@
 	input Unlock(void) : "Unlock the door."
 	input SetRotationDistance(float) : "Set the distance (in degrees) between Open and Closed."
 	input SetSpeed(float) : "Set the speed at which the door rotates. 100 is default."
+	
+	// Ultrapatch+Angel
+	input InputEssentialOn(void) : "Makes the door essential, unable to destroy it even if unlocked."
+	input InputEssentialOff(void) : "Makes the door not essential, makes it destroyable if it's not locked."
 ]
 
 

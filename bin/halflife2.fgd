@@ -3549,6 +3549,17 @@
 //-------------------------------------------------------------------------
 @BaseClass color(0 0 200) base(Targetname, Angles) sphere(fademindist) sphere(fademaxdist) = Weapon
 [
+	// Ultrapatch+Angel
+	input DisableItem(void) : "Disables and hides the item."	
+	input EnableItem(void) : "Enables and unhides the item."
+	
+	// Ultrapatch+Angel
+	StartDisabled(choices) : "Start Disabled" : 0 : "Whether to disable and hide the item on spawn or not." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	
 	spawnflags(Flags) =
 	[
 		1 : "Start constrained" : 0
