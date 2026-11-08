@@ -6,7 +6,7 @@
 "+moveleft"				"#Valve_Move_Left"
 "+moveright"			"#Valve_Move_Right"
 "+speed"             	"#Valve_Sprint"
-"+jump"					"#P3_Jump"
+"+jump"					"#Valve_Jump"
 "toggle_cover"					"#P3_Lean"
 "blank"			"=========================="
 "blank"			"#Valve_Combat_Title"
