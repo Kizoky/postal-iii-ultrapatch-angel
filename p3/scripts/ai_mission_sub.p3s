@@ -65,7 +65,7 @@ behavior
 		
 		st_start
 		{
-			Group Neutral1
+			Group Neutral
 			Patterns
 			{
 				pt_default

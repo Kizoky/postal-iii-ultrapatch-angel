@@ -144,7 +144,7 @@ behavior
 		
 		st_init_static
 		{
-			Group Neutarl
+			Group Neutral
 			Patterns
 			{
 				pt_default
