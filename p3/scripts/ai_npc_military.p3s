@@ -1,0 +1,1103 @@
+Constants
+{
+    Const DIST_CHECK_FAIL,1
+}
+behavior  //military
+{
+	name bh_military
+	inherited bh_human
+	states
+	{
+		st_init
+		{
+			Group Combat
+			Patterns
+			{
+				pt_default
+				{
+					actions 
+					{
+						SetAttr "UnderFire 0" // по дефолту нпс не под обстрелом
+						SetAttr "BlindFire 0" // слепого огня не ведем
+						SetAttr "TaskCombat TC_NONE,0,500" //нету никакого боевого задания
+                        SetAttr "FailType 0"
+						Timer tTaskCombat,0
+                        Timer tCanFire,0
+						ExecutePattern bh_base:st_init.pt_default
+					}
+				}
+			}
+		}
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_combat
+				{
+					actions 
+					{
+						//Weapon arm
+						Weapon select,ranged
+						IfAttr "HasWeapon:Ranged == 2 Block begin"
+						//IfAttr "ea_ActiveWeapon == Weapon:Ranged Block begin"  // если у нас оружие огнестрел, то перебираем список возможных боевых заданий
+							IfAttr "TaskCombat == TC_LEAN 		State st_combat_lean"  // стоим в укрытии
+							IfAttr "TaskCombat == TC_PRESSURE	State st_combat_pressure" //наступаем на врага
+							IfAttr "TaskCombat == TC_HIDE 		State st_combat_hide"  // прячемся(ищем укрытие)
+							IfAttr "TaskCombat == TC_MOVEOUT 	State st_combat_moveout"  // убегаем
+							IfAttr "TaskCombat == TC_MOVE 		State st_combat_move" // двигаемся
+							IfAttr "TaskCombat == TC_POSITION	State st_combat_position"  // сидим на месте
+                            IfAttr "TaskCombat == TC_PURSUIT	State st_combat_pursuit"  // бежим к врагу сокращая дистанцию
+							IfAttr "TaskCombat == TC_NONE ExecutePattern st_combat_logic.xpt_setTaskDefault"  // если никакого задания нет, то смотрим какое у нас задание по дефолту
+						Block end
+                        IfAttr "TaskCombat == TC_SEARCH State st_combat_search"  //ищем врага
+						ExecutePattern bh_base:st_start.xpt_combat  // если оружие не огнестрел, идем выше по бехавиору
+//						ShowMessage "[combat state without task],$P3Mission"
+					}
+				}
+			}
+		}
+		st_combat_logic  /// стейт где вся боевая логика, т.е. указываются переходы из одних боевых стейтов в другие
+		{
+			Group Combat
+			Patterns
+			{
+				xpt_targetunconscious
+				{
+					actions
+					{
+//						ShowMessage "[Target reset],$P3Mission"
+						Relationship target,Neutral,2
+						ResetTarget 1
+					}
+				}
+				xpt_setTaskDefault  // дефолтное задание
+				{
+					actions 
+					{
+	//					IfAttr "Object:target != Object:null Block begin"
+							SetAttr "TaskCombat TC_HIDE"
+							Timer tTaskCombat,15
+							State st_start
+						//Block end
+//						IfAttr "Object:target == Object:null Block begin"
+//							SetAttr "TaskCombat TC_SEARCH"
+//							Timer tTaskCombat,130
+//							State st_start
+//						Block end
+					}
+				}
+				xpt_OnEnemiesDead
+				{
+					actions
+					{
+						SetAttr "TaskCombat TC_SEARCH"
+						Timer tTaskCombat,130
+						State st_start
+					}
+				}
+				xpt_onTaskTimer  // когда в боевом стейте заканчивается время отведенное на этот стейт, идет обращаение сюда, где исходя из текущих условий определяется следующее задание и время на него отведенное
+				{
+					actions 
+					{
+						IfAttr "TaskCombat == TC_PRESSURE Block begin"
+							FreeMovement false
+							SetAttr "TaskCombat TC_MOVE"
+							Timer tTaskCombat,5
+							State st_start
+						Block end
+						IfAttr "TaskCombat == TC_HIDE Block begin"
+							FreeMovement false
+                            SetAttr "rnd 0,0,100"
+                            ChangeAttr "rnd 0:100"
+                            IfAttr "rnd < 50 SetAttr TaskCombat TC_MOVEOUT"
+                            IfAttr "rnd >= 50 SetAttr TaskCombat TC_POSITION"
+							Timer tTaskCombat,3
+							State st_start
+						Block end
+						IfAttr "TaskCombat == TC_MOVEOUT Block begin"
+							FreeMovement false
+							SetAttr "TaskCombat TC_MOVE"
+							Timer tTaskCombat,5
+							State st_start
+						Block end
+                        IfAttr "TaskCombat == TC_PURSUIT Block begin"
+                            SetAttr "rnd 0,0,100"
+                            ChangeAttr "rnd 0:100"
+                            IfAttr "rnd < 30 SetAttr TaskCombat TC_MOVE"
+                            IfAttr "rnd >= 30 SetAttr TaskCombat TC_POSITION"
+							Timer tTaskCombat,5
+							State st_start
+						Block end	
+						IfAttr "TaskCombat == TC_MOVE Block begin"
+							FreeMovement false
+							IfAttr "ea_NumEnemy == 0 Block begin"
+								SetAttr "TaskCombat TC_SEARCH"
+								Timer tTaskCombat,10
+								State st_start
+							Block end
+                            IfAttr "ea_health < 50 Block begin"
+								SetAttr "TaskCombat TC_HIDE"
+								Timer tTaskCombat,10
+								State st_start
+							Block end
+							IfAttr "ea_health >= 50 Block begin"
+								SetAttr "TaskCombat TC_POSITION"
+								Timer tTaskCombat,3:2
+								State st_start
+							Block end
+						Block end
+						IfAttr "TaskCombat == TC_POSITION Block begin"
+							IfAttr "UnderFire != 1 Block begin"
+								SetAttr "TaskCombat TC_MOVE"
+								Timer tTaskCombat,5
+							Block end
+							IfAttr "UnderFire == 1 Block begin"
+								SetAttr "TaskCombat TC_HIDE"
+								Timer tTaskCombat,10
+							Block end
+							State st_start
+						Block end
+						IfAttr "TaskCombat == TC_LEAN Block begin"
+							SetAttr "TaskCombat TC_MOVE"
+							Timer tTaskCombat,5
+							Pattern st_combat_lean.pt_lean_out
+						Block end
+						IfAttr "TaskCombat == TC_SEARCH Block begin"
+//							Relationship all_enemy,neutral
+							State st_start
+						Block end
+					}
+				}
+				xpt_onTaskFail  // текущее задание провалено, определяем что в этом случае делать
+				{
+					actions 
+					{
+						IfAttr "TaskCombat == TC_PRESSURE Block begin"
+							SetAttr "TaskCombat TC_MOVE"
+							Timer tTaskCombat,5
+							State st_start
+						Block end
+						IfAttr "TaskCombat == TC_HIDE Block begin"
+							SetAttr "rnd 0,0,100"
+                            ChangeAttr "rnd 0:100"
+                            IfAttr "rnd < 50 SetAttr TaskCombat TC_MOVEOUT"
+                            IfAttr "rnd >= 50 SetAttr TaskCombat TC_POSITION"
+							Timer tTaskCombat,3
+							State st_start
+						Block end
+						IfAttr "TaskCombat == TC_MOVEOUT Block begin"
+							SetAttr "TaskCombat TC_MOVE"
+							Timer tTaskCombat,5
+							State st_start
+						Block end
+                        IfAttr "TaskCombat == TC_PURSUIT Block begin"
+							IfAttr "UnderFire != 1 Block begin"
+								SetAttr "rnd 0,0,100"
+                                ChangeAttr "rnd 0:100"
+                                IfAttr "rnd < 30 SetAttr TaskCombat TC_MOVE"
+                                IfAttr "rnd >= 30 SetAttr TaskCombat TC_POSITION"
+								Timer tTaskCombat,3
+							Block end
+							IfAttr "UnderFire == 1 Block begin"
+								SetAttr "TaskCombat TC_MOVE"
+								Timer tTaskCombat,5
+							Block end
+							State st_start
+						Block end
+						IfAttr "TaskCombat == TC_MOVE Block begin"
+							FreeMovement false
+							
+                            IfAttr "FailType == DIST_CHECK_FAIL Block begin"
+                                SetAttr "FailType 0"
+								SetAttr "TaskCombat TC_PRESSURE"
+								Timer tTaskCombat,3
+								State st_start
+							Block end
+                            
+                            IfAttr "ea_NumEnemy == 0 Block begin"
+								SetAttr "TaskCombat TC_HIDE"
+								Timer tTaskCombat,10
+								State st_start
+							Block end
+                            
+							IfAttr "DistTo:target > ED_MIDDLE Block begin"
+								SetAttr "TaskCombat TC_HIDE"
+								Timer tTaskCombat,4
+								State st_start
+							Block end
+							IfAttr "DistTo:target > ED_CLOSE Block begin"
+								SetAttr "TaskCombat TC_POSITION"
+								Timer tTaskCombat,5
+								State st_start
+							Block end
+						Block end
+                        
+						IfAttr "TaskCombat == TC_POSITION Block begin"
+                            IfAttr "FailType == DIST_CHECK_FAIL Block begin"
+                                SetAttr "FailType 0"
+								SetAttr "TaskCombat TC_PRESSURE"
+								Timer tTaskCombat,3
+								State st_start
+							Block end
+							
+                            SetAttr "TaskCombat TC_MOVE"
+							Timer tTaskCombat,5
+							State st_start
+						Block end
+						IfAttr "TaskCombat == TC_LEAN Block begin"
+							SetAttr "TaskCombat TC_POSITION"
+							Timer tTaskCombat,3:3
+							Pattern st_combat_lean.pt_lean_out
+						Block end
+						IfAttr "TaskCombat == TC_SEARCH Block begin"
+//							Relationship all_enemy,neutral
+							State st_start
+						Block end
+					}
+				}
+				xpt_onTaskComplete  // смотрим что делать после того как задание выполнено
+				{
+					actions 
+					{
+						IfAttr "TaskCombat == TC_PRESSURE Block begin"
+							SetAttr "TaskCombat TC_POSITION"
+							Timer tTaskCombat,3:2
+							State st_start
+						Block end
+						IfAttr "TaskCombat == TC_HIDE Block begin"
+							SetAttr "TaskCombat TC_LEAN"
+							Timer tTaskCombat,45:15
+							State st_start
+						Block end
+						IfAttr "TaskCombat == TC_MOVEOUT Block begin"
+							SetAttr "TaskCombat TC_POSITION"
+							Timer tTaskCombat,3:2
+							State st_start
+						Block end
+                        IfAttr "TaskCombat == TC_PURSUIT Block begin"
+							SetAttr "rnd 0,0,100"
+                            ChangeAttr "rnd 0:100"
+                            IfAttr "rnd < 50 SetAttr TaskCombat TC_MOVE"
+                            IfAttr "rnd >= 50 SetAttr TaskCombat TC_POSITION"
+							Timer tTaskCombat,3:3
+							State st_start
+						Block end
+						IfAttr "TaskCombat == TC_MOVE Block begin"
+							///
+						Block end
+						IfAttr "TaskCombat == TC_POSITION Block begin"
+							//
+						Block end
+						IfAttr "TaskCombat == TC_LEAN Block begin"
+							///
+						Block end
+						IfAttr "TaskCombat == TC_SEARCH Block begin"
+							Timer tTaskCombat,3:3
+                            IfAttr "HasWeapon:Ranged == 2 Block begin"
+                                SetAttr "TaskCombat TC_MOVE"
+                            Block end
+                            
+                            IfAttr "HasWeapon:Ranged != 2 Block begin"
+                                SetAttr "TaskCombat TC_NONE"
+                            Block end
+                            
+							State st_start
+						Block end
+					}
+				}
+			}
+		}
+        st_combat_pursuit // двигаемся бегом к цели
+        {
+        	group Combat
+			Patterns
+			{
+				pt_default
+				{
+					actions 
+					{
+						FreeMovement false
+						Face false
+						Crouch false
+                        WaitForEnd 1
+						Aim false
+                        WaitForEnd 1
+						Pattern pt_set_param 
+					}
+					events
+					{
+					}
+				}
+				pt_set_param  /// параметры.. 
+				{
+					actions 
+					{
+						IfAttr "ea_health < 30 ExecutePattern st_combat_logic.xpt_onTaskFail"
+						IfAttr "ea_health >= 55 SetActPack ACT_RUN,run_burst"
+						
+                        MoveToTarget run,15:5
+                        
+						Pattern pt_pursuit_loop
+					}
+					events
+					{
+					}
+				}
+				pt_pursuit_loop
+				{
+					actions 
+					{
+                        //IfAttr "Timer:tTaskCombat <= 0 ExecutePattern st_combat_logic.xpt_onTaskTimer"
+                        //IfAttr "DistTo:target < ED_NEAR ExecutePattern st_combat_logic.xpt_onTaskComplete"
+						Wait 1
+					}
+					events
+					{
+                        OnHit "Pattern pt_onTaskFail"
+                        OnNewEnemy "Pattern pt_onTaskFail"
+                        OnInvalidRoute "Pattern pt_onTaskFail"
+                        OnTimer_tTaskCombat "Pattern pt_onTaskTimer"
+						OnTargetReach "Pattern pt_onTaskComplete"
+                        OnTargetClose "Pattern pt_onTaskComplete"
+                        OnTargetUnconscious "ExecutePattern st_combat_logic.xpt_targetunconscious"
+					}
+				}
+                
+                pt_onTaskTimer
+				{
+					actions 
+					{
+						Crouch false
+                        WaitForEnd 1
+                        MoveToTarget false
+						ExecutePattern st_combat_logic.xpt_onTaskTimer
+					}
+				}
+                
+                pt_onTaskFail
+				{
+					actions 
+					{
+						Crouch false
+                        WaitForEnd 1
+                        MoveToTarget false
+						ExecutePattern st_combat_logic.xpt_onTaskFail
+					}
+				}
+                
+                pt_onTaskComplete
+				{
+					actions 
+					{
+						Crouch false
+                        WaitForEnd 1
+                        MoveToTarget false
+						ExecutePattern st_combat_logic.xpt_onTaskComplete
+					}
+				}
+                
+			}
+			events
+			{
+				OnTimer_tTaskCombat "ExecutePattern st_combat_logic.xpt_onTaskTimer"
+				OnInvalidRoute "ExecutePattern st_combat_logic.xpt_onTaskFail"
+				OnNewEnemy "ExecutePattern st_combat_logic.xpt_onTaskFail"
+				OnHearCombat "ExecutePattern st_combat_logic.xpt_onTaskFail"
+				OnHearDanger "ExecutePattern st_combat_logic.xpt_onTaskFail"
+				OnTargetUnconscious "ExecutePattern st_combat_logic.xpt_targetunconscious"
+			}
+		}
+		st_combat_lean  // стейт, где стоим в укрытии
+		{
+			Group Combat
+			Patterns
+			{
+				pt_default
+				{
+					actions 
+					{
+						IfAttr "ea_lean != 1 Pattern pt_lean_in"  // если не в укрытии, то входим в него
+						IfAttr "Timer:tTaskCombat <= 0 ExecutePattern st_combat_logic.xpt_onTaskTimer"  //  проверяем не закончилось ли отведенное время
+						IfAttr "ea_WeaponClip < 1 Block begin" // кончились патроны- перезарядка
+							ExecutePattern st_reload.xpt_prereload
+							Reload 1
+							WaitForEnd 1
+						Block end
+						IfAttr "TaskLean == TL_IDLE Pattern pt_idle"  // тупо стоим за укрытием 
+						IfAttr "TaskLean == TL_ACTION Block begin"  // выглядываем пострелять и посмотреть
+							IfAttr "UnderFire == 1 Block begin"
+								IfAttr "BlindFire != 1 Pattern pt_lookout"  // если нет флага на слепую стрельбу, выглядываем сначала
+								IfAttr "BlindFire == 1 Pattern pt_blindfire"
+							Block end
+							IfAttr "UnderFire != 1 Block begin"  // если не под обстрелом, то выходим рядышком
+								Pattern pt_near
+							Block end
+						Block end
+						State st_start
+					}
+				}
+				pt_idle
+				{
+					actions 
+					{
+						Wait 1
+						Pattern pt_next_action
+					}
+				}
+				pt_next_action  // чередуем стояние и выглядывание/стрельбу
+				{
+					actions
+					{
+						IfAttr "TaskLean == TL_IDLE Block begin"
+							SetAttr "TaskLean TL_ACTION"
+							State st_start
+						Block end
+						IfAttr "TaskLean == TL_ACTION Block begin"
+							SetAttr "TaskLean TL_IDLE"
+							State st_start
+						Block end
+					}
+				}
+				pt_lookout  // выглядываем
+				{
+					actions
+					{
+						LookOut 1
+						WaitForEnd 1
+						SetAttr "BlindFire 1"  // ставим флаг что можно стрелять вслепую
+						Pattern pt_next_action
+					}
+				}
+				pt_blindfire  // стреляем вслепую из-за укрытия
+				{
+					actions
+					{
+						Aim true
+						WaitForEnd 1
+						Wait 0.3:0.2
+						SetAttr "BlindFire 0"
+						Pattern pt_blindfire_loop
+						Aim false
+						WaitForEnd 1
+					}
+				}
+				pt_blindfire_loop
+				{
+					actions
+					{
+						IfAttr "ea_NumEnemy == 0 ExecutePattern st_combat_logic.xpt_onTaskFail"
+						IfAttr "ea_WeaponClip > 0 Block Begin"
+							ExecutePattern st_fire.pt_spread
+							IfAttr "DistTo:target > ED_FAR ExecutePattern st_combat_logic.xpt_onTaskFail"
+							Hit FireSpread
+							WaitForEnd 1
+							Wait 0.1:0.5
+							Repeat 0
+						Block end
+						Aim false
+						WaitForEnd 1
+						Pattern pt_next_action
+					}
+				}
+				pt_near  // выходим стоять рядом с укрытием
+				{
+					actions
+					{
+						Lean false
+						WaitForEnd 1
+						Face true
+						Aim true
+						WaitForEnd 1
+						Timer tWait,3
+						Pattern pt_near_stand
+					}
+				}
+				pt_near_return  // возвращаемся после того как рядом постояли
+				{
+					actions
+					{
+						Lean true
+						WaitForEnd 1
+						Face false
+						Aim false
+						WaitForEnd 1
+						Timer tWait,0
+						Pattern pt_next_action
+					}
+				}
+				pt_near_stand /// стоим рядом с укрытием и стреляем если надо
+				{
+					actions 
+					{
+						IfAttr "ea_NumEnemy == 0 ExecutePattern st_combat_logic.xpt_onTaskFail"
+						IfAttr "ea_WeaponClip < 1 Pattern pt_near_return"
+						IfAttr "UnderFire == 1 Pattern pt_near_return"
+						IfAttr "Timer:tWait <= 0 Pattern pt_near_return"
+						IfAttr "Visible:target == 1 Block begin"
+							IfAttr "DistTo:target > ED_FAR ExecutePattern st_combat_logic.xpt_onTaskFail"
+							ExecutePattern st_fire.pt_spread
+							Hit FireSpread
+							WaitForEnd 1
+							Wait 0.1:0.4
+						Block end
+						Repeat 0.1
+					}
+				}
+				pt_lean_in  // входим в укрытие
+				{
+					actions 
+					{
+						Face false
+						Aim false
+						WaitForEnd 1
+						Lean true
+						WaitForEnd 1
+						SetAttr "TaskLean TL_IDLE"
+						State st_start
+					}
+				}
+				pt_lean_out  // выходим из укрытия
+				{
+					actions 
+					{
+						Lean false
+						WaitForEnd 1
+						SetAttr "TaskLean TL_IDLE"
+						State st_start
+					}
+					events
+					{
+						OnLeanFailed "Wait 0"
+					}
+				}
+			}
+			events
+			{
+				OnLeanFailed "ExecutePattern st_combat_logic.xpt_onTaskFail"
+				OnTargetReset "ExecutePattern st_combat_logic.xpt_onTaskFail"
+				OnTargetUnconscious "ExecutePattern st_combat_logic.xpt_targetunconscious"
+			}
+		}
+		st_combat_pressure   /// давим врага
+		{
+			group Combat
+			Patterns
+			{
+				pt_default
+				{
+					actions 
+					{
+                        FreeMovement false
+						Face false
+						Crouch false
+                        WaitForEnd 1
+						Aim false
+                        WaitForEnd 1
+						Pattern pt_pressure_param 
+					}
+					events
+					{
+					}
+				}
+				pt_pressure_param  /// параметры.. по сути в них должно задаваться движение в сторону врага, но для каждой миссии может быть свое
+				{
+					actions 
+					{
+						IfAttr "ea_health < 55 SetActPack ACT_RUN,run_wounded"
+						//IfAttr "ea_health >= 55 SetActPack ACT_RUN,run_burst"
+						FreeMovementParams area_all,ED_CLOSE,ED_MIDDLE,from_target,safe,once
+						FreeMovement run,reset
+						Pattern pt_pressure_loop
+					}
+					events
+					{
+					}
+				}
+				pt_pressure_loop
+				{
+					actions 
+					{
+						Repeat 1
+					}
+					events
+					{
+						OnTargetReach "ExecutePattern st_combat_logic.xpt_onTaskComplete"
+					}
+				}
+			}
+			events
+			{
+				OnTimer_tTaskCombat "ExecutePattern st_combat_logic.xpt_onTaskTimer"
+				OnInvalidRoute "ExecutePattern st_combat_logic.xpt_onTaskFail"
+				OnTargetUnconscious "ExecutePattern st_combat_logic.xpt_targetunconscious"
+			}
+		}
+		st_combat_move  /// двигаемся, чтобы не быть легкой мишенью
+		{
+			Group Combat
+			Patterns
+			{
+				pt_default
+				{
+					actions 
+					{
+            FreeMovement false
+					  Face true
+						Crouch false
+            WaitForEnd 1
+						Aim true
+            WaitForEnd 1
+						Pattern pt_move_param
+					}
+				}
+				pt_move_param
+				{
+					actions 
+					{
+						
+						FreeMovementParams area_all,ED_CLOSE,ED_MIDDLE
+            IfAttr "UnderFire == 0	FreeMovement walk,reset"
+            IfAttr "UnderFire == 1	Block begin"
+              SetAttr "SpreadWide 5"
+              FreeMovement run,reset
+            Block end
+						Pattern pt_move_loop
+					}
+				}
+				pt_move_loop
+				{
+					actions 
+					{
+						IfAttr "ea_NumEnemy == 0 Pattern st_combat_logic.xpt_onTaskFail"
+						IfAttr "Timer:tTaskCombat <= 0 ExecutePattern st_combat_logic.xpt_onTaskTimer"  // проверяем не вышло ли время
+                        
+						IfAttr "ea_WeaponClip < 1 Block begin"  // перезарядка
+							ExecutePattern st_reload.xpt_prereload
+							Reload 1
+							WaitForEnd 1
+						Block end
+						IfAttr "Timer:tCanFire == 0 and Visible:target == 1 Block begin"  // если видим цель, то добавляем себя время, и стреляем по ней
+							//IfAttr "Timer:tTaskCombat < 5 Timer tTaskCombat,5"
+              IfAttr "DistTo:target > ED_FAR Block Begin"
+                SetAttr "FailType DIST_CHECK_FAIL"
+                Pattern st_combat_logic.xpt_onTaskFail
+              Block end
+                                
+              FreeMovement false
+              ExecutePattern st_fire.pt_spread
+              
+			  IfAttr "Timer:tTaskCombat <= 0 ExecutePattern st_combat_logic.xpt_onTaskTimer"
+						Face true
+						Aim true
+						WaitForEnd 1
+						Hit FireSpread
+						Wait 0.1:0.4
+			  
+              Timer tCanFire,0.5:2.5,once
+              IfAttr "UnderFire == 1	Block begin"
+                SetAttr "SpreadWide 5"
+                FreeMovement run
+              Block end
+              IfAttr "UnderFire == 0	FreeMovement walk"
+						Block end
+						Repeat 0.2
+					}
+				}
+			}
+			events
+			{
+				OnInvalidRoute "ExecutePattern st_combat_logic.xpt_onTaskFail"
+			}
+		}
+		st_combat_moveout  // боевое убегание :)
+		{
+			Group Combat
+			Patterns
+			{
+				pt_default
+				{
+					actions 
+					{
+						FreeMovement false
+					    Aim false
+                        WaitForEnd 1
+						Face false
+						Pattern pt_moveout_param
+					}
+				}
+				pt_moveout_param /// параметры того, куда убегаем.. для каждой миссии свои..
+				{
+					actions 
+					{
+						//IfAttr "ea_health < 55 SetActPack ACT_RUN,run_wounded"
+						//IfAttr "ea_health >= 55 SetActPack ACT_RUN,run_burst"
+						FreeMovementParams area_all,ED_MIDDLE,ED_FAR,move_from_target,safe,once
+						FreeMovement run,reset
+						Pattern pt_moveout_loop
+					}
+				}
+				pt_moveout_loop
+				{ 
+					actions 
+					{
+						Repeat 1
+						/// nothing
+					}
+					events
+					{
+						OnTargetReach "ExecutePattern st_combat_logic.xpt_onTaskComplete"
+					}
+				}
+			}
+			events
+			{
+				OnInvalidRoute "ExecutePattern st_combat_logic.xpt_onTaskFail"
+				OnTimer_tTaskCombat "ExecutePattern st_combat_logic.xpt_onTaskTimer"
+			}
+		}
+		st_combat_hide  // ищем где бы спрятатсо и прячемчся
+		{
+			Group Combat
+			Patterns
+			{
+				pt_default  // убираем всякие присядки и зацеливания
+				{
+					actions 
+					{
+						FreeMovement False
+						Face false
+						Crouch false
+                        WaitForEnd 1
+						Aim false
+                        WaitForEnd 1
+						Timer tWait,1
+						//SetLeanGroup ""
+						Pattern pt_hide_param
+					}
+				}
+				pt_hide_param // выбираем укрытие и бежим туда
+				{
+					actions 
+					{
+						MoveToLean run,ED_CLOSE,ED_FAR,notvisible_totarget
+						Pattern pt_hide_loop
+					}
+				}
+				pt_hide_loop
+				{
+					actions 
+					{
+						Wait 10
+						Pattern pt_hide_param
+					}
+					events
+					{
+						OnTargetReach "ExecutePattern st_combat_logic.xpt_onTaskComplete"
+					}
+				}
+			}
+			events
+			{
+				OnInvalidRoute "ExecutePattern st_combat_logic.xpt_onTaskFail"
+				OnTimer_tTaskCombat "ExecutePattern st_combat_logic.xpt_onTaskTimer"
+				
+			}
+		}
+		st_combat_position  /// боевое приседание :)
+		{
+			Group Combat
+			Patterns
+			{
+				pt_default  /// приседает и зацеливаемся
+				{
+					actions 
+					{
+						IfAttr "ea_NumEnemy == 0 ExecutePattern st_combat_logic.xpt_onTaskFail"
+                        
+            IfAttr "DistTo:target > ED_FAR Block Begin"
+              SetAttr "FailType DIST_CHECK_FAIL"
+              Pattern st_combat_logic.xpt_onTaskFail
+            Block end
+                            
+						FreeMovement false
+						Face true
+						Crouch true
+            WaitForEnd 1
+						Aim true
+            WaitForEnd 1
+						Pattern pt_crouch_loop
+					}
+				}
+				pt_crouch_loop  // прросто сидим и стреляем по цели если видим, првоеряя не вышло ли время
+				{
+					actions 
+					{ 
+						IfAttr "ea_NumEnemy == 0 ExecutePattern st_combat_logic.xpt_onTaskFail"
+            IfAttr "DistTo:target > ED_FAR Block Begin"
+              SetAttr "FailType DIST_CHECK_FAIL"
+              Pattern st_combat_logic.xpt_onTaskFail
+            Block end            
+            IfAttr "Timer:tTaskCombat <= 0 Pattern .pt_onTaskTimer"
+						IfAttr "ea_WeaponClip < 1 Block begin"
+							ExecutePattern st_reload.xpt_prereload
+							Reload 1
+							WaitForEnd 1
+						Block end
+						
+						IfAttr "Timer:tCanFire == 0 and Visible:target == 1 Block begin"
+							ExecutePattern st_fire.pt_spread
+							
+							IfAttr "Timer:tTaskCombat <= 0 ExecutePattern st_combat_logic.xpt_onTaskTimer"
+						Face true
+						Aim true
+						WaitForEnd 1
+						Hit FireSpread
+						Wait 0.1:0.4
+							
+              Timer tCanFire,0.3:1.5,once
+            Block end
+						
+						Repeat 0.2
+					}
+				}
+				pt_onTaskTimer
+				{
+					actions 
+					{
+						Crouch false
+            WaitForEnd 1
+						ExecutePattern st_combat_logic.xpt_onTaskTimer
+					}
+				}
+			}
+		}
+		st_combat_search  // поиск врага... вроде тоже самое что и движение..
+		{
+			Group Alert
+			Patterns
+			{
+				pt_default
+				{
+					actions 
+					{
+                        FreeMovement false
+						Face false
+						Crouch false
+                        WaitForEnd 1
+                        IfAttr "HasWeapon:Ranged == 2 Block begin"
+                            Aim true
+                            WaitForEnd 1
+                        Block end    
+						Pattern pt_search_param
+					}
+				}
+				pt_search_param
+				{
+					actions 
+					{
+						Turn 90:270
+						Wait 0.5
+						FreeMovementParams area_all,ED_CLOSE,ED_MIDDLE
+						FreeMovement walk,reset
+						Pattern pt_search_loop
+					}
+				}
+				pt_search_loop
+				{
+					actions 
+					{
+//						IfAttr "Timer:tTaskCombat <= 0 ExecutePattern st_combat_logic.xpt_onTaskTimer"
+						IfAttr "ea_WeaponClip < 1 Block begin"
+							ExecutePattern st_reload.xpt_prereload
+							Reload 1
+							WaitForEnd 1
+						Block end
+						IfAttr "ea_NumEnemy > 0 Block begin"
+							TargetEnemy 1
+							IfAttr "Visible:target == 1 Block begin"
+								ExecutePattern st_combat_logic.xpt_onTaskComplete
+							Block end
+						Block end
+						Repeat 1
+					}
+				}
+			}
+			events
+			{
+				OnNewEnemy "ExecutePattern st_combat_logic.xpt_onTaskComplete"
+			}
+		}
+		st_reload
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions 
+					{	
+						ExecutePattern .xpt_prereload
+						Reload 1
+						WaitForEnd 1
+					}
+				}
+				xpt_prereload
+				{
+					actions
+					{
+						SetAttr "SpreadWide SHOTSNUM_SPREAD_WIDE" // устанавливаем скоко выстрелов с большим разбросом
+					}
+				}
+			}
+		}
+		st_fire
+		{
+			Group Combat
+			Patterns
+			{
+				pt_spread  /// устанавливаем разброс для текущего выстрела
+				{
+					actions 
+					{
+						SetAttr "check 0"
+						CheckAttr "SpreadWide SetAttr check 1"
+						IfAttr "check != 1 SetAttr SpreadWide 0"
+						RemoveAttr check
+						IfAttr "ea_lean != 1 and SpreadWide == 0 SetAttr FireSpread SPREAD_NORMAL"  /// если не в укрытии и счетчик выстрелов с большим разбросом в нуле, то разброс нормальный
+						IfAttr "ea_lean != 1 and SpreadWide > 0 Block begin"  // не в укрытии и счетчик большим разборосом еще не обнулился, то стреляем с большим разбросом
+							ChangeAttr "SpreadWide -1"  // счетчки уменьшаем
+							SetAttr "FireSpread SPREAD_MAX"
+						Block end
+						IfAttr "ea_lean == 1 Block begin"  //в укрытии мы стреляем со слепым разбросом
+							SetAttr "FireSpread SPREAD_BLIND"
+						Block end
+					}
+				}
+				
+                
+				pt_shoot
+				{
+					actions
+					{
+						IfAttr "Timer:tTaskCombat <= 0 ExecutePattern st_combat_logic.xpt_onTaskTimer"
+						Face true
+						Aim true
+						WaitForEnd 1
+						Hit FireSpread
+						Wait 0.1:0.4
+                        //Call 1
+					}
+				}
+			}
+		}
+		st_InterestCombat
+		{
+			Group Alert
+			Patterns
+			{
+				pt_reaction 
+				{
+					actions 
+					{
+						Face false
+						IfAttr "ea_Faction == target.ea_Faction Block begin"	// в нас попали свои- наверно по ошибке, так что берем цель нашего друга, и рассматриваем его как источник опасности				
+							AssistTarget 1
+							Pattern pt_look
+						Block end
+						IfAttr "ea_Faction != target.ea_Faction Block begin"  // в нас попали недруги- заносим их во враги
+							Relationship target,enemy
+						Block end
+						State st_start
+					}
+				}
+			}
+		}
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_warn_enemy  // предупреждаем врагов своим криком
+				{ 
+					actions
+					{
+						IfAttr "Object:slot#GP != Object:null and slot#GP.ScreamOff < 1 Block begin"
+							EmitSound cop_m_arrest
+							SetAttr "slot#GP.ScreamOff 1"
+						Block end
+					}
+				}
+			}
+		}
+	}
+}
+
+
+
+behavior
+{
+	name bh_military_protected
+	inherited bh_military
+	
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						SetAttr "ea_dmg_absorb 90"
+						ExecutePattern bh_base:st_init.pt_default
+					}
+				}
+			}
+		}
+		
+		st_idle
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_OnHit
+				{
+					actions
+					{
+						ExecutePattern bh_base:st_idle.xpt_OnHit
+						ExecutePattern st_util.xpt_OnHit
+					}
+				}
+			}
+		}
+		
+		st_util
+		{
+			Group Neutral
+			Patterns
+			{
+				xpt_OnHit
+				{
+					actions
+					{
+						IfAttr "Object:caller == Object:player Block begin"
+							SetAttr "ea_dmg_absorb 0"
+							IfAttr "RelationTo:Player == Relation:Enemy Return 1"
+							TargetCaller 1
+							Relationship target,enemy
+							State st_start
+						Block end
+					}
+				}
+			}
+		}
+		
+	}
+	events
+	{
+		OnHit "ExecutePattern st_util.xpt_OnHit"
+	}
+}
