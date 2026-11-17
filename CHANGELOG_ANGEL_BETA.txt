@@ -42,6 +42,68 @@ CHANGELOG_ANGEL_v1.3.0.txt will also get extended
 - Added `nav_prohibited`, marks or unmarks an area prohibited manually which survives through `nav_save`
 - Fixed `nav_edit` cursor not being placed at the ground level
 - Player does not get ragdolled anymore while under noclip mode
+- Fixed Addons page crashing on some unique system languages (like Turkish)
+- Fixed NextBot pathfinding trying to cross over areas where there is no nav mesh
+- Made NextBot pathfinding a little bit more aggressive, the interval is 0.25s per think (p3_ai_nextbot_repath_interval)
+- Fixed NPCs behaving weirdly while they are crouching and reloading
+- Fixed NPCs not using crouch version of reloading while crouching
+- `npc_go` now uses P3S/NextBot behavior for movement for selected NPCs
+- `npc_go` now interrupts P3S for selected NPCs, then resets when forced movement was done
+- Updated the nav mesh for mtz (Fixed NPCs trying to go through walls, fences, getting stuck on bridge, etc...)
+- Updated FPS viewmodel for the M60
+- Fixed Agent skin's c_hands sleeves
+- Fixed a hole on SRM
+- Fixed and named Alley doors on SRM and HUB2
+- Updated Streetsweeper models for both TPS and FPS
+- Removed unused lighting origin on some doors on HUB2
+- Fixed window texture and transparency across the map on MC
+- Fixed some double windows being a single window on MC and `roam_hub1`
+- Added back cut doors from the sides of the big building on `roam_hub1`
+- Added a flag for Doors to ignore Player kick (sound and screen shake will still play, but the Door will not open)
+- Added func_elevator and info_elevator_floor from Alien Swarm, with an attempt to actually make it usable
+- FGDs are now up to date with current (v0.5) Angel changes
+- Fixed janitor (ragdolls, weapons) cvars not saving values
+- Updated nav mesh for bdk, crm, cw, dli, gri, kmtd, mli, mvc, pwac, sbe, srm
+- Fixed a crash when bad/invalid P3 compound props are spawned in
+- Fixed model scaling being broken
+- Keys for ImGui are now hardcoded for `INSERT` (brings up menu) and `END` (toggles mouse and keyboard input)
+- Added a skin selector with model preview inside Cheats page
+- Fixed typos in `ai_npc_social.p3s` and `ai_mission_sub.p3s` in some P3S group states ('Neutarl', 'Neutral1')
+- Added `hidden` manifest inventory item setting, makes inventory item not selectable by the Player
+- Added `canBeZero` manifest inventory item setting, makes inventory item not delete itself when its Amount reaches zero (only scripts can delete this inventory item if it's zero)
+- Added `type` manifest inventory item setting, adds a unique identifier for this item (instead of string comparisons you can just check for integers instead, currently BREAKS if two items share the same type regardless of namespace)
+- AngelScript: Added `CWJProp@ CP3Player::GetItemStored(string type)` on client side
+- AngelScript: Added `bool CP3Player::HasItemStored(string type)` on client side
+- AngelScript: Added `int CWJProp::GetItemType()` on client side
+- AngelScript: Removed `string.format` function, please use `string FormatString(string, ...)` instead
+- Postal3Script: Added `ea_ItemType`
+- Postal3Script: Added `ea_ItemMax`
+- Postal3Script: `ea_Stored` is now named as `ea_ItemStored`
+- Postal3Script: Added `ea_ItemInteractable`, whether the item considered safe to interact with NPCs (can be seen, not stored, not in hands, dropped at least ONCE, etc...)
+- Postal3Script: Added `ea_ItemDroppable`, returns zero if manifest disallows dropping or if Item Amount can be zero
+- Postal3Script: Added `ea_unconscious`
+- Postal3Script: `ea_ammo` can now be used on Weapons
+- Postal3Script: Weemote now calls `OnPissed` P3S event on affected entities if they have P3S scripting
+- AngelScript: Fixed Garbage Collector breaking Delayed Executions
+- Script: Fixed NPCs always reloading even though they still have clips remaining
+- `ai_disable` will now display if NPCs are disabled due to disabled AI Network manager (no generated .ain file for current map)
+- Increased sound patch fixed pool from 64 to 256
+- NPCs will no longer avoid prohibit areas (if they are supposed to) if their P3S state is not Neutral
+- Made missing or incorrect P3S state group errors more clear (now it also displays the typo)
+- Several bug fix attempts for NPC pathfinding (getting stuck near doors, not moving an inch, not obeying nav mesh connections)
+- Fixed a FGD compatibility issue with P3's vanilla Hammer
+- Added WebM playback support
+- Fixed NPC "double death" registers (also fixes `Event_Killed` being called twice on AngelScript, and in turn fixes Kill stat duplicated per kill)
+- NPC Maker now uses last hit attacker if Killer was not set (mostly when NPCs are knocked out)
+- Fixed Stats being broken after level transition or save/restore
+- Fart Gun and Pepper Spray now set the last attacker properly which fixes Unconscious stat not incrementing
+- NPCs on fire will now set last attacker as the Player always (if DMG came from the attached fire) if they were the ones that set them on fire
+- Fixed a random crash when loading between maps
+- Fixed using Vectors in AngelScript sometimes crashing the whole game
+- Fixed several AngelScript function and method declarations using incorrect parameters
+- Fixed several AngelScript functions being crashaholic
+- Game DLLs (server, client) now use v143 (VS2022) compiler
+
 
 
 ## v1.3.0 (v0.4)
