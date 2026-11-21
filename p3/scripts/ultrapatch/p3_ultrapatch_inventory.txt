@@ -395,6 +395,15 @@
 			"model"			"models/small_things/pizza_01.mdl"	// The inventory item's new model, this can be left blank to use the model provided by the mapper or scripter
 			"icon"			"hud/inventory/stats"				// Used by client, the icon for the inventory item to display
 			
+			"pickupSound"	"0"									// (Default: 1)
+																// Player will play pick up sound when this item has been picked up
+																
+			"hudHint"		"0"									// (Default: 1)
+																// HUD hint will be shown on screen when item was picked up, as if it was a weapon or ammo
+			
+			"customPickupSound"	"Generic.PickUp"				// (Default: Generic.PickUp)
+																// Custom sound for when item was picked up
+			
 			// Properties of the inventory item to keep track of uniqueness of each stacked item
 			// When picked up the game checks if such p3s attribute exists, if yes then it'll save this property
 			// The game will remember and apply these attributes accordingly 
