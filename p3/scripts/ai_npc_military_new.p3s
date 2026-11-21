@@ -655,7 +655,7 @@ behavior
 					actions
 					{
 						IfAttr "ea_armed == WPN_DEGL Timer tCanFire,0.5"
-						IfAttr "ea_armed != WPN_DEGL Timer tCanFire,1:1"
+						IfAttr "ea_armed != WPN_DEGL Timer tCanFire,0.4:0.8"
 					}
 				}
 				
@@ -781,9 +781,10 @@ behavior
 							ExecutePattern .xpt_SayShoot
 							Wait 1
 							//IfAttr "ea_armed == WPN_DEGL Wait 0"
-							IfAttr "ea_armed == WPN_M16 Wait 2" //пока очереди мегадлинные
-							IfAttr "ea_armed == WPN_M60 Wait 2"
-							IfAttr "ea_armed == WPN_SHTG Wait 1"
+							//IfAttr "ea_armed == WPN_M16 Wait 2" //пока очереди мегадлинные
+							//IfAttr "ea_armed == WPN_M60 Wait 2"
+							//IfAttr "ea_armed == WPN_SHTG Wait 1"
+							
 							ExecutePattern .xpt_SetFireTimer
 							Repeat 0
 						Block end
