@@ -3,7 +3,7 @@
 #include "difficulty/npcmaker.as"
 
 
-array<string> diff_maps;
+//array<string> diff_maps;
 
 [HIDDEN]
 class CDifficulty : IPostal3Script
@@ -14,6 +14,44 @@ class CDifficulty : IPostal3Script
 	//	@self = @obj;
 	//}
 
+	// Pain confirmed
+	array<string> bigGuns =
+	{
+		"p3_weapon_m60",
+		"p3_weapon_m249"
+	};
+	
+	array<string> s_Guns =
+	{
+		"p3_weapon_autoshotgun",
+		"p3_weapon_colt",
+		"p3_weapon_deserteagle",
+		"p3_weapon_m16",
+		//"p3_weapon_m60",
+		//"p3_weapon_m249",
+		"p3_weapon_shotgun",
+		"p3_weapon_sniper",
+		
+		// experimental (causes NPCs to t-pose and not throw anything)
+		//"p3_weapon_beenest",
+		//"p3_weapon_crotchy_grenade",
+		//"p3_weapon_grenade",
+		//"p3_weapon_molotov",
+		//"p3_weapon_teargas"
+	};
+	
+	array<string> s_MeleeWeps =
+	{
+		//"p3_weapon_banner",
+		"p3_weapon_cop_baton",
+		"p3_weapon_fireaxe",
+		"p3_weapon_hammer",
+		"p3_weapon_machete",
+		"p3_weapon_nailbat",
+		"p3_weapon_shovel",
+		"p3_weapon_wolverine"
+	};
+	
 	// Deal less damage according to difficulty
 	void ScaleDamageDown(CTakeDamageInfo&in info)
 	{
@@ -117,36 +155,115 @@ class CDifficulty : IPostal3Script
 	//	
 	//}
 	
+	// Also equips it automatically
+	bool GiveRandomWeapon(array<string>@ strList, CBaseCombatCharacter@ pBCC)
+	{
+		// TODO: Could use some model check here....
+		
+		int RNG = RandomInt(0, strList.length()-1);
+		
+		CBaseCombatWeapon@ pWeapon = pBCC.Weapon_Create(strList[RNG]);
+		if (  pBCC.Weapon_Equip( pWeapon ) )
+		{
+			if ( pBCC.Weapon_Switch( pWeapon ) )
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	// Force NPCs to hate the Player or otherwise give them stuff
+	[HOOK NPC OnFSMStart GLOBAL]
+	void OnFSMStart()
+	{
+		// Only Masochist and higher difficulties modify NPCs on the fly
+		if (GetDifficulty() < DIFF_MASOCHIST)
+			return;
+		
+		CP3SObj@ self = GetContextCaller();
+		if (@self == @null)
+			return;
+			
+		// Don't reapply, will break things otherwise
+		if (self.HasAttr("diff_applied"))
+			return;
+			
+		self.SetAttr("diff_applied", 1);
+		
+		// Just to be extra sure...
+		if (!self.IsNPC())
+			return;
+		
+		// TODO: Check for all players
+		// check for all enemies or relationships? but how?
+		CP3SObj@ player = GetPlayer();
+		if (@player == @null)
+			return;
+			
+		CBaseEntity@ ent = self.GetBaseEntity();
+		if (@ent == @null)
+			return;
+			
+		CBaseCombatCharacter@ pBCC = ent.MyCombatCharacterPointer();
+		if (@pBCC == @null)
+			return;
+			
+		// "Enemy will now carry random big guns"
+		if (self.IsHate(player))
+		{
+			if (!self.IsAnimal())
+			{
+				if (!GiveRandomWeapon(bigGuns, pBCC))
+					Warning("Failed to give weapon for Player hater '%s'\n", ent.GetName());
+			}
+		}
+		// "Citizens have weapons"
+		else
+		{	
+			if (!self.IsAnimal())
+			{
+				bool bResult = false;
+				if (RandomInt(0,1) == 0)
+				{
+					bResult = GiveRandomWeapon(s_Guns, pBCC);
+				}
+				else
+				{
+					bResult = GiveRandomWeapon(s_MeleeWeps, pBCC);
+				}
+				
+				if (!bResult)
+				{
+					Warning("Failed to give weapon for 'Citizen' '%s'!!\n", ent.GetName());
+				}
+			}
+			
+			// Force everyone to attack ONLY on They All Hate Me and higher
+			if (GetDifficulty() > DIFF_WHACKJOB)
+			{
+				self.SetEnemy(player);
+				self.Relationship(player, D_HT, 5);
+			}
+		}
+		
+	}
+	
 	// Modify some spawners that spawn Hostile NPCs in on higher difficulties
 	[HOOK SEngine LevelInitComplete]
 	void AdjustNPCSpawnRates()
 	{
 		// Only Masochist and higher difficulties adjust makers
 		if (GetDifficulty() < DIFF_MASOCHIST)
-		{
 			return;
-		}
-		
-		if (gpGlobals.eLoadType == MapLoad_NewGame)
-		{
-			diff_maps.removeRange(0, diff_maps.length());
-		}
 		
 		// Only transitions or new game
-		// It shouldn't be a problem normally, but for open world we need to check the maps
 		if ((gpGlobals.eLoadType == MapLoad_Transition || gpGlobals.eLoadType == MapLoad_NewGame) == false)
 			return;
 			
 		string mapname = gpGlobals.mapname;
 		mapname.toLower();
-		
-		// Already added at some point
-		// NOTE: this breaks open world
-		// need a way to know if an NPC maker had its values set, or store the default values somewhere...
-		if (diff_maps.find(mapname) >= 0)
-			return;
-		
-		diff_maps.insertLast(mapname);
 		
 		// Prepath
 		if (mapname == "pw")

@@ -1,0 +1,61 @@
+// Note: This behavior is shared between basic NPC makers and template makers
+// Template events will only fire for templates!
+// Embedded attributes:
+// ea_LiveChildren 	(Can only get its value)
+// ea_MaxChildren	(Can get and set its value)
+// ea_MaxNumNPCs	(Can get and set its value)
+
+behavior
+{
+	name bh_npcmaker
+	
+	Events
+	{
+		// NOTE: Spawn events cannot target newly spawned NPCs as their P3S pointer aren't active
+		// This might change in the future so we don't have to do OnFSMStart hooks in AngelScript
+		//OnSpawnedNPC			"" 	// no caller (resets)
+		//OnEnabled				""	// no caller (resets)
+		//OnDisabled				""	// no caller (resets)
+		//OnDepleted				""	// no caller (resets)
+		//OnMakeNPC				""	// no caller (resets)
+		//OnAllLiveNPCDead		""	// no caller (resets), also calls when every NPC was knocked out
+		//OnTemplateDepleted		""	// no caller (resets)
+		//OnTemplateMakeNPC		""	// no caller (resets)
+		//
+		//OnDeathNotice			""	// sets victim as caller
+		//OnSleepNotice			""	// sets victim as caller (knocked out)
+		
+	}
+	States
+	{
+		st_init
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						// Init
+					}
+				}
+			}
+		}
+		
+		st_start
+		{
+			Group Neutral
+			Patterns
+			{
+				pt_default
+				{
+					actions
+					{
+						// Start
+					}
+				}
+			}
+		}
+	}
+}

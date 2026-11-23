@@ -14,6 +14,7 @@ ultrapatch/ai_oxycodone.p3s
 ultrapatch/ai_meth.p3s
 ultrapatch/ai_interactables.p3s
 ultrapatch/ai_stats.p3s
+ultrapatch/ai_npcmaker.p3s
 
 
 ai_weapon.p3s

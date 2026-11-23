@@ -33,8 +33,26 @@ void CloneNPCAndSpawn(string targetname, string classname)
 
 void DoAdjust(CBaseEntity@ maker, int multiplier)
 {
-	int MaxNPCCount = atoi(maker.GetKeyValue("maxnpccount"));
-	int MaxLiveChildren = atoi(maker.GetKeyValue("maxlivechildren"));
+	CP3SObj@ p3s = maker.GetP3SObj();
+	if (@p3s != @null)
+	{
+		// Don't reapply multiplier if it has been already set
+		// prevents open world and save/load bug where it would get multiplied over and over
+		if (p3s.HasAttr("diff_applied"))
+		{
+			return;
+		}
+		
+		// Store these as they are the default values from the map
+		p3s.SetAttr("old_MaxChildren", p3s.GetAttr("ea_MaxChildren"));
+		p3s.SetAttr("old_MaxNumNPCs", p3s.GetAttr("ea_MaxNumNPCs"));
+		
+		p3s.SetAttr("diff_applied", 1);
+	}
+	
+	// This should prevent NPC/Template Makers always multiplying by their current value
+	int MaxNPCCount = p3s.GetAttr("old_MaxChildren"); //atoi(maker.GetKeyValue("maxnpccount"));
+	int MaxLiveChildren = p3s.GetAttr("old_MaxNumNPCs"); //atoi(maker.GetKeyValue("maxlivechildren"));
 	
 	if (MaxNPCCount > 0)
 		MaxNPCCount *= multiplier;
