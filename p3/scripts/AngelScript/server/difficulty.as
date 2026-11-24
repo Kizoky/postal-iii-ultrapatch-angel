@@ -1,24 +1,33 @@
 // Difficulty system
-// TODO: probably add cvars
 #include "difficulty/npcmaker.as"
-
-
-//array<string> diff_maps;
 
 [HIDDEN]
 class CDifficulty : IPostal3Script
 {
-	//CP3SObj@ self;
-	//CDifficulty(CP3SObj@ obj)
-	//{
-	//	@self = @obj;
-	//}
-
 	// Pain confirmed
+	// Also "uni"
 	array<string> bigGuns =
 	{
 		"p3_weapon_m60",
 		"p3_weapon_m249"
+	};
+	
+	array<string> s_UniGuns = 
+	{
+		"p3_weapon_autoshotgun",
+		"p3_weapon_m60",
+		"p3_weapon_m249",
+		"p3_weapon_shotgun",
+		"p3_weapon_sniper"
+	};
+	
+	array<string> s_Throwable =
+	{
+		"p3_weapon_beenest",
+		"p3_weapon_crotchy_grenade",
+		"p3_weapon_grenade",
+		"p3_weapon_molotov",
+		"p3_weapon_teargas"
 	};
 	
 	array<string> s_Guns =
@@ -31,13 +40,6 @@ class CDifficulty : IPostal3Script
 		//"p3_weapon_m249",
 		"p3_weapon_shotgun",
 		"p3_weapon_sniper",
-		
-		// experimental (causes NPCs to t-pose and not throw anything)
-		//"p3_weapon_beenest",
-		//"p3_weapon_crotchy_grenade",
-		//"p3_weapon_grenade",
-		//"p3_weapon_molotov",
-		//"p3_weapon_teargas"
 	};
 	
 	array<string> s_MeleeWeps =
@@ -48,6 +50,21 @@ class CDifficulty : IPostal3Script
 		"p3_weapon_hammer",
 		"p3_weapon_machete",
 		"p3_weapon_nailbat",
+		"p3_weapon_shovel",
+		"p3_weapon_wolverine"
+	};
+	
+	array<string> s_OneHandledMeleeWeps =
+	{
+		"p3_weapon_cop_baton",
+		"p3_weapon_machete",
+		"p3_weapon_nailbat"
+	};
+	
+	array<string> s_TwoHandledMeleeWeps =
+	{
+		"p3_weapon_fireaxe",
+		"p3_weapon_hammer",
 		"p3_weapon_shovel",
 		"p3_weapon_wolverine"
 	};
@@ -158,7 +175,44 @@ class CDifficulty : IPostal3Script
 	// Also equips it automatically
 	bool GiveRandomWeapon(array<string>@ strList, CBaseCombatCharacter@ pBCC)
 	{
-		// TODO: Could use some model check here....
+		// TODO: Remove this when we backported Player anims
+		// -------------------------------------------------------
+		CBaseEntity@ ent = @pBCC;
+		string model = ent.GetModelName();
+		model.toLower();
+		
+		CP3SObj@ p3s = ent.GetP3SObj();
+		if (@p3s != @null)
+		{
+			p3s.SetAttr("no_aiming", 0);
+		}
+		
+		// Oldies only have Uni animations...
+		if ( model.findFirst("old_ss_pants") >= 0 )
+		{
+			p3s.SetAttr("no_aiming", 1);
+			@strList = @s_UniGuns;
+		}
+		else
+		// Fat women can only have melee and throwable currently
+		if ( model.findFirst("f_fat") >= 0 )
+		{
+			p3s.SetAttr("no_aiming", 1);
+			
+			if (RandomInt(0,1) == 0)
+				@strList = @s_OneHandledMeleeWeps;
+			else
+				@strList = @s_Throwable;
+		}
+		else
+		// Who even uses this model?
+		if ( model.findFirst("m_thin_ss_shorts") >= 0 )
+		{
+			p3s.SetAttr("no_aiming", 1);
+			
+			@strList = @s_Throwable;
+		}
+		// -------------------------------------------------------
 		
 		int RNG = RandomInt(0, strList.length()-1);
 		
