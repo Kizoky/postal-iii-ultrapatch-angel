@@ -16,6 +16,7 @@ const int AS_MOD_VERSION = 0;
 #include "server/interactable.as"
 
 #include "server/entities/teargas.as"
+#include "server/entities/motorhead.as"
 
 
 #include "server/glow_helper.as"
