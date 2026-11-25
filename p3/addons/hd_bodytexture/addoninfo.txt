@@ -1,0 +1,7 @@
+"AddonInfo"	{
+	addontitle			"HD Postal Dude Body Texture"
+	addonauthor			"le_s0ulful"
+	addonversion		"v0.01"
+	addonDescription	"Combines the APEX body texture with some elements of the original texture to create a high definition texture (no hd head texture sorry)"
+	addonlink			""
+}
