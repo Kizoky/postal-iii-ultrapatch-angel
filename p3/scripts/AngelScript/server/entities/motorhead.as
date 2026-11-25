@@ -15,7 +15,7 @@ class CMotorheadGodMode : IPostal3Script
 		if (!self.IsMotorhead())
 			return;
 			
-		string map = gpGlobals.curmap;
+		string map = gpGlobals.mapname;
 		map.toLower();
 		
 		if (map == "mlg" || map == "mli")
